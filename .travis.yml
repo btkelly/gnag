@@ -8,5 +8,3 @@ language: groovy
 branches:
   only:
     - master
-
-script: ./gradlew clean assemble
