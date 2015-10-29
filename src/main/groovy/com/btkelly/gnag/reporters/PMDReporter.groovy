@@ -10,8 +10,8 @@ class PMDReporter implements CommentReporter {
 
     @Override
     boolean shouldFailBuild(Project project) {
-        File pmdReportFile = getPMDReportFile(project);
-        return pmdReportFile.exists();
+        Node pmdXMLTree = getPMDXMLTree(project);
+        return pmdXMLTree.children().size() != 0;
     }
 
     @Override
@@ -24,9 +24,9 @@ class PMDReporter implements CommentReporter {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("PMD Violations:")
 
-        def pmdFileParser = (new XmlParser()).parse(getPMDReportFile(project));
+        Node pmdXMLTree = getPMDXMLTree(project);
 
-        pmdFileParser.file.each { file ->
+        pmdXMLTree.file.each { file ->
 
             String helpURL = XMLUtil.cleanseXMLString((String) file.violation.@externalInfoUrl);
             String lineNumber = XMLUtil.cleanseXMLString((String) file.violation.@beginline);
@@ -59,6 +59,11 @@ class PMDReporter implements CommentReporter {
     @Override
     String reporterName() {
         return "PMD Reporter"
+    }
+
+    private Node getPMDXMLTree(Project project) {
+        File pmdFile = getPMDReportFile(project);
+        return new XmlParser().parse(pmdFile);
     }
 
     private File getPMDReportFile(Project project) {
