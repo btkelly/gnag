@@ -1,0 +1,12 @@
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+language: groovy
+
+branches:
+  only:
+    - master
+
+script: ./gradlew clean assemble
