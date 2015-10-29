@@ -29,6 +29,8 @@ class GnagPlugin implements Plugin<Project> {
 
     private static void addCheckAndReportTask(Project project) {
 
+        project.convention.plugins.gnag = new GnagPluginConvention();
+
         println "Loading reporters..."
 
         List<CommentReporter> reporters = new ArrayList<>();
@@ -58,8 +60,10 @@ class GnagPlugin implements Plugin<Project> {
 
             String commentBody = "{ \"body\" : \"" + commentBuilder.toString() + "\" }";
 
-            HttpURLConnection httpURLConnection = (HttpURLConnection) new URL("https://api.github.com/repos/stkent/amplify/issues/11/comments").openConnection();
-            httpURLConnection.setRequestProperty("Authorization", "token 77d3c796ad3f612b188bb4bbbfe08390ba0e28b6");
+            GnagPluginConvention gnagPluginConvention = project.convention.plugins.gnag;
+
+            HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(gnagPluginConvention.gitHubRepoUrl + "/issues/" + gnagPluginConvention.gitHubIssueNumber + "/comments").openConnection();
+            httpURLConnection.setRequestProperty("Authorization", "token " + gnagPluginConvention.gitHubAuthToken);//da6b0f5c8e7b7988c8bef06850734b95b3293834
             httpURLConnection.setRequestMethod("POST");
             httpURLConnection.setDoOutput(true);
 
@@ -78,7 +82,7 @@ class GnagPlugin implements Plugin<Project> {
                 println "Error sending violation reports, status code: " + statusCode + " " + httpURLConnection.getResponseMessage();
             }
 
-            if (failBuild) {
+            if (failBuild && gnagPluginConvention.failBuildOnError) {
                 throw new GradleException("One or more comment reporters has forced the build to fail");
             }
         }
