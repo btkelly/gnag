@@ -29,6 +29,8 @@ class GnagPlugin implements Plugin<Project> {
 
     private static void addCheckAndReportTask(Project project) {
 
+        GnagPluginExtension.loadExtension(project);
+
         println "Loading reporters..."
 
         List<CommentReporter> reporters = new ArrayList<>();
@@ -58,8 +60,14 @@ class GnagPlugin implements Plugin<Project> {
 
             String commentBody = "{ \"body\" : \"" + commentBuilder.toString() + "\" }";
 
-            HttpURLConnection httpURLConnection = (HttpURLConnection) new URL("https://api.github.com/repos/stkent/amplify/issues/11/comments").openConnection();
-            httpURLConnection.setRequestProperty("Authorization", "token 77d3c796ad3f612b188bb4bbbfe08390ba0e28b6");
+            GnagPluginExtension gnagPluginExtension = project.gnag;
+
+            if (!gnagPluginExtension.hasValidConfig()) {
+                throw new GradleException("You must supply gitHubRepoName, gitHubAuthToken, and gitHubIssueNumber for the Gnag plugin to function.");
+            }
+
+            HttpURLConnection httpURLConnection = (HttpURLConnection) new URL("https://api.github.com/repos/" + gnagPluginExtension.gitHubRepoName + "/issues/" + gnagPluginExtension.gitHubIssueNumber + "/comments").openConnection();
+            httpURLConnection.setRequestProperty("Authorization", "token " + gnagPluginExtension.gitHubAuthToken);
             httpURLConnection.setRequestMethod("POST");
             httpURLConnection.setDoOutput(true);
 
@@ -74,12 +82,16 @@ class GnagPlugin implements Plugin<Project> {
 
             if (statusCode >= 200 && statusCode < 300) {
                 println "Violation reports sent";
-            } else {
-                println "Error sending violation reports, status code: " + statusCode + " " + httpURLConnection.getResponseMessage();
-            }
 
-            if (failBuild) {
-                throw new GradleException("One or more comment reporters has forced the build to fail");
+                if (failBuild && gnagPluginExtension.failBuildOnError) {
+                    throw new GradleException("One or more comment reporters has forced the build to fail");
+                }
+
+            } else {
+
+                if (gnagPluginExtension.failBuildOnError) {
+                    throw new GradleException("Error sending violation reports, status code: " + statusCode + " " + httpURLConnection.getResponseMessage() + ", URL: " + httpURLConnection.getURL().toString());
+                }
             }
         }
     }
