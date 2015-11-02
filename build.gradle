@@ -25,7 +25,7 @@ dependencies {
 }
 
 group = 'com.btkelly'
-version = '0.0.1'
+version = '0.0.2'
 
 publishing {
     publications {
@@ -33,7 +33,7 @@ publishing {
             from components.java
             groupId 'com.btkelly'
             artifactId 'gnag'
-            version '0.0.1'
+            version '0.0.2'
         }
     }
 }
@@ -51,10 +51,10 @@ bintray {
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/btkelly/gnag.git'
         version {
-            name = '0.0.1'
+            name = '0.0.2'
             desc = 'Gnag GitHub pull request commenter plugin'
             released  = new Date()
-            vcsTag = '0.0.1'
+            vcsTag = '0.0.2'
         }
     }
 }
