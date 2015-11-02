@@ -1,14 +1,21 @@
-group 'com.btkelly'
-version '1.0-SNAPSHOT'
+buildscript {
+    repositories {
+        jcenter()
+    }
+}
 
-apply plugin: 'groovy'
-apply plugin: 'java'
-apply plugin: 'maven'
+plugins {
+    id "com.jfrog.bintray" version "1.4"
+}
 
-sourceCompatibility = 1.7
-
-repositories {
-    mavenCentral()
+allprojects {
+    repositories {
+        jcenter()
+    }
+    apply plugin: 'groovy'
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
 }
 
 dependencies {
@@ -17,10 +24,37 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            mavenLocal()
+group = 'com.btkelly'
+version = '0.0.1'
+
+publishing {
+    publications {
+        GnagPublication(MavenPublication) {
+            from components.java
+            groupId 'com.btkelly'
+            artifactId 'gnag'
+            version '0.0.1'
+        }
+    }
+}
+
+bintray {
+    dryRun = false
+    publish = true
+    configurations = ['archives']
+    user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
+    key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_KEY')
+    publications = ['GnagPublication']
+    pkg {
+        repo = 'maven'
+        name = 'gnag-gradle-plugin'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/btkelly/gnag.git'
+        version {
+            name = '0.0.1'
+            desc = 'Gnag GitHub pull request commenter plugin'
+            released  = new Date()
+            vcsTag = '0.0.1'
         }
     }
 }
