@@ -62,12 +62,12 @@ class GnagPlugin implements Plugin<Project> {
 
             GnagPluginExtension gnagPluginExtension = project.gnag;
 
-            if (!gnagPluginExtension.hasValidConfig()) {
+            if (!gnagPluginExtension.hasValidConfig(project)) {
                 throw new GradleException("You must supply gitHubRepoName, gitHubAuthToken, and gitHubIssueNumber for the Gnag plugin to function.");
             }
 
-            HttpURLConnection httpURLConnection = (HttpURLConnection) new URL("https://api.github.com/repos/" + gnagPluginExtension.gitHubRepoName + "/issues/" + gnagPluginExtension.gitHubIssueNumber + "/comments").openConnection();
-            httpURLConnection.setRequestProperty("Authorization", "token " + gnagPluginExtension.gitHubAuthToken);
+            HttpURLConnection httpURLConnection = (HttpURLConnection) new URL("https://api.github.com/repos/" + gnagPluginExtension.getGitHubRepoName(project) + "/issues/" + gnagPluginExtension.getGitHubIssueNumber(project) + "/comments").openConnection();
+            httpURLConnection.setRequestProperty("Authorization", "token " + gnagPluginExtension.getGitHubAuthToken(project));
             httpURLConnection.setRequestMethod("POST");
             httpURLConnection.setDoOutput(true);
 
@@ -83,13 +83,13 @@ class GnagPlugin implements Plugin<Project> {
             if (statusCode >= 200 && statusCode < 300) {
                 println "Violation reports sent";
 
-                if (failBuild && gnagPluginExtension.failBuildOnError) {
+                if (failBuild && gnagPluginExtension.getFailBuildOnError(project)) {
                     throw new GradleException("One or more comment reporters has forced the build to fail");
                 }
 
             } else {
 
-                if (gnagPluginExtension.failBuildOnError) {
+                if (gnagPluginExtension.getFailBuildOnError(project)) {
                     throw new GradleException("Error sending violation reports, status code: " + statusCode + " " + httpURLConnection.getResponseMessage() + ", URL: " + httpURLConnection.getURL().toString());
                 }
             }

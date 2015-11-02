@@ -16,8 +16,23 @@ class GnagPluginExtension {
     def String gitHubIssueNumber;
     def boolean failBuildOnError;
 
-    boolean hasValidConfig() {
-        return gitHubAuthToken != null && gitHubRepoName != null && gitHubIssueNumber != null;
+    boolean hasValidConfig(Project project) {
+        return getGitHubAuthToken(project) != null && getGitHubRepoName(project) != null && getGitHubIssueNumber(project) != null;
     }
 
+    String getGitHubRepoName(Project project) {
+        return project.hasProperty("gitHubRepoName") ? project.property("gitHubRepoName") : gitHubRepoName;
+    }
+
+    String getGitHubAuthToken(Project project) {
+        return project.hasProperty("gitHubAuthToken") ? project.property("gitHubAuthToken") : gitHubAuthToken;
+    }
+
+    String getGitHubIssueNumber(Project project) {
+        return project.hasProperty("gitHubIssueNumber") ? project.property("gitHubIssueNumber") : gitHubIssueNumber;
+    }
+
+    boolean getFailBuildOnError(Project project) {
+        return project.hasProperty("failBuildOnError") ? project.property("failBuildOnError") : failBuildOnError;
+    }
 }
