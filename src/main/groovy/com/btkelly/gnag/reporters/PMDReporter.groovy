@@ -21,39 +21,42 @@ class PMDReporter implements CommentReporter {
 
         println "Parsing PMD violations";
 
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("PMD Violations:")
-
         Node pmdXMLTree = getPMDXMLTree(project);
 
-        pmdXMLTree.file.each { file ->
+        StringBuilder stringBuilder = new StringBuilder();
 
-            String helpURL = XMLUtil.cleanseXMLString((String) file.violation.@externalInfoUrl);
-            String lineNumber = XMLUtil.cleanseXMLString((String) file.violation.@beginline);
-            String violationText = XMLUtil.cleanseXMLString((String) file.violation.text());
-            String violationRule = XMLUtil.cleanseXMLString((String) file.violation.@rule);
+        if (pmdXMLTree.children().size() > 0 ) {
 
-            String fileName = file.@name;
-            fileName = fileName.replace(projectDir, "");
-            fileName = fileName.replace("/src/main/java/", "");
-            fileName = fileName.replace("/", ".");
+            stringBuilder.append("PMD Violations:")
 
-            stringBuilder.append("\\n----------------------------------\\n");
-            stringBuilder.append("<b>Violation: </b> " + violationRule);
-            stringBuilder.append("\\n");
-            stringBuilder.append("<b>Help: </b> " + helpURL);
-            stringBuilder.append("\\n");
-            stringBuilder.append("<b>Class: </b>" + fileName);
-            stringBuilder.append(" - ");
-            stringBuilder.append(" <b>Line: </b>" + lineNumber);
-            stringBuilder.append("\\n");
-            stringBuilder.append(violationText);
+            pmdXMLTree.file.each { file ->
 
+                String helpURL = XMLUtil.cleanseXMLString((String) file.violation.@externalInfoUrl);
+                String lineNumber = XMLUtil.cleanseXMLString((String) file.violation.@beginline);
+                String violationText = XMLUtil.cleanseXMLString((String) file.violation.text());
+                String violationRule = XMLUtil.cleanseXMLString((String) file.violation.@rule);
+
+                String fileName = file.@name;
+                fileName = fileName.replace(projectDir, "");
+                fileName = fileName.replace("/src/main/java/", "");
+                fileName = fileName.replace("/", ".");
+
+                stringBuilder.append("\\n----------------------------------\\n");
+                stringBuilder.append("<b>Violation: </b> " + violationRule);
+                stringBuilder.append("\\n");
+                stringBuilder.append("<b>Help: </b> " + helpURL);
+                stringBuilder.append("\\n");
+                stringBuilder.append("<b>Class: </b>" + fileName);
+                stringBuilder.append(" - ");
+                stringBuilder.append(" <b>Line: </b>" + lineNumber);
+                stringBuilder.append("\\n");
+                stringBuilder.append(violationText);
+            }
         }
 
         println "Finished parsing PMD violations";
 
-        return stringBuilder.toString();
+        return stringBuilder.length() > 0 ? stringBuilder.toString() : "";
     }
 
     @Override

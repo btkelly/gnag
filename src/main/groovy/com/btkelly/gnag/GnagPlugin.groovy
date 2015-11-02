@@ -31,34 +31,7 @@ class GnagPlugin implements Plugin<Project> {
 
         GnagPluginExtension.loadExtension(project);
 
-        println "Loading reporters..."
-
-        List<CommentReporter> reporters = new ArrayList<>();
-
-        //TODO load all reporters from config
-        PMDReporter pmdReporter = new PMDReporter();
-        reporters.add(pmdReporter);
-        println "Loaded " + pmdReporter.reporterName();
-
-        println "Finished loading reporters..."
-
         project.task("checkAndReport").dependsOn('check') << {
-
-            println "Collecting violation reports";
-
-            boolean failBuild = false;
-
-            StringBuilder commentBuilder = new StringBuilder();
-
-            for (CommentReporter githubCommentReporter : reporters) {
-                commentBuilder.append(githubCommentReporter.textToAppendComment(project));
-
-                if (githubCommentReporter.shouldFailBuild(project)) {
-                    failBuild = true;
-                }
-            }
-
-            String commentBody = "{ \"body\" : \"" + commentBuilder.toString() + "\" }";
 
             GnagPluginExtension gnagPluginExtension = project.gnag;
 
@@ -66,33 +39,84 @@ class GnagPlugin implements Plugin<Project> {
                 throw new GradleException("You must supply gitHubRepoName, gitHubAuthToken, and gitHubIssueNumber for the Gnag plugin to function.");
             }
 
-            HttpURLConnection httpURLConnection = (HttpURLConnection) new URL("https://api.github.com/repos/" + gnagPluginExtension.getGitHubRepoName(project) + "/issues/" + gnagPluginExtension.getGitHubIssueNumber(project) + "/comments").openConnection();
-            httpURLConnection.setRequestProperty("Authorization", "token " + gnagPluginExtension.getGitHubAuthToken(project));
-            httpURLConnection.setRequestMethod("POST");
-            httpURLConnection.setDoOutput(true);
+            ArrayList<CommentReporter> reporters = loadReporters();
 
-            println "Sending violation reports";
+            def (String commentBody, boolean failBuild) = buildViolationComment(reporters, project);
 
-            DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
-            dataOutputStream.writeBytes(commentBody);
-            dataOutputStream.flush();
-            dataOutputStream.close();
+            sendViolationReport(gnagPluginExtension, project, commentBody, failBuild);
+        }
+    }
 
-            int statusCode = httpURLConnection.getResponseCode();
+    private
+    static void sendViolationReport(GnagPluginExtension gnagPluginExtension, Project project, String commentBody, boolean failBuild) {
 
-            if (statusCode >= 200 && statusCode < 300) {
-                println "Violation reports sent";
+        HttpURLConnection httpURLConnection = (HttpURLConnection) new URL("https://api.github.com/repos/" + gnagPluginExtension.getGitHubRepoName(project) + "/issues/" + gnagPluginExtension.getGitHubIssueNumber(project) + "/comments").openConnection();
+        httpURLConnection.setRequestProperty("Authorization", "token " + gnagPluginExtension.getGitHubAuthToken(project));
+        httpURLConnection.setRequestMethod("POST");
+        httpURLConnection.setDoOutput(true);
 
-                if (failBuild && gnagPluginExtension.getFailBuildOnError(project)) {
-                    throw new GradleException("One or more comment reporters has forced the build to fail");
-                }
+        println "Sending violation reports";
 
-            } else {
+        DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
+        dataOutputStream.writeBytes(commentBody);
+        dataOutputStream.flush();
+        dataOutputStream.close();
 
-                if (gnagPluginExtension.getFailBuildOnError(project)) {
-                    throw new GradleException("Error sending violation reports, status code: " + statusCode + " " + httpURLConnection.getResponseMessage() + ", URL: " + httpURLConnection.getURL().toString());
-                }
+        int statusCode = httpURLConnection.getResponseCode();
+
+        if (statusCode >= 200 && statusCode < 300) {
+            println "Violation reports sent";
+
+            if (failBuild && gnagPluginExtension.getFailBuildOnError(project)) {
+                throw new GradleException("One or more comment reporters has forced the build to fail");
+            }
+
+        } else {
+
+            if (gnagPluginExtension.getFailBuildOnError(project)) {
+                throw new GradleException("Error sending violation reports, status code: " + statusCode + " " + httpURLConnection.getResponseMessage() + ", URL: " + httpURLConnection.getURL().toString());
             }
         }
+    }
+
+    private static List buildViolationComment(ArrayList<CommentReporter> reporters, Project project) {
+
+        println "Collecting violation reports";
+
+        boolean failBuild = false;
+
+        StringBuilder commentBuilder = new StringBuilder();
+
+        for (CommentReporter githubCommentReporter : reporters) {
+            commentBuilder.append(githubCommentReporter.textToAppendComment(project));
+
+            if (githubCommentReporter.shouldFailBuild(project)) {
+                failBuild = true;
+            }
+        }
+
+        String messageBody;
+
+        if (commentBuilder.length() > 0) {
+            messageBody = commentBuilder.toString();
+        } else {
+            messageBody = "Congrats! No :poop: code found, this PR is safe to merge."
+        }
+
+        String commentBody = "{ \"body\" : \"" + messageBody + "\" }";
+        [commentBody, failBuild]
+    }
+
+    private static ArrayList<CommentReporter> loadReporters() {
+        println "Loading reporters..."
+
+        List<CommentReporter> reporters = new ArrayList<>();
+
+        PMDReporter pmdReporter = new PMDReporter();
+        reporters.add(pmdReporter);
+        println "Loaded " + pmdReporter.reporterName();
+
+        println "Finished loading reporters..."
+        reporters
     }
 }
