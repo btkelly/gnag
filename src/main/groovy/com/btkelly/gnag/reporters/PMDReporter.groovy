@@ -28,6 +28,7 @@ class PMDReporter implements CommentReporter {
         if (pmdXMLTree.children().size() > 0 ) {
 
             stringBuilder.append("PMD Violations:")
+            stringBuilder.append("\\n----------------------------------\\n");
 
             pmdXMLTree.file.each { file ->
 
@@ -41,7 +42,6 @@ class PMDReporter implements CommentReporter {
                 fileName = fileName.replace("/src/main/java/", "");
                 fileName = fileName.replace("/", ".");
 
-                stringBuilder.append("\\n----------------------------------\\n");
                 stringBuilder.append("<b>Violation: </b> " + violationRule);
                 stringBuilder.append("\\n");
                 stringBuilder.append("<b>Help: </b> " + helpURL);
@@ -51,12 +51,13 @@ class PMDReporter implements CommentReporter {
                 stringBuilder.append(" <b>Line: </b>" + lineNumber);
                 stringBuilder.append("\\n");
                 stringBuilder.append(violationText);
+                stringBuilder.append("\\n\\n");
             }
         }
 
         println "Finished parsing PMD violations";
 
-        return stringBuilder.length() > 0 ? stringBuilder.toString() : "";
+        return stringBuilder.toString();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.btkelly.gnag
 
+import com.btkelly.gnag.reporters.CheckstyleReporter
 import com.btkelly.gnag.reporters.CommentReporter
 import com.btkelly.gnag.reporters.PMDReporter
 import org.gradle.StartParameter
@@ -87,11 +88,16 @@ class GnagPlugin implements Plugin<Project> {
 
         StringBuilder commentBuilder = new StringBuilder();
 
-        for (CommentReporter githubCommentReporter : reporters) {
+        for (int index = 0; index < reporters.size(); index++) {
+            CommentReporter githubCommentReporter = reporters.get(index);
             commentBuilder.append(githubCommentReporter.textToAppendComment(project));
 
             if (githubCommentReporter.shouldFailBuild(project)) {
                 failBuild = true;
+            }
+
+            if (index != reporters.size() - 1) {
+                commentBuilder.append("\\n\\n");
             }
         }
 
@@ -116,7 +122,11 @@ class GnagPlugin implements Plugin<Project> {
         reporters.add(pmdReporter);
         println "Loaded " + pmdReporter.reporterName();
 
-        println "Finished loading reporters..."
+        CheckstyleReporter checkstyleReporter = new CheckstyleReporter();
+        reporters.add(checkstyleReporter);
+        println "Loaded " + checkstyleReporter.reporterName();
+
+        println "Finished loading reporters"
         reporters
     }
 }
