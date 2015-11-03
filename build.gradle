@@ -14,7 +14,6 @@ allprojects {
     }
     apply plugin: 'groovy'
     apply plugin: 'java'
-    apply plugin: 'maven'
     apply plugin: 'maven-publish'
 }
 
@@ -31,9 +30,7 @@ publishing {
     publications {
         GnagPublication(MavenPublication) {
             from components.java
-            groupId 'com.btkelly'
             artifactId 'gnag'
-            version '0.0.3-SNAPSHOT'
         }
     }
 }
@@ -52,9 +49,9 @@ bintray {
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/btkelly/gnag.git'
         version {
-            name = '0.0.3-SNAPSHOT'
+            name = project.version
+            vcsTag = project.version
             released  = new Date()
-            vcsTag = '0.0.3-SNAPSHOT'
         }
     }
 }
