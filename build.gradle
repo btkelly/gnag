@@ -30,9 +30,7 @@ publishing {
     publications {
         GnagPublication(MavenPublication) {
             from components.java
-            groupId 'com.btkelly'
             artifactId 'gnag'
-            version '0.0.2'
         }
     }
 }
@@ -51,9 +49,9 @@ bintray {
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/btkelly/gnag.git'
         version {
-            name = '0.0.2'
+            name = project.version
+            vcsTag = project.version
             released  = new Date()
-            vcsTag = '0.0.2'
         }
     }
 }
