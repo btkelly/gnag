@@ -4,7 +4,7 @@ import com.btkelly.gnag.utils.XMLUtil
 import org.gradle.api.Project
 
 /**
- * Created by bobbake4 on 11/2/15.
+ * Comment reporter for Checkstyle. Looks for Checkstyle report in the default location "/build/outputs/checkstyle/checkstyle.xml"
  */
 class CheckstyleReporter implements CommentReporter {
 
