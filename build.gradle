@@ -14,7 +14,6 @@ allprojects {
     }
     apply plugin: 'groovy'
     apply plugin: 'java'
-    apply plugin: 'maven'
     apply plugin: 'maven-publish'
 }
 
@@ -48,11 +47,11 @@ bintray {
     pkg {
         repo = 'maven'
         name = 'gnag-gradle-plugin'
+        desc = 'Gnag GitHub pull request commenter plugin'
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/btkelly/gnag.git'
         version {
             name = '0.0.2'
-            desc = 'Gnag GitHub pull request commenter plugin'
             released  = new Date()
             vcsTag = '0.0.2'
         }
