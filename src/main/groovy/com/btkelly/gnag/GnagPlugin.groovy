@@ -2,6 +2,7 @@ package com.btkelly.gnag
 
 import com.btkelly.gnag.reporters.CheckstyleReporter
 import com.btkelly.gnag.reporters.CommentReporter
+import com.btkelly.gnag.reporters.FindbugsReporter
 import com.btkelly.gnag.reporters.PMDReporter
 import org.gradle.StartParameter
 import org.gradle.api.GradleException
@@ -117,6 +118,10 @@ class GnagPlugin implements Plugin<Project> {
         println "Loading reporters..."
 
         List<CommentReporter> reporters = new ArrayList<>();
+
+        FindbugsReporter findbugsReporter = new FindbugsReporter();
+        reporters.add(findbugsReporter);
+        println "Loaded " + findbugsReporter.reporterName();
 
         PMDReporter pmdReporter = new PMDReporter();
         reporters.add(pmdReporter);
