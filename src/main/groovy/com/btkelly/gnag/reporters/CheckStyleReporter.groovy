@@ -8,6 +8,11 @@ import org.gradle.api.Project
  */
 class CheckstyleReporter implements CommentReporter {
 
+    /**
+     * Looks through the Checkstyle report and determines if any file node has children.
+     * @param project
+     * @return - true if any file node has children
+     */
     @Override
     boolean shouldFailBuild(Project project) {
         Node checkstyleXMLTree = getCheckstyleXMLTree(project)
@@ -21,6 +26,11 @@ class CheckstyleReporter implements CommentReporter {
         return false
     }
 
+    /**
+     * Loops through all Checkstyle errors and pulls out file name, line number, error message, and rule
+     * @param project
+     * @return
+     */
     @Override
     String textToAppendComment(Project project) {
 

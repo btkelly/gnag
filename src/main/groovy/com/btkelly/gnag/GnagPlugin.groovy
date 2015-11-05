@@ -10,7 +10,7 @@ import org.gradle.api.Project
 import org.gradle.api.invocation.Gradle
 
 /**
- * Created by bobbake4 on 10/23/15.
+ * The main plugin class allowing hooks into the build system to
  */
 class GnagPlugin implements Plugin<Project> {
 
