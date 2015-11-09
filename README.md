@@ -31,6 +31,12 @@ gnag {
 
 This is the simplest way to add automatic PR checking and commenting to your project. The options defined in the gnag closure can be overridden by passing command line parameters with the same name to your build. This is helpful when using in conjunction with a CI system to allow automated builds.
 
+# Example Output
+
+Here is an example of the output posted to a GitHub pr on a project using gnag to enforce quality checks.
+
+<img src="https://cloud.githubusercontent.com/assets/826036/11042826/641378e2-86e7-11e5-90ff-555a7cafd78c.png" />
+
 # License
 
 Copyright 2015 Bryan Kelly
