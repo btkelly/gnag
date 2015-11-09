@@ -29,7 +29,7 @@ gnag {
 }
 ```
 
-This is the simplest way to add automatic PR checking and commenting to your project. The options above can be overridden by passing command line parameters with the same name to your build. This is helpful when using in conjunction with a CI system to allow automated builds.
+This is the simplest way to add automatic PR checking and commenting to your project. The options defined in the gnag closure can be overridden by passing command line parameters with the same name to your build. This is helpful when using in conjunction with a CI system to allow automated builds.
 
 # License
 
