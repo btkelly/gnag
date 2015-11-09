@@ -37,8 +37,8 @@ class GnagPluginExtension {
 
     /**
      * Checks to make sure the current project has the required parameters (gitHubRepoName, gitHubAuthToken, gitHubIssueNumber)
-     * @param project
-     * @return
+     * @param project - current project being built
+     * @return - true if the project has a valid config false if it does not
      */
     boolean hasValidConfig(Project project) {
         return getGitHubAuthToken(project) != null && getGitHubRepoName(project) != null && getGitHubIssueNumber(project) != null;
@@ -46,8 +46,8 @@ class GnagPluginExtension {
 
     /**
      * If a command line parameter was provided let that take precedence otherwise return gradle config value
-     * @param project
-     * @return
+     * @param project - current project being built
+     * @return - GitHub Repo Name set by command line or the value set in gradle file if no command line variable present
      */
     String getGitHubRepoName(Project project) {
         return project.hasProperty("gitHubRepoName") ? project.property("gitHubRepoName") : gitHubRepoName;
@@ -56,8 +56,8 @@ class GnagPluginExtension {
 
     /**
      * If a command line parameter was provided let that take precedence otherwise return gradle config value
-     * @param project
-     * @return
+     * @param project - current project being built
+     * @return - GitHub Auth Token set by command line or the value set in gradle file if no command line variable present
      */
     String getGitHubAuthToken(Project project) {
         return project.hasProperty("gitHubAuthToken") ? project.property("gitHubAuthToken") : gitHubAuthToken;
@@ -66,8 +66,8 @@ class GnagPluginExtension {
 
     /**
      * If a command line parameter was provided let that take precedence otherwise return gradle config value
-     * @param project
-     * @return
+     * @param project - current project being built
+     * @return - GitHub Issue Number set by command line or the value set in gradle file if no command line variable present
      */
     String getGitHubIssueNumber(Project project) {
         return project.hasProperty("gitHubIssueNumber") ? project.property("gitHubIssueNumber") : gitHubIssueNumber;
@@ -76,8 +76,8 @@ class GnagPluginExtension {
 
     /**
      * If a command line parameter was provided let that take precedence otherwise return gradle config value
-     * @param project
-     * @return
+     * @param project - current project being built
+     * @return - Fail Build On Error set by command line or the value set in gradle file if no command line variable present
      */
     boolean getFailBuildOnError(Project project) {
         return project.hasProperty("failBuildOnError") ? project.property("failBuildOnError") : failBuildOnError;

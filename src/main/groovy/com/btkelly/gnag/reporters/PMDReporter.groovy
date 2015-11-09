@@ -10,7 +10,7 @@ class PMDReporter implements CommentReporter {
 
     /**
      * Looks through the PMD report and determines if the root has any children.
-     * @param project
+     * @param project - current project being built
      * @return - true if the root node has children
      */
     @Override
@@ -22,8 +22,8 @@ class PMDReporter implements CommentReporter {
 
     /**
      * Loops through all PMD violations and pulls out file name, help url, line number, error message, and rule
-     * @param project
-     * @return
+     * @param project - current project being built
+     * @return - return text to append to current comment
      */
     @Override
     String textToAppendComment(Project project) {

@@ -10,7 +10,7 @@ class CheckstyleReporter implements CommentReporter {
 
     /**
      * Looks through the Checkstyle report and determines if any file node has children.
-     * @param project
+     * @param project - current project being built
      * @return - true if any file node has children
      */
     @Override
@@ -28,8 +28,8 @@ class CheckstyleReporter implements CommentReporter {
 
     /**
      * Loops through all Checkstyle errors and pulls out file name, line number, error message, and rule
-     * @param project
-     * @return
+     * @param project - current project being built
+     * @return - return text to append to current comment
      */
     @Override
     String textToAppendComment(Project project) {
