@@ -4,16 +4,27 @@ import com.btkelly.gnag.utils.XMLUtil
 import org.gradle.api.Project
 
 /**
- * Created by bobbake4 on 10/23/15.
+ * Comment reporter for PMD. Looks for PMD report in the default location "/build/outputs/pmd/pmd.xml"
  */
 class PMDReporter implements CommentReporter {
 
+    /**
+     * Looks through the PMD report and determines if the root has any children.
+     * @param project - current project being built
+     * @return - true if the root node has children
+     */
     @Override
     boolean shouldFailBuild(Project project) {
         Node pmdXMLTree = getPMDXMLTree(project);
         return pmdXMLTree.children().size() != 0;
     }
 
+
+    /**
+     * Loops through all PMD violations and pulls out file name, help url, line number, error message, and rule
+     * @param project - current project being built
+     * @return - return text to append to current comment
+     */
     @Override
     String textToAppendComment(Project project) {
 

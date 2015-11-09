@@ -5,6 +5,11 @@ package com.btkelly.gnag.utils
  */
 class XMLUtil {
 
+    /**
+     * The XML parser inserts some unwanted brackets and newlines, this method removes them from the supplied string
+     * @param cleanseMe
+     * @return
+     */
     public static String cleanseXMLString(String cleanseMe) {
         return cleanseMe.replaceAll("\\[", "")
                 .replaceAll("\\]","")

@@ -11,7 +11,34 @@ import org.gradle.api.Project
 import org.gradle.api.invocation.Gradle
 
 /**
- * Created by bobbake4 on 10/23/15.
+ * The main plugin class allowing hooks into the build system. You can use this plugin by adding the following to your
+ * build script.
+ *
+ * buildscript {
+ *  repositories {
+ *      maven {
+ *          jcenter()
+ *      }
+ *  }
+ *  dependencies {
+ *      classpath 'com.btkelly:gnag:0.0.4'
+ *  }
+ * }
+ *
+ * apply plugin: 'gnag-plugin'
+ *
+ * This will reports violations of checkstyle, findbugs, and PMD. For easy setup I recommend using com.noveogroup.android.check
+ * plugin with this plugin.
+ *
+ * You can configure the plugin inside the build script or by passing command line properties of the same name.
+ *
+ * gnag {
+ *     gitHubRepoName "user/repo"
+ *     gitHubAuthToken "12312n3j12n3jk1"
+ *     gitHubIssueNumber "11"
+ *     failBuildOnError true
+ * }
+ *
  */
 class GnagPlugin implements Plugin<Project> {
 
