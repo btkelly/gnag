@@ -30,7 +30,7 @@ license {
 }
 
 group = 'com.btkelly'
-version = '0.0.4-SNAPSHOT'
+version = '0.0.4'
 
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
