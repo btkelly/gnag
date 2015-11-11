@@ -100,6 +100,7 @@ class GnagPlugin implements Plugin<Project> {
         httpURLConnection.setDoOutput(true);
 
         println "Sending violation reports";
+        println commentBody
 
         DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
         dataOutputStream.writeBytes(commentBody);
@@ -132,14 +133,18 @@ class GnagPlugin implements Plugin<Project> {
         StringBuilder commentBuilder = new StringBuilder();
 
         for (int index = 0; index < reporters.size(); index++) {
+
             CommentReporter githubCommentReporter = reporters.get(index);
-            commentBuilder.append(githubCommentReporter.textToAppendComment(project));
+
+            String violationText = githubCommentReporter.textToAppendComment(project);
+            commentBuilder.append(violationText);
 
             if (githubCommentReporter.shouldFailBuild(project)) {
+                println githubCommentReporter.reporterName() + " found violations"
                 failBuild = true;
             }
 
-            if (index != reporters.size() - 1) {
+            if (violationText.trim().length() != 0 && index != reporters.size() - 1) {
                 commentBuilder.append("\\n\\n");
             }
         }
