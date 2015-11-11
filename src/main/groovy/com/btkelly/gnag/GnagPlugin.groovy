@@ -100,7 +100,6 @@ class GnagPlugin implements Plugin<Project> {
         httpURLConnection.setDoOutput(true);
 
         println "Sending violation reports";
-        println commentBody
 
         DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
         dataOutputStream.writeBytes(commentBody);
