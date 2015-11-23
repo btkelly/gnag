@@ -19,6 +19,7 @@ import com.btkelly.gnag.reporters.CheckstyleReporter
 import com.btkelly.gnag.reporters.CommentReporter
 import com.btkelly.gnag.reporters.FindbugsReporter
 import com.btkelly.gnag.reporters.PMDReporter
+import com.google.gson.Gson
 import org.gradle.StartParameter
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
@@ -156,8 +157,9 @@ class GnagPlugin implements Plugin<Project> {
             messageBody = "Congrats! No :poop: code found, this PR is safe to merge."
         }
 
-        String commentBody = "{ \"body\" : \"" + messageBody + "\" }";
-        [commentBody, failBuild]
+        GitHubComment gitHubComment = new GitHubComment(messageBody);
+
+        [new Gson().toJson(gitHubComment), failBuild]
     }
 
     private static ArrayList<CommentReporter> loadReporters() {
