@@ -26,9 +26,8 @@ class FindbugsReporter implements CommentReporter {
     @Override
     boolean shouldFailBuild(Project project) {
         Node findBugsXMLTree = getFindbugsXMLTree(project);
-        NodeList summary = findBugsXMLTree.get("FindBugsSummary") as NodeList
-        println findBugsXMLTree.get("FindBugsSummary").get(0).attribute("total_bugs");
-        return summary.get(0).attribute("total_bugs") != 0;
+        NodeList bugs = findBugsXMLTree.get("BugInstance") as NodeList
+        return bugs.size() != 0;
     }
 
     @Override

@@ -95,8 +95,6 @@ class GnagPlugin implements Plugin<Project> {
     private
     static void sendViolationReport(GnagPluginExtension gnagPluginExtension, Project project, String commentBody, boolean failBuild) {
 
-        println commentBody;
-
         HttpURLConnection httpURLConnection = (HttpURLConnection) new URL("https://api.github.com/repos/" + gnagPluginExtension.getGitHubRepoName(project) + "/issues/" + gnagPluginExtension.getGitHubIssueNumber(project) + "/comments").openConnection();
         httpURLConnection.setRequestProperty("Authorization", "token " + gnagPluginExtension.getGitHubAuthToken(project));
         httpURLConnection.setRequestMethod("POST");
@@ -135,14 +133,18 @@ class GnagPlugin implements Plugin<Project> {
         StringBuilder commentBuilder = new StringBuilder();
 
         for (int index = 0; index < reporters.size(); index++) {
+
             CommentReporter githubCommentReporter = reporters.get(index);
-            commentBuilder.append(githubCommentReporter.textToAppendComment(project));
+
+            String violationText = githubCommentReporter.textToAppendComment(project);
+            commentBuilder.append(violationText);
 
             if (githubCommentReporter.shouldFailBuild(project)) {
+                println githubCommentReporter.reporterName() + " found violations"
                 failBuild = true;
             }
 
-            if (index != reporters.size() - 1) {
+            if (violationText.trim().length() != 0 && index != reporters.size() - 1) {
                 commentBuilder.append("\\n\\n");
             }
         }
