@@ -145,7 +145,7 @@ class GnagPlugin implements Plugin<Project> {
             }
 
             if (violationText.trim().length() != 0 && index != reporters.size() - 1) {
-                commentBuilder.append("\\n\\n");
+                commentBuilder.append("\n\n");
             }
         }
 
