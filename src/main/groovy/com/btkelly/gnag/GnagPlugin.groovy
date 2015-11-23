@@ -19,6 +19,7 @@ import com.btkelly.gnag.reporters.CheckstyleReporter
 import com.btkelly.gnag.reporters.CommentReporter
 import com.btkelly.gnag.reporters.FindbugsReporter
 import com.btkelly.gnag.reporters.PMDReporter
+import com.google.gson.Gson
 import org.gradle.StartParameter
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
@@ -94,6 +95,8 @@ class GnagPlugin implements Plugin<Project> {
     private
     static void sendViolationReport(GnagPluginExtension gnagPluginExtension, Project project, String commentBody, boolean failBuild) {
 
+        println commentBody;
+
         HttpURLConnection httpURLConnection = (HttpURLConnection) new URL("https://api.github.com/repos/" + gnagPluginExtension.getGitHubRepoName(project) + "/issues/" + gnagPluginExtension.getGitHubIssueNumber(project) + "/comments").openConnection();
         httpURLConnection.setRequestProperty("Authorization", "token " + gnagPluginExtension.getGitHubAuthToken(project));
         httpURLConnection.setRequestMethod("POST");
@@ -152,8 +155,9 @@ class GnagPlugin implements Plugin<Project> {
             messageBody = "Congrats! No :poop: code found, this PR is safe to merge."
         }
 
-        String commentBody = "{ \"body\" : \"" + messageBody + "\" }";
-        [commentBody, failBuild]
+        GitHubComment gitHubComment = new GitHubComment(messageBody);
+
+        [new Gson().toJson(gitHubComment), failBuild]
     }
 
     private static ArrayList<CommentReporter> loadReporters() {
