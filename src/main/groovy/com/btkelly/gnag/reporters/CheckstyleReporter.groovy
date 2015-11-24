@@ -56,7 +56,7 @@ class CheckstyleReporter implements CommentReporter {
         if (shouldFailBuild(project)) {
 
             stringBuilder.append("Checkstyle Violations:")
-            stringBuilder.append("\\n----------------------------------\\n");
+            stringBuilder.append("\n----------------------------------\n");
 
             Node checkstyleXMLTree = getCheckstyleXMLTree(project)
 
@@ -75,13 +75,13 @@ class CheckstyleReporter implements CommentReporter {
                     fileName = fileName.replace("/", ".");
 
                     stringBuilder.append("<b>Violation: </b> " + violationRule);
-                    stringBuilder.append("\\n");
+                    stringBuilder.append("\n");
                     stringBuilder.append("<b>Class: </b>" + fileName);
                     stringBuilder.append(" - ");
                     stringBuilder.append(" <b>Line: </b>" + lineNumber);
-                    stringBuilder.append("\\n");
+                    stringBuilder.append("\n");
                     stringBuilder.append(violationText);
-                    stringBuilder.append("\\n\\n");
+                    stringBuilder.append("\n\n");
                 }
             }
         }

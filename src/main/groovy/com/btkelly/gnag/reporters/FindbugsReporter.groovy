@@ -43,7 +43,7 @@ class FindbugsReporter implements CommentReporter {
         if (bugs.size() > 0 ) {
 
             stringBuilder.append("Findbugs Violations:")
-            stringBuilder.append("\\n----------------------------------\\n");
+            stringBuilder.append("\n----------------------------------\n");
 
             bugs.each { bug ->
 
@@ -53,13 +53,13 @@ class FindbugsReporter implements CommentReporter {
                 String fileName = XMLUtil.cleanseXMLString((String) bug.SourceLine.@classname);
 
                 stringBuilder.append("<b>Violation: </b> " + violationRule);
-                stringBuilder.append("\\n");
+                stringBuilder.append("\n");
                 stringBuilder.append("<b>Class: </b>" + fileName);
                 stringBuilder.append(" - ");
                 stringBuilder.append(" <b>Line: </b>" + lineNumber);
-                stringBuilder.append("\\n");
+                stringBuilder.append("\n");
                 stringBuilder.append(violationText);
-                stringBuilder.append("\\n\\n");
+                stringBuilder.append("\n\n");
             }
         }
 
