@@ -48,7 +48,7 @@ public class CheckstyleReporter implements CommentReporter {
             if (checkstyleReport.shouldFailBuild()) {
 
                 stringBuilder.append("Checkstyle Violations:");
-                stringBuilder.append("\\n----------------------------------\\n");
+                stringBuilder.append("\n----------------------------------\n");
 
                 String projectDir = project.getProjectDir().toString();
 
@@ -62,13 +62,13 @@ public class CheckstyleReporter implements CommentReporter {
                     for (Error checkstyleError : checkstyleFile.getError()) {
 
                         stringBuilder.append("<b>Violation: </b> " + checkstyleError.getSource());
-                        stringBuilder.append("\\n");
+                        stringBuilder.append("\n");
                         stringBuilder.append("<b>Class: </b>" + fileName);
                         stringBuilder.append(" - ");
                         stringBuilder.append(" <b>Line: </b>" + checkstyleError.getLine());
-                        stringBuilder.append("\\n");
+                        stringBuilder.append("\n");
                         stringBuilder.append(checkstyleError.getMessage());
-                        stringBuilder.append("\\n\\n");
+                        stringBuilder.append("\n\n");
                     }
                 }
             }

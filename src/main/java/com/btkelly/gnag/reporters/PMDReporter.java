@@ -49,7 +49,7 @@ public class PMDReporter implements CommentReporter {
             if (pmd.shouldFailBuild()) {
 
                 stringBuilder.append("PMD Violations:");
-                stringBuilder.append("\\n----------------------------------\\n");
+                stringBuilder.append("\n----------------------------------\n");
 
                 String projectDir = project.getProjectDir().toString();
 
@@ -63,15 +63,14 @@ public class PMDReporter implements CommentReporter {
                     for (Violation violation : file.getViolation()) {
 
                         stringBuilder.append("<b>Violation: </b> " + violation.getRule());
-                        stringBuilder.append("\\n");
+                        stringBuilder.append("\n");
                         stringBuilder.append("<b>Help: </b> " + violation.getExternalInfoUrl());
-                        stringBuilder.append("\\n");
+                        stringBuilder.append("\n");
                         stringBuilder.append("<b>Class: </b>" + fileName);
                         stringBuilder.append(" - ");
                         stringBuilder.append(" <b>Line: </b>" + violation.getBeginline());
-                        stringBuilder.append("\\n");
                         stringBuilder.append(violation.getValue());
-                        stringBuilder.append("\\n\\n");
+                        stringBuilder.append("\n\n");
 
                     }
                 }

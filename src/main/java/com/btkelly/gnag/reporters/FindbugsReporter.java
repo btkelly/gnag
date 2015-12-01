@@ -5,6 +5,7 @@ import com.btkelly.gnag.models.findbugs.BugInstance;
 import org.gradle.api.Project;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
@@ -37,18 +38,18 @@ public class FindbugsReporter implements CommentReporter {
             if (bugCollection.shouldFailBuild()) {
 
                 stringBuilder.append("Findbugs Violations:");
-                stringBuilder.append("\\n----------------------------------\\n");
+                stringBuilder.append("\n----------------------------------\n");
 
                 for (BugInstance bugInstance : bugCollection.getBugInstance()) {
 
                     stringBuilder.append("<b>Violation: </b> " + bugInstance.getType());
-                    stringBuilder.append("\\n");
+                    stringBuilder.append("\n");
                     stringBuilder.append("<b>Class: </b>" + bugInstance.getSourceLine().getClassname());
                     stringBuilder.append(" - ");
                     stringBuilder.append(" <b>Line: </b>" + bugInstance.getSourceLine().getStart());
-                    stringBuilder.append("\\n");
+                    stringBuilder.append("\n");
                     stringBuilder.append(bugInstance.getShortMessage());
-                    stringBuilder.append("\\n\\n");
+                    stringBuilder.append("\n\n");
                 }
             }
 
@@ -71,7 +72,8 @@ public class FindbugsReporter implements CommentReporter {
         JAXBContext jaxbContext = JAXBContext.newInstance(BugCollection.class);
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
-        return (BugCollection) unmarshaller.unmarshal(getFindbugsReportFile(project));
+        JAXBElement<BugCollection> jaxbElement = (JAXBElement<BugCollection>) unmarshaller.unmarshal(getFindbugsReportFile(project));
+        return jaxbElement.getValue();
     }
 
     private java.io.File getFindbugsReportFile(Project project) {

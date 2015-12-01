@@ -6,6 +6,7 @@ import com.btkelly.gnag.reporters.CheckstyleReporter;
 import com.btkelly.gnag.reporters.CommentReporter;
 import com.btkelly.gnag.reporters.FindbugsReporter;
 import com.btkelly.gnag.reporters.PMDReporter;
+import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
@@ -72,7 +73,7 @@ public class CheckAndReportTask extends DefaultTask {
         }
 
         if (!issueCommentSuccessful) {
-            throw new GradleException("Error sending violation reports");
+            throw new GradleException("Error sending violation reports: " + violationComment.getCommentJson());
         } else if (violationComment.isFailBuild() && failBuildOnError) {
             throw new GradleException("One or more comment reporters has forced the build to fail");
         }
@@ -117,7 +118,7 @@ public class CheckAndReportTask extends DefaultTask {
             }
 
             if (violationText.trim().length() != 0 && index != reporters.size() - 1) {
-                commentBuilder.append("\\n\\n");
+                commentBuilder.append("\n\n");
             }
         }
 

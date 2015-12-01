@@ -1,5 +1,7 @@
 package com.btkelly.gnag.models;
 
+import com.google.gson.Gson;
+
 /**
  * Created by bobbake4 on 12/1/15.
  */
@@ -22,6 +24,17 @@ public class ViolationComment {
     }
 
     public String getCommentJson() {
-        return "{ \"body\" : \"" + commentMessage + "\" }";
+        GitHubComment gitHubComment = new GitHubComment(getCommentMessage());
+        return new Gson().toJson(gitHubComment);
+    }
+
+    public class GitHubComment {
+
+        private final String body;
+
+        public GitHubComment(String body) {
+            this.body = body;
+        }
+
     }
 }
