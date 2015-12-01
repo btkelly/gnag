@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<BugCollection version="3.0.1" sequence="0" timestamp="1448921394449" analysisTimestamp="1448921394491" release="">
+<BugCollection version="3.0.1" sequence="0" timestamp="1448983938095" analysisTimestamp="1448983938150" release="">
   <Project projectName="">
     <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/ILogger.html</Jar>
     <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/Logger.LogLevel.html</Jar>
@@ -232,6 +232,116 @@
     <SrcDir>/Users/bobbake4/android/amplify/amplify/src/test/java/com/github/stkent/amplify/tracking/trackers/TotalCountTrackerTest.java</SrcDir>
     <SrcDir>/Users/bobbake4/android/amplify/amplify/src/test/java/com/github/stkent/amplify/utils/StringUtilsTest.java</SrcDir>
   </Project>
+  <BugInstance type="EQ_ALWAYS_TRUE" priority="1" rank="7" abbrev="Eq" category="CORRECTNESS" instanceHash="d819ef2a8d8449e89a31623557e077db" instanceOccurrenceNum="0" instanceOccurrenceMax="0">
+    <ShortMessage>equals method always returns true</ShortMessage>
+    <LongMessage>com.github.stkent.amplify.utils.ActivityStateUtil.equals(Object) always returns true</LongMessage>
+    <Class classname="com.github.stkent.amplify.utils.ActivityStateUtil" primary="true">
+      <SourceLine classname="com.github.stkent.amplify.utils.ActivityStateUtil" start="27" end="61" sourcefile="ActivityStateUtil.java" sourcepath="com/github/stkent/amplify/utils/ActivityStateUtil.java">
+        <Message>At ActivityStateUtil.java:[lines 27-61]</Message>
+      </SourceLine>
+      <Message>In class com.github.stkent.amplify.utils.ActivityStateUtil</Message>
+    </Class>
+    <Method classname="com.github.stkent.amplify.utils.ActivityStateUtil" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" primary="true">
+      <SourceLine classname="com.github.stkent.amplify.utils.ActivityStateUtil" start="61" end="61" startBytecode="0" endBytecode="53" sourcefile="ActivityStateUtil.java" sourcepath="com/github/stkent/amplify/utils/ActivityStateUtil.java"/>
+      <Message>In method com.github.stkent.amplify.utils.ActivityStateUtil.equals(Object)</Message>
+    </Method>
+    <SourceLine classname="com.github.stkent.amplify.utils.ActivityStateUtil" primary="true" start="61" end="61" startBytecode="1" endBytecode="1" sourcefile="ActivityStateUtil.java" sourcepath="com/github/stkent/amplify/utils/ActivityStateUtil.java">
+      <Message>At ActivityStateUtil.java:[line 61]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="HE_EQUALS_USE_HASHCODE" priority="1" rank="14" abbrev="HE" category="BAD_PRACTICE" instanceHash="552fb081d726eece858d74af4d16484b" instanceOccurrenceNum="0" instanceOccurrenceMax="0">
+    <ShortMessage>Class defines equals() and uses Object.hashCode()</ShortMessage>
+    <LongMessage>com.github.stkent.amplify.utils.ActivityStateUtil defines equals and uses Object.hashCode()</LongMessage>
+    <Class classname="com.github.stkent.amplify.utils.ActivityStateUtil" primary="true">
+      <SourceLine classname="com.github.stkent.amplify.utils.ActivityStateUtil" start="27" end="61" sourcefile="ActivityStateUtil.java" sourcepath="com/github/stkent/amplify/utils/ActivityStateUtil.java">
+        <Message>At ActivityStateUtil.java:[lines 27-61]</Message>
+      </SourceLine>
+      <Message>In class com.github.stkent.amplify.utils.ActivityStateUtil</Message>
+    </Class>
+    <Method classname="com.github.stkent.amplify.utils.ActivityStateUtil" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" primary="true">
+      <SourceLine classname="com.github.stkent.amplify.utils.ActivityStateUtil" start="61" end="61" startBytecode="0" endBytecode="53" sourcefile="ActivityStateUtil.java" sourcepath="com/github/stkent/amplify/utils/ActivityStateUtil.java"/>
+      <Message>In method com.github.stkent.amplify.utils.ActivityStateUtil.equals(Object)</Message>
+    </Method>
+    <SourceLine classname="com.github.stkent.amplify.utils.ActivityStateUtil" start="61" end="61" startBytecode="0" endBytecode="53" sourcefile="ActivityStateUtil.java" sourcepath="com/github/stkent/amplify/utils/ActivityStateUtil.java" synthetic="true">
+      <Message>At ActivityStateUtil.java:[line 61]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="EQ_ALWAYS_TRUE" priority="1" rank="7" abbrev="Eq" category="CORRECTNESS" instanceHash="3bfe3ea5f59905eec77552226389e8ae" instanceOccurrenceNum="0" instanceOccurrenceMax="0">
+    <ShortMessage>equals method always returns true</ShortMessage>
+    <LongMessage>com.github.stkent.amplify.utils.time.SystemTimeUtil.equals(Object) always returns true</LongMessage>
+    <Class classname="com.github.stkent.amplify.utils.time.SystemTimeUtil" primary="true">
+      <SourceLine classname="com.github.stkent.amplify.utils.time.SystemTimeUtil" start="25" end="45" sourcefile="SystemTimeUtil.java" sourcepath="com/github/stkent/amplify/utils/time/SystemTimeUtil.java">
+        <Message>At SystemTimeUtil.java:[lines 25-45]</Message>
+      </SourceLine>
+      <Message>In class com.github.stkent.amplify.utils.time.SystemTimeUtil</Message>
+    </Class>
+    <Method classname="com.github.stkent.amplify.utils.time.SystemTimeUtil" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" primary="true">
+      <SourceLine classname="com.github.stkent.amplify.utils.time.SystemTimeUtil" start="45" end="45" startBytecode="0" endBytecode="53" sourcefile="SystemTimeUtil.java" sourcepath="com/github/stkent/amplify/utils/time/SystemTimeUtil.java"/>
+      <Message>In method com.github.stkent.amplify.utils.time.SystemTimeUtil.equals(Object)</Message>
+    </Method>
+    <SourceLine classname="com.github.stkent.amplify.utils.time.SystemTimeUtil" primary="true" start="45" end="45" startBytecode="1" endBytecode="1" sourcefile="SystemTimeUtil.java" sourcepath="com/github/stkent/amplify/utils/time/SystemTimeUtil.java">
+      <Message>At SystemTimeUtil.java:[line 45]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="HE_EQUALS_USE_HASHCODE" priority="1" rank="14" abbrev="HE" category="BAD_PRACTICE" instanceHash="f8a4b77f621f229cfec8b985eccd6fb5" instanceOccurrenceNum="0" instanceOccurrenceMax="0">
+    <ShortMessage>Class defines equals() and uses Object.hashCode()</ShortMessage>
+    <LongMessage>com.github.stkent.amplify.utils.time.SystemTimeUtil defines equals and uses Object.hashCode()</LongMessage>
+    <Class classname="com.github.stkent.amplify.utils.time.SystemTimeUtil" primary="true">
+      <SourceLine classname="com.github.stkent.amplify.utils.time.SystemTimeUtil" start="25" end="45" sourcefile="SystemTimeUtil.java" sourcepath="com/github/stkent/amplify/utils/time/SystemTimeUtil.java">
+        <Message>At SystemTimeUtil.java:[lines 25-45]</Message>
+      </SourceLine>
+      <Message>In class com.github.stkent.amplify.utils.time.SystemTimeUtil</Message>
+    </Class>
+    <Method classname="com.github.stkent.amplify.utils.time.SystemTimeUtil" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" primary="true">
+      <SourceLine classname="com.github.stkent.amplify.utils.time.SystemTimeUtil" start="45" end="45" startBytecode="0" endBytecode="53" sourcefile="SystemTimeUtil.java" sourcepath="com/github/stkent/amplify/utils/time/SystemTimeUtil.java"/>
+      <Message>In method com.github.stkent.amplify.utils.time.SystemTimeUtil.equals(Object)</Message>
+    </Method>
+    <SourceLine classname="com.github.stkent.amplify.utils.time.SystemTimeUtil" start="45" end="45" startBytecode="0" endBytecode="53" sourcefile="SystemTimeUtil.java" sourcepath="com/github/stkent/amplify/utils/time/SystemTimeUtil.java" synthetic="true">
+      <Message>At SystemTimeUtil.java:[line 45]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugCategory category="BAD_PRACTICE">
+    <Description>Bad practice</Description>
+  </BugCategory>
+  <BugCategory category="CORRECTNESS">
+    <Description>Correctness</Description>
+  </BugCategory>
+  <BugPattern type="HE_EQUALS_USE_HASHCODE" abbrev="HE" category="BAD_PRACTICE">
+    <ShortDescription>Class defines equals() and uses Object.hashCode()</ShortDescription>
+    <Details><![CDATA[
+
+  <p> This class overrides <code>equals(Object)</code>, but does not
+  override <code>hashCode()</code>, and inherits the implementation of
+  <code>hashCode()</code> from <code>java.lang.Object</code> (which returns
+  the identity hash code, an arbitrary value assigned to the object
+  by the VM).&nbsp; Therefore, the class is very likely to violate the
+  invariant that equal objects must have equal hashcodes.</p>
+
+<p>If you don't think instances of this class will ever be inserted into a HashMap/HashTable,
+the recommended <code>hashCode</code> implementation to use is:</p>
+<pre>public int hashCode() {
+  assert false : "hashCode not designed";
+  return 42; // any arbitrary constant will do
+  }</pre>
+
+    ]]></Details>
+  </BugPattern>
+  <BugPattern type="EQ_ALWAYS_TRUE" abbrev="Eq" category="CORRECTNESS">
+    <ShortDescription>equals method always returns true</ShortDescription>
+    <Details><![CDATA[
+
+  <p> This class defines an equals method that always returns true. This is imaginative, but not very smart.
+Plus, it means that the equals method is not symmetric.
+</p>
+
+    ]]></Details>
+  </BugPattern>
+  <BugCode abbrev="Eq">
+    <Description>Problems with implementation of equals()</Description>
+  </BugCode>
+  <BugCode abbrev="HE">
+    <Description>Equal objects must have equal hashcodes</Description>
+  </BugCode>
   <Errors errors="40" missingClasses="25">
     <Error>
       <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/ILogger.html</ErrorMessage>
@@ -641,7 +751,7 @@
     </Error>
     <Error>
       <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/ActivityStateUtil.html</ErrorMessage>
-      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/ActivityStateUtil.html of 7032 bytes</Exception>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/ActivityStateUtil.html of 8279 bytes</Exception>
       <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
       <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
       <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
@@ -739,7 +849,7 @@
     </Error>
     <Error>
       <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/time/SystemTimeUtil.html</ErrorMessage>
-      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/time/SystemTimeUtil.html of 8187 bytes</Exception>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/time/SystemTimeUtil.html of 9744 bytes</Exception>
       <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
       <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
       <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
@@ -819,7 +929,7 @@
     <MissingClass>com.github.stkent.amplify.R$string</MissingClass>
     <MissingClass>com.github.stkent.amplify.R$styleable</MissingClass>
   </Errors>
-  <FindBugsSummary timestamp="Mon, 30 Nov 2015 17:09:54 -0500" total_classes="45" referenced_classes="110" total_bugs="0" total_size="837" num_packages="9" java_version="1.7.0_67" vm_version="24.65-b04" cpu_seconds="14.15" clock_seconds="4.93" peak_mbytes="102.75" alloc_mbytes="3641.00" gc_seconds="0.03">
+  <FindBugsSummary timestamp="Tue, 1 Dec 2015 10:32:18 -0500" total_classes="45" referenced_classes="110" total_bugs="4" total_size="845" num_packages="9" java_version="1.7.0_67" vm_version="24.65-b04" cpu_seconds="14.02" clock_seconds="4.73" peak_mbytes="106.29" alloc_mbytes="3641.00" gc_seconds="0.03" priority_1="4">
     <FileStats path="com/github/stkent/amplify/ILogger.java" bugCount="0" size="4"/>
     <FileStats path="com/github/stkent/amplify/Logger.java" bugCount="0" size="36"/>
     <FileStats path="com/github/stkent/amplify/tracking/AmplifyExceptionHandler.java" bugCount="0" size="12"/>
@@ -848,14 +958,14 @@
     <FileStats path="com/github/stkent/amplify/tracking/trackers/LastTimeTracker.java" bugCount="0" size="16"/>
     <FileStats path="com/github/stkent/amplify/tracking/trackers/LastVersionTracker.java" bugCount="0" size="19"/>
     <FileStats path="com/github/stkent/amplify/tracking/trackers/TotalCountTracker.java" bugCount="0" size="16"/>
-    <FileStats path="com/github/stkent/amplify/utils/ActivityStateUtil.java" bugCount="0" size="13"/>
+    <FileStats path="com/github/stkent/amplify/utils/ActivityStateUtil.java" bugCount="2" size="19" bugHash="d81ce30ee95c02e347731b70cd85620f"/>
     <FileStats path="com/github/stkent/amplify/utils/ApplicationUtils.java" bugCount="0" size="8"/>
     <FileStats path="com/github/stkent/amplify/utils/FeedbackUtil.java" bugCount="0" size="39"/>
     <FileStats path="com/github/stkent/amplify/utils/PlayStoreUtil.java" bugCount="0" size="19"/>
     <FileStats path="com/github/stkent/amplify/utils/StringUtils.java" bugCount="0" size="28"/>
     <FileStats path="com/github/stkent/amplify/utils/time/ISystemTimeProvider.java" bugCount="0" size="2"/>
     <FileStats path="com/github/stkent/amplify/utils/time/RealSystemTimeProvider.java" bugCount="0" size="5"/>
-    <FileStats path="com/github/stkent/amplify/utils/time/SystemTimeUtil.java" bugCount="0" size="11"/>
+    <FileStats path="com/github/stkent/amplify/utils/time/SystemTimeUtil.java" bugCount="2" size="13" bugHash="313d6eb88c2d8aaf265cf9a4ba7e2849"/>
     <FileStats path="com/github/stkent/amplify/views/AmplifyView.java" bugCount="0" size="194"/>
     <FileStats path="com/github/stkent/amplify/views/DefaultQuestionView.java" bugCount="0" size="35"/>
     <FileStats path="com/github/stkent/amplify/views/QuestionView.java" bugCount="0" size="6"/>
@@ -900,17 +1010,17 @@
       <ClassStats class="com.github.stkent.amplify.tracking.trackers.LastVersionTracker" sourceFile="LastVersionTracker.java" interface="false" size="19" bugs="0"/>
       <ClassStats class="com.github.stkent.amplify.tracking.trackers.TotalCountTracker" sourceFile="TotalCountTracker.java" interface="false" size="16" bugs="0"/>
     </PackageStats>
-    <PackageStats package="com.github.stkent.amplify.utils" total_bugs="0" total_types="5" total_size="107">
-      <ClassStats class="com.github.stkent.amplify.utils.ActivityStateUtil" sourceFile="ActivityStateUtil.java" interface="false" size="13" bugs="0"/>
+    <PackageStats package="com.github.stkent.amplify.utils" total_bugs="2" total_types="5" total_size="113" priority_1="2">
+      <ClassStats class="com.github.stkent.amplify.utils.ActivityStateUtil" sourceFile="ActivityStateUtil.java" interface="false" size="19" bugs="2" priority_1="2"/>
       <ClassStats class="com.github.stkent.amplify.utils.ApplicationUtils" sourceFile="ApplicationUtils.java" interface="false" size="8" bugs="0"/>
       <ClassStats class="com.github.stkent.amplify.utils.FeedbackUtil" sourceFile="FeedbackUtil.java" interface="false" size="39" bugs="0"/>
       <ClassStats class="com.github.stkent.amplify.utils.PlayStoreUtil" sourceFile="PlayStoreUtil.java" interface="false" size="19" bugs="0"/>
       <ClassStats class="com.github.stkent.amplify.utils.StringUtils" sourceFile="StringUtils.java" interface="false" size="28" bugs="0"/>
     </PackageStats>
-    <PackageStats package="com.github.stkent.amplify.utils.time" total_bugs="0" total_types="3" total_size="18">
+    <PackageStats package="com.github.stkent.amplify.utils.time" total_bugs="2" total_types="3" total_size="20" priority_1="2">
       <ClassStats class="com.github.stkent.amplify.utils.time.ISystemTimeProvider" sourceFile="ISystemTimeProvider.java" interface="true" size="2" bugs="0"/>
       <ClassStats class="com.github.stkent.amplify.utils.time.RealSystemTimeProvider" sourceFile="RealSystemTimeProvider.java" interface="false" size="5" bugs="0"/>
-      <ClassStats class="com.github.stkent.amplify.utils.time.SystemTimeUtil" sourceFile="SystemTimeUtil.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.utils.time.SystemTimeUtil" sourceFile="SystemTimeUtil.java" interface="false" size="13" bugs="2" priority_1="2"/>
     </PackageStats>
     <PackageStats package="com.github.stkent.amplify.views" total_bugs="0" total_types="8" total_size="235">
       <ClassStats class="com.github.stkent.amplify.views.AmplifyView" sourceFile="AmplifyView.java" interface="false" size="128" bugs="0"/>
@@ -923,27 +1033,29 @@
       <ClassStats class="com.github.stkent.amplify.views.QuestionView" sourceFile="QuestionView.java" interface="true" size="6" bugs="0"/>
     </PackageStats>
     <FindBugsProfile>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="564" invocations="533" avgMicrosecondsPerInvocation="1058" maxMicrosecondsPerInvocation="30707" standardDeviationMircosecondsPerInvocation="2573"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="311" invocations="110" avgMicrosecondsPerInvocation="2828" maxMicrosecondsPerInvocation="39468" standardDeviationMircosecondsPerInvocation="6695"/>
-      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="251" invocations="325" avgMicrosecondsPerInvocation="774" maxMicrosecondsPerInvocation="9835" standardDeviationMircosecondsPerInvocation="1459"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="231" invocations="110" avgMicrosecondsPerInvocation="2100" maxMicrosecondsPerInvocation="43037" standardDeviationMircosecondsPerInvocation="5170"/>
-      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="215" invocations="159" avgMicrosecondsPerInvocation="1354" maxMicrosecondsPerInvocation="11574" standardDeviationMircosecondsPerInvocation="1830"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="197" invocations="175" avgMicrosecondsPerInvocation="1126" maxMicrosecondsPerInvocation="14066" standardDeviationMircosecondsPerInvocation="1786"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="168" invocations="171" avgMicrosecondsPerInvocation="983" maxMicrosecondsPerInvocation="15288" standardDeviationMircosecondsPerInvocation="1707"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="158" invocations="179" avgMicrosecondsPerInvocation="882" maxMicrosecondsPerInvocation="14413" standardDeviationMircosecondsPerInvocation="1804"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="141" invocations="175" avgMicrosecondsPerInvocation="806" maxMicrosecondsPerInvocation="11098" standardDeviationMircosecondsPerInvocation="1456"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildObligationPolicyDatabase" totalMilliseconds="125" invocations="110" avgMicrosecondsPerInvocation="1140" maxMicrosecondsPerInvocation="22015" standardDeviationMircosecondsPerInvocation="2877"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="116" invocations="161" avgMicrosecondsPerInvocation="721" maxMicrosecondsPerInvocation="24512" standardDeviationMircosecondsPerInvocation="2040"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="109" invocations="175" avgMicrosecondsPerInvocation="625" maxMicrosecondsPerInvocation="19661" standardDeviationMircosecondsPerInvocation="1553"/>
-      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="88" invocations="459" avgMicrosecondsPerInvocation="192" maxMicrosecondsPerInvocation="3039" standardDeviationMircosecondsPerInvocation="374"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="80" invocations="157" avgMicrosecondsPerInvocation="512" maxMicrosecondsPerInvocation="20029" standardDeviationMircosecondsPerInvocation="1924"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="78" invocations="110" avgMicrosecondsPerInvocation="711" maxMicrosecondsPerInvocation="6402" standardDeviationMircosecondsPerInvocation="1212"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.MethodGenFactory" totalMilliseconds="74" invocations="216" avgMicrosecondsPerInvocation="346" maxMicrosecondsPerInvocation="52853" standardDeviationMircosecondsPerInvocation="3586"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="74" invocations="110" avgMicrosecondsPerInvocation="678" maxMicrosecondsPerInvocation="14407" standardDeviationMircosecondsPerInvocation="1685"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildStringPassthruGraph" totalMilliseconds="66" invocations="110" avgMicrosecondsPerInvocation="600" maxMicrosecondsPerInvocation="16923" standardDeviationMircosecondsPerInvocation="1991"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical" totalMilliseconds="62" invocations="110" avgMicrosecondsPerInvocation="567" maxMicrosecondsPerInvocation="6465" standardDeviationMircosecondsPerInvocation="1153"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="56" invocations="175" avgMicrosecondsPerInvocation="323" maxMicrosecondsPerInvocation="4781" standardDeviationMircosecondsPerInvocation="589"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.EqualsOperandShouldHaveClassCompatibleWithThis" totalMilliseconds="43" invocations="110" avgMicrosecondsPerInvocation="397" maxMicrosecondsPerInvocation="7699" standardDeviationMircosecondsPerInvocation="903"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="409" invocations="533" avgMicrosecondsPerInvocation="768" maxMicrosecondsPerInvocation="16762" standardDeviationMircosecondsPerInvocation="1526"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="276" invocations="110" avgMicrosecondsPerInvocation="2511" maxMicrosecondsPerInvocation="42844" standardDeviationMircosecondsPerInvocation="6017"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="233" invocations="162" avgMicrosecondsPerInvocation="1443" maxMicrosecondsPerInvocation="16074" standardDeviationMircosecondsPerInvocation="2018"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="230" invocations="328" avgMicrosecondsPerInvocation="703" maxMicrosecondsPerInvocation="8790" standardDeviationMircosecondsPerInvocation="1271"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="204" invocations="178" avgMicrosecondsPerInvocation="1149" maxMicrosecondsPerInvocation="17250" standardDeviationMircosecondsPerInvocation="1840"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="197" invocations="174" avgMicrosecondsPerInvocation="1134" maxMicrosecondsPerInvocation="35851" standardDeviationMircosecondsPerInvocation="2908"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="190" invocations="110" avgMicrosecondsPerInvocation="1731" maxMicrosecondsPerInvocation="36068" standardDeviationMircosecondsPerInvocation="3982"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="183" invocations="182" avgMicrosecondsPerInvocation="1008" maxMicrosecondsPerInvocation="21939" standardDeviationMircosecondsPerInvocation="2367"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="153" invocations="178" avgMicrosecondsPerInvocation="861" maxMicrosecondsPerInvocation="16123" standardDeviationMircosecondsPerInvocation="1660"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="115" invocations="162" avgMicrosecondsPerInvocation="712" maxMicrosecondsPerInvocation="12844" standardDeviationMircosecondsPerInvocation="1232"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="106" invocations="178" avgMicrosecondsPerInvocation="599" maxMicrosecondsPerInvocation="11633" standardDeviationMircosecondsPerInvocation="1009"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildObligationPolicyDatabase" totalMilliseconds="105" invocations="110" avgMicrosecondsPerInvocation="958" maxMicrosecondsPerInvocation="15139" standardDeviationMircosecondsPerInvocation="1985"/>
+      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="80" invocations="459" avgMicrosecondsPerInvocation="176" maxMicrosecondsPerInvocation="8174" standardDeviationMircosecondsPerInvocation="461"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="69" invocations="110" avgMicrosecondsPerInvocation="630" maxMicrosecondsPerInvocation="6928" standardDeviationMircosecondsPerInvocation="1183"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.MethodGenFactory" totalMilliseconds="69" invocations="219" avgMicrosecondsPerInvocation="316" maxMicrosecondsPerInvocation="46542" standardDeviationMircosecondsPerInvocation="3137"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical" totalMilliseconds="68" invocations="110" avgMicrosecondsPerInvocation="620" maxMicrosecondsPerInvocation="12397" standardDeviationMircosecondsPerInvocation="1537"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="67" invocations="110" avgMicrosecondsPerInvocation="614" maxMicrosecondsPerInvocation="13662" standardDeviationMircosecondsPerInvocation="1591"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="64" invocations="178" avgMicrosecondsPerInvocation="362" maxMicrosecondsPerInvocation="9147" standardDeviationMircosecondsPerInvocation="776"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildStringPassthruGraph" totalMilliseconds="64" invocations="110" avgMicrosecondsPerInvocation="583" maxMicrosecondsPerInvocation="16681" standardDeviationMircosecondsPerInvocation="1951"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="57" invocations="157" avgMicrosecondsPerInvocation="368" maxMicrosecondsPerInvocation="16770" standardDeviationMircosecondsPerInvocation="1442"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="44" invocations="537" avgMicrosecondsPerInvocation="82" maxMicrosecondsPerInvocation="766" standardDeviationMircosecondsPerInvocation="115"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ExplicitSerialization" totalMilliseconds="43" invocations="110" avgMicrosecondsPerInvocation="393" maxMicrosecondsPerInvocation="21441" standardDeviationMircosecondsPerInvocation="2377"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.EqualsOperandShouldHaveClassCompatibleWithThis" totalMilliseconds="41" invocations="110" avgMicrosecondsPerInvocation="374" maxMicrosecondsPerInvocation="4843" standardDeviationMircosecondsPerInvocation="704"/>
     </FindBugsProfile>
   </FindBugsSummary>
   <ClassFeatures></ClassFeatures>
