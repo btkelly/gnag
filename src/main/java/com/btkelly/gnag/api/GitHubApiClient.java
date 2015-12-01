@@ -13,13 +13,20 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.btkelly.gnag.models;
+package com.btkelly.gnag.api;
+
+import com.btkelly.gnag.models.github.GitHubComment;
+import retrofit.Call;
+import retrofit.http.Body;
+import retrofit.http.POST;
+import retrofit.http.Path;
 
 /**
- * Created by bobbake4 on 11/30/15.
+ * Created by bobbake4 on 12/1/15.
  */
-public interface Report {
+public interface GitHubApiClient {
 
-    boolean shouldFailBuild();
+    @POST("issues/{issueNumber}/comments")
+    Call<GitHubComment> postComment(@Body GitHubComment gitHubComment, @Path("issueNumber") String issueNumber);
 
 }

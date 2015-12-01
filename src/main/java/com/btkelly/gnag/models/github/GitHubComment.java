@@ -13,13 +13,17 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.btkelly.gnag.models;
+package com.btkelly.gnag.models.github;
 
 /**
- * Created by bobbake4 on 11/30/15.
+ * Created by bobbake4 on 12/1/15.
  */
-public interface Report {
+public class GitHubComment {
 
-    boolean shouldFailBuild();
+    private final String body;
+
+    public GitHubComment(String body) {
+        this.body = body;
+    }
 
 }
