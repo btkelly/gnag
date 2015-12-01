@@ -73,6 +73,8 @@
 <file name="/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/utils/time/RealSystemTimeProvider.java">
 </file>
 <file name="/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/utils/time/SystemTimeUtil.java">
+<error line="23" column="8" severity="error" message="Unused import - com.github.stkent.amplify.tracking.AmplifyStateTracker." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="25" column="1" severity="error" message="Utility classes should not have a public or default constructor." source="com.puppycrawl.tools.checkstyle.checks.design.HideUtilityClassConstructorCheck"/>
 <error line="30" column="12" severity="error" message="&apos;public&apos; modifier out of order with the JLS suggestions." source="com.puppycrawl.tools.checkstyle.checks.modifier.ModifierOrderCheck"/>
 </file>
 <file name="/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/views/AmplifyView.java">

@@ -8,7 +8,6 @@ import org.gradle.api.Project;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import java.io.IOException;
 
 /**
  * Comment reporter for Checkstyle. Looks for Checkstyle report in the default location "/build/outputs/checkstyle/checkstyle.xml"
@@ -24,8 +23,6 @@ public class CheckstyleReporter implements CommentReporter {
     public boolean shouldFailBuild(Project project) {
         try {
             return getCheckstyleReport(project).shouldFailBuild();
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (JAXBException e) {
             e.printStackTrace();
         }
@@ -41,9 +38,9 @@ public class CheckstyleReporter implements CommentReporter {
     @Override
     public String textToAppendComment(Project project) {
 
-        StringBuilder stringBuilder = new StringBuilder();
-
         //println"Parsing Checkstyle violations";
+
+        StringBuilder stringBuilder = new StringBuilder();
 
         try {
             Checkstyle checkstyleReport = getCheckstyleReport(project);
@@ -53,9 +50,9 @@ public class CheckstyleReporter implements CommentReporter {
                 stringBuilder.append("Checkstyle Violations:");
                 stringBuilder.append("\\n----------------------------------\\n");
 
-                for (File checkstyleFile : checkstyleReport.getFile()) {
+                String projectDir = project.getProjectDir().toString();
 
-                    String projectDir = project.getProjectDir().toString();
+                for (File checkstyleFile : checkstyleReport.getFile()) {
 
                     String fileName = checkstyleFile.getName();
                     fileName = fileName.replace(projectDir, "");
@@ -75,8 +72,6 @@ public class CheckstyleReporter implements CommentReporter {
                     }
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (JAXBException e) {
             e.printStackTrace();
         }
@@ -91,7 +86,7 @@ public class CheckstyleReporter implements CommentReporter {
         return "Checkstyle Reporter";
     }
 
-    private Checkstyle getCheckstyleReport(Project project) throws IOException, JAXBException {
+    private Checkstyle getCheckstyleReport(Project project) throws JAXBException {
 
         JAXBContext jaxbContext = JAXBContext.newInstance(Checkstyle.class);
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
