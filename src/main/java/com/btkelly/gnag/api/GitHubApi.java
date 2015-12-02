@@ -17,12 +17,15 @@ package com.btkelly.gnag.api;
 
 import com.btkelly.gnag.GnagPluginExtension;
 import com.btkelly.gnag.models.github.GitHubComment;
+import com.btkelly.gnag.models.github.GitHubPullRequest;
+import com.btkelly.gnag.models.github.GitHubStatus;
+import com.btkelly.gnag.models.github.GitHubStatusType;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
-import org.gradle.api.GradleException;
+import com.sun.javafx.beans.annotations.NonNull;
+import org.gradle.api.Nullable;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
@@ -81,18 +84,35 @@ public class GitHubApi {
         gitHubApiClient = retrofit.create(GitHubApiClient.class);
     }
 
+    @NonNull
     public Status postGitHubComment(String comment) {
 
         try {
             retrofit.Response<GitHubComment> gitHubCommentResponse = gitHubApiClient.postComment(new GitHubComment(comment), gnagPluginExtension.getGitHubIssueNumber()).execute();
-
-            if (!gitHubCommentResponse.isSuccess()) {
-                throw new GradleException(gitHubCommentResponse.raw().toString());
-            }
             return gitHubCommentResponse.isSuccess() ? Status.OK : Status.FAIL;
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
             return Status.FAIL;
+        }
+    }
+
+    @NonNull
+    public Status postUpdatedGitHubStatus(GitHubStatusType gitHubStatusType) {
+
+        try {
+            retrofit.Response<GitHubStatus> gitHubCommentResponse = gitHubApiClient.postUpdatedStatus(new GitHubStatus(gitHubStatusType), gnagPluginExtension.getGitHubIssueNumber()).execute();
+            return gitHubCommentResponse.isSuccess() ? Status.OK : Status.FAIL;
+        } catch (IOException ignored) {
+            return Status.FAIL;
+        }
+    }
+
+    @Nullable
+    public GitHubPullRequest getPullRequestDetails() {
+        try {
+            retrofit.Response<GitHubPullRequest> gitHubPullRequestResponse = gitHubApiClient.getPullRequest(gnagPluginExtension.getGitHubIssueNumber()).execute();
+            return gitHubPullRequestResponse.body();
+        } catch (IOException ignored) {
+            return null;
         }
     }
 
