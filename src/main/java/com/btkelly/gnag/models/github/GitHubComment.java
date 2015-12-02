@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2015 Bryan Kelly
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -13,20 +13,17 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.btkelly.gnag
+package com.btkelly.gnag.models.github;
 
 /**
- * Created by bobbake4 on 11/23/15.
+ * Created by bobbake4 on 12/1/15.
  */
-class GitHubComment {
+public class GitHubComment {
 
     private final String body;
 
-    GitHubComment(String body) {
-        this.body = body
+    public GitHubComment(String body) {
+        this.body = body;
     }
 
-    String getBody() {
-        return body
-    }
 }

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2015 Bryan Kelly
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -13,14 +13,14 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.btkelly.gnag.reporters
+package com.btkelly.gnag.reporters;
 
-import org.gradle.api.Project
+import org.gradle.api.Project;
 
 /**
  * Interface for a comment reporter
  */
-interface CommentReporter {
+public interface CommentReporter {
 
     /**
      * This method should inspect the current project and return a true or false if this reporter should cause the build to fail.
@@ -41,5 +41,4 @@ interface CommentReporter {
      * @return - reporter name
      */
     String reporterName();
-
 }

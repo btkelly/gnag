@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2015 Bryan Kelly
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -13,21 +13,13 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.btkelly.gnag.utils
+package com.btkelly.gnag.models;
 
 /**
- * Created by bobbake4 on 10/23/15.
+ * Created by bobbake4 on 11/30/15.
  */
-class XMLUtil {
+public interface Report {
 
-    /**
-     * The XML parser inserts some unwanted brackets and newlines, this method removes them from the supplied string
-     * @param cleanseMe
-     * @return
-     */
-    public static String cleanseXMLString(String cleanseMe) {
-        return cleanseMe.replaceAll("\\[", "")
-                .replaceAll("\\]","")
-                .replaceAll("\n", "");
-    }
+    boolean shouldFailBuild();
+
 }
