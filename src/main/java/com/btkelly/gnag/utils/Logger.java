@@ -13,30 +13,29 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.btkelly.gnag.models.github;
+package com.btkelly.gnag.utils;
 
 /**
  * Created by bobbake4 on 12/2/15.
  */
-public enum GitHubStatusType {
+public class Logger {
 
-    SUCCESS("All code quality checks have passed"),
-    PENDING("Checking code quality"),
-    ERROR("An error was encountered while checking code quality"),
-    FAILURE("Violations found, check PR comments for details");
+    private static final String TAG = "gnag: ";
 
-    private final String description;
+    private static boolean debugLog;
 
-    GitHubStatusType(String description) {
-        this.description = description;
+    public static void setDebugLog(boolean debugLog) {
+        Logger.debugLog = debugLog;
     }
 
-    public String getDescription() {
-        return description;
+    public static void logD(String message) {
+        if (debugLog) {
+            System.out.println(TAG + message);
+        }
     }
 
-    @Override
-    public String toString() {
-        return super.toString().toLowerCase();
+    public static void logE(String message) {
+        System.out.println(TAG + message);
     }
+
 }

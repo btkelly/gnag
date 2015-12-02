@@ -26,4 +26,10 @@ public class GitHubComment {
         this.body = body;
     }
 
+    @Override
+    public String toString() {
+        return "GitHubComment{" +
+                "body='" + body + '\'' +
+                '}';
+    }
 }

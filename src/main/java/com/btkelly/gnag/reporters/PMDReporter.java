@@ -18,6 +18,7 @@ package com.btkelly.gnag.reporters;
 import com.btkelly.gnag.models.pmd.File;
 import com.btkelly.gnag.models.pmd.Pmd;
 import com.btkelly.gnag.models.pmd.Violation;
+import com.btkelly.gnag.utils.Logger;
 import org.gradle.api.Project;
 
 import javax.xml.bind.JAXBContext;
@@ -54,7 +55,7 @@ public class PMDReporter implements CommentReporter {
     @Override
     public String textToAppendComment(Project project) {
 
-        //println "Parsing PMD violations";
+        Logger.logD("Parsing PMD violations");
 
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -94,7 +95,7 @@ public class PMDReporter implements CommentReporter {
             e.printStackTrace();
         }
 
-        //println "Finished parsing PMD violations";
+        Logger.logD("Finished parsing PMD violations");
 
         return stringBuilder.toString();
     }

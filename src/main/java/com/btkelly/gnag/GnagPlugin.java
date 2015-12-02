@@ -15,16 +15,17 @@
  */
 package com.btkelly.gnag;
 
+import com.btkelly.gnag.api.GitHubApi;
+import com.btkelly.gnag.models.github.GitHubCommit;
+import com.btkelly.gnag.models.github.GitHubPullRequest;
+import com.btkelly.gnag.models.github.GitHubStatusType;
 import com.btkelly.gnag.tasks.CheckAndReportTask;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
+import com.btkelly.gnag.utils.Logger;
 import org.gradle.StartParameter;
+import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
-import org.gradle.api.Task;
 import org.gradle.api.invocation.Gradle;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * The main plugin class allowing hooks into the build system. You can use this plugin by adding the following to your
@@ -58,6 +59,12 @@ import java.util.Map;
  */
 public class GnagPlugin implements Plugin<Project> {
 
+    private static GitHubPullRequest gitHubPullRequest;
+
+    public static GitHubPullRequest getGitHubPullRequest() {
+        return gitHubPullRequest;
+    }
+
     @Override
     public void apply(Project project) {
 
@@ -66,10 +73,46 @@ public class GnagPlugin implements Plugin<Project> {
         StartParameter startParameter = gradle.getStartParameter();
 
         if (startParameter.isOffline()) {
-            ////println "Build is running offline. Reports will not be collected";
+            Logger.logE("Build is running offline. Reports will not be collected");
         } else {
+
             GnagPluginExtension.loadExtension(project);
-            CheckAndReportTask.addTask(project);
+
+            project.afterEvaluate(new Action<Project>() {
+                @Override
+                public void execute(Project project) {
+                    initReportTask(project);
+                }
+            });
+        }
+    }
+
+    private void initReportTask(Project project) {
+
+        GnagPluginExtension gnagPluginExtension = GnagPluginExtension.getExtension(project);
+
+        Logger.setDebugLog(gnagPluginExtension.debugLogEnabled());
+
+        if (gnagPluginExtension.hasValidConfig()) {
+
+            GitHubApi gitHubApi = GitHubApi.defaultApi(gnagPluginExtension);
+
+            gitHubPullRequest = gitHubApi.getPullRequestDetails();
+
+            if (gitHubPullRequest != null) {
+
+                GitHubCommit headCommit = gitHubPullRequest.getHead();
+
+                gitHubApi.postUpdatedGitHubStatus(GitHubStatusType.PENDING, headCommit.getSha());
+
+                CheckAndReportTask.addTask(project);
+
+            } else {
+                Logger.logE("Error fetching pull request details");
+            }
+
+        } else {
+            Logger.logE("You must supply gitHubRepoName, gitHubAuthToken, and gitHubIssueNumber for the Gnag plugin to function.");
         }
     }
 }
