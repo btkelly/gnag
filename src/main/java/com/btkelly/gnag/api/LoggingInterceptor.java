@@ -22,7 +22,7 @@ import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 
 import java.io.IOException;
 
-import static com.squareup.okhttp.logging.HttpLoggingInterceptor.Level.BODY;
+import static com.squareup.okhttp.logging.HttpLoggingInterceptor.Level.*;
 
 /**
  * Created by bobbake4 on 12/3/15.
@@ -35,11 +35,15 @@ public class LoggingInterceptor implements Interceptor {
         HttpLoggingInterceptor.Logger logger = new HttpLoggingInterceptor.Logger() {
             @Override
             public void log(String message) {
-                Logger.logInfo(message);
+                if (Logger.isDebugLoggingEnabled()) {
+                    Logger.logDebug(message);
+                } else if (Logger.isInfoLoggingEnabled()){
+                    Logger.logInfo(message);
+                }
             }
         };
         this.httpLoggingInterceptor = new HttpLoggingInterceptor(logger);
-        this.httpLoggingInterceptor.setLevel(BODY);
+        this.httpLoggingInterceptor.setLevel(Logger.isDebugLoggingEnabled() ? BODY : Logger.isInfoLoggingEnabled() ? BASIC : NONE);
     }
 
     @Override

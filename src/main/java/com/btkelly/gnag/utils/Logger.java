@@ -25,17 +25,23 @@ public class Logger {
 
     private static final String TAG = ":gnag: ";
 
-    private static org.gradle.api.logging.Logger logger;
+    public static boolean isDebugLoggingEnabled() {
+        return Logging.getLogger(Logger.class).isDebugEnabled();
+    }
 
-    static {
-        logger = Logging.getLogger(Logger.class);
+    public static boolean isInfoLoggingEnabled() {
+        return Logging.getLogger(Logger.class).isInfoEnabled();
+    }
+
+    public static void logDebug(String message) {
+        Logging.getLogger(Logger.class).log(LogLevel.DEBUG, TAG + message);
     }
 
     public static void logInfo(String message) {
-        logger.log(LogLevel.INFO, TAG + message);
+        Logging.getLogger(Logger.class).log(LogLevel.INFO, TAG + message);
     }
 
-    public static void logE(String message) {
-        logger.log(LogLevel.ERROR, TAG + message);
+    public static void logError(String message) {
+        Logging.getLogger(Logger.class).log(LogLevel.ERROR, TAG + message);
     }
 }

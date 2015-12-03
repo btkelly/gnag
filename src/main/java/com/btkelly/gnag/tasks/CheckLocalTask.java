@@ -69,15 +69,15 @@ public class CheckLocalTask extends BaseCheckTask {
             fileOutputStream.close();
 
         } catch (IOException ignored) {
-            Logger.logE("Error saving Gnag report");
+            Logger.logError("Error saving Gnag report");
         }
 
         if (failBuildOnError() && violationComment.isFailBuild()) {
             String errorMessage = "Gnag check found failures, report at " + gnagReportFile.toURI();
-            Logger.logE(errorMessage);
+            Logger.logError(errorMessage);
             throw new GradleException(errorMessage);
         } else if (violationComment.isFailBuild()) {
-            Logger.logE("Gnag check failed but configuration allows build success");
+            Logger.logError("Gnag check failed but configuration allows build success");
         }
     }
 }
