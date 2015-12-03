@@ -52,7 +52,7 @@ public class StatusPendingAction implements Action<Task> {
 
         if (startParameter.isOffline()) {
 
-            Logger.logE("Build is running offline, reports will not be collected. Run \"checkLocal\" to run checks without report");
+            Logger.logError("Build is running offline, reports will not be collected. Run \"checkLocal\" to run checks without report");
 
         } else {
 
@@ -72,14 +72,14 @@ public class StatusPendingAction implements Action<Task> {
 
                     pendingActionCompleted = true;
 
-                    Logger.logD("GitHub pending action complete");
+                    Logger.logInfo("GitHub pending action complete");
 
                 } else {
-                    Logger.logE("Error fetching pull request details");
+                    Logger.logError("Error fetching pull request details");
                 }
 
             } else {
-                Logger.logE("You must supply gitHubRepoName, gitHubAuthToken, and gitHubIssueNumber for the Gnag plugin to report. Run \"checkLocal\" to run checks without report");
+                Logger.logError("You must supply gitHubRepoName, gitHubAuthToken, and gitHubIssueNumber for the Gnag plugin to report. Run \"checkLocal\" to run checks without report");
             }
         }
     }

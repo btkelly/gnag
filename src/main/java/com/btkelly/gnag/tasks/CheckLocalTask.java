@@ -18,7 +18,6 @@ package com.btkelly.gnag.tasks;
 import com.btkelly.gnag.models.ViolationComment;
 import com.btkelly.gnag.utils.Logger;
 import com.github.rjeschke.txtmark.Processor;
-import com.github.rjeschke.txtmark.SpanEmitter;
 import org.apache.commons.io.IOUtils;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
@@ -70,13 +69,15 @@ public class CheckLocalTask extends BaseCheckTask {
             fileOutputStream.close();
 
         } catch (IOException ignored) {
-            Logger.logE("Error saving Gnag report");
+            Logger.logError("Error saving Gnag report");
         }
 
         if (failBuildOnError() && violationComment.isFailBuild()) {
-            throw new GradleException("Gnag check caused the build to fail, report at " + gnagReportFile.toURI());
+            String errorMessage = "Gnag check found failures, report at " + gnagReportFile.toURI();
+            Logger.logError(errorMessage);
+            throw new GradleException(errorMessage);
         } else if (violationComment.isFailBuild()) {
-            Logger.logE("Gnag check failed but configuration allows build success");
+            Logger.logError("Gnag check failed but configuration allows build success");
         }
     }
 }

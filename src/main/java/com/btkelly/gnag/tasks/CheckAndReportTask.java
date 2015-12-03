@@ -61,10 +61,10 @@ public class CheckAndReportTask extends BaseCheckTask {
 
             if (status == Status.FAIL) {
                 gitHubApi.postUpdatedGitHubStatus(GitHubStatusType.ERROR, StatusPendingAction.getIssueSha());
-                Logger.logE("Error sending violation reports: " + violationComment.getCommentMessage());
+                Logger.logError("Error sending violation reports: " + violationComment.getCommentMessage());
             } else if (violationComment.isFailBuild() && failBuildOnError()) {
                 gitHubApi.postUpdatedGitHubStatus(GitHubStatusType.FAILURE, StatusPendingAction.getIssueSha());
-                Logger.logE("One or more comment reporters has forced the build to fail");
+                Logger.logError("One or more comment reporters has forced the build to fail");
             } else {
                 gitHubApi.postUpdatedGitHubStatus(GitHubStatusType.SUCCESS, StatusPendingAction.getIssueSha());
             }

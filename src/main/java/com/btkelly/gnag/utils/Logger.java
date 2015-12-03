@@ -15,6 +15,9 @@
  */
 package com.btkelly.gnag.utils;
 
+import org.gradle.api.logging.LogLevel;
+import org.gradle.api.logging.Logging;
+
 /**
  * Created by bobbake4 on 12/2/15.
  */
@@ -22,23 +25,23 @@ public class Logger {
 
     private static final String TAG = ":gnag: ";
 
-    private static boolean debugLogEnabled;
-
-    public static void setDebugLogEnabled(boolean debugLogEnabled) {
-        Logger.debugLogEnabled = debugLogEnabled;
+    public static boolean isDebugLoggingEnabled() {
+        return Logging.getLogger(Logger.class).isDebugEnabled();
     }
 
-    public static boolean isDebugLogEnabled() {
-        return debugLogEnabled;
+    public static boolean isInfoLoggingEnabled() {
+        return Logging.getLogger(Logger.class).isInfoEnabled();
     }
 
-    public static void logD(String message) {
-        if (debugLogEnabled) {
-            System.out.println(TAG + message);
-        }
+    public static void logDebug(String message) {
+        Logging.getLogger(Logger.class).log(LogLevel.DEBUG, TAG + message);
     }
 
-    public static void logE(String message) {
-        System.out.println(TAG + message);
+    public static void logInfo(String message) {
+        Logging.getLogger(Logger.class).log(LogLevel.INFO, TAG + message);
+    }
+
+    public static void logError(String message) {
+        Logging.getLogger(Logger.class).log(LogLevel.ERROR, TAG + message);
     }
 }
