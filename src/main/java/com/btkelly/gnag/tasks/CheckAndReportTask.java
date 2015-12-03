@@ -15,7 +15,7 @@
  */
 package com.btkelly.gnag.tasks;
 
-import com.btkelly.gnag.GnagPlugin;
+import com.btkelly.gnag.actions.StatusPendingAction;
 import com.btkelly.gnag.api.GitHubApi;
 import com.btkelly.gnag.api.GitHubApi.Status;
 import com.btkelly.gnag.models.ViolationComment;
@@ -44,28 +44,34 @@ public class CheckAndReportTask extends BaseCheckTask {
         taskOptions.put(Task.TASK_DEPENDS_ON, "check");
         taskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag and generates a report to publish to Github and set the status of a PR");
 
+        project.getTasks()
+                .findByName("check")
+                .doFirst(new StatusPendingAction());
+
         project.task(taskOptions, TASK_NAME);
     }
 
     @TaskAction
     public void taskAction() {
 
-        ViolationComment violationComment = buildViolationComment();
+        if (StatusPendingAction.isPendingActionCompleted()) {
 
-        GitHubApi gitHubApi = GitHubApi.defaultApi(getGnagPluginExtension());
+            ViolationComment violationComment = buildViolationComment();
 
-        Status status = gitHubApi.postGitHubComment(violationComment.getCommentMessage());
+            GitHubApi gitHubApi = GitHubApi.defaultApi(getGnagPluginExtension());
 
-        String prSha = GnagPlugin.getGitHubPullRequest().getHead().getSha();
+            Status status = gitHubApi.postGitHubComment(violationComment.getCommentMessage());
 
-        if (status == Status.FAIL) {
-            gitHubApi.postUpdatedGitHubStatus(GitHubStatusType.ERROR, prSha);
-            Logger.logE("Error sending violation reports: " + violationComment.getCommentMessage());
-        } else if (violationComment.isFailBuild() && failBuildOnError()) {
-            gitHubApi.postUpdatedGitHubStatus(GitHubStatusType.FAILURE, prSha);
-            Logger.logE("One or more comment reporters has forced the build to fail");
-        } else {
-            gitHubApi.postUpdatedGitHubStatus(GitHubStatusType.SUCCESS, prSha);
+            if (status == Status.FAIL) {
+                gitHubApi.postUpdatedGitHubStatus(GitHubStatusType.ERROR, StatusPendingAction.getIssueSha());
+                Logger.logE("Error sending violation reports: " + violationComment.getCommentMessage());
+            } else if (violationComment.isFailBuild() && failBuildOnError()) {
+                gitHubApi.postUpdatedGitHubStatus(GitHubStatusType.FAILURE, StatusPendingAction.getIssueSha());
+                Logger.logE("One or more comment reporters has forced the build to fail");
+            } else {
+                gitHubApi.postUpdatedGitHubStatus(GitHubStatusType.SUCCESS, StatusPendingAction.getIssueSha());
+            }
         }
+
     }
 }
