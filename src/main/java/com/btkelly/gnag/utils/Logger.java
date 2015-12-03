@@ -20,7 +20,7 @@ package com.btkelly.gnag.utils;
  */
 public class Logger {
 
-    private static final String TAG = "gnag: ";
+    private static final String TAG = ":gnag: ";
 
     private static boolean debugLogEnabled;
 
@@ -32,7 +32,7 @@ public class Logger {
         return debugLogEnabled;
     }
 
-    public static void log(String message) {
+    public static void logD(String message) {
         if (debugLogEnabled) {
             System.out.println(TAG + message);
         }

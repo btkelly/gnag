@@ -54,7 +54,7 @@ public class CheckstyleReporter implements CommentReporter {
     @Override
     public String textToAppendComment(Project project) {
 
-        Logger.log("Parsing Checkstyle violations");
+        Logger.logD("Parsing Checkstyle violations");
 
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -92,7 +92,7 @@ public class CheckstyleReporter implements CommentReporter {
             e.printStackTrace();
         }
 
-        Logger.log("Finished parsing Checkstyle violations");
+        Logger.logD("Finished parsing Checkstyle violations");
 
         return stringBuilder.toString();
     }

@@ -28,8 +28,8 @@ public class GnagPluginExtension {
      * Creates the extension "gnag" on the current project
      * @param project
      */
-    public static void loadExtension(Project project) {
-        project.getExtensions().create(EXTENSION_NAME, GnagPluginExtension.class, project);
+    public static GnagPluginExtension loadExtension(Project project) {
+        return project.getExtensions().create(EXTENSION_NAME, GnagPluginExtension.class, project);
     }
 
     /**
@@ -145,7 +145,7 @@ public class GnagPluginExtension {
 
 
     /**
-     * Allows setting the debug log enabled from the Gradle file
+     * Allows setting the debug logD enabled from the Gradle file
      * @param enableDebugLog
      */
     public void setEnableDebugLog(boolean enableDebugLog) {
