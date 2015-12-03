@@ -44,11 +44,8 @@ public class CheckAndReportTask extends BaseCheckTask {
         taskOptions.put(Task.TASK_DEPENDS_ON, "check");
         taskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag and generates a report to publish to Github and set the status of a PR");
 
-        project.getTasks()
-                .findByName("check")
-                .doFirst(new StatusPendingAction());
-
-        project.task(taskOptions, TASK_NAME);
+        Task task = project.task(taskOptions, TASK_NAME);
+        task.doFirst(new StatusPendingAction());
     }
 
     @TaskAction
