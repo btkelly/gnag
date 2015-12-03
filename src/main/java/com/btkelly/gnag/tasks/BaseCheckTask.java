@@ -44,7 +44,7 @@ public abstract class BaseCheckTask extends DefaultTask {
 
         List<CommentReporter> reporters = loadReporters();
 
-        Logger.logD("Collecting violation reports");
+        Logger.logInfo("Collecting violation reports");
 
         StringBuilder commentBuilder = new StringBuilder();
 
@@ -58,7 +58,7 @@ public abstract class BaseCheckTask extends DefaultTask {
             commentBuilder.append(violationText);
 
             if (githubCommentReporter.shouldFailBuild(getProject())) {
-                Logger.logD(githubCommentReporter.reporterName() + " found violations");
+                Logger.logInfo(githubCommentReporter.reporterName() + " found violations");
                 failBuild = true;
             }
 
@@ -71,7 +71,7 @@ public abstract class BaseCheckTask extends DefaultTask {
     }
 
     private List<CommentReporter> loadReporters() {
-        Logger.logD("Loading reporters...");
+        Logger.logInfo("Loading reporters...");
 
         //TODO allow enable / disable reporters
         //TODO allow custom reporters to be loaded
@@ -86,7 +86,7 @@ public abstract class BaseCheckTask extends DefaultTask {
         CheckstyleReporter checkstyleReporter = new CheckstyleReporter();
         reporters.add(checkstyleReporter);
 
-        Logger.logD("Finished loading reporters");
+        Logger.logInfo("Finished loading reporters");
 
         return reporters;
     }

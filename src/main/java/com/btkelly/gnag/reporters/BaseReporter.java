@@ -57,7 +57,7 @@ public abstract class BaseReporter<T extends Report> implements CommentReporter 
     @Override
     public final String textToAppendComment(Project project) {
 
-        Logger.logD("Parsing " + reporterName() + " violations");
+        Logger.logInfo("Parsing " + reporterName() + " violations");
 
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -76,7 +76,7 @@ public abstract class BaseReporter<T extends Report> implements CommentReporter 
             e.printStackTrace();
         }
 
-        Logger.logD("Finished parsing " + reporterName() + " violations");
+        Logger.logInfo("Finished parsing " + reporterName() + " violations");
 
         return stringBuilder.toString();
     }

@@ -72,7 +72,7 @@ public class StatusPendingAction implements Action<Task> {
 
                     pendingActionCompleted = true;
 
-                    Logger.logD("GitHub pending action complete");
+                    Logger.logInfo("GitHub pending action complete");
 
                 } else {
                     Logger.logE("Error fetching pull request details");

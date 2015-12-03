@@ -67,11 +67,6 @@ public class GnagPluginExtension {
     private boolean failBuildOnError;
 
     /**
-     * Flag to indicate if Gnag debug logging should be enabled
-     */
-    private boolean enableDebugLog;
-
-    /**
      * Checks to make sure the current project has the required parameters (gitHubRepoName, gitHubAuthToken, gitHubIssueNumber)
      * @return - true if the project has a valid config false if it does not
      */
@@ -143,20 +138,4 @@ public class GnagPluginExtension {
         return project.hasProperty("failBuildOnError") ? (Boolean) project.property("failBuildOnError") : failBuildOnError;
     }
 
-
-    /**
-     * Allows setting the debug logD enabled from the Gradle file
-     * @param enableDebugLog
-     */
-    public void setEnableDebugLog(boolean enableDebugLog) {
-        this.enableDebugLog = enableDebugLog;
-    }
-
-    /**
-     * Return the flag set if debug logging should be enabled in the build process
-     * @return - Fail Build On Error set the value in gradle file
-     */
-    public boolean debugLogEnabled() {
-        return enableDebugLog;
-    }
 }

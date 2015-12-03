@@ -17,12 +17,9 @@ package com.btkelly.gnag;
 
 import com.btkelly.gnag.tasks.CheckAndReportTask;
 import com.btkelly.gnag.tasks.CheckLocalTask;
-import com.btkelly.gnag.utils.Logger;
-import org.gradle.StartParameter;
 import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
-import org.gradle.api.invocation.Gradle;
 
 /**
  * The main plugin class allowing hooks into the build system. You can use this plugin by adding the following to your
@@ -59,14 +56,11 @@ public class GnagPlugin implements Plugin<Project> {
     @Override
     public void apply(Project project) {
 
-        final GnagPluginExtension gnagPluginExtension = GnagPluginExtension.loadExtension(project);
+        GnagPluginExtension.loadExtension(project);
 
         project.afterEvaluate(new Action<Project>() {
             @Override
             public void execute(Project project) {
-
-                Logger.setDebugLogEnabled(gnagPluginExtension.debugLogEnabled());
-
                 CheckLocalTask.addTask(project);
                 CheckAndReportTask.addTask(project);
             }
