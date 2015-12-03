@@ -18,99 +18,66 @@ package com.btkelly.gnag.reporters;
 import com.btkelly.gnag.models.checkstyle.Checkstyle;
 import com.btkelly.gnag.models.checkstyle.Error;
 import com.btkelly.gnag.models.checkstyle.File;
-import com.btkelly.gnag.utils.Logger;
-import org.gradle.api.Project;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 
 /**
  * Comment reporter for Checkstyle. Looks for Checkstyle report in the default location "/build/outputs/checkstyle/checkstyle.xml"
  */
-public class CheckstyleReporter implements CommentReporter {
-
-    /**
-     * Looks through the Checkstyle report and determines if any file node has children.
-     * @param project - current project being built
-     * @return - true if any file node has children
-     */
-    @Override
-    public boolean shouldFailBuild(Project project) {
-        try {
-            return getCheckstyleReport(project).shouldFailBuild();
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
+public class CheckstyleReporter extends BaseReporter<Checkstyle> {
 
     /**
      * Loops through all Checkstyle errors and pulls out file name, line number, error message, and rule
-     * @param project - current project being built
-     * @return - return text to append to current comment
+     * @param report - parsed report object
+     * @param projectDir - base project directory
+     * @param stringBuilder - StringBuilder to append the comment to
      */
     @Override
-    public String textToAppendComment(Project project) {
+    public void appendViolationText(Checkstyle report, String projectDir, StringBuilder stringBuilder) {
 
-        Logger.logD("Parsing Checkstyle violations");
+        for (File checkstyleFile : report.getFile()) {
 
-        StringBuilder stringBuilder = new StringBuilder();
+            String fileName = checkstyleFile.getName();
+            fileName = fileName.replace(projectDir, "");
+            fileName = fileName.replace("/src/main/java/", "");
+            fileName = fileName.replace("/", ".");
 
-        try {
-            Checkstyle checkstyleReport = getCheckstyleReport(project);
+            for (Error checkstyleError : checkstyleFile.getError()) {
 
-            if (checkstyleReport.shouldFailBuild()) {
-
-                stringBuilder.append("Checkstyle Violations:");
-                stringBuilder.append("\n----------------------------------\n");
-
-                String projectDir = project.getProjectDir().toString();
-
-                for (File checkstyleFile : checkstyleReport.getFile()) {
-
-                    String fileName = checkstyleFile.getName();
-                    fileName = fileName.replace(projectDir, "");
-                    fileName = fileName.replace("/src/main/java/", "");
-                    fileName = fileName.replace("/", ".");
-
-                    for (Error checkstyleError : checkstyleFile.getError()) {
-
-                        stringBuilder.append("<b>Violation: </b> " + checkstyleError.getSource());
-                        stringBuilder.append("\n");
-                        stringBuilder.append("<b>Class: </b>" + fileName);
-                        stringBuilder.append(" - ");
-                        stringBuilder.append(" <b>Line: </b>" + checkstyleError.getLine());
-                        stringBuilder.append("\n");
-                        stringBuilder.append(checkstyleError.getMessage());
-                        stringBuilder.append("\n\n");
-                    }
-                }
+                stringBuilder.append("<b>Violation: </b> " + checkstyleError.getSource());
+                stringBuilder.append("\n");
+                stringBuilder.append("<b>Class: </b>" + fileName);
+                stringBuilder.append(" - ");
+                stringBuilder.append(" <b>Line: </b>" + checkstyleError.getLine());
+                stringBuilder.append("\n");
+                stringBuilder.append(checkstyleError.getMessage());
+                stringBuilder.append("\n\n");
             }
-        } catch (JAXBException e) {
-            e.printStackTrace();
         }
-
-        Logger.logD("Finished parsing Checkstyle violations");
-
-        return stringBuilder.toString();
     }
 
+    /**
+     * Returns the path to the report file
+     * @return
+     */
+    @Override
+    public String getReportFilePath() {
+        return "/build/outputs/checkstyle/checkstyle.xml";
+    }
+
+    /**
+     * Returns the class of the report type
+     * @return
+     */
+    @Override
+    public Class getReportType() {
+        return Checkstyle.class;
+    }
+
+    /**
+     * Returns the reporter name
+     * @return
+     */
     @Override
     public String reporterName() {
         return "Checkstyle Reporter";
-    }
-
-    private Checkstyle getCheckstyleReport(Project project) throws JAXBException {
-
-        JAXBContext jaxbContext = JAXBContext.newInstance(Checkstyle.class);
-        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-
-        return (Checkstyle) unmarshaller.unmarshal(getCheckstyleReportFile(project));
-    }
-
-    private java.io.File getCheckstyleReportFile(Project project) {
-        return new java.io.File(project.getProjectDir(), "/build/outputs/checkstyle/checkstyle.xml");
     }
 }

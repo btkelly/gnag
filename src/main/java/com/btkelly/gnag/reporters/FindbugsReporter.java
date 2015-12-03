@@ -17,82 +17,58 @@ package com.btkelly.gnag.reporters;
 
 import com.btkelly.gnag.models.findbugs.BugCollection;
 import com.btkelly.gnag.models.findbugs.BugInstance;
-import com.btkelly.gnag.utils.Logger;
-import org.gradle.api.Project;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 
 /**
- * Created by bobbake4 on 12/1/15.
+ * Comment reporter for Findbugs. Looks for Findbugs report in the default location "/build/outputs/findbugs/findbugs.xml"
  */
-public class FindbugsReporter implements CommentReporter {
+public class FindbugsReporter extends BaseReporter<BugCollection> {
 
+    /**
+     * Loops through all Findbugs errors and pulls out file name, line number, error message, and rule
+     * @param report - parsed report object
+     * @param projectDir - base project directory
+     * @param stringBuilder - StringBuilder to append the comment to
+     */
     @Override
-    public boolean shouldFailBuild(Project project) {
-        try {
-            return getFindBugsReport(project).shouldFailBuild();
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
+    public void appendViolationText(BugCollection report, String projectDir, StringBuilder stringBuilder) {
 
-        return false;
+        for (BugInstance bugInstance : report.getBugInstance()) {
+
+            stringBuilder.append("<b>Violation: </b> " + bugInstance.getType());
+            stringBuilder.append("\n");
+            stringBuilder.append("<b>Class: </b>" + bugInstance.getSourceLine().getClassname());
+            stringBuilder.append(" - ");
+            stringBuilder.append(" <b>Line: </b>" + bugInstance.getSourceLine().getStart());
+            stringBuilder.append("\n");
+            stringBuilder.append(bugInstance.getShortMessage());
+            stringBuilder.append("\n\n");
+        }
     }
 
+    /**
+     * Returns the path to the report file
+     * @return
+     */
     @Override
-    public String textToAppendComment(Project project) {
-
-        Logger.logD("Parsing Findbugs violations");
-
-        StringBuilder stringBuilder = new StringBuilder();
-
-        try {
-            BugCollection bugCollection = getFindBugsReport(project);
-
-            if (bugCollection.shouldFailBuild()) {
-
-                stringBuilder.append("Findbugs Violations:");
-                stringBuilder.append("\n----------------------------------\n");
-
-                for (BugInstance bugInstance : bugCollection.getBugInstance()) {
-
-                    stringBuilder.append("<b>Violation: </b> " + bugInstance.getType());
-                    stringBuilder.append("\n");
-                    stringBuilder.append("<b>Class: </b>" + bugInstance.getSourceLine().getClassname());
-                    stringBuilder.append(" - ");
-                    stringBuilder.append(" <b>Line: </b>" + bugInstance.getSourceLine().getStart());
-                    stringBuilder.append("\n");
-                    stringBuilder.append(bugInstance.getShortMessage());
-                    stringBuilder.append("\n\n");
-                }
-            }
-
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
-
-        Logger.logD("Finished parsing Findbugs violations");
-
-        return stringBuilder.toString();
+    public String getReportFilePath() {
+        return "/build/outputs/findbugs/findbugs.xml";
     }
 
+    /**
+     * Returns the class of the report type
+     * @return
+     */
+    @Override
+    public Class getReportType() {
+        return BugCollection.class;
+    }
+
+    /**
+     * Returns the reporter name
+     * @return
+     */
     @Override
     public String reporterName() {
         return "FindBugs Reporter";
-    }
-
-    private BugCollection getFindBugsReport(Project project) throws JAXBException {
-
-        JAXBContext jaxbContext = JAXBContext.newInstance(BugCollection.class);
-        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-
-        JAXBElement<BugCollection> jaxbElement = (JAXBElement<BugCollection>) unmarshaller.unmarshal(getFindbugsReportFile(project));
-        return jaxbElement.getValue();
-    }
-
-    private java.io.File getFindbugsReportFile(Project project) {
-        return new java.io.File(project.getProjectDir(), "/build/outputs/findbugs/findbugs.xml");
     }
 }
