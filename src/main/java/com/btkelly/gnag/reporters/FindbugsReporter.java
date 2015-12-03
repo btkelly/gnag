@@ -44,7 +44,7 @@ public class FindbugsReporter implements CommentReporter {
     @Override
     public String textToAppendComment(Project project) {
 
-        Logger.logD("Parsing Findbugs violations");
+        Logger.log("Parsing Findbugs violations");
 
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -73,7 +73,7 @@ public class FindbugsReporter implements CommentReporter {
             e.printStackTrace();
         }
 
-        Logger.logD("Finished parsing Findbugs violations");
+        Logger.log("Finished parsing Findbugs violations");
 
         return stringBuilder.toString();
     }

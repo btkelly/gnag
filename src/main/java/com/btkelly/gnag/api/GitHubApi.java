@@ -23,11 +23,7 @@ import com.btkelly.gnag.models.github.GitHubStatusType;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
@@ -62,24 +58,8 @@ public class GitHubApi {
         this.gnagPluginExtension = gnagPluginExtension;
 
         OkHttpClient okHttpClient = new OkHttpClient();
-        okHttpClient.interceptors().add(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-
-                Request request = chain.request()
-                        .newBuilder()
-                        .addHeader("Authorization", "token " + gnagPluginExtension.getGitHubAuthToken())
-                        .build();
-
-                return chain.proceed(request);
-            }
-        });
-
-        if (gnagPluginExtension.debugLogEnabled()) {
-            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-            okHttpClient.interceptors().add(interceptor);
-        }
+        okHttpClient.interceptors().add(new AuthInterceptor(gnagPluginExtension));
+        okHttpClient.interceptors().add(new LoggingInterceptor());
 
         String baseUrl = "https://api.github.com/repos/" + gnagPluginExtension.getGitHubRepoName() + "/";
 

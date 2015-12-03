@@ -89,7 +89,7 @@ public class CheckAndReportTask extends DefaultTask {
 
     private ViolationComment buildViolationComment(List<CommentReporter> reporters, Project project) {
 
-        Logger.logD("Collecting violation reports");
+        Logger.log("Collecting violation reports");
 
         StringBuilder commentBuilder = new StringBuilder();
 
@@ -103,7 +103,7 @@ public class CheckAndReportTask extends DefaultTask {
             commentBuilder.append(violationText);
 
             if (githubCommentReporter.shouldFailBuild(project)) {
-                Logger.logD(githubCommentReporter.reporterName() + " found violations");
+                Logger.log(githubCommentReporter.reporterName() + " found violations");
                 failBuild = true;
             }
 
@@ -116,7 +116,7 @@ public class CheckAndReportTask extends DefaultTask {
     }
 
     private List<CommentReporter> loadReporters() {
-        Logger.logD("Loading reporters...");
+        Logger.log("Loading reporters...");
 
         //TODO allow enable / disable reporters
         //TODO allow custom reporters to be loaded
@@ -131,7 +131,7 @@ public class CheckAndReportTask extends DefaultTask {
         CheckstyleReporter checkstyleReporter = new CheckstyleReporter();
         reporters.add(checkstyleReporter);
 
-        Logger.logD("Finished loading reporters");
+        Logger.log("Finished loading reporters");
 
         return reporters;
     }

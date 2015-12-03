@@ -91,7 +91,7 @@ public class GnagPlugin implements Plugin<Project> {
 
         GnagPluginExtension gnagPluginExtension = GnagPluginExtension.getExtension(project);
 
-        Logger.setDebugLog(gnagPluginExtension.debugLogEnabled());
+        Logger.setDebugLogEnabled(gnagPluginExtension.debugLogEnabled());
 
         if (gnagPluginExtension.hasValidConfig()) {
 

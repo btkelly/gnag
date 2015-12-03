@@ -55,7 +55,7 @@ public class PMDReporter implements CommentReporter {
     @Override
     public String textToAppendComment(Project project) {
 
-        Logger.logD("Parsing PMD violations");
+        Logger.log("Parsing PMD violations");
 
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -95,7 +95,7 @@ public class PMDReporter implements CommentReporter {
             e.printStackTrace();
         }
 
-        Logger.logD("Finished parsing PMD violations");
+        Logger.log("Finished parsing PMD violations");
 
         return stringBuilder.toString();
     }

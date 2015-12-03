@@ -22,14 +22,18 @@ public class Logger {
 
     private static final String TAG = "gnag: ";
 
-    private static boolean debugLog;
+    private static boolean debugLogEnabled;
 
-    public static void setDebugLog(boolean debugLog) {
-        Logger.debugLog = debugLog;
+    public static void setDebugLogEnabled(boolean debugLogEnabled) {
+        Logger.debugLogEnabled = debugLogEnabled;
     }
 
-    public static void logD(String message) {
-        if (debugLog) {
+    public static boolean isDebugLogEnabled() {
+        return debugLogEnabled;
+    }
+
+    public static void log(String message) {
+        if (debugLogEnabled) {
             System.out.println(TAG + message);
         }
     }
@@ -37,5 +41,4 @@ public class Logger {
     public static void logE(String message) {
         System.out.println(TAG + message);
     }
-
 }
