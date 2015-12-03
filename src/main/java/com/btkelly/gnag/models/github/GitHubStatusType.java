@@ -16,20 +16,27 @@
 package com.btkelly.gnag.models.github;
 
 /**
- * Created by bobbake4 on 12/1/15.
+ * Created by bobbake4 on 12/2/15.
  */
-public class GitHubComment {
+public enum GitHubStatusType {
 
-    private final String body;
+    SUCCESS("All code quality checks have passed"),
+    PENDING("Checking code quality"),
+    ERROR("An error was encountered while checking code quality"),
+    FAILURE("Violations found, check PR comments for details");
 
-    public GitHubComment(String body) {
-        this.body = body;
+    private final String description;
+
+    GitHubStatusType(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     @Override
     public String toString() {
-        return "GitHubComment{" +
-                "body='" + body + '\'' +
-                '}';
+        return super.toString().toLowerCase();
     }
 }

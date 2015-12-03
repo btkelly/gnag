@@ -16,20 +16,32 @@
 package com.btkelly.gnag.models.github;
 
 /**
- * Created by bobbake4 on 12/1/15.
+ * Created by bobbake4 on 12/2/15.
  */
-public class GitHubComment {
+public class GitHubCommit {
 
-    private final String body;
+    private String label;
+    private String ref;
+    private String sha;
 
-    public GitHubComment(String body) {
-        this.body = body;
+    public String getLabel() {
+        return label;
+    }
+
+    public String getRef() {
+        return ref;
+    }
+
+    public String getSha() {
+        return sha;
     }
 
     @Override
     public String toString() {
-        return "GitHubComment{" +
-                "body='" + body + '\'' +
+        return "GitHubCommit{" +
+                "label='" + label + '\'' +
+                ", ref='" + ref + '\'' +
+                ", sha='" + sha + '\'' +
                 '}';
     }
 }

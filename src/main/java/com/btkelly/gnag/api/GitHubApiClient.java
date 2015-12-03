@@ -16,8 +16,11 @@
 package com.btkelly.gnag.api;
 
 import com.btkelly.gnag.models.github.GitHubComment;
+import com.btkelly.gnag.models.github.GitHubPullRequest;
+import com.btkelly.gnag.models.github.GitHubStatus;
 import retrofit.Call;
 import retrofit.http.Body;
+import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
 
@@ -28,5 +31,11 @@ public interface GitHubApiClient {
 
     @POST("issues/{issueNumber}/comments")
     Call<GitHubComment> postComment(@Body GitHubComment gitHubComment, @Path("issueNumber") String issueNumber);
+
+    @POST("statuses/{sha}")
+    Call<GitHubStatus> postUpdatedStatus(@Body GitHubStatus gitHubStatus, @Path("sha") String sha);
+
+    @GET("pulls/{issueNumber}")
+    Call<GitHubPullRequest> getPullRequest(@Path("issueNumber") String issueNumber);
 
 }

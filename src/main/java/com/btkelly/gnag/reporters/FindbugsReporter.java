@@ -17,6 +17,7 @@ package com.btkelly.gnag.reporters;
 
 import com.btkelly.gnag.models.findbugs.BugCollection;
 import com.btkelly.gnag.models.findbugs.BugInstance;
+import com.btkelly.gnag.utils.Logger;
 import org.gradle.api.Project;
 
 import javax.xml.bind.JAXBContext;
@@ -43,7 +44,7 @@ public class FindbugsReporter implements CommentReporter {
     @Override
     public String textToAppendComment(Project project) {
 
-        //println "Parsing Findbugs violations";
+        Logger.log("Parsing Findbugs violations");
 
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -72,7 +73,7 @@ public class FindbugsReporter implements CommentReporter {
             e.printStackTrace();
         }
 
-        //println "Finished parsing Findbugs violations";
+        Logger.log("Finished parsing Findbugs violations");
 
         return stringBuilder.toString();
     }

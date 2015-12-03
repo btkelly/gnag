@@ -16,20 +16,26 @@
 package com.btkelly.gnag.models.github;
 
 /**
- * Created by bobbake4 on 12/1/15.
+ * Created by bobbake4 on 12/2/15.
  */
-public class GitHubComment {
+public class GitHubStatus {
 
-    private final String body;
+    private String state;
+    private String description;
+    private String context;
 
-    public GitHubComment(String body) {
-        this.body = body;
+    public GitHubStatus(GitHubStatusType state) {
+        this.state = state.toString();
+        this.description = state.getDescription();
+        this.context = "continuous-integration/gnag";
     }
 
     @Override
     public String toString() {
-        return "GitHubComment{" +
-                "body='" + body + '\'' +
+        return "GitHubStatus{" +
+                "state='" + state + '\'' +
+                ", description='" + description + '\'' +
+                ", context='" + context + '\'' +
                 '}';
     }
 }

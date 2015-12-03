@@ -17,12 +17,13 @@ package com.btkelly.gnag.api;
 
 import com.btkelly.gnag.GnagPluginExtension;
 import com.btkelly.gnag.models.github.GitHubComment;
-import com.squareup.okhttp.Interceptor;
+import com.btkelly.gnag.models.github.GitHubPullRequest;
+import com.btkelly.gnag.models.github.GitHubStatus;
+import com.btkelly.gnag.models.github.GitHubStatusType;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
-import org.gradle.api.GradleException;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
@@ -57,25 +58,21 @@ public class GitHubApi {
         this.gnagPluginExtension = gnagPluginExtension;
 
         OkHttpClient okHttpClient = new OkHttpClient();
-        okHttpClient.interceptors().add(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-
-                Request request = chain.request()
-                        .newBuilder()
-                        .addHeader("Authorization", "token " + gnagPluginExtension.getGitHubAuthToken())
-                        .build();
-
-                return chain.proceed(request);
-            }
-        });
+        okHttpClient.interceptors().add(new AuthInterceptor(gnagPluginExtension));
+        okHttpClient.interceptors().add(new LoggingInterceptor());
 
         String baseUrl = "https://api.github.com/repos/" + gnagPluginExtension.getGitHubRepoName() + "/";
+
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .create();
+
+        GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create(gson);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(gsonConverterFactory)
                 .build();
 
         gitHubApiClient = retrofit.create(GitHubApiClient.class);
@@ -85,14 +82,28 @@ public class GitHubApi {
 
         try {
             retrofit.Response<GitHubComment> gitHubCommentResponse = gitHubApiClient.postComment(new GitHubComment(comment), gnagPluginExtension.getGitHubIssueNumber()).execute();
-
-            if (!gitHubCommentResponse.isSuccess()) {
-                throw new GradleException(gitHubCommentResponse.raw().toString());
-            }
             return gitHubCommentResponse.isSuccess() ? Status.OK : Status.FAIL;
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
             return Status.FAIL;
+        }
+    }
+
+    public Status postUpdatedGitHubStatus(GitHubStatusType gitHubStatusType, String sha) {
+
+        try {
+            retrofit.Response<GitHubStatus> gitHubStatusResponse = gitHubApiClient.postUpdatedStatus(new GitHubStatus(gitHubStatusType), sha).execute();
+            return gitHubStatusResponse.isSuccess() ? Status.OK : Status.FAIL;
+        } catch (IOException ignored) {
+            return Status.FAIL;
+        }
+    }
+
+    public GitHubPullRequest getPullRequestDetails() {
+        try {
+            retrofit.Response<GitHubPullRequest> gitHubPullRequestResponse = gitHubApiClient.getPullRequest(gnagPluginExtension.getGitHubIssueNumber()).execute();
+            return gitHubPullRequestResponse.body();
+        } catch (IOException ignored) {
+            return null;
         }
     }
 

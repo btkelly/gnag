@@ -18,6 +18,7 @@ package com.btkelly.gnag.reporters;
 import com.btkelly.gnag.models.checkstyle.Checkstyle;
 import com.btkelly.gnag.models.checkstyle.Error;
 import com.btkelly.gnag.models.checkstyle.File;
+import com.btkelly.gnag.utils.Logger;
 import org.gradle.api.Project;
 
 import javax.xml.bind.JAXBContext;
@@ -53,7 +54,7 @@ public class CheckstyleReporter implements CommentReporter {
     @Override
     public String textToAppendComment(Project project) {
 
-        //println"Parsing Checkstyle violations";
+        Logger.log("Parsing Checkstyle violations");
 
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -91,7 +92,7 @@ public class CheckstyleReporter implements CommentReporter {
             e.printStackTrace();
         }
 
-        //println "Finished parsing Checkstyle violations";
+        Logger.log("Finished parsing Checkstyle violations");
 
         return stringBuilder.toString();
     }

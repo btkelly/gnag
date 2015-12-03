@@ -13,23 +13,32 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.btkelly.gnag.models.github;
+package com.btkelly.gnag.utils;
 
 /**
- * Created by bobbake4 on 12/1/15.
+ * Created by bobbake4 on 12/2/15.
  */
-public class GitHubComment {
+public class Logger {
 
-    private final String body;
+    private static final String TAG = "gnag: ";
 
-    public GitHubComment(String body) {
-        this.body = body;
+    private static boolean debugLogEnabled;
+
+    public static void setDebugLogEnabled(boolean debugLogEnabled) {
+        Logger.debugLogEnabled = debugLogEnabled;
     }
 
-    @Override
-    public String toString() {
-        return "GitHubComment{" +
-                "body='" + body + '\'' +
-                '}';
+    public static boolean isDebugLogEnabled() {
+        return debugLogEnabled;
+    }
+
+    public static void log(String message) {
+        if (debugLogEnabled) {
+            System.out.println(TAG + message);
+        }
+    }
+
+    public static void logE(String message) {
+        System.out.println(TAG + message);
     }
 }
