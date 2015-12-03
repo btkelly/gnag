@@ -20,6 +20,7 @@ import com.btkelly.gnag.models.github.GitHubCommit;
 import com.btkelly.gnag.models.github.GitHubPullRequest;
 import com.btkelly.gnag.models.github.GitHubStatusType;
 import com.btkelly.gnag.tasks.CheckAndReportTask;
+import com.btkelly.gnag.tasks.CheckLocalTask;
 import com.btkelly.gnag.utils.Logger;
 import org.gradle.StartParameter;
 import org.gradle.api.Action;
@@ -76,11 +77,16 @@ public class GnagPlugin implements Plugin<Project> {
             Logger.logE("Build is running offline. Reports will not be collected");
         } else {
 
-            GnagPluginExtension.loadExtension(project);
+            final GnagPluginExtension gnagPluginExtension = GnagPluginExtension.loadExtension(project);
 
             project.afterEvaluate(new Action<Project>() {
                 @Override
                 public void execute(Project project) {
+
+                    Logger.setDebugLogEnabled(gnagPluginExtension.debugLogEnabled());
+
+                    CheckLocalTask.addTask(project);
+
                     initReportTask(project);
                 }
             });
@@ -90,8 +96,6 @@ public class GnagPlugin implements Plugin<Project> {
     private void initReportTask(Project project) {
 
         GnagPluginExtension gnagPluginExtension = GnagPluginExtension.getExtension(project);
-
-        Logger.setDebugLogEnabled(gnagPluginExtension.debugLogEnabled());
 
         if (gnagPluginExtension.hasValidConfig()) {
 
@@ -112,7 +116,7 @@ public class GnagPlugin implements Plugin<Project> {
             }
 
         } else {
-            Logger.logE("You must supply gitHubRepoName, gitHubAuthToken, and gitHubIssueNumber for the Gnag plugin to function.");
+            Logger.logE("You must supply gitHubRepoName, gitHubAuthToken, and gitHubIssueNumber for the Gnag plugin to report. Run \"checkLocal\" to run checks without report");
         }
     }
 }

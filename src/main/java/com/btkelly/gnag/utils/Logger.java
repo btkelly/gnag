@@ -32,7 +32,7 @@ public class Logger {
         return debugLogEnabled;
     }
 
-    public static void log(String message) {
+    public static void logD(String message) {
         if (debugLogEnabled) {
             System.out.println(TAG + message);
         }
