@@ -45,10 +45,6 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
-artifacts {
-    archives sourcesJar, javadocJar
-}
-
 publishing {
     publications {
         GnagPublication(MavenPublication) {
@@ -64,7 +60,6 @@ publishing {
 bintray {
     dryRun = false
     publish = true
-    configurations = ['archives']
     user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
     key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_KEY')
     publications = ['GnagPublication']
