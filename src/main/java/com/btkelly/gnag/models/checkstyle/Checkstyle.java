@@ -18,9 +18,9 @@ package com.btkelly.gnag.models.checkstyle;
 
 import com.btkelly.gnag.models.Report;
 
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.*;
 
 
 /**
@@ -109,6 +109,14 @@ public class Checkstyle implements Report {
 
     @Override
     public boolean shouldFailBuild() {
-        return file != null && file.size() != 0;
+        if (file != null) {
+            for (File checkstyleFile : file) {
+                if (checkstyleFile.getError().size() != 0) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
