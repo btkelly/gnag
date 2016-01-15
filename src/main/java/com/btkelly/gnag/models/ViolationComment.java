@@ -25,7 +25,7 @@ public class ViolationComment {
 
     public ViolationComment(boolean failBuild, String commentMessage) {
         this.failBuild = failBuild;
-        this.commentMessage = commentMessage;
+        this.commentMessage = commentMessage.trim().length() == 0 ? "Congrats! No :poop: code found, this PR is safe to merge." : commentMessage;
     }
 
     public boolean isFailBuild() {
