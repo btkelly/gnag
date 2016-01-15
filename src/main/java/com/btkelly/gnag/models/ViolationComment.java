@@ -15,6 +15,8 @@
  */
 package com.btkelly.gnag.models;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Created by bobbake4 on 12/1/15.
  */
@@ -23,9 +25,9 @@ public class ViolationComment {
     private final boolean failBuild;
     private final String commentMessage;
 
-    public ViolationComment(boolean failBuild, String commentMessage) {
+    public ViolationComment(boolean failBuild, @NotNull String commentMessage) {
         this.failBuild = failBuild;
-        this.commentMessage = commentMessage;
+        this.commentMessage = commentMessage.trim().length() == 0 ? "Congrats! No :poop: code found, this PR is safe to merge." : commentMessage;
     }
 
     public boolean isFailBuild() {
