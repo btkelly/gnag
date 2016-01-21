@@ -55,7 +55,7 @@ public class CheckLocalTask extends BaseCheckTask {
 
         ViolationComment violationComment = buildViolationComment();
 
-        File gnagReportDirectory = new File(getProject().getProjectDir(), "/build/outputs/gnag/");
+        File gnagReportDirectory = new File(getProject().getProjectDir(), "/build/reports/gnag/");
         File gnagReportFile = new File(gnagReportDirectory, REPORT_FILE_NAME);
 
         try {
