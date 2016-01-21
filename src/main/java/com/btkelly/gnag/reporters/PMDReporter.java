@@ -20,7 +20,7 @@ import com.btkelly.gnag.models.pmd.Pmd;
 import com.btkelly.gnag.models.pmd.Violation;
 
 /**
- * Comment reporter for PMD. Looks for PMD report in the default location "/build/outputs/pmd/pmd.xml"
+ * Comment reporter for PMD. Looks for PMD report in the default location "/build/reports/pmd/pmd.xml"
  */
 public class PMDReporter extends BaseReporter<Pmd> {
 
@@ -62,7 +62,7 @@ public class PMDReporter extends BaseReporter<Pmd> {
      */
     @Override
     public String getReportFilePath() {
-        return "/build/outputs/pmd/pmd.xml";
+        return "/build/reports/pmd/pmd.xml";
     }
 
     /**

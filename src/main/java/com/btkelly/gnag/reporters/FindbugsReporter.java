@@ -19,7 +19,7 @@ import com.btkelly.gnag.models.findbugs.BugCollection;
 import com.btkelly.gnag.models.findbugs.BugInstance;
 
 /**
- * Comment reporter for Findbugs. Looks for Findbugs report in the default location "/build/outputs/findbugs/findbugs.xml"
+ * Comment reporter for Findbugs. Looks for Findbugs report in the default location "/build/reports/findbugs/findbugs.xml"
  */
 public class FindbugsReporter extends BaseReporter<BugCollection> {
 
@@ -51,7 +51,7 @@ public class FindbugsReporter extends BaseReporter<BugCollection> {
      */
     @Override
     public String getReportFilePath() {
-        return "/build/outputs/findbugs/findbugs.xml";
+        return "/build/reports/findbugs/findbugs.xml";
     }
 
     /**

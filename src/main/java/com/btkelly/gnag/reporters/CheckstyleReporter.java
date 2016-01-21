@@ -20,7 +20,7 @@ import com.btkelly.gnag.models.checkstyle.Error;
 import com.btkelly.gnag.models.checkstyle.File;
 
 /**
- * Comment reporter for Checkstyle. Looks for Checkstyle report in the default location "/build/outputs/checkstyle/checkstyle.xml"
+ * Comment reporter for Checkstyle. Looks for Checkstyle report in the default location "/build/reports/checkstyle/checkstyle.xml"
  */
 public class CheckstyleReporter extends BaseReporter<Checkstyle> {
 
@@ -60,7 +60,7 @@ public class CheckstyleReporter extends BaseReporter<Checkstyle> {
      */
     @Override
     public String getReportFilePath() {
-        return "/build/outputs/checkstyle/checkstyle.xml";
+        return "/build/reports/checkstyle/checkstyle.xml";
     }
 
     /**
