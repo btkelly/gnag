@@ -1,5 +1,5 @@
 /**
- * Copyright 2015 Bryan Kelly
+ * Copyright 2016 Bryan Kelly
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-
 package com.btkelly.gnag.models.checkstyle;
 
 import javax.xml.bind.JAXBElement;
