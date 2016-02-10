@@ -70,22 +70,16 @@ public class CheckLocalTask extends BaseCheckTask {
             FileOutputStream reportFileOutputStream = new FileOutputStream(gnagReportFile);
 
             final String htmlViolationReportPrefix =
-                  "<link rel=\"stylesheet\" href=\"github-markdown.css\">\n"
-                + "<style>\n"
-                + "    .markdown-body {\n"
-                + "        box-sizing: border-box;\n"
-                + "        min-width: 200px;\n"
-                + "        max-width: 980px;\n"
-                + "        margin: 0 auto;\n"
-                + "        padding: 45px;\n"
-                + "    }\n"
-                + "</style>\n"
-                + "<article class=\"markdown-body\">";
+                "<!DOCTYPE html>"
+                    + "<html>"
+                    + "<link rel=\"stylesheet\" href=\"github-markdown.css\">"
+                    + "<article class=\"markdown-body\">";
 
             final String htmlViolationReportContent
                 = Processor.process(violationComment.getCommentMessage());
 
-            final String htmlViolationReportSuffix = "</article>";
+            final String htmlViolationReportSuffix =
+                "</article></head>";
 
             final String htmlViolationReport
                 = htmlViolationReportPrefix + htmlViolationReportContent + htmlViolationReportSuffix;
