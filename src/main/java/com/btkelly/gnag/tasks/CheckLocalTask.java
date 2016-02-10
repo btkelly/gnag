@@ -18,17 +18,23 @@ package com.btkelly.gnag.tasks;
 import com.btkelly.gnag.models.ViolationComment;
 import com.btkelly.gnag.utils.Logger;
 import com.github.rjeschke.txtmark.Processor;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.tasks.TaskAction;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by bobbake4 on 12/1/15.
@@ -37,6 +43,7 @@ public class CheckLocalTask extends BaseCheckTask {
 
     private static final String TASK_NAME = "checkLocal";
     private static final String REPORT_FILE_NAME = "gnag.html";
+    private static final String CSS_FILE_NAME = "github-markdown.css";
 
     public static void addTask(Project project) {
         Map<String, Object> taskOptions = new HashMap<>();
@@ -60,14 +67,34 @@ public class CheckLocalTask extends BaseCheckTask {
 
         try {
             gnagReportDirectory.mkdirs();
-            FileOutputStream fileOutputStream = new FileOutputStream(gnagReportFile);
+            FileOutputStream reportFileOutputStream = new FileOutputStream(gnagReportFile);
 
-            String htmlViolationReport = Processor.process(violationComment.getCommentMessage());
+            final String htmlViolationReportPrefix =
+                  "<link rel=\"stylesheet\" href=\"github-markdown.css\">\n"
+                + "<style>\n"
+                + "    .markdown-body {\n"
+                + "        box-sizing: border-box;\n"
+                + "        min-width: 200px;\n"
+                + "        max-width: 980px;\n"
+                + "        margin: 0 auto;\n"
+                + "        padding: 45px;\n"
+                + "    }\n"
+                + "</style>\n"
+                + "<article class=\"markdown-body\">";
 
-            IOUtils.write(htmlViolationReport, fileOutputStream);
+            final String htmlViolationReportContent
+                = Processor.process(violationComment.getCommentMessage());
 
-            fileOutputStream.close();
+            final String htmlViolationReportSuffix = "</article>";
 
+            final String htmlViolationReport
+                = htmlViolationReportPrefix + htmlViolationReportContent + htmlViolationReportSuffix;
+
+            IOUtils.write(htmlViolationReport, reportFileOutputStream);
+
+            reportFileOutputStream.close();
+
+            copyCssFile(gnagReportDirectory);
         } catch (IOException ignored) {
             Logger.logError("Error saving Gnag report");
         }
@@ -80,4 +107,35 @@ public class CheckLocalTask extends BaseCheckTask {
             Logger.logError("Gnag check failed but configuration allows build success");
         }
     }
+
+    private void copyCssFile(final File gnagReportDirectory) throws IOException {
+        final InputStream gnagCssFileInputStream = getClass()
+            .getClassLoader()
+            .getResourceAsStream(CSS_FILE_NAME);
+
+
+        Enumeration<URL> e = getClass().getClassLoader().getResources(".");
+        while (e.hasMoreElements()) {
+            System.out.println(e.nextElement());
+        }
+
+        final Path gnagCssFileTargetPath = Paths.get(
+            gnagReportDirectory.getAbsolutePath(), CSS_FILE_NAME);
+
+        try {
+            Files.copy(
+                gnagCssFileInputStream,
+                gnagCssFileTargetPath,
+                StandardCopyOption.REPLACE_EXISTING);
+        } catch (final IOException ignored) {
+            Logger.logError("Error copying CSS file for local report.");
+        } finally {
+            try {
+                gnagCssFileInputStream.close();
+            } catch (final IOException ignored) {
+            }
+        }
+
+    }
+
 }
