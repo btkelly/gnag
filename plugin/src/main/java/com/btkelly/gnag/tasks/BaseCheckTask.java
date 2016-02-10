@@ -54,16 +54,19 @@ public abstract class BaseCheckTask extends DefaultTask {
 
             CommentReporter githubCommentReporter = reporters.get(index);
 
-            String violationText = githubCommentReporter.textToAppendComment(getProject());
-            commentBuilder.append(violationText);
+            if (githubCommentReporter.reporterEnabled(getProject())) {
 
-            if (githubCommentReporter.shouldFailBuild(getProject())) {
-                Logger.logInfo(githubCommentReporter.reporterName() + " found violations");
-                failBuild = true;
-            }
+                String violationText = githubCommentReporter.textToAppendComment(getProject());
+                commentBuilder.append(violationText);
 
-            if (violationText.trim().length() != 0 && index != reporters.size() - 1) {
-                commentBuilder.append("\n\n");
+                if (githubCommentReporter.shouldFailBuild(getProject())) {
+                    Logger.logInfo(githubCommentReporter.reporterName() + " found violations");
+                    failBuild = true;
+                }
+
+                if (violationText.trim().length() != 0 && index != reporters.size() - 1) {
+                    commentBuilder.append("\n\n");
+                }
             }
         }
 

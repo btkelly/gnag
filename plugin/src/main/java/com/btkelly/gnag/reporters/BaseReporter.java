@@ -21,7 +21,6 @@ import org.gradle.api.Project;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 /**
@@ -33,6 +32,11 @@ public abstract class BaseReporter<T extends Report> implements CommentReporter 
     public abstract String getReportFilePath();
     public abstract Class getReportType();
 
+    @Override
+    public boolean reporterEnabled(Project project) {
+        return getReportFile(project).exists();
+    }
+
     /**
      * Looks through the report and determines if the build should fail
      * @param project - current project being built
@@ -42,8 +46,8 @@ public abstract class BaseReporter<T extends Report> implements CommentReporter 
     public final boolean shouldFailBuild(Project project) {
         try {
             return getReport(project).shouldFailBuild();
-        } catch (JAXBException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            Logger.logError(e.getMessage());
         }
 
         return false;
@@ -72,8 +76,8 @@ public abstract class BaseReporter<T extends Report> implements CommentReporter 
                 String projectDir = project.getProjectDir().toString();
                 appendViolationText(report, projectDir, stringBuilder);
             }
-        } catch (JAXBException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            Logger.logError(e.getMessage());
         }
 
         Logger.logInfo("Finished parsing " + reporterName() + " violations");
@@ -81,7 +85,7 @@ public abstract class BaseReporter<T extends Report> implements CommentReporter 
         return stringBuilder.toString();
     }
 
-    private T getReport(Project project) throws JAXBException {
+    private T getReport(Project project) throws Exception {
         JAXBContext jaxbContext = JAXBContext.newInstance(getReportType());
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 

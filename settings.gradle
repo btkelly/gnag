@@ -1,1 +1,1 @@
-include ':example', ':plugin'
+include ':plugin'

@@ -14,7 +14,7 @@ dependencies {
     compile 'com.squareup.okhttp:logging-interceptor:2.6.0'
     compile 'com.github.rjeschke:txtmark:0.13'
     compile 'org.jetbrains:annotations:15.0'
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
 license {
@@ -23,7 +23,11 @@ license {
 }
 
 group = 'com.btkelly'
-version = '0.1.2'
+version = '0.1.3-SNAPSHOT'
+
+javadoc {
+    failOnError = false
+}
 
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
@@ -69,3 +73,32 @@ bintray {
 }
 
 clean.dependsOn licenseFormat
+
+task("copyPluginJar", type: Copy) {
+    from 'build/libs'
+    into '../example/plugin-jar'
+}
+
+copyPluginJar.shouldRunAfter assemble
+assemble.dependsOn copyPluginJar
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.btkelly.gnag.GnagPlugin',
+        )
+    }
+}
+
+task assembleWithDependencies(type: Jar) {
+    manifest.from jar.manifest
+    classifier = 'all'
+    from {
+        configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) }
+    } {
+        exclude "META-INF/*.SF"
+        exclude "META-INF/*.DSA"
+        exclude "META-INF/*.RSA"
+    }
+    with jar
+}

@@ -30,6 +30,13 @@ public interface CommentReporter {
     boolean shouldFailBuild(Project project);
 
     /**
+     * This method should inspect the project and return true or false if this reporter is enabled
+     * @param project
+     * @return - return true if the reporter is enabled false otherwise
+     */
+    boolean reporterEnabled(Project project);
+
+    /**
      * This method should generate the text it would like added to the Github comment that will be posted at the end of the build.
      * @param project - current project being built
      * @return - return text to append to current comment
