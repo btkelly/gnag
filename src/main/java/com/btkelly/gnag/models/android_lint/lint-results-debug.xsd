@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="issues" type="issues"/>
+  <xs:complexType name="issue">
+    <xs:sequence>
+      <xs:element type="location" name="location"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id"/>
+    <xs:attribute type="xs:string" name="severity"/>
+    <xs:attribute type="xs:string" name="message"/>
+    <xs:attribute type="xs:string" name="category"/>
+    <xs:attribute type="xs:string" name="priority"/>
+    <xs:attribute type="xs:string" name="summary"/>
+    <xs:attribute type="xs:string" name="explanation"/>
+    <xs:attribute type="xs:string" name="url"/>
+    <xs:attribute type="xs:string" name="urls"/>
+    <xs:attribute type="xs:string" name="errorLine1"/>
+    <xs:attribute type="xs:string" name="errorLine2"/>
+    <xs:attribute type="xs:string" name="quickfix"/>
+  </xs:complexType>
+  <xs:complexType name="issues">
+    <xs:sequence>
+      <xs:element type="issue" name="issue"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="format"/>
+    <xs:attribute type="xs:string" name="by"/>
+  </xs:complexType>
+  <xs:complexType name="location">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="file"/>
+        <xs:attribute type="xs:string" name="line"/>
+        <xs:attribute type="xs:string" name="column"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+</xs:schema>
