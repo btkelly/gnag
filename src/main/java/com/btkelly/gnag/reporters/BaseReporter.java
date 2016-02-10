@@ -17,12 +17,14 @@ package com.btkelly.gnag.reporters;
 
 import com.btkelly.gnag.models.Report;
 import com.btkelly.gnag.utils.Logger;
-import org.gradle.api.Project;
-
+import java.io.File;
+import java.io.FilenameFilter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import org.gradle.api.Nullable;
+import org.gradle.api.Project;
 
 /**
  * Created by bobbake4 on 12/3/15.
@@ -30,7 +32,7 @@ import javax.xml.bind.Unmarshaller;
 public abstract class BaseReporter<T extends Report> implements CommentReporter {
 
     public abstract void appendViolationText(T report, String projectDir, StringBuilder stringBuilder);
-    public abstract String getReportFilePath();
+    public abstract FilenameFilter getReportFilenameFilter();
     public abstract Class getReportType();
 
     /**
@@ -95,8 +97,18 @@ public abstract class BaseReporter<T extends Report> implements CommentReporter 
         }
     }
 
+    @Nullable
     private java.io.File getReportFile(Project project) {
-        return new java.io.File(project.getProjectDir(), getReportFilePath());
+        final File searchDirectory = project.getProjectDir();
+
+        final java.io.File[] matchingFiles = searchDirectory.listFiles(getReportFilenameFilter());
+
+        if (matchingFiles.length > 0) {
+            return matchingFiles[0];
+        } else {
+            return null;
+        }
+
     }
 
 }

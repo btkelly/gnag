@@ -18,6 +18,7 @@ package com.btkelly.gnag.reporters;
 import com.btkelly.gnag.models.pmd.File;
 import com.btkelly.gnag.models.pmd.Pmd;
 import com.btkelly.gnag.models.pmd.Violation;
+import java.io.FilenameFilter;
 
 /**
  * Comment reporter for PMD. Looks for PMD report in the default location "/build/outputs/pmd/pmd.xml"
@@ -62,8 +63,12 @@ public class PMDReporter extends BaseReporter<Pmd> {
      * @return
      */
     @Override
-    public String getReportFilePath() {
-        return "/build/outputs/pmd/pmd.xml";
+    public FilenameFilter getReportFilenameFilter() {
+        return new FilenameFilter() {
+            @Override public boolean accept(java.io.File dir, String name) {
+                return name.equals("/build/outputs/pmd/pmd.xml");
+            }
+        };
     }
 
     /**
