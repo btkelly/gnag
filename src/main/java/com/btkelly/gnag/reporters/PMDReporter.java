@@ -44,16 +44,16 @@ public class PMDReporter extends BaseReporter<Pmd> {
             for (Violation violation : file.getViolation()) {
                 final String helpUrl = violation.getExternalInfoUrl();
 
-                stringBuilder.append("<b>Violation: </b> " + violation.getRule());
-                stringBuilder.append("\n");
-                stringBuilder.append("<b>Help: </b> <a href=\"" + helpUrl + "\">" + helpUrl + "</a>");
-                stringBuilder.append("\n");
+                stringBuilder.append("<b>Violation: </b>");
+                stringBuilder.append("<a href=\"" + helpUrl + "\">");
+                stringBuilder.append(violation.getRule());
+                stringBuilder.append("</a>");
+                stringBuilder.append("<br />");
                 stringBuilder.append("<b>Class: </b>" + fileName);
                 stringBuilder.append(" - ");
                 stringBuilder.append(" <b>Line: </b>" + violation.getBeginline());
                 stringBuilder.append(violation.getValue());
-                stringBuilder.append("\n\n");
-
+                stringBuilder.append("<br /><br />");
             }
         }
     }
