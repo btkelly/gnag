@@ -41,10 +41,11 @@ public class PMDReporter extends BaseReporter<Pmd> {
             fileName = fileName.replace("/", ".");
 
             for (Violation violation : file.getViolation()) {
+                final String helpUrl = violation.getExternalInfoUrl();
 
                 stringBuilder.append("<b>Violation: </b> " + violation.getRule());
                 stringBuilder.append("\n");
-                stringBuilder.append("<b>Help: </b> " + violation.getExternalInfoUrl());
+                stringBuilder.append("<b>Help: </b> <a href=\"" + helpUrl + "\">" + helpUrl + "</a>");
                 stringBuilder.append("\n");
                 stringBuilder.append("<b>Class: </b>" + fileName);
                 stringBuilder.append(" - ");
