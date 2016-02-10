@@ -5,22 +5,22 @@
     <xs:sequence>
       <xs:element type="location" name="location"/>
     </xs:sequence>
-    <xs:attribute type="xs:string" name="id"/>
-    <xs:attribute type="xs:string" name="severity"/>
-    <xs:attribute type="xs:string" name="message"/>
-    <xs:attribute type="xs:string" name="category"/>
-    <xs:attribute type="xs:string" name="priority"/>
-    <xs:attribute type="xs:string" name="summary"/>
-    <xs:attribute type="xs:string" name="explanation"/>
-    <xs:attribute type="xs:string" name="url"/>
-    <xs:attribute type="xs:string" name="urls"/>
-    <xs:attribute type="xs:string" name="errorLine1"/>
-    <xs:attribute type="xs:string" name="errorLine2"/>
-    <xs:attribute type="xs:string" name="quickfix"/>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+    <xs:attribute type="xs:string" name="severity" use="optional"/>
+    <xs:attribute type="xs:string" name="message" use="optional"/>
+    <xs:attribute type="xs:string" name="category" use="optional"/>
+    <xs:attribute type="xs:string" name="priority" use="optional"/>
+    <xs:attribute type="xs:string" name="summary" use="optional"/>
+    <xs:attribute type="xs:string" name="explanation" use="optional"/>
+    <xs:attribute type="xs:string" name="url" use="optional"/>
+    <xs:attribute type="xs:string" name="urls" use="optional"/>
+    <xs:attribute type="xs:string" name="errorLine1" use="optional"/>
+    <xs:attribute type="xs:string" name="errorLine2" use="optional"/>
+    <xs:attribute type="xs:string" name="quickfix" use="optional"/>
   </xs:complexType>
   <xs:complexType name="issues">
     <xs:sequence>
-      <xs:element type="issue" name="issue"/>
+      <xs:element type="issue" name="issue" maxOccurs="unbounded" minOccurs="0"/>
     </xs:sequence>
     <xs:attribute type="xs:string" name="format"/>
     <xs:attribute type="xs:string" name="by"/>
@@ -28,9 +28,9 @@
   <xs:complexType name="location">
     <xs:simpleContent>
       <xs:extension base="xs:string">
-        <xs:attribute type="xs:string" name="file"/>
-        <xs:attribute type="xs:string" name="line"/>
-        <xs:attribute type="xs:string" name="column"/>
+        <xs:attribute type="xs:string" name="file" use="optional"/>
+        <xs:attribute type="xs:string" name="line" use="optional"/>
+        <xs:attribute type="xs:string" name="column" use="optional"/>
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>

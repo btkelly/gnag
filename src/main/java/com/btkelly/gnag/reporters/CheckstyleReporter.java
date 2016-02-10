@@ -55,6 +55,10 @@ public class CheckstyleReporter extends BaseReporter<Checkstyle> {
         }
     }
 
+    @Override public String getReportDirectory() {
+        return "build/outputs/checkstyle/";
+    }
+
     /**
      * Returns the path to the report file
      * @return
@@ -63,7 +67,7 @@ public class CheckstyleReporter extends BaseReporter<Checkstyle> {
     public FilenameFilter getReportFilenameFilter() {
         return new FilenameFilter() {
             @Override public boolean accept(java.io.File dir, String name) {
-                return name.equals("/build/outputs/checkstyle/checkstyle.xml");
+                return name.equals("checkstyle.xml");
             }
         };
     }

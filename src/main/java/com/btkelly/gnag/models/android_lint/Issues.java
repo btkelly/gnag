@@ -17,10 +17,12 @@
 package com.btkelly.gnag.models.android_lint;
 
 import com.btkelly.gnag.models.Report;
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -34,7 +36,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="issue" type="{}issue"/>
+ *         &lt;element name="issue" type="{}issue" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *       &lt;attribute name="format" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       &lt;attribute name="by" type="{http://www.w3.org/2001/XMLSchema}string" />
@@ -49,10 +51,10 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "issues", propOrder = {
     "issue"
 })
+@XmlRootElement(name = "issues")
 public class Issues implements Report {
 
-    @XmlElement(required = true)
-    protected Issue issue;
+    protected List<Issue> issue;
     @XmlAttribute(name = "format")
     protected String format;
     @XmlAttribute(name = "by")
@@ -61,25 +63,30 @@ public class Issues implements Report {
     /**
      * Gets the value of the issue property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Issue }
-     *     
-     */
-    public Issue getIssue() {
-        return issue;
-    }
-
-    /**
-     * Sets the value of the issue property.
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the issue property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link Issue }
-     *     
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getIssue().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link Issue }
+     * 
+     * 
      */
-    public void setIssue(Issue value) {
-        this.issue = value;
+    public List<Issue> getIssue() {
+        if (issue == null) {
+            issue = new ArrayList<Issue>();
+        }
+        return this.issue;
     }
 
     /**
@@ -130,9 +137,22 @@ public class Issues implements Report {
         this.by = value;
     }
 
+    // NON-GENERATED
+
     @Override public boolean shouldFailBuild() {
-        // TODO: make this real?
-        return false;
+        return !getErrors().isEmpty();
+    }
+
+    public List<Issue> getErrors() {
+        final List<Issue> result = new ArrayList<>();
+
+        for (Issue issue : getIssue()) {
+            if (issue.getSeverity().equalsIgnoreCase("error")) {
+                result.add(issue);
+            }
+        }
+
+        return result;
     }
 
 }

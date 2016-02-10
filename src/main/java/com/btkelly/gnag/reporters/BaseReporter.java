@@ -18,6 +18,7 @@ package com.btkelly.gnag.reporters;
 import com.btkelly.gnag.models.Report;
 import com.btkelly.gnag.utils.Logger;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -32,6 +33,7 @@ import org.gradle.api.Project;
 public abstract class BaseReporter<T extends Report> implements CommentReporter {
 
     public abstract void appendViolationText(T report, String projectDir, StringBuilder stringBuilder);
+    public abstract String getReportDirectory();
     public abstract FilenameFilter getReportFilenameFilter();
     public abstract Class getReportType();
 
@@ -44,7 +46,7 @@ public abstract class BaseReporter<T extends Report> implements CommentReporter 
     public final boolean shouldFailBuild(Project project) {
         try {
             return getReport(project).shouldFailBuild();
-        } catch (JAXBException e) {
+        } catch (JAXBException | FileNotFoundException e) {
             e.printStackTrace();
         }
 
@@ -74,7 +76,7 @@ public abstract class BaseReporter<T extends Report> implements CommentReporter 
                 String projectDir = project.getProjectDir().toString();
                 appendViolationText(report, projectDir, stringBuilder);
             }
-        } catch (JAXBException e) {
+        } catch (JAXBException | FileNotFoundException e) {
             e.printStackTrace();
         }
 
@@ -83,7 +85,7 @@ public abstract class BaseReporter<T extends Report> implements CommentReporter 
         return stringBuilder.toString();
     }
 
-    private T getReport(Project project) throws JAXBException {
+    private T getReport(Project project) throws JAXBException, FileNotFoundException {
         JAXBContext jaxbContext = JAXBContext.newInstance(getReportType());
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
@@ -98,15 +100,19 @@ public abstract class BaseReporter<T extends Report> implements CommentReporter 
     }
 
     @Nullable
-    private java.io.File getReportFile(Project project) {
-        final File searchDirectory = project.getProjectDir();
+    private java.io.File getReportFile(Project project) throws FileNotFoundException {
+        final File searchDirectory = new File(project.getProjectDir(), getReportDirectory());
 
         final java.io.File[] matchingFiles = searchDirectory.listFiles(getReportFilenameFilter());
 
-        if (matchingFiles.length > 0) {
-            return matchingFiles[0];
+        if (matchingFiles.length == 0) {
+            throw new FileNotFoundException("Could not locate any report file using filter "
+                + getReportFilenameFilter().toString());
+        } else if (matchingFiles.length >= 2) {
+            throw new FileNotFoundException("Could not locate unique report file using filter "
+                + getReportFilenameFilter().toString());
         } else {
-            return null;
+            return matchingFiles[0];
         }
 
     }

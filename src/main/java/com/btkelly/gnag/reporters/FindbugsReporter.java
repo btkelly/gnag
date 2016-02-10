@@ -47,6 +47,10 @@ public class FindbugsReporter extends BaseReporter<BugCollection> {
         }
     }
 
+    @Override public String getReportDirectory() {
+        return "build/outputs/findbugs/";
+    }
+
     /**
      * Returns the path to the report file
      * @return
@@ -55,7 +59,7 @@ public class FindbugsReporter extends BaseReporter<BugCollection> {
     public FilenameFilter getReportFilenameFilter() {
         return new FilenameFilter() {
             @Override public boolean accept(File dir, String name) {
-                return name.equals("/build/outputs/findbugs/findbugs.xml");
+                return name.equals("findbugs.xml");
             }
         };
     }

@@ -58,6 +58,10 @@ public class PMDReporter extends BaseReporter<Pmd> {
         }
     }
 
+    @Override public String getReportDirectory() {
+        return "build/outputs/pmd/";
+    }
+
     /**
      * Returns the path to the report file
      * @return
@@ -66,7 +70,7 @@ public class PMDReporter extends BaseReporter<Pmd> {
     public FilenameFilter getReportFilenameFilter() {
         return new FilenameFilter() {
             @Override public boolean accept(java.io.File dir, String name) {
-                return name.equals("/build/outputs/pmd/pmd.xml");
+                return name.equals("pmd.xml");
             }
         };
     }
