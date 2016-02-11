@@ -44,11 +44,13 @@ public class AndroidLintReporter extends BaseReporter<Issues> {
     }
   }
 
-  @Override public String getReportDirectory() {
+  @Override
+  public String getReportDirectory() {
     return "build/outputs/";
   }
 
-  @Override public FilenameFilter getReportFilenameFilter() {
+  @Override
+  public FilenameFilter getReportFilenameFilter() {
     return new FilenameFilter() {
       @Override public boolean accept(File dir, String name) {
         return name.startsWith("lint-results-") && name.endsWith(".xml");
@@ -56,11 +58,13 @@ public class AndroidLintReporter extends BaseReporter<Issues> {
     };
   }
 
-  @Override public Class getReportType() {
+  @Override
+  public Class getReportType() {
     return Issues.class;
   }
 
-  @Override public String reporterName() {
+  @Override
+  public String reporterName() {
     return "Android Lint Reporter";
   }
 
