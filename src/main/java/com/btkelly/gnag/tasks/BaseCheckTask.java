@@ -17,6 +17,7 @@ package com.btkelly.gnag.tasks;
 
 import com.btkelly.gnag.GnagPluginExtension;
 import com.btkelly.gnag.models.ViolationComment;
+import com.btkelly.gnag.reporters.AndroidLintReporter;
 import com.btkelly.gnag.reporters.CheckstyleReporter;
 import com.btkelly.gnag.reporters.CommentReporter;
 import com.btkelly.gnag.reporters.FindbugsReporter;
@@ -85,6 +86,9 @@ public abstract class BaseCheckTask extends DefaultTask {
 
         CheckstyleReporter checkstyleReporter = new CheckstyleReporter();
         reporters.add(checkstyleReporter);
+
+        AndroidLintReporter androidLintReporter = new AndroidLintReporter();
+        reporters.add(androidLintReporter);
 
         Logger.logInfo("Finished loading reporters");
 

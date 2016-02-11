@@ -18,6 +18,7 @@ package com.btkelly.gnag.reporters;
 import com.btkelly.gnag.models.pmd.File;
 import com.btkelly.gnag.models.pmd.Pmd;
 import com.btkelly.gnag.models.pmd.Violation;
+import java.io.FilenameFilter;
 
 /**
  * Comment reporter for PMD. Looks for PMD report in the default location "/build/outputs/pmd/pmd.xml"
@@ -43,18 +44,22 @@ public class PMDReporter extends BaseReporter<Pmd> {
             for (Violation violation : file.getViolation()) {
                 final String helpUrl = violation.getExternalInfoUrl();
 
-                stringBuilder.append("<b>Violation: </b> " + violation.getRule());
-                stringBuilder.append("\n");
-                stringBuilder.append("<b>Help: </b> <a href=\"" + helpUrl + "\">" + helpUrl + "</a>");
-                stringBuilder.append("\n");
+                stringBuilder.append("<b>Violation: </b>");
+                stringBuilder.append("<a href=\"" + helpUrl + "\">");
+                stringBuilder.append(violation.getRule());
+                stringBuilder.append("</a>");
+                stringBuilder.append("<br />");
                 stringBuilder.append("<b>Class: </b>" + fileName);
                 stringBuilder.append(" - ");
                 stringBuilder.append(" <b>Line: </b>" + violation.getBeginline());
                 stringBuilder.append(violation.getValue());
-                stringBuilder.append("\n\n");
-
+                stringBuilder.append("<br /><br />");
             }
         }
+    }
+
+    @Override public String getReportDirectory() {
+        return "build/outputs/pmd/";
     }
 
     /**
@@ -62,8 +67,12 @@ public class PMDReporter extends BaseReporter<Pmd> {
      * @return
      */
     @Override
-    public String getReportFilePath() {
-        return "/build/outputs/pmd/pmd.xml";
+    public FilenameFilter getReportFilenameFilter() {
+        return new FilenameFilter() {
+            @Override public boolean accept(java.io.File dir, String name) {
+                return name.equals("pmd.xml");
+            }
+        };
     }
 
     /**
