@@ -53,7 +53,7 @@ publishing {
             artifactId 'gnag'
 
             artifact sourcesJar
-            artifact javadocJar
+//            artifact javadocJar
         }
     }
 }

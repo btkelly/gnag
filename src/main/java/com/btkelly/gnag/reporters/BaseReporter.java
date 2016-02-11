@@ -17,15 +17,15 @@ package com.btkelly.gnag.reporters;
 
 import com.btkelly.gnag.models.Report;
 import com.btkelly.gnag.utils.Logger;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FilenameFilter;
+import org.gradle.api.Project;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import org.gradle.api.Nullable;
-import org.gradle.api.Project;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FilenameFilter;
 
 /**
  * Created by bobbake4 on 12/3/15.
@@ -99,7 +99,6 @@ public abstract class BaseReporter<T extends Report> implements CommentReporter 
         }
     }
 
-    @Nullable
     private java.io.File getReportFile(Project project) throws FileNotFoundException {
         final File searchDirectory = new File(project.getProjectDir(), getReportDirectory());
 
