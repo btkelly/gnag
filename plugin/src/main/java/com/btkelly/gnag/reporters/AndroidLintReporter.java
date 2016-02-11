@@ -17,13 +17,15 @@ package com.btkelly.gnag.reporters;
 
 import com.btkelly.gnag.models.android_lint.Issue;
 import com.btkelly.gnag.models.android_lint.Issues;
+import com.btkelly.gnag.utils.HtmlStringBuilder;
+
 import java.io.File;
 import java.io.FilenameFilter;
 
 public class AndroidLintReporter extends BaseReporter<Issues> {
 
   @Override
-  public void appendViolationText(Issues report, String projectDir, StringBuilder stringBuilder) {
+  public void appendViolationText(Issues report, String projectDir, HtmlStringBuilder htmlStringBuilder) {
     System.out.println(report.getIssue().size());
 
     for (Issue issue : report.getErrors()) {
@@ -33,14 +35,20 @@ public class AndroidLintReporter extends BaseReporter<Issues> {
       final String shortFileName
           = fullFileName.substring(fullFileName.lastIndexOf(File.separator) + 1);
 
-      stringBuilder.append("<b>Violation: </b> " + issue.getId());
-      stringBuilder.append("<br />");
-      stringBuilder.append("<b>File: </b>" + shortFileName);
-      stringBuilder.append("<br />");
-      stringBuilder.append(" <b>Line: </b>" + issue.getLocation().getLine());
-      stringBuilder.append("<br />");
-      stringBuilder.append("<b>Notes: </b> " + issue.getMessage());
-      stringBuilder.append("<br /><br />");
+      htmlStringBuilder
+              .appendBold("Violation: ")
+              .append(issue.getId())
+              .insertLineBreak()
+              .appendBold("File: ")
+              .append(shortFileName)
+              .insertLineBreak()
+              .appendBold("Line: ")
+              .append(issue.getLocation().getLine())
+              .insertLineBreak()
+              .appendBold("Notes: ")
+              .append(issue.getMessage())
+              .insertLineBreak()
+              .insertLineBreak();
     }
   }
 
