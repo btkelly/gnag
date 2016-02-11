@@ -9,3 +9,9 @@ allprojects {
         jcenter()
     }
 }
+
+task buildAndCheckLocal(type: Exec) {
+    commandLine './runExampleCheckLocal.sh'
+    description 'Builds the Gnag plugin and then executes the example applications checkLocal task with the newly build plugin'
+    group 'Build'
+}
