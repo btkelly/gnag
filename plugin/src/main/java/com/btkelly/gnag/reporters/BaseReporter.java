@@ -21,7 +21,11 @@ import org.gradle.api.Project;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FilenameFilter;
 
 /**
  * Created by bobbake4 on 12/3/15.
@@ -29,12 +33,19 @@ import javax.xml.bind.Unmarshaller;
 public abstract class BaseReporter<T extends Report> implements CommentReporter {
 
     public abstract void appendViolationText(T report, String projectDir, StringBuilder stringBuilder);
-    public abstract String getReportFilePath();
+    public abstract String getReportDirectory();
+    public abstract FilenameFilter getReportFilenameFilter();
     public abstract Class getReportType();
 
     @Override
     public boolean reporterEnabled(Project project) {
-        return getReportFile(project).exists();
+        try {
+            return getReportFile(project).exists();
+        } catch (FileNotFoundException e) {
+            Logger.logError(e.getMessage());
+        }
+
+        return false;
     }
 
     /**
@@ -46,7 +57,7 @@ public abstract class BaseReporter<T extends Report> implements CommentReporter 
     public final boolean shouldFailBuild(Project project) {
         try {
             return getReport(project).shouldFailBuild();
-        } catch (Exception e) {
+        } catch (JAXBException | FileNotFoundException e) {
             Logger.logError(e.getMessage());
         }
 
@@ -76,7 +87,7 @@ public abstract class BaseReporter<T extends Report> implements CommentReporter 
                 String projectDir = project.getProjectDir().toString();
                 appendViolationText(report, projectDir, stringBuilder);
             }
-        } catch (Exception e) {
+        } catch (JAXBException | FileNotFoundException e) {
             Logger.logError(e.getMessage());
         }
 
@@ -85,7 +96,7 @@ public abstract class BaseReporter<T extends Report> implements CommentReporter 
         return stringBuilder.toString();
     }
 
-    private T getReport(Project project) throws Exception {
+    private T getReport(Project project) throws JAXBException, FileNotFoundException {
         JAXBContext jaxbContext = JAXBContext.newInstance(getReportType());
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
@@ -99,8 +110,21 @@ public abstract class BaseReporter<T extends Report> implements CommentReporter 
         }
     }
 
-    private java.io.File getReportFile(Project project) {
-        return new java.io.File(project.getProjectDir(), getReportFilePath());
+    private java.io.File getReportFile(Project project) throws FileNotFoundException {
+        final File searchDirectory = new File(project.getProjectDir(), getReportDirectory());
+
+        final java.io.File[] matchingFiles = searchDirectory.listFiles(getReportFilenameFilter());
+
+        if (matchingFiles.length == 0) {
+            throw new FileNotFoundException("Could not locate any report file using filter "
+                + getReportFilenameFilter().toString());
+        } else if (matchingFiles.length >= 2) {
+            throw new FileNotFoundException("Could not locate unique report file using filter "
+                + getReportFilenameFilter().toString());
+        } else {
+            return matchingFiles[0];
+        }
+
     }
 
 }

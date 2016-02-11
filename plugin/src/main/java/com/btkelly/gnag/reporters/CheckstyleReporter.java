@@ -18,6 +18,7 @@ package com.btkelly.gnag.reporters;
 import com.btkelly.gnag.models.checkstyle.Checkstyle;
 import com.btkelly.gnag.models.checkstyle.Error;
 import com.btkelly.gnag.models.checkstyle.File;
+import java.io.FilenameFilter;
 
 /**
  * Comment reporter for Checkstyle. Looks for Checkstyle report in the default location "/build/outputs/checkstyle/checkstyle.xml"
@@ -54,13 +55,21 @@ public class CheckstyleReporter extends BaseReporter<Checkstyle> {
         }
     }
 
+    @Override public String getReportDirectory() {
+        return "build/outputs/checkstyle/";
+    }
+
     /**
      * Returns the path to the report file
      * @return
      */
     @Override
-    public String getReportFilePath() {
-        return "/build/outputs/checkstyle/checkstyle.xml";
+    public FilenameFilter getReportFilenameFilter() {
+        return new FilenameFilter() {
+            @Override public boolean accept(java.io.File dir, String name) {
+                return name.equals("checkstyle.xml");
+            }
+        };
     }
 
     /**
