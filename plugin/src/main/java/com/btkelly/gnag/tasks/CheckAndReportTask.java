@@ -21,6 +21,7 @@ import com.btkelly.gnag.api.GitHubApi.Status;
 import com.btkelly.gnag.models.ViolationComment;
 import com.btkelly.gnag.models.github.GitHubStatusType;
 import com.btkelly.gnag.utils.Logger;
+import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.tasks.TaskAction;
@@ -64,7 +65,9 @@ public class CheckAndReportTask extends BaseCheckTask {
                 Logger.logError("Error sending violation reports: " + violationComment.getCommentMessage());
             } else if (violationComment.isFailBuild() && failBuildOnError()) {
                 gitHubApi.postUpdatedGitHubStatus(GitHubStatusType.FAILURE, StatusPendingAction.getIssueSha());
-                Logger.logError("One or more comment reporters has forced the build to fail");
+                String errorMessage = "One or more comment reporters has forced the build to fail";
+                Logger.logError(errorMessage);
+                throw new GradleException(errorMessage);
             } else {
                 gitHubApi.postUpdatedGitHubStatus(GitHubStatusType.SUCCESS, StatusPendingAction.getIssueSha());
             }
