@@ -115,7 +115,7 @@ public abstract class BaseReporter<T extends Report> implements CommentReporter 
 
         final java.io.File[] matchingFiles = searchDirectory.listFiles(getReportFilenameFilter());
 
-        if (matchingFiles.length == 0) {
+        if (matchingFiles == null || matchingFiles.length == 0) {
             throw new FileNotFoundException("Could not locate any report file using filter "
                 + getReportFilenameFilter().toString());
         } else if (matchingFiles.length >= 2) {
