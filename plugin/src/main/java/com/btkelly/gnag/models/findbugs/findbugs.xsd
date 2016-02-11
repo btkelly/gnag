@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2016 Bryan Kelly
+
+    Licensed under the Apache License, Version 2.0 (the "License"); you may not
+    use this file except in compliance with the License.
+
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+    License for the specific language governing permissions and limitations
+    under the License.
+
+-->
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="BugCollection" type="BugCollection"/>
+  <xs:complexType name="Error">
+    <xs:sequence>
+      <xs:element type="xs:string" name="ErrorMessage"/>
+      <xs:element type="xs:string" name="Exception"/>
+      <xs:element name="StackTrace" maxOccurs="unbounded" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init>(ZipFileCodeBase.java:87)"/>
+            <xs:enumeration value="edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)"/>
+            <xs:enumeration value="edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)"/>
+            <xs:enumeration value="edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)"/>
+            <xs:enumeration value="edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)"/>
+            <xs:enumeration value="edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)"/>
+            <xs:enumeration value="edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)"/>
+            <xs:enumeration value="edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)"/>
+            <xs:enumeration value="edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)"/>
+            <xs:enumeration value="edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BugCollection">
+    <xs:sequence>
+      <xs:element type="Project" name="Project"/>
+      <xs:element type="BugInstance" name="BugInstance" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="BugCategory" name="BugCategory" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="BugPattern" name="BugPattern" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="BugCode" name="BugCode" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="Errors" name="Errors"/>
+      <xs:element type="FindBugsSummary" name="FindBugsSummary"/>
+      <xs:element type="xs:string" name="ClassFeatures"/>
+      <xs:element type="xs:string" name="History"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="version"/>
+    <xs:attribute type="xs:string" name="sequence"/>
+    <xs:attribute type="xs:string" name="timestamp"/>
+    <xs:attribute type="xs:string" name="analysisTimestamp"/>
+    <xs:attribute type="xs:string" name="release"/>
+  </xs:complexType>
+  <xs:complexType name="FileStats">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="path" use="optional"/>
+        <xs:attribute type="xs:string" name="bugCount" use="optional"/>
+        <xs:attribute type="xs:string" name="size" use="optional"/>
+        <xs:attribute type="xs:string" name="bugHash" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ClassProfile">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="name" use="optional"/>
+        <xs:attribute type="xs:string" name="totalMilliseconds" use="optional"/>
+        <xs:attribute type="xs:string" name="invocations" use="optional"/>
+        <xs:attribute type="xs:string" name="avgMicrosecondsPerInvocation" use="optional"/>
+        <xs:attribute type="xs:string" name="maxMicrosecondsPerInvocation" use="optional"/>
+        <xs:attribute type="xs:string" name="standardDeviationMircosecondsPerInvocation" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="Class">
+    <xs:sequence>
+      <xs:element type="SourceLine" name="SourceLine"/>
+      <xs:element name="Message">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="In class com.github.stkent.amplify.utils.ActivityStateUtil"/>
+            <xs:enumeration value="In class com.github.stkent.amplify.utils.time.SystemTimeUtil"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="classname" use="optional"/>
+    <xs:attribute type="xs:string" name="primary" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="BugCategory">
+    <xs:sequence>
+      <xs:element name="Description">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Bad practice"/>
+            <xs:enumeration value="Correctness"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="category" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="Errors">
+    <xs:sequence>
+      <xs:element type="Error" name="Error" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="xs:string" name="MissingClass" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="errors"/>
+    <xs:attribute type="xs:string" name="missingClasses"/>
+  </xs:complexType>
+  <xs:complexType name="Project">
+    <xs:sequence>
+      <xs:element type="xs:string" name="Jar" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="xs:string" name="SrcDir" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="projectName"/>
+  </xs:complexType>
+  <xs:complexType name="FindBugsSummary">
+    <xs:sequence>
+      <xs:element type="FileStats" name="FileStats" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="PackageStats" name="PackageStats" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="FindBugsProfile" name="FindBugsProfile"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="timestamp"/>
+    <xs:attribute type="xs:string" name="total_classes"/>
+    <xs:attribute type="xs:string" name="referenced_classes"/>
+    <xs:attribute type="xs:string" name="total_bugs"/>
+    <xs:attribute type="xs:string" name="total_size"/>
+    <xs:attribute type="xs:string" name="num_packages"/>
+    <xs:attribute type="xs:string" name="java_version"/>
+    <xs:attribute type="xs:string" name="vm_version"/>
+    <xs:attribute type="xs:string" name="cpu_seconds"/>
+    <xs:attribute type="xs:string" name="clock_seconds"/>
+    <xs:attribute type="xs:string" name="peak_mbytes"/>
+    <xs:attribute type="xs:string" name="alloc_mbytes"/>
+    <xs:attribute type="xs:string" name="gc_seconds"/>
+    <xs:attribute type="xs:string" name="priority_1"/>
+  </xs:complexType>
+  <xs:complexType name="SourceLine" mixed="true">
+    <xs:sequence>
+      <xs:element name="Message" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="At ActivityStateUtil.java:[lines 27-61]"/>
+            <xs:enumeration value="At ActivityStateUtil.java:[line 61]"/>
+            <xs:enumeration value="At SystemTimeUtil.java:[lines 25-45]"/>
+            <xs:enumeration value="At SystemTimeUtil.java:[line 45]"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="classname" use="optional"/>
+    <xs:attribute type="xs:string" name="start" use="optional"/>
+    <xs:attribute type="xs:string" name="end" use="optional"/>
+    <xs:attribute type="xs:string" name="sourcefile" use="optional"/>
+    <xs:attribute type="xs:string" name="sourcepath" use="optional"/>
+    <xs:attribute type="xs:string" name="startBytecode" use="optional"/>
+    <xs:attribute type="xs:string" name="endBytecode" use="optional"/>
+    <xs:attribute type="xs:string" name="primary" use="optional"/>
+    <xs:attribute type="xs:string" name="synthetic" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="BugPattern">
+    <xs:sequence>
+      <xs:element name="ShortDescription">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Class defines equals() and uses Object.hashCode()"/>
+            <xs:enumeration value="equals method always returns true"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Details">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="
+
+  &lt;p> This class overrides &lt;code>equals(Object)&lt;/code>, but does not
+  override &lt;code>hashCode()&lt;/code>, and inherits the implementation of
+  &lt;code>hashCode()&lt;/code> from &lt;code>java.lang.Object&lt;/code> (which returns
+  the identity hash code, an arbitrary value assigned to the object
+  by the VM).&amp;nbsp; Therefore, the class is very likely to violate the
+  invariant that equal objects must have equal hashcodes.&lt;/p>
+
+&lt;p>If you don't think instances of this class will ever be inserted into a HashMap/HashTable,
+the recommended &lt;code>hashCode&lt;/code> implementation to use is:&lt;/p>
+&lt;pre>public int hashCode() {
+  assert false : &quot;hashCode not designed&quot;;
+  return 42; // any arbitrary constant will do
+  }&lt;/pre>
+
+    "/>
+            <xs:enumeration value="
+
+  &lt;p> This class defines an equals method that always returns true. This is imaginative, but not very smart.
+Plus, it means that the equals method is not symmetric.
+&lt;/p>
+
+    "/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="type" use="optional"/>
+    <xs:attribute type="xs:string" name="abbrev" use="optional"/>
+    <xs:attribute type="xs:string" name="category" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="Method">
+    <xs:sequence>
+      <xs:element type="SourceLine" name="SourceLine"/>
+      <xs:element name="Message">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="In method com.github.stkent.amplify.utils.ActivityStateUtil.equals(Object)"/>
+            <xs:enumeration value="In method com.github.stkent.amplify.utils.time.SystemTimeUtil.equals(Object)"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="classname" use="optional"/>
+    <xs:attribute type="xs:string" name="name" use="optional"/>
+    <xs:attribute type="xs:string" name="signature" use="optional"/>
+    <xs:attribute type="xs:string" name="isStatic" use="optional"/>
+    <xs:attribute type="xs:string" name="primary" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="ClassStats">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="class" use="optional"/>
+        <xs:attribute type="xs:string" name="sourceFile" use="optional"/>
+        <xs:attribute type="xs:string" name="interface" use="optional"/>
+        <xs:attribute type="xs:string" name="size" use="optional"/>
+        <xs:attribute type="xs:string" name="bugs" use="optional"/>
+        <xs:attribute type="xs:string" name="priority_1" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="FindBugsProfile">
+    <xs:sequence>
+      <xs:element type="ClassProfile" name="ClassProfile" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PackageStats">
+    <xs:sequence>
+      <xs:element type="ClassStats" name="ClassStats" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="package" use="optional"/>
+    <xs:attribute type="xs:string" name="total_bugs" use="optional"/>
+    <xs:attribute type="xs:string" name="total_types" use="optional"/>
+    <xs:attribute type="xs:string" name="total_size" use="optional"/>
+    <xs:attribute type="xs:string" name="priority_1" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="BugCode">
+    <xs:sequence>
+      <xs:element name="Description">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Problems with implementation of equals()"/>
+            <xs:enumeration value="Equal objects must have equal hashcodes"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="abbrev" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="BugInstance">
+    <xs:sequence>
+      <xs:element name="ShortMessage">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="equals method always returns true"/>
+            <xs:enumeration value="Class defines equals() and uses Object.hashCode()"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="LongMessage">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="com.github.stkent.amplify.utils.ActivityStateUtil.equals(Object) always returns true"/>
+            <xs:enumeration value="com.github.stkent.amplify.utils.ActivityStateUtil defines equals and uses Object.hashCode()"/>
+            <xs:enumeration value="com.github.stkent.amplify.utils.time.SystemTimeUtil.equals(Object) always returns true"/>
+            <xs:enumeration value="com.github.stkent.amplify.utils.time.SystemTimeUtil defines equals and uses Object.hashCode()"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="Class" name="Class"/>
+      <xs:element type="Method" name="Method"/>
+      <xs:element type="SourceLine" name="SourceLine"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="type" use="optional"/>
+    <xs:attribute type="xs:string" name="priority" use="optional"/>
+    <xs:attribute type="xs:string" name="rank" use="optional"/>
+    <xs:attribute type="xs:string" name="abbrev" use="optional"/>
+    <xs:attribute type="xs:string" name="category" use="optional"/>
+    <xs:attribute type="xs:string" name="instanceHash" use="optional"/>
+    <xs:attribute type="xs:string" name="instanceOccurrenceNum" use="optional"/>
+    <xs:attribute type="xs:string" name="instanceOccurrenceMax" use="optional"/>
+  </xs:complexType>
+</xs:schema>

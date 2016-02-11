@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2016 Bryan Kelly
+
+    Licensed under the Apache License, Version 2.0 (the "License"); you may not
+    use this file except in compliance with the License.
+
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+    License for the specific language governing permissions and limitations
+    under the License.
+
+-->
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="pmd" type="pmd"/>
+  <xs:complexType name="file">
+    <xs:sequence>
+      <xs:element type="violation" name="violation" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="name" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="pmd">
+    <xs:sequence>
+      <xs:element type="file" name="file" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="version"/>
+    <xs:attribute type="xs:string" name="timestamp"/>
+  </xs:complexType>
+  <xs:complexType name="violation">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="beginline" use="optional"/>
+        <xs:attribute type="xs:string" name="endline" use="optional"/>
+        <xs:attribute type="xs:string" name="begincolumn" use="optional"/>
+        <xs:attribute type="xs:string" name="endcolumn" use="optional"/>
+        <xs:attribute type="xs:string" name="rule" use="optional"/>
+        <xs:attribute type="xs:string" name="ruleset" use="optional"/>
+        <xs:attribute type="xs:string" name="package" use="optional"/>
+        <xs:attribute type="xs:string" name="class" use="optional"/>
+        <xs:attribute type="xs:string" name="method" use="optional"/>
+        <xs:attribute type="xs:string" name="externalInfoUrl" use="optional"/>
+        <xs:attribute type="xs:string" name="priority" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+</xs:schema>

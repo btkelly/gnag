@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2016 Bryan Kelly
+
+    Licensed under the Apache License, Version 2.0 (the "License"); you may not
+    use this file except in compliance with the License.
+
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+    License for the specific language governing permissions and limitations
+    under the License.
+
+-->
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="issues" type="issues"/>
+  <xs:complexType name="issue">
+    <xs:sequence>
+      <xs:element type="location" name="location"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+    <xs:attribute type="xs:string" name="severity" use="optional"/>
+    <xs:attribute type="xs:string" name="message" use="optional"/>
+    <xs:attribute type="xs:string" name="category" use="optional"/>
+    <xs:attribute type="xs:string" name="priority" use="optional"/>
+    <xs:attribute type="xs:string" name="summary" use="optional"/>
+    <xs:attribute type="xs:string" name="explanation" use="optional"/>
+    <xs:attribute type="xs:string" name="url" use="optional"/>
+    <xs:attribute type="xs:string" name="urls" use="optional"/>
+    <xs:attribute type="xs:string" name="errorLine1" use="optional"/>
+    <xs:attribute type="xs:string" name="errorLine2" use="optional"/>
+    <xs:attribute type="xs:string" name="quickfix" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="issues">
+    <xs:sequence>
+      <xs:element type="issue" name="issue" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="format"/>
+    <xs:attribute type="xs:string" name="by"/>
+  </xs:complexType>
+  <xs:complexType name="location">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="file" use="optional"/>
+        <xs:attribute type="xs:string" name="line" use="optional"/>
+        <xs:attribute type="xs:string" name="column" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+</xs:schema>
