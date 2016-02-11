@@ -16,6 +16,7 @@
 package com.btkelly.gnag.reporters;
 
 import com.btkelly.gnag.models.Report;
+import com.btkelly.gnag.utils.HtmlStringBuilder;
 import com.btkelly.gnag.utils.Logger;
 import org.gradle.api.Project;
 
@@ -32,7 +33,7 @@ import java.io.FilenameFilter;
  */
 public abstract class BaseReporter<T extends Report> implements CommentReporter {
 
-    public abstract void appendViolationText(T report, String projectDir, StringBuilder stringBuilder);
+    public abstract void appendViolationText(T report, String projectDir, HtmlStringBuilder htmlStringBuilder);
     public abstract String getReportDirectory();
     public abstract FilenameFilter getReportFilenameFilter();
     public abstract Class getReportType();
@@ -74,7 +75,7 @@ public abstract class BaseReporter<T extends Report> implements CommentReporter 
 
         Logger.logInfo("Parsing " + reporterName() + " violations");
 
-        StringBuilder stringBuilder = new StringBuilder();
+        HtmlStringBuilder stringBuilder = new HtmlStringBuilder();
 
         try {
             T report = getReport(project);

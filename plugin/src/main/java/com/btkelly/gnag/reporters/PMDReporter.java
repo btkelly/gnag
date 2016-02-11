@@ -18,6 +18,8 @@ package com.btkelly.gnag.reporters;
 import com.btkelly.gnag.models.pmd.File;
 import com.btkelly.gnag.models.pmd.Pmd;
 import com.btkelly.gnag.models.pmd.Violation;
+import com.btkelly.gnag.utils.HtmlStringBuilder;
+
 import java.io.FilenameFilter;
 
 /**
@@ -29,10 +31,10 @@ public class PMDReporter extends BaseReporter<Pmd> {
      * Loops through all PMD errors and pulls out file name, line number, error message, help url, and rule
      * @param report - parsed report object
      * @param projectDir - base project directory
-     * @param stringBuilder - StringBuilder to append the comment to
+     * @param htmlStringBuilder - StringBuilder to append the comment to
      */
     @Override
-    public void appendViolationText(Pmd report, String projectDir, StringBuilder stringBuilder) {
+    public void appendViolationText(Pmd report, String projectDir, HtmlStringBuilder htmlStringBuilder) {
 
         for (File file : report.getFile()) {
 
@@ -44,16 +46,20 @@ public class PMDReporter extends BaseReporter<Pmd> {
             for (Violation violation : file.getViolation()) {
                 final String helpUrl = violation.getExternalInfoUrl();
 
-                stringBuilder.append("<b>Violation: </b>");
-                stringBuilder.append("<a href=\"" + helpUrl + "\">");
-                stringBuilder.append(violation.getRule());
-                stringBuilder.append("</a>");
-                stringBuilder.append("<br />");
-                stringBuilder.append("<b>Class: </b>" + fileName);
-                stringBuilder.append(" - ");
-                stringBuilder.append(" <b>Line: </b>" + violation.getBeginline());
-                stringBuilder.append(violation.getValue());
-                stringBuilder.append("<br /><br />");
+                htmlStringBuilder
+                        .appendBold("Violation: ")
+                        .appendLink(violation.getRule(), helpUrl)
+                        .insertLineBreak()
+                        .appendBold("Class: ")
+                        .append(fileName)
+                        .insertLineBreak()
+                        .appendBold("Line: ")
+                        .append(violation.getBeginline())
+                        .insertLineBreak()
+                        .appendBold("Notes: ")
+                        .append(violation.getValue())
+                        .insertLineBreak()
+                        .insertLineBreak();
             }
         }
     }
