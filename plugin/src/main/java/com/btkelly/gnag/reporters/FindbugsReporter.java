@@ -17,6 +17,8 @@ package com.btkelly.gnag.reporters;
 
 import com.btkelly.gnag.models.findbugs.BugCollection;
 import com.btkelly.gnag.models.findbugs.BugInstance;
+import com.btkelly.gnag.utils.HtmlStringBuilder;
+
 import java.io.File;
 import java.io.FilenameFilter;
 
@@ -29,21 +31,26 @@ public class FindbugsReporter extends BaseReporter<BugCollection> {
      * Loops through all Findbugs errors and pulls out file name, line number, error message, and rule
      * @param report - parsed report object
      * @param projectDir - base project directory
-     * @param stringBuilder - StringBuilder to append the comment to
+     * @param htmlStringBuilder - StringBuilder to append the comment to
      */
     @Override
-    public void appendViolationText(BugCollection report, String projectDir, StringBuilder stringBuilder) {
+    public void appendViolationText(BugCollection report, String projectDir, HtmlStringBuilder htmlStringBuilder) {
 
         for (BugInstance bugInstance : report.getBugInstance()) {
-
-            stringBuilder.append("<b>Violation: </b> " + bugInstance.getType());
-            stringBuilder.append("\n");
-            stringBuilder.append("<b>Class: </b>" + bugInstance.getSourceLine().getClassname());
-            stringBuilder.append(" - ");
-            stringBuilder.append(" <b>Line: </b>" + bugInstance.getSourceLine().getStart());
-            stringBuilder.append("\n");
-            stringBuilder.append(bugInstance.getShortMessage());
-            stringBuilder.append("\n\n");
+            htmlStringBuilder
+                    .appendBold("Violation: ")
+                    .append(bugInstance.getType())
+                    .insertLineBreak()
+                    .appendBold("Class: ")
+                    .append(bugInstance.getSourceLine().getClassname())
+                    .insertLineBreak()
+                    .appendBold("Line: ")
+                    .append(bugInstance.getSourceLine().getStart())
+                    .insertLineBreak()
+                    .appendBold("Notes: ")
+                    .append(bugInstance.getShortMessage())
+                    .insertLineBreak()
+                    .insertLineBreak();
         }
     }
 

@@ -18,6 +18,8 @@ package com.btkelly.gnag.reporters;
 import com.btkelly.gnag.models.checkstyle.Checkstyle;
 import com.btkelly.gnag.models.checkstyle.Error;
 import com.btkelly.gnag.models.checkstyle.File;
+import com.btkelly.gnag.utils.HtmlStringBuilder;
+
 import java.io.FilenameFilter;
 
 /**
@@ -29,10 +31,10 @@ public class CheckstyleReporter extends BaseReporter<Checkstyle> {
      * Loops through all Checkstyle errors and pulls out file name, line number, error message, and rule
      * @param report - parsed report object
      * @param projectDir - base project directory
-     * @param stringBuilder - StringBuilder to append the comment to
+     * @param htmlStringBuilder - StringBuilder to append the comment to
      */
     @Override
-    public void appendViolationText(Checkstyle report, String projectDir, StringBuilder stringBuilder) {
+    public void appendViolationText(Checkstyle report, String projectDir, HtmlStringBuilder htmlStringBuilder) {
 
         for (File checkstyleFile : report.getFile()) {
 
@@ -42,15 +44,20 @@ public class CheckstyleReporter extends BaseReporter<Checkstyle> {
             fileName = fileName.replace("/", ".");
 
             for (Error checkstyleError : checkstyleFile.getError()) {
-
-                stringBuilder.append("<b>Violation: </b> " + checkstyleError.getSource());
-                stringBuilder.append("\n");
-                stringBuilder.append("<b>Class: </b>" + fileName);
-                stringBuilder.append(" - ");
-                stringBuilder.append(" <b>Line: </b>" + checkstyleError.getLine());
-                stringBuilder.append("\n");
-                stringBuilder.append(checkstyleError.getMessage());
-                stringBuilder.append("\n\n");
+                htmlStringBuilder
+                        .appendBold("Violation: ")
+                        .append(checkstyleError.getSource())
+                        .insertLineBreak()
+                        .appendBold("Class: ")
+                        .append(fileName)
+                        .insertLineBreak()
+                        .appendBold("Line: ")
+                        .append(checkstyleError.getLine())
+                        .insertLineBreak()
+                        .appendBold("Notes: ")
+                        .append(checkstyleError.getMessage())
+                        .insertLineBreak()
+                        .insertLineBreak();
             }
         }
     }

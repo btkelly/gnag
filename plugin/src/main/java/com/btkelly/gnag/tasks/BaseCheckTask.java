@@ -28,20 +28,17 @@ import org.gradle.api.DefaultTask;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by bobbake4 on 12/3/15.
- */
-public abstract class BaseCheckTask extends DefaultTask {
+abstract class BaseCheckTask extends DefaultTask {
 
-    protected GnagPluginExtension getGnagPluginExtension() {
+    GnagPluginExtension getGnagPluginExtension() {
         return GnagPluginExtension.getExtension(getProject());
     }
 
-    protected boolean failBuildOnError() {
+    boolean failBuildOnError() {
         return getGnagPluginExtension().getFailBuildOnError();
     }
 
-    protected ViolationComment buildViolationComment() {
+    ViolationComment buildViolationComment() {
 
         List<CommentReporter> reporters = loadReporters();
 
