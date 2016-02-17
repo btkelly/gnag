@@ -7,7 +7,7 @@ The simplest way to use this plugin is in conjunction with the <a href="https://
 
 Add the following to the build script of your project
 
-```
+```groovy
 buildscript {
     repositories {
         maven {
