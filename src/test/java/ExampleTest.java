@@ -25,6 +25,8 @@ import org.junit.rules.TemporaryFolder;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS;
 import static org.junit.Assert.assertEquals;
@@ -38,11 +40,28 @@ public class ExampleTest {
     @Rule
     public final TemporaryFolder testProjectDir = new TemporaryFolder();
 
+    private List<File> classPaths;
+
     @Before
     public void setup() throws IOException {
         InputStream inputStream = getClass().getResourceAsStream("testBuild.gradle.example");
         File buildFile = testProjectDir.newFile("build.gradle");
         FileUtils.copyInputStreamToFile(inputStream, buildFile);
+
+        File testClassPath = new File("build/createClasspathManifest/plugin-classpath.txt");
+
+        if (!testClassPath.exists()) {
+            throw new IllegalStateException("Did not find plugin classpath resource, run `testClasses` build task.");
+        }
+
+        List<String> classPathStrings = FileUtils.readLines(testClassPath, null);
+
+        classPaths = new ArrayList<>();
+
+        for (String classPath : classPathStrings) {
+            classPaths.add(new File(classPath));
+        }
+
     }
 
     @Test
@@ -51,6 +70,7 @@ public class ExampleTest {
         BuildResult result = GradleRunner.create()
                 .withProjectDir(testProjectDir.getRoot())
                 .withArguments("helloWorld")
+                .withPluginClasspath(classPaths)
                 .build();
 
         assertTrue(result.getOutput().contains("Hello world!"));

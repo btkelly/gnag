@@ -1,4 +1,8 @@
 
+plugins {
+    id 'gnag'
+}
+
 task helloWorld {
     doLast {
         println 'Hello world!'
