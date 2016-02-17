@@ -17,6 +17,7 @@
 import org.apache.commons.io.FileUtils;
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -24,18 +25,13 @@ import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.gradle.testkit.runner.TaskOutcome.SUCCESS;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by bobbake4 on 2/15/16.
  */
-public class ExampleTest {
+public class BuildIntegrationTest {
 
     @Rule
     public final TemporaryFolder testProjectDir = new TemporaryFolder();
@@ -44,10 +40,11 @@ public class ExampleTest {
 
     @Before
     public void setup() throws IOException {
-        InputStream inputStream = getClass().getResourceAsStream("testBuild.gradle.example");
-        File buildFile = testProjectDir.newFile("build.gradle");
-        FileUtils.copyInputStreamToFile(inputStream, buildFile);
 
+        //Copy Plugin source files to temp directory to be checked
+        FileUtils.copyDirectory(new File("src/test/resources"), testProjectDir.getRoot());
+
+        //Add Plugin classpath to the test runner
         File testClassPath = new File("build/createClasspathManifest/plugin-classpath.txt");
 
         if (!testClassPath.exists()) {
@@ -62,6 +59,15 @@ public class ExampleTest {
             classPaths.add(new File(classPath));
         }
 
+        System.out.println(">>>>>>>>>>> Build Integration Test Started");
+    }
+
+    @After
+    public void tearDown() {
+        try {
+            System.out.println(">>>>>>>>>>> Build Integration Test Complete, see results at \"build/reports/gnag-test-runs/" + testProjectDir.getRoot().getName() + "\"");
+            FileUtils.copyDirectory(testProjectDir.getRoot(), new File("build/reports/gnag-test-runs/", testProjectDir.getRoot().getName()));
+        } catch (IOException ignored) { }
     }
 
     @Test
@@ -69,11 +75,10 @@ public class ExampleTest {
 
         BuildResult result = GradleRunner.create()
                 .withProjectDir(testProjectDir.getRoot())
-                .withArguments("helloWorld")
+                .withArguments("checkLocal")
                 .withPluginClasspath(classPaths)
-                .build();
+                .buildAndFail();
 
-        assertTrue(result.getOutput().contains("Hello world!"));
-        assertEquals(result.task(":helloWorld").getOutcome(), SUCCESS);
+        System.out.print(result.getOutput());
     }
 }
