@@ -27,8 +27,7 @@ public class ReporterExtension {
     private final String name;
     private final Project project;
 
-    private boolean enabled;
-    private boolean failOnError;
+    private boolean enabled = true;
     private File reporterConfig;
 
     public ReporterExtension(String name, Project project) {
@@ -42,14 +41,6 @@ public class ReporterExtension {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-    }
-
-    public boolean shouldFailOnError() {
-        return failOnError;
-    }
-
-    public void setFailOnError(boolean failOnError) {
-        this.failOnError = failOnError;
     }
 
     public File getReporterConfig() {

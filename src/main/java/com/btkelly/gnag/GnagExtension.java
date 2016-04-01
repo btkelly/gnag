@@ -25,10 +25,10 @@ public class GnagExtension {
 
     public static final String NAME = "gnag";
 
-    private final Project project;
-    private final ReporterExtension checkStyle;
-    private final ReporterExtension pmd;
-    private final ReporterExtension findbugs;
+    final Project project;
+    public final ReporterExtension checkStyle;
+    public final ReporterExtension pmd;
+    public final ReporterExtension findbugs;
 
     private boolean skip;
     private boolean failOnError;

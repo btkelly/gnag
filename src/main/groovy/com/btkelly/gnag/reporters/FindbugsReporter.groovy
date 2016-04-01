@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2016 Bryan Kelly
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -13,23 +13,37 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.btkelly.gnag;
+package com.btkelly.gnag.reporters
 
-import com.btkelly.gnag.tasks.GnagCheck;
-import com.btkelly.gnag.tasks.GnagReportTask;
-import org.gradle.api.Plugin;
-import org.gradle.api.Project;
+import com.btkelly.gnag.extentions.ReporterExtension
+import org.gradle.api.Project
 
 /**
  * Created by bobbake4 on 4/1/16.
  */
-public class GnagPlugin implements Plugin<Project> {
+class FindbugsReporter extends BaseReporter {
+
+    FindbugsReporter(ReporterExtension reporterExtension, Project project) {
+        super(reporterExtension, project)
+    }
 
     @Override
-    public void apply(Project project) {
-        project.afterEvaluate(target -> {
-            GnagCheck.addTask(target);
-            GnagReportTask.addTask(target);
-        });
+    ReporterExtension getExtension() {
+        return null
+    }
+
+    @Override
+    void executeReporter() {
+
+    }
+
+    @Override
+    boolean hasErrors() {
+        return false
+    }
+
+    @Override
+    String reporterName() {
+        return "findbugs"
     }
 }

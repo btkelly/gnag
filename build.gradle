@@ -15,9 +15,6 @@ dependencies {
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
 
-    //Groovy compile from the version of Gradle set in the Gradle Wrapper
-    compile localGroovy()
-
     //Gradle specific classes for plugin creation
     compile gradleApi()
 
@@ -26,6 +23,12 @@ dependencies {
     compile 'com.google.code.findbugs:findbugs:3.0.1'
     compile 'net.sourceforge.pmd:pmd-java:5.4.1'
 
+}
+
+task wrapper(type: Wrapper) {
+    group 'Build Setup'
+    description 'Initializes Gradle Wrapper.'
+    gradleVersion = '2.12'
 }
 
 license {
