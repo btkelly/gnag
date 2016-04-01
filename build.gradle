@@ -1,0 +1,36 @@
+plugins {
+    id "com.github.hierynomus.license" version "0.12.1"
+}
+
+group 'com.btkelly'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'groovy'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+
+    //Groovy compile from the version of Gradle set in the Gradle Wrapper
+    compile localGroovy()
+
+    //Gradle specific classes for plugin creation
+    compile gradleApi()
+
+    //Built in checks
+    compile 'com.puppycrawl.tools:checkstyle:6.16.1'
+    compile 'com.google.code.findbugs:findbugs:3.0.1'
+    compile 'net.sourceforge.pmd:pmd-java:5.4.1'
+
+}
+
+license {
+    header = file('LICENSE.txt')
+    strictCheck true
+}
+
+clean.dependsOn licenseFormat
