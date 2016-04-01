@@ -15,7 +15,7 @@
  */
 package com.btkelly.gnag.reporters
 
-import com.btkelly.gnag.extentions.ReporterExtension
+import com.btkelly.gnag.extensions.ReporterExtension
 import org.gradle.api.Project
 
 /**
@@ -25,11 +25,6 @@ class CheckstyleReporter extends BaseReporter {
 
     CheckstyleReporter(ReporterExtension reporterExtension, Project project) {
         super(reporterExtension, project)
-    }
-
-    @Override
-    ReporterExtension getExtension() {
-        return null
     }
 
     @Override

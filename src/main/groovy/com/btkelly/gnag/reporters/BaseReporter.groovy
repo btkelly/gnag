@@ -15,7 +15,7 @@
  */
 package com.btkelly.gnag.reporters
 
-import com.btkelly.gnag.extentions.ReporterExtension
+import com.btkelly.gnag.extensions.ReporterExtension
 import org.gradle.api.Project
 
 /**
