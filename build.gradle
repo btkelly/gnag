@@ -1,11 +1,13 @@
 plugins {
+    id "com.jfrog.bintray" version "1.6"
     id "com.github.hierynomus.license" version "0.12.1"
 }
 
 group 'com.btkelly'
-version '1.0-SNAPSHOT'
+version '0.4.0-SNAPSHOT'
 
 apply plugin: 'groovy'
+apply from: file('bintray.gradle')
 
 repositories {
     jcenter()
