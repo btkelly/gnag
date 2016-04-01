@@ -29,7 +29,7 @@ class FindbugsReporter extends BaseReporter {
 
     @Override
     void executeReporter() {
-
+        println "Findbugs executed"
     }
 
     @Override

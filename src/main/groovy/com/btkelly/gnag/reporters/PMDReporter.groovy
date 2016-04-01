@@ -29,7 +29,7 @@ class PMDReporter extends BaseReporter {
 
     @Override
     void executeReporter() {
-
+        println "PMD executed"
     }
 
     @Override

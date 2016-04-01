@@ -29,7 +29,7 @@ class CheckstyleReporter extends BaseReporter {
 
     @Override
     void executeReporter() {
-
+        println "Checkstyle executed"
     }
 
     @Override

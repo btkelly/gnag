@@ -35,21 +35,6 @@ abstract class BaseReporter {
     BaseReporter(ReporterExtension reporterExtension, Project project) {
         this.reporterExtension = reporterExtension
         this.project = project
-        addReporter()
-    }
-
-    private void addReporter() {
-
-        if (reporterExtension.enabled) {
-            project.task([group: "Verification", description: getDescription()], reporterName()) << {
-
-                executeReporter()
-
-            }
-
-            target.tasks.getByName('gnagCheck').dependsOn reporterName()
-            dependencies.each { target.tasks.getByName(reporterName()).dependsOn it }
-        }
     }
 
     private String getDescription() {

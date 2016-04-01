@@ -18,6 +18,7 @@ package com.btkelly.gnag.tasks;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
+import org.gradle.api.tasks.TaskAction;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,5 +41,10 @@ public class GnagReportTask extends DefaultTask {
 
         Task gnagReportTask = project.task(taskOptions, TASK_NAME);
         gnagReportTask.dependsOn(GnagCheck.TASK_NAME);
+    }
+
+    @TaskAction
+    public void taskAction() {
+        System.out.println("Should send results to GitHub");
     }
 }

@@ -9,6 +9,10 @@ version '0.4.0-SNAPSHOT'
 apply plugin: 'groovy'
 apply from: file('bintray.gradle')
 
+compileJava {
+    sourceCompatibility = '1.8'
+}
+
 repositories {
     jcenter()
 }

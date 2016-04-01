@@ -16,14 +16,18 @@
 package com.btkelly.gnag.tasks;
 
 import com.btkelly.gnag.GnagExtension;
+import com.btkelly.gnag.reporters.BaseReporter;
 import com.btkelly.gnag.reporters.CheckstyleReporter;
 import com.btkelly.gnag.reporters.FindbugsReporter;
 import com.btkelly.gnag.reporters.PMDReporter;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
+import org.gradle.api.tasks.TaskAction;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,14 +46,27 @@ public class GnagCheck extends DefaultTask {
         taskOptions.put(Task.TASK_DEPENDS_ON, "check");
         taskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag checks and generates an HTML report");
 
-        Task gnagCheckTask = project.task(taskOptions, TASK_NAME);
-
         GnagExtension gnagExtension = project.getExtensions().create(GnagExtension.NAME, GnagExtension.class, project);
 
-        gnagCheckTask.dependsOn(
-                new CheckstyleReporter(gnagExtension.checkStyle, project),
-                new PMDReporter(gnagExtension.pmd, project),
-                new FindbugsReporter(gnagExtension.findbugs, project)
-        );
+        GnagCheck gnagCheckTask = (GnagCheck) project.task(taskOptions, TASK_NAME);
+
+        if (gnagExtension.checkStyle.isEnabled()) {
+            gnagCheckTask.reporters.add(new CheckstyleReporter(gnagExtension.checkStyle, project));
+        }
+
+        if (gnagExtension.pmd.isEnabled()) {
+            gnagCheckTask.reporters.add(new PMDReporter(gnagExtension.pmd, project));
+        }
+
+        if (gnagExtension.findbugs.isEnabled()) {
+            gnagCheckTask.reporters.add(new FindbugsReporter(gnagExtension.findbugs, project));
+        }
+    }
+
+    private final List<BaseReporter> reporters = new ArrayList<>();
+
+    @TaskAction
+    public void taskAction() {
+        reporters.forEach(BaseReporter::executeReporter);
     }
 }
