@@ -1,8 +1,19 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.btkelly:gnag:0.4.0-SNAPSHOT'
+    }
+}
+
 plugins {
     id "com.github.hierynomus.license" version "0.12.1"
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'gnag'
 
 android {
     compileSdkVersion 23
