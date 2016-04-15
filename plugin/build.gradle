@@ -38,7 +38,7 @@ task wrapper(type: Wrapper) {
 }
 
 license {
-    header = file('LICENSE.txt')
+    header = file('../LICENSE.txt')
     strictCheck true
 }
 
