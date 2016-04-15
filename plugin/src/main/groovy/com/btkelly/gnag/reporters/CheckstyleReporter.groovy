@@ -31,19 +31,6 @@ class CheckstyleReporter extends BaseReporter {
     @Override
     void executeReporter() {
         println "Checkstyle executed"
-        CheckstyleAntTask checkStyleTask = new CheckstyleAntTask()
-
-        checkStyleTask.project = project.ant.antProject
-        checkStyleTask.configUrl = reporterExtension.reporterConfig.toURI().toURL()
-        checkStyleTask.addFormatter(new CheckstyleAntTask.Formatter(type: new CheckstyleAntTask.FormatterType(value: 'xml'), tofile: xmlReportFile))
-
-        checkStyleTask.failOnViolation = false
-
-        sources.findAll { it.exists() }.each {
-            checkStyleTask.addFileset(project.ant.fileset(dir: it))
-        }
-
-        checkStyleTask.perform()
     }
 
     @Override

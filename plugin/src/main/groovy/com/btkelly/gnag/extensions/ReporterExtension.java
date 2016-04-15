@@ -39,7 +39,7 @@ public class ReporterExtension {
         return enabled;
     }
 
-    public void setEnabled(boolean enabled) {
+    public void enabled(boolean enabled) {
         this.enabled = enabled;
     }
 
@@ -47,7 +47,21 @@ public class ReporterExtension {
         return reporterConfig;
     }
 
-    public void setReporterConfig(File reporterConfig) {
+    public void reporterConfig(File reporterConfig) {
         this.reporterConfig = reporterConfig;
+    }
+
+    public boolean hasReporterConfig() {
+        return reporterConfig != null;
+    }
+
+    @Override
+    public String toString() {
+        return "ReporterExtension{" +
+                "name='" + name + '\'' +
+                ", project=" + project +
+                ", enabled=" + enabled +
+                ", reporterConfig=" + reporterConfig +
+                '}';
     }
 }

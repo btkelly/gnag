@@ -15,7 +15,7 @@
  */
 package com.btkelly.gnag.tasks;
 
-import com.btkelly.gnag.GnagExtension;
+import com.btkelly.gnag.GnagPluginExtension;
 import com.btkelly.gnag.reporters.BaseReporter;
 import com.btkelly.gnag.reporters.CheckstyleReporter;
 import com.btkelly.gnag.reporters.FindbugsReporter;
@@ -37,7 +37,7 @@ public class GnagCheck extends DefaultTask {
 
     public static final String TASK_NAME = "gnagCheck";
 
-    public static void addTask(Project project) {
+    public static void addTask(Project project, GnagPluginExtension gnagPluginExtension) {
         Map<String, Object> taskOptions = new HashMap<>();
 
         taskOptions.put(Task.TASK_NAME, TASK_NAME);
@@ -46,20 +46,18 @@ public class GnagCheck extends DefaultTask {
         taskOptions.put(Task.TASK_DEPENDS_ON, "check");
         taskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag checks and generates an HTML report");
 
-        GnagExtension gnagExtension = project.getExtensions().create(GnagExtension.NAME, GnagExtension.class, project);
-
         GnagCheck gnagCheckTask = (GnagCheck) project.task(taskOptions, TASK_NAME);
 
-        if (gnagExtension.checkStyle.isEnabled()) {
-            gnagCheckTask.reporters.add(new CheckstyleReporter(gnagExtension.checkStyle, project));
+        if (gnagPluginExtension.checkstyle.isEnabled()) {
+            gnagCheckTask.reporters.add(new CheckstyleReporter(gnagPluginExtension.checkstyle, project));
         }
 
-        if (gnagExtension.pmd.isEnabled()) {
-            gnagCheckTask.reporters.add(new PMDReporter(gnagExtension.pmd, project));
+        if (gnagPluginExtension.pmd.isEnabled()) {
+            gnagCheckTask.reporters.add(new PMDReporter(gnagPluginExtension.pmd, project));
         }
 
-        if (gnagExtension.findbugs.isEnabled()) {
-            gnagCheckTask.reporters.add(new FindbugsReporter(gnagExtension.findbugs, project));
+        if (gnagPluginExtension.findbugs.isEnabled()) {
+            gnagCheckTask.reporters.add(new FindbugsReporter(gnagPluginExtension.findbugs, project));
         }
     }
 

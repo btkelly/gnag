@@ -16,19 +16,39 @@
 package com.btkelly.gnag;
 
 import com.btkelly.gnag.extensions.ReporterExtension;
+import org.gradle.api.Action;
 import org.gradle.api.Project;
 
 /**
  * Created by bobbake4 on 4/1/16.
  */
-public class GnagExtension {
+public class GnagPluginExtension {
 
-    public static final String NAME = "gnag";
+    private static final String EXTENSION_NAME = "gnag";
 
-    final Project project;
-    public final ReporterExtension checkStyle;
-    public final ReporterExtension pmd;
-    public final ReporterExtension findbugs;
+    public static GnagPluginExtension loadExtension(Project project) {
+        return project.getExtensions().create(EXTENSION_NAME, GnagPluginExtension.class, project);
+    }
+
+    private final Project project;
+
+    public ReporterExtension checkstyle;
+
+    public void checkstyle(Action<ReporterExtension> action) {
+        action.execute(checkstyle);
+    }
+
+    public ReporterExtension pmd;
+
+    public void pmd(Action<ReporterExtension> action) {
+        action.execute(pmd);
+    }
+
+    public ReporterExtension findbugs;
+
+    public void findbugs(Action<ReporterExtension> action) {
+        action.execute(findbugs);
+    }
 
     private boolean skip;
     private boolean failOnError;
@@ -36,9 +56,9 @@ public class GnagExtension {
     private String gitHubAuthToken;
     private String gitHubIssueNumber;
 
-    public GnagExtension(Project project) {
+    public GnagPluginExtension(Project project) {
         this.project = project;
-        checkStyle = new ReporterExtension("CheckStyle", project);
+        checkstyle = new ReporterExtension("CheckStyle", project);
         pmd = new ReporterExtension("PMD", project);
         findbugs = new ReporterExtension("FindBugs", project);
     }
@@ -83,4 +103,18 @@ public class GnagExtension {
         return project.hasProperty("gitHubIssueNumber") ? (String) project.property("gitHubIssueNumber") : gitHubIssueNumber;
     }
 
+    @Override
+    public String toString() {
+        return "GnagExtension{" +
+                "project=" + project +
+                ", checkstyle=" + checkstyle +
+                ", pmd=" + pmd +
+                ", findbugs=" + findbugs +
+                ", skip=" + skip +
+                ", failOnError=" + failOnError +
+                ", gitHubRepoName='" + gitHubRepoName + '\'' +
+                ", gitHubAuthToken='" + gitHubAuthToken + '\'' +
+                ", gitHubIssueNumber='" + gitHubIssueNumber + '\'' +
+                '}';
+    }
 }

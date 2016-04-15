@@ -27,8 +27,11 @@ public class GnagPlugin implements Plugin<Project> {
 
     @Override
     public void apply(Project project) {
+
+        GnagPluginExtension gnagPluginExtension = GnagPluginExtension.loadExtension(project);
+
         project.afterEvaluate(target -> {
-            GnagCheck.addTask(target);
+            GnagCheck.addTask(target, gnagPluginExtension);
             GnagReportTask.addTask(target);
         });
     }

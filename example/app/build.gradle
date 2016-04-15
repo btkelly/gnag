@@ -46,3 +46,53 @@ license {
 }
 
 clean.dependsOn licenseFormat
+
+gnag {
+    skip true
+    failOnError true
+    gitHubRepoName 'btkelly/repo'
+    gitHubAuthToken '0000000000000'
+    gitHubIssueNumber '1'
+    checkstyle {
+        enabled false
+        reporterConfig project.file('config/checkstyle.xml')
+    }
+    pmd {
+        enabled false
+        reporterConfig project.file('config/pmd.xml')
+    }
+    findbugs {
+        enabled false
+        reporterConfig project.file('config/findbugs.xml')
+    }
+}
+
+/*
+GnagExtension{
+    project=project ':app',
+    checkStyle=ReporterExtension{
+        name='CheckStyle',
+        project=project ':app',
+        enabled=true,
+        reporterConfig=null
+    },
+    pmd=ReporterExtension{
+        name='PMD',
+        project=project ':app',
+        enabled=true,
+        reporterConfig=null
+    },
+    findbugs=ReporterExtension{
+        name='FindBugs',
+        project=project ':app',
+        enabled=true,
+        reporterConfig=null
+    },
+    skip=false,
+    failOnError=false,
+    gitHubRepoName='null',
+    gitHubAuthToken='null',
+    gitHubIssueNumber='null'
+}
+
+ */
