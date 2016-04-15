@@ -1,0 +1,3 @@
+rootProject.name = 'gnag-plugin'
+include ':plugin'
+
