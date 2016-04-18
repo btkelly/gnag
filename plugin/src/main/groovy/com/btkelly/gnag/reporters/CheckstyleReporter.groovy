@@ -17,6 +17,7 @@ package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
 import com.puppycrawl.tools.checkstyle.ant.CheckstyleAntTask
+import groovy.util.slurpersupport.GPathResult
 import org.gradle.api.Project
 
 /**
@@ -31,15 +32,39 @@ class CheckstyleReporter extends BaseReporter {
     @Override
     void executeReporter() {
         println "Checkstyle executed"
+
+        CheckstyleAntTask checkStyleTask = new CheckstyleAntTask()
+        checkStyleTask.project = project.ant.antProject
+        checkStyleTask.failOnViolation = false
+        checkStyleTask.addFormatter(new CheckstyleAntTask.Formatter(type: new CheckstyleAntTask.FormatterType(value: 'xml'), tofile: reportFile()))
+
+        if (reporterExtension.hasReporterConfig()) {
+            checkStyleTask.setConfig(reporterExtension.getReporterConfig())
+        } else {
+            checkStyleTask.setConfigUrl(getClass().getClassLoader().getResource("checkstyle.xml"))
+        }
+
+        getAndroidSources().findAll { it.exists() }.each {
+            checkStyleTask.addFileset(project.ant.fileset(dir: it))
+        }
+
+        checkStyleTask.perform()
     }
 
     @Override
     boolean hasErrors() {
-        return false
+        GPathResult xml = new XmlSlurper().parseText(reportFile().text)
+        int numErrors = xml.file.inject(0) { count, file -> count + file.error.size() }
+        return numErrors != 0
     }
 
     @Override
     String reporterName() {
         return "checkstyle"
+    }
+
+    @Override
+    File reportFile() {
+        return new File(getReportsDir(), "checkstyle_report.xml")
     }
 }

@@ -41,4 +41,9 @@ class PMDReporter extends BaseReporter {
     String reporterName() {
         return "pmd"
     }
+
+    @Override
+    File reportFile() {
+        return null
+    }
 }

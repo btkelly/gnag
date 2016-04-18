@@ -29,12 +29,26 @@ abstract class BaseReporter {
 
     abstract String reporterName()
 
+    abstract File reportFile()
+
     protected final ReporterExtension reporterExtension
     protected final Project project
 
     BaseReporter(ReporterExtension reporterExtension, Project project) {
         this.reporterExtension = reporterExtension
         this.project = project
+    }
+
+    protected List<File> getAndroidSources() {
+        project.android.sourceSets.inject([]) {
+            dirs, sourceSet -> dirs + sourceSet.java.srcDirs
+        }
+    }
+
+    protected File getReportsDir() {
+        File reportsDir = new File(project.buildDir.path + "/outputs/gnag/")
+        reportsDir.mkdirs()
+        return reportsDir
     }
 
     private String getDescription() {

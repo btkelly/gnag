@@ -41,4 +41,9 @@ class FindbugsReporter extends BaseReporter {
     String reporterName() {
         return "findbugs"
     }
+
+    @Override
+    File reportFile() {
+        return null
+    }
 }

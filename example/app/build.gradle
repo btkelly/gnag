@@ -48,13 +48,12 @@ license {
 clean.dependsOn licenseFormat
 
 gnag {
-    skip true
     failOnError true
     gitHubRepoName 'btkelly/repo'
     gitHubAuthToken '0000000000000'
     gitHubIssueNumber '1'
     checkstyle {
-        enabled false
+        enabled true
         reporterConfig project.file('config/checkstyle.xml')
     }
     pmd {
