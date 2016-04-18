@@ -15,8 +15,8 @@
  */
 package com.btkelly.gnag.utils;
 
-import com.github.rjeschke.txtmark.Processor;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.gradle.api.Project;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,9 +39,7 @@ public class GnagReportBuilder extends HtmlStringBuilder {
                     + "<article class=\"markdown-body\">";
 
     private static final String HTML_REPORT_SUFFIX =
-            "</article></head></html>";
-
-    private static final String REPORT_HEADER_BREAK = "\n----------------------------------\n";
+            "</article></html>";
 
     private final Project project;
     private final File outputDirectory;
@@ -53,8 +51,9 @@ public class GnagReportBuilder extends HtmlStringBuilder {
     }
 
     public GnagReportBuilder insertReporterHeader(String reporterName) {
-        return (GnagReportBuilder) append(reporterName + " Violations:")
-                .append(REPORT_HEADER_BREAK);
+        return (GnagReportBuilder) append("<h2>")
+                .append(reporterName + " Violations:")
+                .append("</h2>");
     }
 
     public GnagReportBuilder appendViolation(String name, String helpUrl, String fileName, String lineNumber, String notes) {
@@ -65,9 +64,15 @@ public class GnagReportBuilder extends HtmlStringBuilder {
         fileName = fileName.replace("/src/androidTest/java/", "");
         fileName = fileName.replace("/", ".");
 
-        return (GnagReportBuilder) appendBold("Violation: ")
-                .appendLink(name, helpUrl)
-                .insertLineBreak()
+        appendBold("Violation: ");
+
+        if (StringUtils.isNotBlank(helpUrl)) {
+            appendLink(name, helpUrl);
+        } else {
+            append(name);
+        }
+
+        return (GnagReportBuilder) insertLineBreak()
                 .appendBold("Class: ")
                 .append(fileName)
                 .insertLineBreak()
@@ -85,7 +90,7 @@ public class GnagReportBuilder extends HtmlStringBuilder {
         StringBuilder fullReport = new StringBuilder();
 
         fullReport.append(HTML_REPORT_PREFIX);
-        fullReport.append(Processor.process(toString()));
+        fullReport.append(toString());
         fullReport.append(HTML_REPORT_SUFFIX);
 
         try {

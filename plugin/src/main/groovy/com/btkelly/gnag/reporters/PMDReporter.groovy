@@ -86,7 +86,7 @@ class PMDReporter extends BaseReporter {
                         file.@name.text(),
                         violation.@beginline.text(),
                         violation.text()
-                );
+                )
             }
         }
     }

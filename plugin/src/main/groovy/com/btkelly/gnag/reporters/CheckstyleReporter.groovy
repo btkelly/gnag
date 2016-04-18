@@ -71,6 +71,22 @@ class CheckstyleReporter extends BaseReporter {
 
     @Override
     void appendReport(GnagReportBuilder gnagReportBuilder) {
+
         gnagReportBuilder.insertReporterHeader(reporterName())
+
+        GPathResult xml = new XmlSlurper().parseText(reportFile().text)
+
+        xml.file.each { file ->
+            file.error.each { error ->
+                gnagReportBuilder.appendViolation(
+                        error.@source.text(),
+                        null,
+                        file.@name.text(),
+                        error.@line.text(),
+                        error.@message.text()
+                )
+            }
+        }
+
     }
 }
