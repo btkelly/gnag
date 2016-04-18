@@ -16,6 +16,8 @@
 package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
+import groovy.util.slurpersupport.GPathResult
+import net.sourceforge.pmd.ant.PMDTask
 import org.gradle.api.Project
 
 /**
@@ -29,12 +31,33 @@ class PMDReporter extends BaseReporter {
 
     @Override
     void executeReporter() {
-        println "PMD executed"
+
+        PMDTask pmdTask = new PMDTask()
+        pmdTask.project = project.ant.antProject
+        pmdTask.addFormatter(new net.sourceforge.pmd.ant.Formatter(type: 'xml', toFile: reportFile()))
+
+        pmdTask.failOnError = false
+        pmdTask.failOnRuleViolation = false
+
+        if (reporterExtension.hasReporterConfig()) {
+            pmdTask.ruleSetFiles = reporterExtension.getReporterConfig().toString()
+        } else {
+            pmdTask.ruleSetFiles = getClass().getClassLoader().getResource("pmd.xml").toString()
+        }
+
+        getAndroidSources().findAll { it.exists() }.each {
+            pmdTask.addFileset(project.ant.fileset(dir: it))
+        }
+
+        pmdTask.perform()
     }
 
     @Override
     boolean hasErrors() {
-        return false
+        GPathResult xml = new XmlSlurper().parseText(reportFile().text)
+        int numErrors = xml.file.inject(0) { count, file -> count + file.violation.size() }
+        println "PMD report executed, found " + numErrors + " errors."
+        return numErrors != 0
     }
 
     @Override
@@ -44,6 +67,6 @@ class PMDReporter extends BaseReporter {
 
     @Override
     File reportFile() {
-        return null
+        return new File(getReportsDir(), "pmd.xml")
     }
 }

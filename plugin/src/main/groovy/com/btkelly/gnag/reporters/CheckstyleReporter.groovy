@@ -31,6 +31,7 @@ class CheckstyleReporter extends BaseReporter {
 
     @Override
     void executeReporter() {
+
         CheckstyleAntTask checkStyleTask = new CheckstyleAntTask()
         checkStyleTask.project = project.ant.antProject
         checkStyleTask.failOnViolation = false
