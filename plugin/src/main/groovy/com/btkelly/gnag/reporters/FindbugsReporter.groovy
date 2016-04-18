@@ -16,6 +16,7 @@
 package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
+import com.btkelly.gnag.utils.GnagReportBuilder
 import edu.umd.cs.findbugs.anttask.FindBugsTask
 import groovy.util.slurpersupport.GPathResult
 import org.apache.tools.ant.types.FileSet
@@ -94,5 +95,10 @@ class FindbugsReporter extends BaseReporter {
     @Override
     File reportFile() {
         return new File(getReportsDir(), "findbugs.xml")
+    }
+
+    @Override
+    void appendReport(GnagReportBuilder gnagReportBuilder) {
+        gnagReportBuilder.append("Findbugs Report Errors").insertLineBreak()
     }
 }

@@ -20,9 +20,11 @@ import com.btkelly.gnag.reporters.BaseReporter;
 import com.btkelly.gnag.reporters.CheckstyleReporter;
 import com.btkelly.gnag.reporters.FindbugsReporter;
 import com.btkelly.gnag.reporters.PMDReporter;
+import com.btkelly.gnag.utils.GnagReportBuilder;
 import org.gradle.api.*;
 import org.gradle.api.tasks.TaskAction;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,17 +64,26 @@ public class GnagCheck extends DefaultTask {
     }
 
     private void executeGnagCheck() {
-        boolean reportErrors = false;
+        boolean foundErrors = false;
+
+        File reportsDir = new File(getProject().getBuildDir().getPath() + "/outputs/gnag/");
+        GnagReportBuilder gnagReportBuilder = new GnagReportBuilder(reportsDir);
 
         for (BaseReporter baseReporter : reporters) {
 
             if (baseReporter.isEnabled()) {
                 baseReporter.executeReporter();
-                reportErrors = reportErrors | baseReporter.hasErrors();
+
+                if (baseReporter.hasErrors()) {
+                    foundErrors = true;
+                    baseReporter.appendReport(gnagReportBuilder);
+                }
             }
         }
 
-        if (reportErrors && gnagPluginExtension.shouldFailOnError()) {
+        gnagReportBuilder.writeFile();
+
+        if (foundErrors && gnagPluginExtension.shouldFailOnError()) {
             throw new GradleException("One or more reporters has caused the build to fail");
         }
     }

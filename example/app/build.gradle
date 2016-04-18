@@ -48,6 +48,7 @@ license {
 clean.dependsOn licenseFormat
 
 gnag {
+    enabled true
     failOnError true
     checkstyle {
         enabled true

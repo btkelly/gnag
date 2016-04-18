@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/example/app/app.iml" filepath="$PROJECT_DIR$/example/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/example/example.iml" filepath="$PROJECT_DIR$/example/example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gnag-plugin.iml" filepath="$PROJECT_DIR$/gnag-plugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/gnag-refactor.iml" filepath="$PROJECT_DIR$/gnag-refactor.iml" />
       <module fileurl="file://$PROJECT_DIR$/plugin.iml" filepath="$PROJECT_DIR$/plugin.iml" />
     </modules>

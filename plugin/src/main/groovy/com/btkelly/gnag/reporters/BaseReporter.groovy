@@ -16,6 +16,7 @@
 package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
+import com.btkelly.gnag.utils.GnagReportBuilder
 import org.gradle.api.Project
 
 /**
@@ -30,6 +31,8 @@ abstract class BaseReporter {
     abstract String reporterName()
 
     abstract File reportFile()
+
+    abstract void appendReport(GnagReportBuilder gnagReportBuilder)
 
     protected final ReporterExtension reporterExtension
     protected final Project project

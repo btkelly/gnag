@@ -16,6 +16,7 @@
 package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
+import com.btkelly.gnag.utils.GnagReportBuilder
 import com.puppycrawl.tools.checkstyle.ant.CheckstyleAntTask
 import groovy.util.slurpersupport.GPathResult
 import org.gradle.api.Project
@@ -66,5 +67,10 @@ class CheckstyleReporter extends BaseReporter {
     @Override
     File reportFile() {
         return new File(getReportsDir(), "checkstyle_report.xml")
+    }
+
+    @Override
+    void appendReport(GnagReportBuilder gnagReportBuilder) {
+        gnagReportBuilder.append("Checkstyle Report Errors").insertLineBreak()
     }
 }

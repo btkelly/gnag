@@ -19,6 +19,7 @@ import com.btkelly.gnag.extensions.GitHubExtension;
 import com.btkelly.gnag.extensions.ReporterExtension;
 import org.gradle.api.Action;
 import org.gradle.api.Project;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by bobbake4 on 4/1/16.
@@ -27,7 +28,7 @@ public class GnagPluginExtension {
 
     private static final String EXTENSION_NAME = "gnag";
 
-    public static GnagPluginExtension loadExtension(Project project) {
+    public static GnagPluginExtension loadExtension(@NotNull Project project) {
         return project.getExtensions().create(EXTENSION_NAME, GnagPluginExtension.class, project);
     }
 
@@ -60,7 +61,7 @@ public class GnagPluginExtension {
     private boolean enabled = true;
     private boolean failOnError = true;
 
-    public GnagPluginExtension(Project project) {
+    public GnagPluginExtension(@NotNull Project project) {
         this.project = project;
         this.github = new GitHubExtension(project);
         this.checkstyle = new ReporterExtension("CheckStyle", project);

@@ -16,6 +16,7 @@
 package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
+import com.btkelly.gnag.utils.GnagReportBuilder
 import groovy.util.slurpersupport.GPathResult
 import net.sourceforge.pmd.ant.PMDTask
 import org.gradle.api.Project
@@ -68,5 +69,10 @@ class PMDReporter extends BaseReporter {
     @Override
     File reportFile() {
         return new File(getReportsDir(), "pmd.xml")
+    }
+
+    @Override
+    void appendReport(GnagReportBuilder gnagReportBuilder) {
+        gnagReportBuilder.append("PMD Report Errors").insertLineBreak()
     }
 }
