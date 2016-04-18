@@ -63,7 +63,7 @@ class PMDReporter extends BaseReporter {
 
     @Override
     String reporterName() {
-        return "pmd"
+        return "PMD"
     }
 
     @Override
@@ -73,6 +73,21 @@ class PMDReporter extends BaseReporter {
 
     @Override
     void appendReport(GnagReportBuilder gnagReportBuilder) {
-        gnagReportBuilder.append("PMD Report Errors").insertLineBreak()
+
+        gnagReportBuilder.insertReporterHeader(reporterName())
+
+        GPathResult xml = new XmlSlurper().parseText(reportFile().text)
+
+        xml.file.each { file ->
+            file.violation.each { violation ->
+                gnagReportBuilder.appendViolation(
+                        violation.@rule.text(),
+                        violation.@externalInfoUrl.text(),
+                        file.@name.text(),
+                        violation.@beginline.text(),
+                        violation.text()
+                );
+            }
+        }
     }
 }

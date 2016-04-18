@@ -67,7 +67,7 @@ public class GnagCheck extends DefaultTask {
         boolean foundErrors = false;
 
         File reportsDir = new File(getProject().getBuildDir().getPath() + "/outputs/gnag/");
-        GnagReportBuilder gnagReportBuilder = new GnagReportBuilder(reportsDir);
+        GnagReportBuilder gnagReportBuilder = new GnagReportBuilder(getProject(), reportsDir);
 
         for (BaseReporter baseReporter : reporters) {
 

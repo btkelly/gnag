@@ -89,7 +89,7 @@ class FindbugsReporter extends BaseReporter {
 
     @Override
     String reporterName() {
-        return "findbugs"
+        return "Findbugs"
     }
 
     @Override
@@ -99,6 +99,6 @@ class FindbugsReporter extends BaseReporter {
 
     @Override
     void appendReport(GnagReportBuilder gnagReportBuilder) {
-        gnagReportBuilder.append("Findbugs Report Errors").insertLineBreak()
+        gnagReportBuilder.insertReporterHeader(reporterName())
     }
 }

@@ -1,0 +1,1063 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1" sequence="0" timestamp="1448983938095" analysisTimestamp="1448983938150" release="">
+  <Project projectName="">
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/ILogger.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/Logger.LogLevel.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/Logger.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/AmplifyExceptionHandler.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/AmplifyStateTracker.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/ApplicationInfoProvider.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/EnvironmentInfoProvider.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/IntegratedEvent.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/Settings.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/checks/CooldownDaysCheck.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/checks/GooglePlayStoreIsAvailableCheck.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/checks/MaximumCountCheck.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/checks/VersionChangedCheck.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/checks/WarmUpDaysCheck.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/initializers/ExceptionHandlingInitializer.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/initializers/ImmediateEventTriggerInitializer.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/interfaces/IAmplifyStateTracker.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/interfaces/IApplicationInfoProvider.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/interfaces/IEnvironmentCheck.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/interfaces/IEnvironmentInfoProvider.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/interfaces/IEvent.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/interfaces/IEventCheck.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/interfaces/ISettings.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/interfaces/ITrackingInitializer.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/trackers/EventTracker.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/trackers/FirstTimeTracker.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/trackers/LastTimeTracker.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/trackers/LastVersionTracker.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/trackers/TotalCountTracker.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/ActivityStateUtil.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/ApplicationUtils.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/FeedbackUtil.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/PlayStoreUtil.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/StringUtils.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/time/ISystemTimeProvider.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/time/RealSystemTimeProvider.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/time/SystemTimeUtil.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/views/AmplifyView.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/views/DefaultQuestionView.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/views/QuestionView.html</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/ILogger.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/Logger$LogLevel.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/Logger.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/AmplifyExceptionHandler.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/AmplifyStateTracker.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/ApplicationInfoProvider.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/EnvironmentInfoProvider.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/IntegratedEvent.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/Settings.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/checks/CooldownDaysCheck.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/checks/GooglePlayStoreIsAvailableCheck.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/checks/MaximumCountCheck.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/checks/VersionChangedCheck.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/checks/WarmUpDaysCheck.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/initializers/ExceptionHandlingInitializer.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/initializers/ImmediateEventTriggerInitializer.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/interfaces/IAmplifyStateTracker.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/interfaces/IApplicationInfoProvider.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/interfaces/IEnvironmentCheck.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/interfaces/IEnvironmentInfoProvider.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/interfaces/IEvent.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/interfaces/IEventCheck.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/interfaces/ISettings.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/interfaces/ITrackingInitializer.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/trackers/EventTracker.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/trackers/FirstTimeTracker.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/trackers/LastTimeTracker.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/trackers/LastVersionTracker.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/tracking/trackers/TotalCountTracker.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/utils/ActivityStateUtil.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/utils/ApplicationUtils.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/utils/FeedbackUtil.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/utils/PlayStoreUtil.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/utils/StringUtils.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/utils/time/ISystemTimeProvider.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/utils/time/RealSystemTimeProvider.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/utils/time/SystemTimeUtil.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/views/AmplifyView$1.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/views/AmplifyView$2.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/views/AmplifyView$3.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/views/AmplifyView$LayoutState.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/views/AmplifyView$UserOpinion.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/views/AmplifyView.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/views/DefaultQuestionView.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/debug/com/github/stkent/amplify/views/QuestionView.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/ILogger.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/Logger$LogLevel.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/Logger.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/AmplifyExceptionHandler.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/AmplifyStateTracker.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/ApplicationInfoProvider.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/EnvironmentInfoProvider.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/IntegratedEvent.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/Settings.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/checks/CooldownDaysCheck.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/checks/GooglePlayStoreIsAvailableCheck.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/checks/MaximumCountCheck.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/checks/VersionChangedCheck.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/checks/WarmUpDaysCheck.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/initializers/ExceptionHandlingInitializer.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/initializers/ImmediateEventTriggerInitializer.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/interfaces/IAmplifyStateTracker.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/interfaces/IApplicationInfoProvider.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/interfaces/IEnvironmentCheck.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/interfaces/IEnvironmentInfoProvider.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/interfaces/IEvent.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/interfaces/IEventCheck.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/interfaces/ISettings.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/interfaces/ITrackingInitializer.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/trackers/EventTracker.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/trackers/FirstTimeTracker.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/trackers/LastTimeTracker.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/trackers/LastVersionTracker.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/tracking/trackers/TotalCountTracker.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/utils/ActivityStateUtil.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/utils/ApplicationUtils.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/utils/FeedbackUtil.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/utils/PlayStoreUtil.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/utils/StringUtils.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/utils/time/ISystemTimeProvider.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/utils/time/RealSystemTimeProvider.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/utils/time/SystemTimeUtil.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/views/AmplifyView$1.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/views/AmplifyView$2.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/views/AmplifyView$3.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/views/AmplifyView$LayoutState.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/views/AmplifyView$UserOpinion.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/views/AmplifyView.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/views/DefaultQuestionView.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/classes/release/com/github/stkent/amplify/views/QuestionView.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/ILogger.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/Logger$LogLevel.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/Logger.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/AmplifyExceptionHandler.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/AmplifyStateTracker.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/ApplicationInfoProvider.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/EnvironmentInfoProvider.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/IntegratedEvent.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/Settings.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/checks/CooldownDaysCheck.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/checks/GooglePlayStoreIsAvailableCheck.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/checks/MaximumCountCheck.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/checks/VersionChangedCheck.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/checks/WarmUpDaysCheck.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/initializers/ExceptionHandlingInitializer.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/initializers/ImmediateEventTriggerInitializer.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/interfaces/IAmplifyStateTracker.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/interfaces/IApplicationInfoProvider.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/interfaces/IEnvironmentCheck.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/interfaces/IEnvironmentInfoProvider.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/interfaces/IEvent.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/interfaces/IEventCheck.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/interfaces/ISettings.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/interfaces/ITrackingInitializer.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/trackers/EventTracker.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/trackers/FirstTimeTracker.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/trackers/LastTimeTracker.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/trackers/LastVersionTracker.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/tracking/trackers/TotalCountTracker.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/utils/ActivityStateUtil.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/utils/ApplicationUtils.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/utils/FeedbackUtil.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/utils/PlayStoreUtil.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/utils/StringUtils.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/utils/time/ISystemTimeProvider.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/utils/time/RealSystemTimeProvider.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/utils/time/SystemTimeUtil.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/views/AmplifyView$1.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/views/AmplifyView$2.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/views/AmplifyView$3.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/views/AmplifyView$LayoutState.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/views/AmplifyView$UserOpinion.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/views/AmplifyView.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/views/DefaultQuestionView.class</Jar>
+    <Jar>/Users/bobbake4/android/amplify/amplify/build/intermediates/coverage-instrumented-classes/debug/com/github/stkent/amplify/views/QuestionView.class</Jar>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/ILogger.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/Logger.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/AmplifyExceptionHandler.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/AmplifyStateTracker.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/ApplicationInfoProvider.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/EnvironmentInfoProvider.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/IntegratedEvent.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/Settings.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/checks/CooldownDaysCheck.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/checks/GooglePlayStoreIsAvailableCheck.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/checks/MaximumCountCheck.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/checks/VersionChangedCheck.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/checks/WarmUpDaysCheck.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/initializers/ExceptionHandlingInitializer.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/initializers/ImmediateEventTriggerInitializer.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/interfaces/IAmplifyStateTracker.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/interfaces/IApplicationInfoProvider.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/interfaces/IEnvironmentCheck.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/interfaces/IEnvironmentInfoProvider.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/interfaces/IEvent.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/interfaces/IEventCheck.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/interfaces/ISettings.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/interfaces/ITrackingInitializer.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/trackers/EventTracker.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/trackers/FirstTimeTracker.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/trackers/LastTimeTracker.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/trackers/LastVersionTracker.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/tracking/trackers/TotalCountTracker.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/utils/ActivityStateUtil.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/utils/ApplicationUtils.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/utils/FeedbackUtil.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/utils/PlayStoreUtil.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/utils/StringUtils.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/utils/time/ISystemTimeProvider.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/utils/time/RealSystemTimeProvider.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/utils/time/SystemTimeUtil.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/views/AmplifyView.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/views/DefaultQuestionView.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/views/QuestionView.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/test/java/com/github/stkent/amplify/helpers/BaseTest.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/test/java/com/github/stkent/amplify/helpers/FakeSettings.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/test/java/com/github/stkent/amplify/helpers/FakeSystemTimeProvider.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/test/java/com/github/stkent/amplify/tracking/AmplifyExceptionHandlerTest.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/test/java/com/github/stkent/amplify/tracking/IntegratedEventTest.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/test/java/com/github/stkent/amplify/tracking/checks/CooldownDaysCheckTest.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/test/java/com/github/stkent/amplify/tracking/checks/GooglePlayStoreIsAvailableCheckTest.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/test/java/com/github/stkent/amplify/tracking/checks/MaximumCountCheckTest.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/test/java/com/github/stkent/amplify/tracking/checks/VersionChangedCheckTest.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/test/java/com/github/stkent/amplify/tracking/checks/WarmUpDaysCheckTest.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/test/java/com/github/stkent/amplify/tracking/trackers/FirstTimeTrackerTest.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/test/java/com/github/stkent/amplify/tracking/trackers/LastTimeTrackerTest.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/test/java/com/github/stkent/amplify/tracking/trackers/LastVersionTrackerTest.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/test/java/com/github/stkent/amplify/tracking/trackers/TotalCountTrackerTest.java</SrcDir>
+    <SrcDir>/Users/bobbake4/android/amplify/amplify/src/test/java/com/github/stkent/amplify/utils/StringUtilsTest.java</SrcDir>
+  </Project>
+  <BugInstance type="EQ_ALWAYS_TRUE" priority="1" rank="7" abbrev="Eq" category="CORRECTNESS" instanceHash="d819ef2a8d8449e89a31623557e077db" instanceOccurrenceNum="0" instanceOccurrenceMax="0">
+    <ShortMessage>equals method always returns true</ShortMessage>
+    <LongMessage>com.github.stkent.amplify.utils.ActivityStateUtil.equals(Object) always returns true</LongMessage>
+    <Class classname="com.github.stkent.amplify.utils.ActivityStateUtil" primary="true">
+      <SourceLine classname="com.github.stkent.amplify.utils.ActivityStateUtil" start="27" end="61" sourcefile="ActivityStateUtil.java" sourcepath="com/github/stkent/amplify/utils/ActivityStateUtil.java">
+        <Message>At ActivityStateUtil.java:[lines 27-61]</Message>
+      </SourceLine>
+      <Message>In class com.github.stkent.amplify.utils.ActivityStateUtil</Message>
+    </Class>
+    <Method classname="com.github.stkent.amplify.utils.ActivityStateUtil" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" primary="true">
+      <SourceLine classname="com.github.stkent.amplify.utils.ActivityStateUtil" start="61" end="61" startBytecode="0" endBytecode="53" sourcefile="ActivityStateUtil.java" sourcepath="com/github/stkent/amplify/utils/ActivityStateUtil.java"/>
+      <Message>In method com.github.stkent.amplify.utils.ActivityStateUtil.equals(Object)</Message>
+    </Method>
+    <SourceLine classname="com.github.stkent.amplify.utils.ActivityStateUtil" primary="true" start="61" end="61" startBytecode="1" endBytecode="1" sourcefile="ActivityStateUtil.java" sourcepath="com/github/stkent/amplify/utils/ActivityStateUtil.java">
+      <Message>At ActivityStateUtil.java:[line 61]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="HE_EQUALS_USE_HASHCODE" priority="1" rank="14" abbrev="HE" category="BAD_PRACTICE" instanceHash="552fb081d726eece858d74af4d16484b" instanceOccurrenceNum="0" instanceOccurrenceMax="0">
+    <ShortMessage>Class defines equals() and uses Object.hashCode()</ShortMessage>
+    <LongMessage>com.github.stkent.amplify.utils.ActivityStateUtil defines equals and uses Object.hashCode()</LongMessage>
+    <Class classname="com.github.stkent.amplify.utils.ActivityStateUtil" primary="true">
+      <SourceLine classname="com.github.stkent.amplify.utils.ActivityStateUtil" start="27" end="61" sourcefile="ActivityStateUtil.java" sourcepath="com/github/stkent/amplify/utils/ActivityStateUtil.java">
+        <Message>At ActivityStateUtil.java:[lines 27-61]</Message>
+      </SourceLine>
+      <Message>In class com.github.stkent.amplify.utils.ActivityStateUtil</Message>
+    </Class>
+    <Method classname="com.github.stkent.amplify.utils.ActivityStateUtil" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" primary="true">
+      <SourceLine classname="com.github.stkent.amplify.utils.ActivityStateUtil" start="61" end="61" startBytecode="0" endBytecode="53" sourcefile="ActivityStateUtil.java" sourcepath="com/github/stkent/amplify/utils/ActivityStateUtil.java"/>
+      <Message>In method com.github.stkent.amplify.utils.ActivityStateUtil.equals(Object)</Message>
+    </Method>
+    <SourceLine classname="com.github.stkent.amplify.utils.ActivityStateUtil" start="61" end="61" startBytecode="0" endBytecode="53" sourcefile="ActivityStateUtil.java" sourcepath="com/github/stkent/amplify/utils/ActivityStateUtil.java" synthetic="true">
+      <Message>At ActivityStateUtil.java:[line 61]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="EQ_ALWAYS_TRUE" priority="1" rank="7" abbrev="Eq" category="CORRECTNESS" instanceHash="3bfe3ea5f59905eec77552226389e8ae" instanceOccurrenceNum="0" instanceOccurrenceMax="0">
+    <ShortMessage>equals method always returns true</ShortMessage>
+    <LongMessage>com.github.stkent.amplify.utils.time.SystemTimeUtil.equals(Object) always returns true</LongMessage>
+    <Class classname="com.github.stkent.amplify.utils.time.SystemTimeUtil" primary="true">
+      <SourceLine classname="com.github.stkent.amplify.utils.time.SystemTimeUtil" start="25" end="45" sourcefile="SystemTimeUtil.java" sourcepath="com/github/stkent/amplify/utils/time/SystemTimeUtil.java">
+        <Message>At SystemTimeUtil.java:[lines 25-45]</Message>
+      </SourceLine>
+      <Message>In class com.github.stkent.amplify.utils.time.SystemTimeUtil</Message>
+    </Class>
+    <Method classname="com.github.stkent.amplify.utils.time.SystemTimeUtil" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" primary="true">
+      <SourceLine classname="com.github.stkent.amplify.utils.time.SystemTimeUtil" start="45" end="45" startBytecode="0" endBytecode="53" sourcefile="SystemTimeUtil.java" sourcepath="com/github/stkent/amplify/utils/time/SystemTimeUtil.java"/>
+      <Message>In method com.github.stkent.amplify.utils.time.SystemTimeUtil.equals(Object)</Message>
+    </Method>
+    <SourceLine classname="com.github.stkent.amplify.utils.time.SystemTimeUtil" primary="true" start="45" end="45" startBytecode="1" endBytecode="1" sourcefile="SystemTimeUtil.java" sourcepath="com/github/stkent/amplify/utils/time/SystemTimeUtil.java">
+      <Message>At SystemTimeUtil.java:[line 45]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="HE_EQUALS_USE_HASHCODE" priority="1" rank="14" abbrev="HE" category="BAD_PRACTICE" instanceHash="f8a4b77f621f229cfec8b985eccd6fb5" instanceOccurrenceNum="0" instanceOccurrenceMax="0">
+    <ShortMessage>Class defines equals() and uses Object.hashCode()</ShortMessage>
+    <LongMessage>com.github.stkent.amplify.utils.time.SystemTimeUtil defines equals and uses Object.hashCode()</LongMessage>
+    <Class classname="com.github.stkent.amplify.utils.time.SystemTimeUtil" primary="true">
+      <SourceLine classname="com.github.stkent.amplify.utils.time.SystemTimeUtil" start="25" end="45" sourcefile="SystemTimeUtil.java" sourcepath="com/github/stkent/amplify/utils/time/SystemTimeUtil.java">
+        <Message>At SystemTimeUtil.java:[lines 25-45]</Message>
+      </SourceLine>
+      <Message>In class com.github.stkent.amplify.utils.time.SystemTimeUtil</Message>
+    </Class>
+    <Method classname="com.github.stkent.amplify.utils.time.SystemTimeUtil" name="equals" signature="(Ljava/lang/Object;)Z" isStatic="false" primary="true">
+      <SourceLine classname="com.github.stkent.amplify.utils.time.SystemTimeUtil" start="45" end="45" startBytecode="0" endBytecode="53" sourcefile="SystemTimeUtil.java" sourcepath="com/github/stkent/amplify/utils/time/SystemTimeUtil.java"/>
+      <Message>In method com.github.stkent.amplify.utils.time.SystemTimeUtil.equals(Object)</Message>
+    </Method>
+    <SourceLine classname="com.github.stkent.amplify.utils.time.SystemTimeUtil" start="45" end="45" startBytecode="0" endBytecode="53" sourcefile="SystemTimeUtil.java" sourcepath="com/github/stkent/amplify/utils/time/SystemTimeUtil.java" synthetic="true">
+      <Message>At SystemTimeUtil.java:[line 45]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugCategory category="BAD_PRACTICE">
+    <Description>Bad practice</Description>
+  </BugCategory>
+  <BugCategory category="CORRECTNESS">
+    <Description>Correctness</Description>
+  </BugCategory>
+  <BugPattern type="HE_EQUALS_USE_HASHCODE" abbrev="HE" category="BAD_PRACTICE">
+    <ShortDescription>Class defines equals() and uses Object.hashCode()</ShortDescription>
+    <Details><![CDATA[
+
+  <p> This class overrides <code>equals(Object)</code>, but does not
+  override <code>hashCode()</code>, and inherits the implementation of
+  <code>hashCode()</code> from <code>java.lang.Object</code> (which returns
+  the identity hash code, an arbitrary value assigned to the object
+  by the VM).&nbsp; Therefore, the class is very likely to violate the
+  invariant that equal objects must have equal hashcodes.</p>
+
+<p>If you don't think instances of this class will ever be inserted into a HashMap/HashTable,
+the recommended <code>hashCode</code> implementation to use is:</p>
+<pre>public int hashCode() {
+  assert false : "hashCode not designed";
+  return 42; // any arbitrary constant will do
+  }</pre>
+
+    ]]></Details>
+  </BugPattern>
+  <BugPattern type="EQ_ALWAYS_TRUE" abbrev="Eq" category="CORRECTNESS">
+    <ShortDescription>equals method always returns true</ShortDescription>
+    <Details><![CDATA[
+
+  <p> This class defines an equals method that always returns true. This is imaginative, but not very smart.
+Plus, it means that the equals method is not symmetric.
+</p>
+
+    ]]></Details>
+  </BugPattern>
+  <BugCode abbrev="Eq">
+    <Description>Problems with implementation of equals()</Description>
+  </BugCode>
+  <BugCode abbrev="HE">
+    <Description>Equal objects must have equal hashcodes</Description>
+  </BugCode>
+  <Errors errors="40" missingClasses="25">
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/ILogger.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/ILogger.html of 8376 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/Logger.LogLevel.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/Logger.LogLevel.html of 12683 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/Logger.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/Logger.html of 12546 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/AmplifyExceptionHandler.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/AmplifyExceptionHandler.html of 9809 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/AmplifyStateTracker.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/AmplifyStateTracker.html of 41698 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/ApplicationInfoProvider.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/ApplicationInfoProvider.html of 13164 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/EnvironmentInfoProvider.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/EnvironmentInfoProvider.html of 11792 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/IntegratedEvent.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/IntegratedEvent.html of 16686 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/Settings.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/Settings.html of 11261 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/checks/CooldownDaysCheck.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/checks/CooldownDaysCheck.html of 12735 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/checks/GooglePlayStoreIsAvailableCheck.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/checks/GooglePlayStoreIsAvailableCheck.html of 10848 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/checks/MaximumCountCheck.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/checks/MaximumCountCheck.html of 13127 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/checks/VersionChangedCheck.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/checks/VersionChangedCheck.html of 13067 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/checks/WarmUpDaysCheck.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/checks/WarmUpDaysCheck.html of 12665 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/initializers/ExceptionHandlingInitializer.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/initializers/ExceptionHandlingInitializer.html of 10467 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/initializers/ImmediateEventTriggerInitializer.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/initializers/ImmediateEventTriggerInitializer.html of 10527 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/interfaces/IAmplifyStateTracker.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/interfaces/IAmplifyStateTracker.html of 30953 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/interfaces/IApplicationInfoProvider.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/interfaces/IApplicationInfoProvider.html of 9535 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/interfaces/IEnvironmentCheck.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/interfaces/IEnvironmentCheck.html of 8303 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/interfaces/IEnvironmentInfoProvider.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/interfaces/IEnvironmentInfoProvider.html of 8471 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/interfaces/IEvent.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/interfaces/IEvent.html of 7395 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/interfaces/IEventCheck.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/interfaces/IEventCheck.html of 11542 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/interfaces/ISettings.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/interfaces/ISettings.html of 8435 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/interfaces/ITrackingInitializer.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/interfaces/ITrackingInitializer.html of 8037 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/trackers/EventTracker.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/trackers/EventTracker.html of 18423 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/trackers/FirstTimeTracker.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/trackers/FirstTimeTracker.html of 15741 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/trackers/LastTimeTracker.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/trackers/LastTimeTracker.html of 15724 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/trackers/LastVersionTracker.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/trackers/LastVersionTracker.html of 15843 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/trackers/TotalCountTracker.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/tracking/trackers/TotalCountTracker.html of 15457 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/ActivityStateUtil.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/ActivityStateUtil.html of 8279 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/ApplicationUtils.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/ApplicationUtils.html of 7758 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/FeedbackUtil.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/FeedbackUtil.html of 10071 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/PlayStoreUtil.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/PlayStoreUtil.html of 7304 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/StringUtils.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/StringUtils.html of 9760 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/time/ISystemTimeProvider.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/time/ISystemTimeProvider.html of 6787 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/time/RealSystemTimeProvider.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/time/RealSystemTimeProvider.html of 9478 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/time/SystemTimeUtil.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/utils/time/SystemTimeUtil.html of 9744 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/views/AmplifyView.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/views/AmplifyView.html of 32460 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/views/DefaultQuestionView.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/views/DefaultQuestionView.html of 12645 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Cannot open codebase filesystem:/Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/views/QuestionView.html</ErrorMessage>
+      <Exception>java.io.IOException: Wrong magic bytes of 3c21444f for zip file /Users/bobbake4/android/amplify/amplify/build/docs/javadoc/com/github/stkent/amplify/views/QuestionView.html of 8435 bytes</Exception>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipFileCodeBase.&lt;init&gt;(ZipFileCodeBase.java:87)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory.makeZipCodeBase(ZipCodeBaseFactory.java:39)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassFactory.createFilesystemCodeBase(ClassFactory.java:121)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.FilesystemCodeBaseLocator.openCodeBase(FilesystemCodeBaseLocator.java:77)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.processWorkList(ClassPathBuilder.java:607)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.ClassPathBuilder.build(ClassPathBuilder.java:226)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.buildClassPath(FindBugs2.java:677)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:218)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:402)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1200)</StackTrace>
+    </Error>
+    <MissingClass>android.app.Activity</MissingClass>
+    <MissingClass>android.content.Context</MissingClass>
+    <MissingClass>android.content.Intent</MissingClass>
+    <MissingClass>android.content.SharedPreferences</MissingClass>
+    <MissingClass>android.content.SharedPreferences$Editor</MissingClass>
+    <MissingClass>android.content.pm.PackageInfo</MissingClass>
+    <MissingClass>android.content.pm.PackageManager</MissingClass>
+    <MissingClass>android.content.pm.PackageManager$NameNotFoundException</MissingClass>
+    <MissingClass>android.content.res.Resources$NotFoundException</MissingClass>
+    <MissingClass>android.content.res.Resources$Theme</MissingClass>
+    <MissingClass>android.content.res.TypedArray</MissingClass>
+    <MissingClass>android.net.Uri</MissingClass>
+    <MissingClass>android.os.Build</MissingClass>
+    <MissingClass>android.os.Build$VERSION</MissingClass>
+    <MissingClass>android.util.AttributeSet</MissingClass>
+    <MissingClass>android.util.Log</MissingClass>
+    <MissingClass>android.view.LayoutInflater</MissingClass>
+    <MissingClass>android.view.View</MissingClass>
+    <MissingClass>android.view.View$OnClickListener</MissingClass>
+    <MissingClass>android.widget.FrameLayout</MissingClass>
+    <MissingClass>android.widget.FrameLayout$LayoutParams</MissingClass>
+    <MissingClass>android.widget.TextView</MissingClass>
+    <MissingClass>com.github.stkent.amplify.R$id</MissingClass>
+    <MissingClass>com.github.stkent.amplify.R$string</MissingClass>
+    <MissingClass>com.github.stkent.amplify.R$styleable</MissingClass>
+  </Errors>
+  <FindBugsSummary timestamp="Tue, 1 Dec 2015 10:32:18 -0500" total_classes="45" referenced_classes="110" total_bugs="4" total_size="845" num_packages="9" java_version="1.7.0_67" vm_version="24.65-b04" cpu_seconds="14.02" clock_seconds="4.73" peak_mbytes="106.29" alloc_mbytes="3641.00" gc_seconds="0.03" priority_1="4">
+    <FileStats path="com/github/stkent/amplify/ILogger.java" bugCount="0" size="4"/>
+    <FileStats path="com/github/stkent/amplify/Logger.java" bugCount="0" size="36"/>
+    <FileStats path="com/github/stkent/amplify/tracking/AmplifyExceptionHandler.java" bugCount="0" size="12"/>
+    <FileStats path="com/github/stkent/amplify/tracking/AmplifyStateTracker.java" bugCount="0" size="95"/>
+    <FileStats path="com/github/stkent/amplify/tracking/ApplicationInfoProvider.java" bugCount="0" size="22"/>
+    <FileStats path="com/github/stkent/amplify/tracking/EnvironmentInfoProvider.java" bugCount="0" size="17"/>
+    <FileStats path="com/github/stkent/amplify/tracking/IntegratedEvent.java" bugCount="0" size="23"/>
+    <FileStats path="com/github/stkent/amplify/tracking/Settings.java" bugCount="0" size="32"/>
+    <FileStats path="com/github/stkent/amplify/tracking/checks/CooldownDaysCheck.java" bugCount="0" size="14"/>
+    <FileStats path="com/github/stkent/amplify/tracking/checks/GooglePlayStoreIsAvailableCheck.java" bugCount="0" size="5"/>
+    <FileStats path="com/github/stkent/amplify/tracking/checks/MaximumCountCheck.java" bugCount="0" size="13"/>
+    <FileStats path="com/github/stkent/amplify/tracking/checks/VersionChangedCheck.java" bugCount="0" size="16"/>
+    <FileStats path="com/github/stkent/amplify/tracking/checks/WarmUpDaysCheck.java" bugCount="0" size="14"/>
+    <FileStats path="com/github/stkent/amplify/tracking/initializers/ExceptionHandlingInitializer.java" bugCount="0" size="9"/>
+    <FileStats path="com/github/stkent/amplify/tracking/initializers/ImmediateEventTriggerInitializer.java" bugCount="0" size="6"/>
+    <FileStats path="com/github/stkent/amplify/tracking/interfaces/IAmplifyStateTracker.java" bugCount="0" size="16"/>
+    <FileStats path="com/github/stkent/amplify/tracking/interfaces/IApplicationInfoProvider.java" bugCount="0" size="5"/>
+    <FileStats path="com/github/stkent/amplify/tracking/interfaces/IEnvironmentCheck.java" bugCount="0" size="2"/>
+    <FileStats path="com/github/stkent/amplify/tracking/interfaces/IEnvironmentInfoProvider.java" bugCount="0" size="4"/>
+    <FileStats path="com/github/stkent/amplify/tracking/interfaces/IEvent.java" bugCount="0" size="2"/>
+    <FileStats path="com/github/stkent/amplify/tracking/interfaces/IEventCheck.java" bugCount="0" size="3"/>
+    <FileStats path="com/github/stkent/amplify/tracking/interfaces/ISettings.java" bugCount="0" size="3"/>
+    <FileStats path="com/github/stkent/amplify/tracking/interfaces/ITrackingInitializer.java" bugCount="0" size="2"/>
+    <FileStats path="com/github/stkent/amplify/tracking/trackers/EventTracker.java" bugCount="0" size="53"/>
+    <FileStats path="com/github/stkent/amplify/tracking/trackers/FirstTimeTracker.java" bugCount="0" size="18"/>
+    <FileStats path="com/github/stkent/amplify/tracking/trackers/LastTimeTracker.java" bugCount="0" size="16"/>
+    <FileStats path="com/github/stkent/amplify/tracking/trackers/LastVersionTracker.java" bugCount="0" size="19"/>
+    <FileStats path="com/github/stkent/amplify/tracking/trackers/TotalCountTracker.java" bugCount="0" size="16"/>
+    <FileStats path="com/github/stkent/amplify/utils/ActivityStateUtil.java" bugCount="2" size="19" bugHash="d81ce30ee95c02e347731b70cd85620f"/>
+    <FileStats path="com/github/stkent/amplify/utils/ApplicationUtils.java" bugCount="0" size="8"/>
+    <FileStats path="com/github/stkent/amplify/utils/FeedbackUtil.java" bugCount="0" size="39"/>
+    <FileStats path="com/github/stkent/amplify/utils/PlayStoreUtil.java" bugCount="0" size="19"/>
+    <FileStats path="com/github/stkent/amplify/utils/StringUtils.java" bugCount="0" size="28"/>
+    <FileStats path="com/github/stkent/amplify/utils/time/ISystemTimeProvider.java" bugCount="0" size="2"/>
+    <FileStats path="com/github/stkent/amplify/utils/time/RealSystemTimeProvider.java" bugCount="0" size="5"/>
+    <FileStats path="com/github/stkent/amplify/utils/time/SystemTimeUtil.java" bugCount="2" size="13" bugHash="313d6eb88c2d8aaf265cf9a4ba7e2849"/>
+    <FileStats path="com/github/stkent/amplify/views/AmplifyView.java" bugCount="0" size="194"/>
+    <FileStats path="com/github/stkent/amplify/views/DefaultQuestionView.java" bugCount="0" size="35"/>
+    <FileStats path="com/github/stkent/amplify/views/QuestionView.java" bugCount="0" size="6"/>
+    <PackageStats package="com.github.stkent.amplify" total_bugs="0" total_types="3" total_size="40">
+      <ClassStats class="com.github.stkent.amplify.ILogger" sourceFile="ILogger.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.Logger" sourceFile="Logger.java" interface="false" size="17" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.Logger$LogLevel" sourceFile="Logger.java" interface="false" size="19" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="com.github.stkent.amplify.tracking" total_bugs="0" total_types="6" total_size="201">
+      <ClassStats class="com.github.stkent.amplify.tracking.AmplifyExceptionHandler" sourceFile="AmplifyExceptionHandler.java" interface="false" size="12" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.tracking.AmplifyStateTracker" sourceFile="AmplifyStateTracker.java" interface="false" size="95" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.tracking.ApplicationInfoProvider" sourceFile="ApplicationInfoProvider.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.tracking.EnvironmentInfoProvider" sourceFile="EnvironmentInfoProvider.java" interface="false" size="17" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.tracking.IntegratedEvent" sourceFile="IntegratedEvent.java" interface="false" size="23" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.tracking.Settings" sourceFile="Settings.java" interface="false" size="32" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="com.github.stkent.amplify.tracking.checks" total_bugs="0" total_types="5" total_size="62">
+      <ClassStats class="com.github.stkent.amplify.tracking.checks.CooldownDaysCheck" sourceFile="CooldownDaysCheck.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.tracking.checks.GooglePlayStoreIsAvailableCheck" sourceFile="GooglePlayStoreIsAvailableCheck.java" interface="false" size="5" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.tracking.checks.MaximumCountCheck" sourceFile="MaximumCountCheck.java" interface="false" size="13" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.tracking.checks.VersionChangedCheck" sourceFile="VersionChangedCheck.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.tracking.checks.WarmUpDaysCheck" sourceFile="WarmUpDaysCheck.java" interface="false" size="14" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="com.github.stkent.amplify.tracking.initializers" total_bugs="0" total_types="2" total_size="15">
+      <ClassStats class="com.github.stkent.amplify.tracking.initializers.ExceptionHandlingInitializer" sourceFile="ExceptionHandlingInitializer.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.tracking.initializers.ImmediateEventTriggerInitializer" sourceFile="ImmediateEventTriggerInitializer.java" interface="false" size="6" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="com.github.stkent.amplify.tracking.interfaces" total_bugs="0" total_types="8" total_size="37">
+      <ClassStats class="com.github.stkent.amplify.tracking.interfaces.IAmplifyStateTracker" sourceFile="IAmplifyStateTracker.java" interface="true" size="16" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.tracking.interfaces.IApplicationInfoProvider" sourceFile="IApplicationInfoProvider.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.tracking.interfaces.IEnvironmentCheck" sourceFile="IEnvironmentCheck.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.tracking.interfaces.IEnvironmentInfoProvider" sourceFile="IEnvironmentInfoProvider.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.tracking.interfaces.IEvent" sourceFile="IEvent.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.tracking.interfaces.IEventCheck" sourceFile="IEventCheck.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.tracking.interfaces.ISettings" sourceFile="ISettings.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.tracking.interfaces.ITrackingInitializer" sourceFile="ITrackingInitializer.java" interface="true" size="2" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="com.github.stkent.amplify.tracking.trackers" total_bugs="0" total_types="5" total_size="122">
+      <ClassStats class="com.github.stkent.amplify.tracking.trackers.EventTracker" sourceFile="EventTracker.java" interface="false" size="53" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.tracking.trackers.FirstTimeTracker" sourceFile="FirstTimeTracker.java" interface="false" size="18" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.tracking.trackers.LastTimeTracker" sourceFile="LastTimeTracker.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.tracking.trackers.LastVersionTracker" sourceFile="LastVersionTracker.java" interface="false" size="19" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.tracking.trackers.TotalCountTracker" sourceFile="TotalCountTracker.java" interface="false" size="16" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="com.github.stkent.amplify.utils" total_bugs="2" total_types="5" total_size="113" priority_1="2">
+      <ClassStats class="com.github.stkent.amplify.utils.ActivityStateUtil" sourceFile="ActivityStateUtil.java" interface="false" size="19" bugs="2" priority_1="2"/>
+      <ClassStats class="com.github.stkent.amplify.utils.ApplicationUtils" sourceFile="ApplicationUtils.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.utils.FeedbackUtil" sourceFile="FeedbackUtil.java" interface="false" size="39" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.utils.PlayStoreUtil" sourceFile="PlayStoreUtil.java" interface="false" size="19" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.utils.StringUtils" sourceFile="StringUtils.java" interface="false" size="28" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="com.github.stkent.amplify.utils.time" total_bugs="2" total_types="3" total_size="20" priority_1="2">
+      <ClassStats class="com.github.stkent.amplify.utils.time.ISystemTimeProvider" sourceFile="ISystemTimeProvider.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.utils.time.RealSystemTimeProvider" sourceFile="RealSystemTimeProvider.java" interface="false" size="5" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.utils.time.SystemTimeUtil" sourceFile="SystemTimeUtil.java" interface="false" size="13" bugs="2" priority_1="2"/>
+    </PackageStats>
+    <PackageStats package="com.github.stkent.amplify.views" total_bugs="0" total_types="8" total_size="235">
+      <ClassStats class="com.github.stkent.amplify.views.AmplifyView" sourceFile="AmplifyView.java" interface="false" size="128" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.views.AmplifyView$1" sourceFile="AmplifyView.java" interface="false" size="19" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.views.AmplifyView$2" sourceFile="AmplifyView.java" interface="false" size="17" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.views.AmplifyView$3" sourceFile="AmplifyView.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.views.AmplifyView$LayoutState" sourceFile="AmplifyView.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.views.AmplifyView$UserOpinion" sourceFile="AmplifyView.java" interface="false" size="13" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.views.DefaultQuestionView" sourceFile="DefaultQuestionView.java" interface="false" size="35" bugs="0"/>
+      <ClassStats class="com.github.stkent.amplify.views.QuestionView" sourceFile="QuestionView.java" interface="true" size="6" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="409" invocations="533" avgMicrosecondsPerInvocation="768" maxMicrosecondsPerInvocation="16762" standardDeviationMircosecondsPerInvocation="1526"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="276" invocations="110" avgMicrosecondsPerInvocation="2511" maxMicrosecondsPerInvocation="42844" standardDeviationMircosecondsPerInvocation="6017"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="233" invocations="162" avgMicrosecondsPerInvocation="1443" maxMicrosecondsPerInvocation="16074" standardDeviationMircosecondsPerInvocation="2018"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="230" invocations="328" avgMicrosecondsPerInvocation="703" maxMicrosecondsPerInvocation="8790" standardDeviationMircosecondsPerInvocation="1271"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="204" invocations="178" avgMicrosecondsPerInvocation="1149" maxMicrosecondsPerInvocation="17250" standardDeviationMircosecondsPerInvocation="1840"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="197" invocations="174" avgMicrosecondsPerInvocation="1134" maxMicrosecondsPerInvocation="35851" standardDeviationMircosecondsPerInvocation="2908"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="190" invocations="110" avgMicrosecondsPerInvocation="1731" maxMicrosecondsPerInvocation="36068" standardDeviationMircosecondsPerInvocation="3982"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="183" invocations="182" avgMicrosecondsPerInvocation="1008" maxMicrosecondsPerInvocation="21939" standardDeviationMircosecondsPerInvocation="2367"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="153" invocations="178" avgMicrosecondsPerInvocation="861" maxMicrosecondsPerInvocation="16123" standardDeviationMircosecondsPerInvocation="1660"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="115" invocations="162" avgMicrosecondsPerInvocation="712" maxMicrosecondsPerInvocation="12844" standardDeviationMircosecondsPerInvocation="1232"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="106" invocations="178" avgMicrosecondsPerInvocation="599" maxMicrosecondsPerInvocation="11633" standardDeviationMircosecondsPerInvocation="1009"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildObligationPolicyDatabase" totalMilliseconds="105" invocations="110" avgMicrosecondsPerInvocation="958" maxMicrosecondsPerInvocation="15139" standardDeviationMircosecondsPerInvocation="1985"/>
+      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="80" invocations="459" avgMicrosecondsPerInvocation="176" maxMicrosecondsPerInvocation="8174" standardDeviationMircosecondsPerInvocation="461"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="69" invocations="110" avgMicrosecondsPerInvocation="630" maxMicrosecondsPerInvocation="6928" standardDeviationMircosecondsPerInvocation="1183"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.MethodGenFactory" totalMilliseconds="69" invocations="219" avgMicrosecondsPerInvocation="316" maxMicrosecondsPerInvocation="46542" standardDeviationMircosecondsPerInvocation="3137"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical" totalMilliseconds="68" invocations="110" avgMicrosecondsPerInvocation="620" maxMicrosecondsPerInvocation="12397" standardDeviationMircosecondsPerInvocation="1537"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="67" invocations="110" avgMicrosecondsPerInvocation="614" maxMicrosecondsPerInvocation="13662" standardDeviationMircosecondsPerInvocation="1591"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="64" invocations="178" avgMicrosecondsPerInvocation="362" maxMicrosecondsPerInvocation="9147" standardDeviationMircosecondsPerInvocation="776"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildStringPassthruGraph" totalMilliseconds="64" invocations="110" avgMicrosecondsPerInvocation="583" maxMicrosecondsPerInvocation="16681" standardDeviationMircosecondsPerInvocation="1951"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="57" invocations="157" avgMicrosecondsPerInvocation="368" maxMicrosecondsPerInvocation="16770" standardDeviationMircosecondsPerInvocation="1442"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="44" invocations="537" avgMicrosecondsPerInvocation="82" maxMicrosecondsPerInvocation="766" standardDeviationMircosecondsPerInvocation="115"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ExplicitSerialization" totalMilliseconds="43" invocations="110" avgMicrosecondsPerInvocation="393" maxMicrosecondsPerInvocation="21441" standardDeviationMircosecondsPerInvocation="2377"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.EqualsOperandShouldHaveClassCompatibleWithThis" totalMilliseconds="41" invocations="110" avgMicrosecondsPerInvocation="374" maxMicrosecondsPerInvocation="4843" standardDeviationMircosecondsPerInvocation="704"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History></History>
+</BugCollection>

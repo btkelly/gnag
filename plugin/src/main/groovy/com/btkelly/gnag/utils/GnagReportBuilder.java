@@ -15,7 +15,9 @@
  */
 package com.btkelly.gnag.utils;
 
+import com.github.rjeschke.txtmark.Processor;
 import org.apache.commons.io.FileUtils;
+import org.gradle.api.Project;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -39,28 +41,63 @@ public class GnagReportBuilder extends HtmlStringBuilder {
     private static final String HTML_REPORT_SUFFIX =
             "</article></head></html>";
 
+    private static final String REPORT_HEADER_BREAK = "\n----------------------------------\n";
+
+    private final Project project;
     private final File outputDirectory;
 
-    public GnagReportBuilder(@NotNull File outputDirectory) {
+    public GnagReportBuilder(@NotNull Project project, @NotNull File outputDirectory) {
+        this.project = project;
         this.outputDirectory = outputDirectory;
         this.outputDirectory.mkdirs();
-        append(HTML_REPORT_PREFIX);
-        copyCssFile();
+    }
+
+    public GnagReportBuilder insertReporterHeader(String reporterName) {
+        return (GnagReportBuilder) append(reporterName + " Violations:")
+                .append(REPORT_HEADER_BREAK);
+    }
+
+    public GnagReportBuilder appendViolation(String name, String helpUrl, String fileName, String lineNumber, String notes) {
+
+        fileName = fileName.replace(project.getProjectDir().toString(), "");
+        fileName = fileName.replace("/src/main/java/", "");
+        fileName = fileName.replace("/src/test/java/", "");
+        fileName = fileName.replace("/src/androidTest/java/", "");
+        fileName = fileName.replace("/", ".");
+
+        return (GnagReportBuilder) appendBold("Violation: ")
+                .appendLink(name, helpUrl)
+                .insertLineBreak()
+                .appendBold("Class: ")
+                .append(fileName)
+                .insertLineBreak()
+                .appendBold("Line: ")
+                .append(lineNumber)
+                .insertLineBreak()
+                .appendBold("Notes: ")
+                .append(notes)
+                .insertLineBreak()
+                .insertLineBreak();
     }
 
     public boolean writeFile() {
 
-        final File htmlReportFile = new File(outputDirectory, REPORT_FILE_NAME);
-        String contents = toString();
-        contents += HTML_REPORT_SUFFIX;
+        StringBuilder fullReport = new StringBuilder();
+
+        fullReport.append(HTML_REPORT_PREFIX);
+        fullReport.append(Processor.process(toString()));
+        fullReport.append(HTML_REPORT_SUFFIX);
 
         try {
-            FileUtils.write(htmlReportFile, contents);
+            File htmlReportFile = new File(outputDirectory, REPORT_FILE_NAME);
+            FileUtils.write(htmlReportFile, fullReport.toString());
         } catch (IOException e) {
             System.out.println("Error writing Gnag local report.");
             e.printStackTrace();
             return false;
         }
+
+        copyCssFile();
 
         return true;
     }
@@ -73,7 +110,6 @@ public class GnagReportBuilder extends HtmlStringBuilder {
             FileUtils.copyInputStreamToFile(resourceAsStream, gnagCssOutputFile);
 
         } catch (final Exception e) {
-            e.printStackTrace();
             System.out.println("Error copying CSS file for local report.");
         }
     }

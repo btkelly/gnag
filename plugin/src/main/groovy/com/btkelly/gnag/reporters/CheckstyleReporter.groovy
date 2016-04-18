@@ -61,7 +61,7 @@ class CheckstyleReporter extends BaseReporter {
 
     @Override
     String reporterName() {
-        return "checkstyle"
+        return "Checkstyle"
     }
 
     @Override
@@ -71,6 +71,6 @@ class CheckstyleReporter extends BaseReporter {
 
     @Override
     void appendReport(GnagReportBuilder gnagReportBuilder) {
-        gnagReportBuilder.append("Checkstyle Report Errors").insertLineBreak()
+        gnagReportBuilder.insertReporterHeader(reporterName())
     }
 }

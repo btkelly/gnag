@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd version="5.3.4" timestamp="2015-11-30T17:09:59.614">
+<file name="/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/utils/ActivityStateUtil.java">
+<violation beginline="35" endline="35" begincolumn="22" endcolumn="30" rule="AvoidCatchingGenericException" ruleset="Strict Exceptions" package="com.github.stkent.amplify.utils" class="ActivityStateUtil" method="isActivityValid" externalInfoUrl="http://pmd.sourceforge.net/snapshot/pmd-java/rules/java/strictexception.html#AvoidCatchingGenericException" priority="3">
+Avoid catching generic exceptions such as NullPointerException, RuntimeException, Exception in try-catch block
+</violation>
+<violation beginline="35" endline="37" begincolumn="15" endcolumn="13" rule="EmptyCatchBlock" ruleset="Empty Code" package="com.github.stkent.amplify.utils" class="ActivityStateUtil" method="isActivityValid" externalInfoUrl="http://pmd.sourceforge.net/snapshot/pmd-java/rules/java/empty.html#EmptyCatchBlock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="/Users/bobbake4/android/amplify/amplify/src/main/java/com/github/stkent/amplify/utils/time/SystemTimeUtil.java">
+<violation beginline="23" endline="23" begincolumn="1" endcolumn="62" rule="UnusedImports" ruleset="Import Statements" package="com.github.stkent.amplify.utils.time" externalInfoUrl="http://pmd.sourceforge.net/snapshot/pmd-java/rules/java/imports.html#UnusedImports" priority="4">
+Avoid unused imports such as 'com.github.stkent.amplify.tracking.AmplifyStateTracker'
+</violation>
+<violation beginline="25" endline="43" begincolumn="29" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="com.github.stkent.amplify.utils.time" class="SystemTimeUtil" externalInfoUrl="http://pmd.sourceforge.net/snapshot/pmd-java/rules/java/design.html#UseUtilityClass" priority="3">
+All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+</violation>
+<violation beginline="31" endline="33" begincolumn="9" endcolumn="9" rule="NonThreadSafeSingleton" ruleset="Design" package="com.github.stkent.amplify.utils.time" class="SystemTimeUtil" method="currentTimeMillis" externalInfoUrl="http://pmd.sourceforge.net/snapshot/pmd-java/rules/java/design.html#NonThreadSafeSingleton" priority="3">
+Singleton is not thread safe
+</violation>
+</file>
+</pmd>
