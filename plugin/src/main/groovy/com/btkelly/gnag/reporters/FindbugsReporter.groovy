@@ -16,6 +16,10 @@
 package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
+import edu.umd.cs.findbugs.anttask.FindBugsTask
+import groovy.util.slurpersupport.GPathResult
+import org.apache.tools.ant.types.FileSet
+import org.apache.tools.ant.types.Path
 import org.gradle.api.Project
 
 /**
@@ -29,12 +33,57 @@ class FindbugsReporter extends BaseReporter {
 
     @Override
     void executeReporter() {
-        println "Findbugs executed"
+
+        FindBugsTask findBugsTask = new FindBugsTask()
+
+        findBugsTask.project = project.ant.antProject
+        findBugsTask.workHard = true
+        findBugsTask.output = "xml:withMessages"
+        findBugsTask.outputFile = reportFile()
+        findBugsTask.failOnError = false
+
+        if (reporterExtension.hasReporterConfig()) {
+            findBugsTask.excludeFilter = reporterExtension.getReporterConfig()
+        } else {
+            findBugsTask.excludeFilter = new File(getClass().getClassLoader().getResource("findbugs.xml").getFile())
+        }
+
+        Path sourcePath = findBugsTask.createSourcePath()
+        getAndroidSources().findAll { it.exists() }.each {
+            sourcePath.addFileset(project.ant.fileset(dir: it))
+        }
+
+        Path classpath = findBugsTask.createClasspath()
+        project.rootProject.buildscript.configurations.classpath.resolve().each {
+            classpath.createPathElement().location = it
+        }
+        project.buildscript.configurations.classpath.resolve().each {
+            classpath.createPathElement().location = it
+        }
+
+        Set<String> includes = []
+        getAndroidSources().findAll { it.exists() }.each { File directory ->
+            FileSet fileSet = project.ant.fileset(dir: directory)
+            Path path = project.ant.path()
+            path.addFileset(fileSet)
+
+            path.each {
+                String includePath = new File(it.toString()).absolutePath - directory.absolutePath
+                includes.add("**${includePath.replaceAll('\\.java$', '')}*")
+            }
+        }
+
+        findBugsTask.addFileset(project.ant.fileset(dir: project.buildDir, includes: includes.join(',')))
+
+        findBugsTask.perform()
     }
 
     @Override
     boolean hasErrors() {
-        return false
+        GPathResult xml = new XmlSlurper().parseText(reportFile().text)
+        int numErrors = xml.FindBugsSummary.getProperty('@total_bugs').text() as int
+        println "Findbugs report executed, found " + numErrors + " errors."
+        return numErrors != 0
     }
 
     @Override
@@ -44,6 +93,6 @@ class FindbugsReporter extends BaseReporter {
 
     @Override
     File reportFile() {
-        return null
+        return new File(getReportsDir(), "findbugs.xml")
     }
 }

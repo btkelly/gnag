@@ -58,7 +58,7 @@ gnag {
         reporterConfig project.file('config/pmd.xml')
     }
     findbugs {
-        enabled false
+        enabled true
         reporterConfig project.file('config/findbugs.xml')
     }
     github {
