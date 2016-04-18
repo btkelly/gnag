@@ -3,11 +3,12 @@ plugins {
     id "com.github.hierynomus.license" version "0.12.1"
 }
 
-group 'com.btkelly'
-version '0.4.0-SNAPSHOT'
-
 apply plugin: 'groovy'
 apply from: file('bintray.gradle')
+apply from: file('../version.gradle')
+
+group 'com.btkelly'
+version gnagPluginVersion
 
 compileJava {
     sourceCompatibility = '1.8'

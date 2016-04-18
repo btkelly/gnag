@@ -20,9 +20,7 @@ import com.btkelly.gnag.reporters.BaseReporter;
 import com.btkelly.gnag.reporters.CheckstyleReporter;
 import com.btkelly.gnag.reporters.FindbugsReporter;
 import com.btkelly.gnag.reporters.PMDReporter;
-import org.gradle.api.DefaultTask;
-import org.gradle.api.Project;
-import org.gradle.api.Task;
+import org.gradle.api.*;
 import org.gradle.api.tasks.TaskAction;
 
 import java.util.ArrayList;
@@ -47,24 +45,39 @@ public class GnagCheck extends DefaultTask {
         taskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag checks and generates an HTML report");
 
         GnagCheck gnagCheckTask = (GnagCheck) project.task(taskOptions, TASK_NAME);
-
-        if (gnagPluginExtension.checkstyle.isEnabled()) {
-            gnagCheckTask.reporters.add(new CheckstyleReporter(gnagPluginExtension.checkstyle, project));
-        }
-
-        if (gnagPluginExtension.pmd.isEnabled()) {
-            gnagCheckTask.reporters.add(new PMDReporter(gnagPluginExtension.pmd, project));
-        }
-
-        if (gnagPluginExtension.findbugs.isEnabled()) {
-            gnagCheckTask.reporters.add(new FindbugsReporter(gnagPluginExtension.findbugs, project));
-        }
+        gnagCheckTask.setGnagPluginExtension(gnagPluginExtension);
+        gnagCheckTask.reporters.add(new CheckstyleReporter(gnagPluginExtension.checkstyle, project));
+        gnagCheckTask.reporters.add(new PMDReporter(gnagPluginExtension.pmd, project));
+        gnagCheckTask.reporters.add(new FindbugsReporter(gnagPluginExtension.findbugs, project));
     }
 
     private final List<BaseReporter> reporters = new ArrayList<>();
+    private GnagPluginExtension gnagPluginExtension;
 
     @TaskAction
     public void taskAction() {
-        reporters.forEach(BaseReporter::executeReporter);
+        if (gnagPluginExtension.isEnabled()) {
+            executeGnagCheck();
+        }
+    }
+
+    private void executeGnagCheck() {
+        boolean reportErrors = false;
+
+        for (BaseReporter baseReporter : reporters) {
+
+            if (baseReporter.isEnabled()) {
+                baseReporter.executeReporter();
+                reportErrors = reportErrors | baseReporter.hasErrors();
+            }
+        }
+
+        if (reportErrors && gnagPluginExtension.shouldFailOnError()) {
+            throw new GradleException("One or more reporters has caused the build to fail");
+        }
+    }
+
+    private void setGnagPluginExtension(GnagPluginExtension gnagPluginExtension) {
+        this.gnagPluginExtension = gnagPluginExtension;
     }
 }

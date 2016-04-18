@@ -39,6 +39,10 @@ abstract class BaseReporter {
         this.project = project
     }
 
+    public boolean isEnabled() {
+        return reporterExtension.enabled
+    }
+
     protected List<File> getAndroidSources() {
         project.android.sourceSets.inject([]) {
             dirs, sourceSet -> dirs + sourceSet.java.srcDirs

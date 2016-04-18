@@ -4,7 +4,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.btkelly:gnag:0.4.0-SNAPSHOT'
+        classpath 'com.btkelly:gnag:' + gnagPluginVersion
     }
 }
 
@@ -49,9 +49,6 @@ clean.dependsOn licenseFormat
 
 gnag {
     failOnError true
-    gitHubRepoName 'btkelly/repo'
-    gitHubAuthToken '0000000000000'
-    gitHubIssueNumber '1'
     checkstyle {
         enabled true
         reporterConfig project.file('config/checkstyle.xml')
@@ -64,34 +61,34 @@ gnag {
         enabled false
         reporterConfig project.file('config/findbugs.xml')
     }
+    github {
+        repoName 'btkelly/repo'
+        authToken '0000000000000'
+        issueNumber '1'
+    }
 }
 
 /*
-GnagExtension{
-    project=project ':app',
-    checkStyle=ReporterExtension{
-        name='CheckStyle',
-        project=project ':app',
-        enabled=true,
-        reporterConfig=null
-    },
-    pmd=ReporterExtension{
-        name='PMD',
-        project=project ':app',
-        enabled=true,
-        reporterConfig=null
-    },
-    findbugs=ReporterExtension{
-        name='FindBugs',
-        project=project ':app',
-        enabled=true,
-        reporterConfig=null
-    },
-    skip=false,
-    failOnError=false,
-    gitHubRepoName='null',
-    gitHubAuthToken='null',
-    gitHubIssueNumber='null'
+gnag {
+    enabled true
+    failOnError true
+    checkstyle {
+        enabled true
+        reporterConfig project.file('config/checkstyle.xml')
+    }
+    pmd {
+        enabled false
+        reporterConfig project.file('config/pmd.xml')
+    }
+    findbugs {
+        enabled false
+        reporterConfig project.file('config/findbugs.xml')
+    }
+    github {
+        repoName 'btkelly/repo'
+        authToken '0000000000000'
+        issueNumber '1'
+    }
 }
 
  */

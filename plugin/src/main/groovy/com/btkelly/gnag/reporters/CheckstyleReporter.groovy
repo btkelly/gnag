@@ -31,8 +31,6 @@ class CheckstyleReporter extends BaseReporter {
 
     @Override
     void executeReporter() {
-        println "Checkstyle executed"
-
         CheckstyleAntTask checkStyleTask = new CheckstyleAntTask()
         checkStyleTask.project = project.ant.antProject
         checkStyleTask.failOnViolation = false
@@ -55,6 +53,7 @@ class CheckstyleReporter extends BaseReporter {
     boolean hasErrors() {
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
         int numErrors = xml.file.inject(0) { count, file -> count + file.error.size() }
+        println "Checkstyle report executed, found " + numErrors + " errors."
         return numErrors != 0
     }
 

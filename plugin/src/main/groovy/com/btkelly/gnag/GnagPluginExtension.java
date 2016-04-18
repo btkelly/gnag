@@ -15,6 +15,7 @@
  */
 package com.btkelly.gnag;
 
+import com.btkelly.gnag.extensions.GitHubExtension;
 import com.btkelly.gnag.extensions.ReporterExtension;
 import org.gradle.api.Action;
 import org.gradle.api.Project;
@@ -50,25 +51,29 @@ public class GnagPluginExtension {
         action.execute(findbugs);
     }
 
-    private boolean skip;
-    private boolean failOnError;
-    private String gitHubRepoName;
-    private String gitHubAuthToken;
-    private String gitHubIssueNumber;
+    public GitHubExtension github;
+
+    public void github(Action<GitHubExtension> action) {
+        action.execute(github);
+    }
+
+    private boolean enabled = true;
+    private boolean failOnError = true;
 
     public GnagPluginExtension(Project project) {
         this.project = project;
-        checkstyle = new ReporterExtension("CheckStyle", project);
-        pmd = new ReporterExtension("PMD", project);
-        findbugs = new ReporterExtension("FindBugs", project);
+        this.github = new GitHubExtension(project);
+        this.checkstyle = new ReporterExtension("CheckStyle", project);
+        this.pmd = new ReporterExtension("PMD", project);
+        this.findbugs = new ReporterExtension("FindBugs", project);
     }
 
-    public void setSkip(boolean skip) {
-        this.skip = skip;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
-    public boolean shouldSkip() {
-        return skip;
+    public boolean isEnabled() {
+        return enabled;
     }
 
     public void setFailOnError(boolean failOnError) {
@@ -79,42 +84,16 @@ public class GnagPluginExtension {
         return project.hasProperty("failOnError") ? (Boolean) project.property("failOnError") : failOnError;
     }
 
-    public void setGitHubRepoName(String gitHubRepoName) {
-        this.gitHubRepoName = gitHubRepoName;
-    }
-
-    public String getGitHubRepoName() {
-        return project.hasProperty("gitHubRepoName") ? (String) project.property("gitHubRepoName") : gitHubRepoName;
-    }
-
-    public void setGitHubAuthToken(String gitHubAuthToken) {
-        this.gitHubAuthToken = gitHubAuthToken;
-    }
-
-    public String getGitHubAuthToken() {
-        return project.hasProperty("gitHubAuthToken") ? (String) project.property("gitHubAuthToken") : gitHubAuthToken;
-    }
-
-    public void setGitHubIssueNumber(String gitHubIssueNumber) {
-        this.gitHubIssueNumber = gitHubIssueNumber;
-    }
-
-    public String getGitHubIssueNumber() {
-        return project.hasProperty("gitHubIssueNumber") ? (String) project.property("gitHubIssueNumber") : gitHubIssueNumber;
-    }
-
     @Override
     public String toString() {
         return "GnagExtension{" +
                 "project=" + project +
                 ", checkstyle=" + checkstyle +
                 ", pmd=" + pmd +
+                ", github=" + github +
                 ", findbugs=" + findbugs +
-                ", skip=" + skip +
+                ", enabled=" + enabled +
                 ", failOnError=" + failOnError +
-                ", gitHubRepoName='" + gitHubRepoName + '\'' +
-                ", gitHubAuthToken='" + gitHubAuthToken + '\'' +
-                ", gitHubIssueNumber='" + gitHubIssueNumber + '\'' +
                 '}';
     }
 }
