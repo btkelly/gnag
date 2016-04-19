@@ -30,9 +30,6 @@ dependencies {
     compile 'com.google.code.findbugs:findbugs:3.0.1'
     compile 'net.sourceforge.pmd:pmd-java:5.4.1'
 
-    //Markdown util
-    compile 'com.github.rjeschke:txtmark:0.13'
-
     compile 'org.jetbrains:annotations:15.0'
 
 }

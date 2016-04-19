@@ -99,6 +99,19 @@ class FindbugsReporter extends BaseReporter {
 
     @Override
     void appendReport(GnagReportBuilder gnagReportBuilder) {
+
         gnagReportBuilder.insertReporterHeader(reporterName())
+
+        GPathResult xml = new XmlSlurper().parseText(reportFile().text)
+
+        xml.BugInstance.each { violation ->
+            gnagReportBuilder.appendViolation(
+                    violation.@type.text(),
+                    null,
+                    violation.SourceLine.@classname.text(),
+                    violation.SourceLine.@start.text(),
+                    violation.ShortMessage.text()
+            )
+        }
     }
 }
