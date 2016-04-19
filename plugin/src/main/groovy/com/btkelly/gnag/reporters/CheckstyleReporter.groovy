@@ -24,7 +24,7 @@ import org.gradle.api.Project
 /**
  * Created by bobbake4 on 4/1/16.
  */
-class CheckstyleReporter extends BaseReporter {
+class CheckstyleReporter extends BaseExecutedReporter {
 
     CheckstyleReporter(ReporterExtension reporterExtension, Project project) {
         super(reporterExtension, project)
@@ -44,7 +44,7 @@ class CheckstyleReporter extends BaseReporter {
             checkStyleTask.setConfigUrl(getClass().getClassLoader().getResource("checkstyle.xml"))
         }
 
-        getAndroidSources().findAll { it.exists() }.each {
+        reportHelper.getAndroidSources().findAll { it.exists() }.each {
             checkStyleTask.addFileset(project.ant.fileset(dir: it))
         }
 
@@ -66,7 +66,7 @@ class CheckstyleReporter extends BaseReporter {
 
     @Override
     File reportFile() {
-        return new File(getReportsDir(), "checkstyle_report.xml")
+        return new File(reportHelper.getReportsDir(), "checkstyle_report.xml")
     }
 
     @Override

@@ -15,6 +15,7 @@
  */
 package com.btkelly.gnag;
 
+import com.btkelly.gnag.extensions.AndroidLintExtension;
 import com.btkelly.gnag.extensions.GitHubExtension;
 import com.btkelly.gnag.extensions.ReporterExtension;
 import org.gradle.api.Action;
@@ -52,16 +53,16 @@ public class GnagPluginExtension {
         action.execute(findbugs);
     }
 
-    public ReporterExtension lint;
-
-    public void lint(Action<ReporterExtension> action) {
-        action.execute(lint);
-    }
-
     public GitHubExtension github;
 
     public void github(Action<GitHubExtension> action) {
         action.execute(github);
+    }
+
+    public AndroidLintExtension androidLint;
+
+    public void androidLint(Action<AndroidLintExtension> action) {
+        action.execute(androidLint);
     }
 
     private boolean enabled = true;
@@ -72,8 +73,8 @@ public class GnagPluginExtension {
         this.github = new GitHubExtension(project);
         this.checkstyle = new ReporterExtension("CheckStyle", project);
         this.pmd = new ReporterExtension("PMD", project);
-        this.lint = new ReporterExtension("AndroidLint", project);
         this.findbugs = new ReporterExtension("FindBugs", project);
+        this.androidLint = new AndroidLintExtension(project);
     }
 
     public void setEnabled(boolean enabled) {
@@ -98,7 +99,7 @@ public class GnagPluginExtension {
                 "project=" + project +
                 ", checkstyle=" + checkstyle +
                 ", pmd=" + pmd +
-                ", lint=" + lint +
+                ", androidLint=" + androidLint +
                 ", github=" + github +
                 ", findbugs=" + findbugs +
                 ", enabled=" + enabled +

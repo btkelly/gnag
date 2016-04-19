@@ -24,7 +24,7 @@ import org.gradle.api.Project
 /**
  * Created by bobbake4 on 4/1/16.
  */
-class PMDReporter extends BaseReporter {
+class PMDReporter extends BaseExecutedReporter {
 
     PMDReporter(ReporterExtension reporterExtension, Project project) {
         super(reporterExtension, project)
@@ -46,7 +46,7 @@ class PMDReporter extends BaseReporter {
             pmdTask.ruleSetFiles = getClass().getClassLoader().getResource("pmd.xml").toString()
         }
 
-        getAndroidSources().findAll { it.exists() }.each {
+        reportHelper.getAndroidSources().findAll { it.exists() }.each {
             pmdTask.addFileset(project.ant.fileset(dir: it))
         }
 
@@ -68,7 +68,7 @@ class PMDReporter extends BaseReporter {
 
     @Override
     File reportFile() {
-        return new File(getReportsDir(), "pmd.xml")
+        return new File(reportHelper.getReportsDir(), "pmd.xml")
     }
 
     @Override

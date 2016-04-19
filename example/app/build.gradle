@@ -62,8 +62,9 @@ gnag {
         enabled true
         reporterConfig project.file('config/findbugs.xml')
     }
-    lint {
+    androidLint {
         enabled true
+        severity 'Error'
     }
     github {
         repoName 'btkelly/repo'
@@ -71,28 +72,3 @@ gnag {
         issueNumber '1'
     }
 }
-
-/*
-gnag {
-    enabled true
-    failOnError true
-    checkstyle {
-        enabled true
-        reporterConfig project.file('config/checkstyle.xml')
-    }
-    pmd {
-        enabled false
-        reporterConfig project.file('config/pmd.xml')
-    }
-    findbugs {
-        enabled false
-        reporterConfig project.file('config/findbugs.xml')
-    }
-    github {
-        repoName 'btkelly/repo'
-        authToken '0000000000000'
-        issueNumber '1'
-    }
-}
-
- */

@@ -16,45 +16,28 @@
 package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
-import com.btkelly.gnag.utils.GnagReportBuilder
+import com.btkelly.gnag.utils.ReportHelper
 import org.gradle.api.Project
 
 /**
  * Created by bobbake4 on 4/1/16.
  */
-abstract class BaseReporter {
+abstract class BaseExecutedReporter implements Reporter {
 
     abstract void executeReporter()
 
-    abstract boolean hasErrors()
-
-    abstract String reporterName()
-
-    abstract File reportFile()
-
-    abstract void appendReport(GnagReportBuilder gnagReportBuilder)
-
     protected final ReporterExtension reporterExtension
     protected final Project project
+    protected final ReportHelper reportHelper;
 
-    BaseReporter(ReporterExtension reporterExtension, Project project) {
+    BaseExecutedReporter(ReporterExtension reporterExtension, Project project) {
         this.reporterExtension = reporterExtension
         this.project = project
+        this.reportHelper = new ReportHelper(project)
     }
 
+    @Override
     public boolean isEnabled() {
         return reporterExtension.enabled
-    }
-
-    protected List<File> getAndroidSources() {
-        project.android.sourceSets.inject([]) {
-            dirs, sourceSet -> dirs + sourceSet.java.srcDirs
-        }
-    }
-
-    protected File getReportsDir() {
-        File reportsDir = new File(project.buildDir.path + "/outputs/gnag/")
-        reportsDir.mkdirs()
-        return reportsDir
     }
 }

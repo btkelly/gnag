@@ -26,7 +26,7 @@ import org.gradle.api.Project
 /**
  * Created by bobbake4 on 4/1/16.
  */
-class FindbugsReporter extends BaseReporter {
+class FindbugsReporter extends BaseExecutedReporter {
 
     FindbugsReporter(ReporterExtension reporterExtension, Project project) {
         super(reporterExtension, project)
@@ -50,7 +50,7 @@ class FindbugsReporter extends BaseReporter {
         }
 
         Path sourcePath = findBugsTask.createSourcePath()
-        getAndroidSources().findAll { it.exists() }.each {
+        reportHelper.getAndroidSources().findAll { it.exists() }.each {
             sourcePath.addFileset(project.ant.fileset(dir: it))
         }
 
@@ -63,7 +63,7 @@ class FindbugsReporter extends BaseReporter {
         }
 
         Set<String> includes = []
-        getAndroidSources().findAll { it.exists() }.each { File directory ->
+        reportHelper.getAndroidSources().findAll { it.exists() }.each { File directory ->
             FileSet fileSet = project.ant.fileset(dir: directory)
             Path path = project.ant.path()
             path.addFileset(fileSet)
@@ -94,7 +94,7 @@ class FindbugsReporter extends BaseReporter {
 
     @Override
     File reportFile() {
-        return new File(getReportsDir(), "findbugs.xml")
+        return new File(reportHelper.getReportsDir(), "findbugs.xml")
     }
 
     @Override

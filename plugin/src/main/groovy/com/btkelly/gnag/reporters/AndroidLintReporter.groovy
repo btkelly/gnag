@@ -15,7 +15,7 @@
  */
 package com.btkelly.gnag.reporters
 
-import com.btkelly.gnag.extensions.ReporterExtension
+import com.btkelly.gnag.extensions.AndroidLintExtension
 import com.btkelly.gnag.utils.GnagReportBuilder
 import groovy.util.slurpersupport.GPathResult
 import org.gradle.api.Project
@@ -23,23 +23,25 @@ import org.gradle.api.Project
 /**
  * Created by bobbake4 on 4/18/16.
  */
-class AndroidLintReporter extends BaseReporter {
+class AndroidLintReporter implements Reporter {
 
-    private static final String SEVERITY_LEVEL = "Error"
+    private final Project project
+    private final AndroidLintExtension androidLintExtension;
 
-    AndroidLintReporter(ReporterExtension reporterExtension, Project project) {
-        super(reporterExtension, project)
+    AndroidLintReporter(AndroidLintExtension androidLintExtension, Project project) {
+        this.project = project
+        this.androidLintExtension = androidLintExtension
     }
 
     @Override
-    void executeReporter() {
-        //Android Lint is not executed by Gnag
+    boolean isEnabled() {
+        return androidLintExtension.enabled
     }
 
     @Override
     boolean hasErrors() {
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
-        int numErrors = xml.issue.count { it.@severity.text().equals(SEVERITY_LEVEL)}
+        int numErrors = xml.issue.count { it.@severity.text().equals(androidLintExtension.severity) }
         println "Android Lint report executed, found " + numErrors + " errors."
         return numErrors != 0
     }
@@ -61,7 +63,7 @@ class AndroidLintReporter extends BaseReporter {
 
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
 
-        xml.issue.findAll { it.@severity.text().equals(SEVERITY_LEVEL) }.each { violation ->
+        xml.issue.findAll { it.@severity.text().equals(androidLintExtension.severity) }.each { violation ->
             gnagReportBuilder.appendViolation(
                     violation.@id.text(),
                     violation.@url.text(),

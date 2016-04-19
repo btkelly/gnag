@@ -18,10 +18,13 @@ package com.btkelly.gnag.tasks;
 import com.btkelly.gnag.GnagPluginExtension;
 import com.btkelly.gnag.reporters.*;
 import com.btkelly.gnag.utils.GnagReportBuilder;
-import org.gradle.api.*;
+import com.btkelly.gnag.utils.ReportHelper;
+import org.gradle.api.DefaultTask;
+import org.gradle.api.GradleException;
+import org.gradle.api.Project;
+import org.gradle.api.Task;
 import org.gradle.api.tasks.TaskAction;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,10 +51,10 @@ public class GnagCheck extends DefaultTask {
         gnagCheckTask.reporters.add(new CheckstyleReporter(gnagPluginExtension.checkstyle, project));
         gnagCheckTask.reporters.add(new PMDReporter(gnagPluginExtension.pmd, project));
         gnagCheckTask.reporters.add(new FindbugsReporter(gnagPluginExtension.findbugs, project));
-        gnagCheckTask.reporters.add(new AndroidLintReporter(gnagPluginExtension.lint, project));
+        gnagCheckTask.reporters.add(new AndroidLintReporter(gnagPluginExtension.androidLint, project));
     }
 
-    private final List<BaseReporter> reporters = new ArrayList<>();
+    private final List<Reporter> reporters = new ArrayList<>();
     private GnagPluginExtension gnagPluginExtension;
 
     @TaskAction
@@ -64,17 +67,20 @@ public class GnagCheck extends DefaultTask {
     private void executeGnagCheck() {
         boolean foundErrors = false;
 
-        File reportsDir = new File(getProject().getBuildDir().getPath() + "/outputs/gnag/");
-        GnagReportBuilder gnagReportBuilder = new GnagReportBuilder(getProject(), reportsDir);
+        ReportHelper reportHelper = new ReportHelper(getProject());
+        GnagReportBuilder gnagReportBuilder = new GnagReportBuilder(getProject(), reportHelper.getReportsDir());
 
-        for (BaseReporter baseReporter : reporters) {
+        for (Reporter reporter : reporters) {
 
-            if (baseReporter.isEnabled()) {
-                baseReporter.executeReporter();
+            if (reporter.isEnabled()) {
 
-                if (baseReporter.hasErrors()) {
+                if (reporter instanceof BaseExecutedReporter) {
+                    ((BaseExecutedReporter) reporter).executeReporter();
+                }
+
+                if (reporter.hasErrors()) {
                     foundErrors = true;
-                    baseReporter.appendReport(gnagReportBuilder);
+                    reporter.appendReport(gnagReportBuilder);
                 }
             }
         }
