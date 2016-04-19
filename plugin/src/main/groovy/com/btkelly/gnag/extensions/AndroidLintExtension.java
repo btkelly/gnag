@@ -22,10 +22,13 @@ import org.gradle.api.Project;
  */
 public class AndroidLintExtension {
 
+    public static final String SEVERITY_WARNING = "Warning";
+    public static final String SEVERITY_ERROR = "Error";
+
     private final Project project;
 
     private boolean enabled = true;
-    private String severity = "Error";
+    private String severity = SEVERITY_ERROR;
 
     public AndroidLintExtension(Project project) {
         this.project = project;

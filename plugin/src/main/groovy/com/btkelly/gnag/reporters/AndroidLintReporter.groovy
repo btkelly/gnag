@@ -20,6 +20,9 @@ import com.btkelly.gnag.utils.GnagReportBuilder
 import groovy.util.slurpersupport.GPathResult
 import org.gradle.api.Project
 
+import static com.btkelly.gnag.extensions.AndroidLintExtension.SEVERITY_ERROR
+import static com.btkelly.gnag.extensions.AndroidLintExtension.SEVERITY_WARNING
+
 /**
  * Created by bobbake4 on 4/18/16.
  */
@@ -35,13 +38,23 @@ class AndroidLintReporter implements Reporter {
 
     @Override
     boolean isEnabled() {
-        return androidLintExtension.enabled
+
+        if (androidLintExtension.enabled) {
+            if (reportFile().exists()) {
+                return true
+            } else {
+                println "Android Lint Reporter is enabled but no lint report was found"
+                return false
+            }
+        } else {
+            return false
+        }
     }
 
     @Override
     boolean hasErrors() {
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
-        int numErrors = xml.issue.count { it.@severity.text().equals(androidLintExtension.severity) }
+        int numErrors = xml.issue.count { severityEnabled(it.@severity.text()) }
         println "Android Lint report executed, found " + numErrors + " errors."
         return numErrors != 0
     }
@@ -63,7 +76,7 @@ class AndroidLintReporter implements Reporter {
 
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
 
-        xml.issue.findAll { it.@severity.text().equals(androidLintExtension.severity) }.each { violation ->
+        xml.issue.findAll { severityEnabled(it.@severity.text()) }.each { violation ->
             gnagReportBuilder.appendViolation(
                     violation.@id.text(),
                     violation.@url.text(),
@@ -71,6 +84,14 @@ class AndroidLintReporter implements Reporter {
                     violation.location.@line.text(),
                     violation.@message.text()
             )
+        }
+    }
+
+    private boolean severityEnabled(String severity) {
+        if (androidLintExtension.severity.equals(SEVERITY_WARNING)) {
+            return true
+        } else {
+            return severity.equals(SEVERITY_ERROR)
         }
     }
 }
