@@ -15,7 +15,7 @@
  */
 package com.btkelly.gnag.tasks;
 
-import com.btkelly.gnag.GnagPluginExtension;
+import com.btkelly.gnag.extensions.GnagPluginExtension;
 import com.btkelly.gnag.reporters.*;
 import com.btkelly.gnag.utils.GnagReportBuilder;
 import com.btkelly.gnag.utils.ReportHelper;

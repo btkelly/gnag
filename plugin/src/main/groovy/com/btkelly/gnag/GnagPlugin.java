@@ -15,6 +15,7 @@
  */
 package com.btkelly.gnag;
 
+import com.btkelly.gnag.extensions.GnagPluginExtension;
 import com.btkelly.gnag.tasks.GnagCheck;
 import com.btkelly.gnag.tasks.GnagReportTask;
 import org.gradle.api.Plugin;

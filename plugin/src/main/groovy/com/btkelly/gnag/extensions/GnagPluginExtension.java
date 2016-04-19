@@ -13,11 +13,8 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.btkelly.gnag;
+package com.btkelly.gnag.extensions;
 
-import com.btkelly.gnag.extensions.AndroidLintExtension;
-import com.btkelly.gnag.extensions.GitHubExtension;
-import com.btkelly.gnag.extensions.ReporterExtension;
 import org.gradle.api.Action;
 import org.gradle.api.Project;
 import org.jetbrains.annotations.NotNull;
