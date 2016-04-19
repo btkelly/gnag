@@ -62,6 +62,9 @@ gnag {
         enabled true
         reporterConfig project.file('config/findbugs.xml')
     }
+    lint {
+        enabled true
+    }
     github {
         repoName 'btkelly/repo'
         authToken '0000000000000'

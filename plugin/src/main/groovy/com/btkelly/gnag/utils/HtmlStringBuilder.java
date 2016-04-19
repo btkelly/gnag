@@ -36,7 +36,7 @@ public class HtmlStringBuilder {
 
     public HtmlStringBuilder appendLink(@NotNull final CharSequence string, @NotNull final String linkUrl) {
         stringBuilder
-                .append("<a href=\"")
+                .append("<a target=\"_blank\" href=\"")
                 .append(linkUrl)
                 .append("\">")
                 .append(string)

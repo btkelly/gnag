@@ -57,8 +57,4 @@ abstract class BaseReporter {
         reportsDir.mkdirs()
         return reportsDir
     }
-
-    private String getDescription() {
-        return "Executes all checks for the " + reporterName() + " reporter"
-    }
 }

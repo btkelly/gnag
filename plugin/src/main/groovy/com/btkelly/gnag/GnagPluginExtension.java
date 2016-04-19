@@ -52,6 +52,12 @@ public class GnagPluginExtension {
         action.execute(findbugs);
     }
 
+    public ReporterExtension lint;
+
+    public void lint(Action<ReporterExtension> action) {
+        action.execute(lint);
+    }
+
     public GitHubExtension github;
 
     public void github(Action<GitHubExtension> action) {
@@ -66,6 +72,7 @@ public class GnagPluginExtension {
         this.github = new GitHubExtension(project);
         this.checkstyle = new ReporterExtension("CheckStyle", project);
         this.pmd = new ReporterExtension("PMD", project);
+        this.lint = new ReporterExtension("AndroidLint", project);
         this.findbugs = new ReporterExtension("FindBugs", project);
     }
 
@@ -91,6 +98,7 @@ public class GnagPluginExtension {
                 "project=" + project +
                 ", checkstyle=" + checkstyle +
                 ", pmd=" + pmd +
+                ", lint=" + lint +
                 ", github=" + github +
                 ", findbugs=" + findbugs +
                 ", enabled=" + enabled +

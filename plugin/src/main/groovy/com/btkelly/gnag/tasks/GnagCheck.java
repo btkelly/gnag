@@ -16,10 +16,7 @@
 package com.btkelly.gnag.tasks;
 
 import com.btkelly.gnag.GnagPluginExtension;
-import com.btkelly.gnag.reporters.BaseReporter;
-import com.btkelly.gnag.reporters.CheckstyleReporter;
-import com.btkelly.gnag.reporters.FindbugsReporter;
-import com.btkelly.gnag.reporters.PMDReporter;
+import com.btkelly.gnag.reporters.*;
 import com.btkelly.gnag.utils.GnagReportBuilder;
 import org.gradle.api.*;
 import org.gradle.api.tasks.TaskAction;
@@ -51,6 +48,7 @@ public class GnagCheck extends DefaultTask {
         gnagCheckTask.reporters.add(new CheckstyleReporter(gnagPluginExtension.checkstyle, project));
         gnagCheckTask.reporters.add(new PMDReporter(gnagPluginExtension.pmd, project));
         gnagCheckTask.reporters.add(new FindbugsReporter(gnagPluginExtension.findbugs, project));
+        gnagCheckTask.reporters.add(new AndroidLintReporter(gnagPluginExtension.lint, project));
     }
 
     private final List<BaseReporter> reporters = new ArrayList<>();
