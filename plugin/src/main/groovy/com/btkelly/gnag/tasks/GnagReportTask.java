@@ -15,6 +15,10 @@
  */
 package com.btkelly.gnag.tasks;
 
+import com.btkelly.gnag.api.GitHubApi;
+import com.btkelly.gnag.extensions.GitHubExtension;
+import com.btkelly.gnag.models.GitHubPullRequest;
+import com.btkelly.gnag.models.GitHubStatusType;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
@@ -30,7 +34,7 @@ public class GnagReportTask extends DefaultTask {
 
     private static final String TASK_NAME = "gnagReport";
 
-    public static void addTask(Project project) {
+    public static void addTask(Project project, GitHubExtension gitHubExtension) {
         Map<String, Object> taskOptions = new HashMap<>();
 
         taskOptions.put(Task.TASK_NAME, TASK_NAME);
@@ -39,12 +43,25 @@ public class GnagReportTask extends DefaultTask {
         taskOptions.put(Task.TASK_DEPENDS_ON, "check");
         taskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag and generates a report to publish to Github and set the status of a PR");
 
-        Task gnagReportTask = project.task(taskOptions, TASK_NAME);
+        GnagReportTask gnagReportTask = (GnagReportTask) project.task(taskOptions, TASK_NAME);
         gnagReportTask.dependsOn(GnagCheck.TASK_NAME);
+        gnagReportTask.setGitHubExtension(gitHubExtension);
     }
+
+    private GitHubExtension gitHubExtension;
 
     @TaskAction
     public void taskAction() {
-        System.out.println("Should send results to GitHub");
+
+        GitHubApi gitHubApi = new GitHubApi(gitHubExtension);
+
+        GitHubPullRequest pullRequestDetails = gitHubApi.getPullRequestDetails();
+
+        gitHubApi.postUpdatedGitHubStatus(GitHubStatusType.PENDING, pullRequestDetails.getHead().getSha());
+
+    }
+
+    public void setGitHubExtension(GitHubExtension gitHubExtension) {
+        this.gitHubExtension = gitHubExtension;
     }
 }

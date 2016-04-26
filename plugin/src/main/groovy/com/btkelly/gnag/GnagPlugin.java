@@ -33,7 +33,7 @@ public class GnagPlugin implements Plugin<Project> {
 
         project.afterEvaluate(target -> {
             GnagCheck.addTask(target, gnagPluginExtension);
-            GnagReportTask.addTask(target);
+            GnagReportTask.addTask(target, gnagPluginExtension.github);
         });
     }
 }

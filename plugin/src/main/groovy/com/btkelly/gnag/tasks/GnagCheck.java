@@ -23,6 +23,7 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
+import org.gradle.api.tasks.StopExecutionException;
 import org.gradle.api.tasks.TaskAction;
 
 import java.util.ArrayList;
@@ -87,8 +88,16 @@ public class GnagCheck extends DefaultTask {
 
         gnagReportBuilder.writeFile();
 
-        if (foundErrors && gnagPluginExtension.shouldFailOnError()) {
-            throw new GradleException("One or more reporters has caused the build to fail");
+        if (foundErrors) {
+
+            String failedMessage = "One or more reporters has found violations";
+
+            if (gnagPluginExtension.shouldFailOnError()) {
+                throw new GradleException(failedMessage);
+            } else {
+                System.out.println(failedMessage);
+                throw new StopExecutionException(failedMessage);
+            }
         }
     }
 
