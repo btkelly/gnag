@@ -1,12 +1,12 @@
 /**
  * Copyright 2016 Bryan Kelly
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.
- *
+ * <p>
  * You may obtain a copy of the License at
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,6 +16,7 @@
 package com.btkelly.gnag.tasks;
 
 import com.btkelly.gnag.extensions.GnagPluginExtension;
+import com.btkelly.gnag.models.CheckStatus;
 import com.btkelly.gnag.reporters.*;
 import com.btkelly.gnag.utils.GnagReportBuilder;
 import com.btkelly.gnag.utils.ReportHelper;
@@ -23,6 +24,7 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
+import org.gradle.api.execution.TaskExecutionGraph;
 import org.gradle.api.tasks.StopExecutionException;
 import org.gradle.api.tasks.TaskAction;
 
@@ -30,6 +32,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.btkelly.gnag.models.GitHubStatusType.ERROR;
+import static com.btkelly.gnag.models.GitHubStatusType.SUCCESS;
 
 /**
  * Created by bobbake4 on 4/1/16.
@@ -90,14 +95,20 @@ public class GnagCheck extends DefaultTask {
 
         if (foundErrors) {
 
+            getProject().setStatus(new CheckStatus(gnagReportBuilder.toString(), ERROR));
+
+            TaskExecutionGraph taskGraph = getProject().getGradle().getTaskGraph();
+
             String failedMessage = "One or more reporters has found violations";
 
-            if (gnagPluginExtension.shouldFailOnError()) {
+            if (gnagPluginExtension.shouldFailOnError() && !taskGraph.hasTask(GnagReportTask.TASK_NAME)) {
                 throw new GradleException(failedMessage);
             } else {
                 System.out.println(failedMessage);
                 throw new StopExecutionException(failedMessage);
             }
+        } else {
+            getProject().setStatus(new CheckStatus("Congrats! No :poop: code found, this PR is safe to merge.", SUCCESS));
         }
     }
 

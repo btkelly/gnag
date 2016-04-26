@@ -1,12 +1,12 @@
 /**
  * Copyright 2016 Bryan Kelly
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.
- *
+ * <p>
  * You may obtain a copy of the License at
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -17,6 +17,7 @@ package com.btkelly.gnag.tasks;
 
 import com.btkelly.gnag.api.GitHubApi;
 import com.btkelly.gnag.extensions.GitHubExtension;
+import com.btkelly.gnag.models.CheckStatus;
 import com.btkelly.gnag.models.GitHubPullRequest;
 import com.btkelly.gnag.models.GitHubStatusType;
 import org.gradle.api.DefaultTask;
@@ -32,7 +33,7 @@ import java.util.Map;
  */
 public class GnagReportTask extends DefaultTask {
 
-    private static final String TASK_NAME = "gnagReport";
+    public static final String TASK_NAME = "gnagReport";
 
     public static void addTask(Project project, GitHubExtension gitHubExtension) {
         Map<String, Object> taskOptions = new HashMap<>();
@@ -57,8 +58,19 @@ public class GnagReportTask extends DefaultTask {
 
         GitHubPullRequest pullRequestDetails = gitHubApi.getPullRequestDetails();
 
-        gitHubApi.postUpdatedGitHubStatus(GitHubStatusType.PENDING, pullRequestDetails.getHead().getSha());
+        String prSha = pullRequestDetails.getHead().getSha();
 
+        gitHubApi.postUpdatedGitHubStatus(GitHubStatusType.PENDING, prSha);
+
+        Object projectStatus = getProject().getStatus();
+
+        if (projectStatus instanceof CheckStatus) {
+            CheckStatus checkStatus = (CheckStatus) projectStatus;
+            gitHubApi.postGitHubComment(checkStatus.getComment());
+            gitHubApi.postUpdatedGitHubStatus(checkStatus.getGitHubStatusType(), prSha);
+        } else {
+            gitHubApi.postUpdatedGitHubStatus(GitHubStatusType.ERROR, prSha);
+        }
     }
 
     public void setGitHubExtension(GitHubExtension gitHubExtension) {
