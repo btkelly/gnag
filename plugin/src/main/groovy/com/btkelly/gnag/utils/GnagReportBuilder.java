@@ -62,6 +62,7 @@ public class GnagReportBuilder extends HtmlStringBuilder {
         fileName = fileName.replace("/src/main/java/", "");
         fileName = fileName.replace("/src/test/java/", "");
         fileName = fileName.replace("/src/androidTest/java/", "");
+        fileName = fileName.replace("/src/main/", "");
         fileName = fileName.replace("/", ".");
 
         appendBold("Violation: ");
@@ -73,7 +74,7 @@ public class GnagReportBuilder extends HtmlStringBuilder {
         }
 
         return (GnagReportBuilder) insertLineBreak()
-                .appendBold("Class: ")
+                .appendBold("File: ")
                 .append(fileName)
                 .insertLineBreak()
                 .appendBold("Line: ")

@@ -77,13 +77,17 @@ class CheckstyleReporter extends BaseExecutedReporter {
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
 
         xml.file.each { file ->
-            file.error.each { error ->
+            file.error.each { violation ->
+
+                String violationName = violation.@source.text()
+                violationName = violationName.substring(violationName.lastIndexOf(".") + 1)
+
                 gnagReportBuilder.appendViolation(
-                        error.@source.text(),
+                        violationName,
                         null,
                         file.@name.text(),
-                        error.@line.text(),
-                        error.@message.text()
+                        violation.@line.text(),
+                        violation.@message.text()
                 )
             }
         }
