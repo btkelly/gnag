@@ -45,8 +45,6 @@ In this example the issue number and authtoken for the comment user are passed a
 ./gradlew clean gnagReport -PissueNumber=11 -PauthToken=iu2n3iu2nfjknfjk23nfkj23nk
 ```
 
-This is the simplest way to include Gnag in your project, but if you want you can customize further by changing the options below.
-
 #### Customization
 
 ```groovy
@@ -78,18 +76,18 @@ gnag {
 ```
 
 - ***enabled*** - easily disable Gnag in specific situations
-- ***failOnError*** - set weather reporter violations should cause the build to fail or just generate a report
+- ***failOnError*** - should reporter violations cause the build to fail or just generate a report
 - ***checkstyle*** - block to customize the checkstyle reporter
-  - ***enabled*** - set weather checkstyle should execute
+  - ***enabled*** - set if checkstyle should execute
   - ***reporterConfig*** - provide a custom [checkstyle config](http://checkstyle.sourceforge.net/config.html)
 - ***pmd*** - block to customize the pmd reporter
-  - ***enabled*** - set weather pmd should execute
+  - ***enabled*** - set if pmd should execute
   - ***reporterConfig*** - provide a custom [pmd config](http://pmd.sourceforge.net/pmd-5.1.1/howtomakearuleset.html)
 - ***findbugs*** - block to customize the findbugs reporter
-  - ***enabled*** - set weather findbugs should execute
+  - ***enabled*** - set if findbugs should execute
   - ***reporterConfig*** - provide a custom [findbugs config](http://findbugs.sourceforge.net/manual/filter.html)
 - ***androidLint*** - block to customize the android lint reporter
-  - ***enabled*** - set weather the android lint reporter should look for a lint report
+  - ***enabled*** - set if the android lint reporter should look for a lint report
   - ***severity*** - can be 'Error' or 'Warning' depending on which severity you want Gnag to check
 - ***github*** - block to customize Github reporting (only used during the `gnagReport` task
   - ***repoName*** - account and repo name to report violations to
@@ -104,10 +102,10 @@ Here is an example of the output posted to a GitHub pr on a project using gnag t
 
 ## Example [Travis CI](http://travis-ci.org) Usage
 
-Travis is a continuous integration service and is free for open source projects. Below is a example of
+Travis is a continuous integration service and is free for open source projects. Below is an example of
  how to configure Gnag to run on Travis.
  
- You must set a environment variable on your Travis instance for the `PR_BOT_AUTH_TOKEN` used to post comments back to Github.
+ You must set an environment variable on your Travis instance for the `PR_BOT_AUTH_TOKEN` used to post comments back to Github.
 
 ***.travis.yml***
 ```yml
