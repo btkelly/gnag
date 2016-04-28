@@ -30,63 +30,189 @@
 
       </header>
       <section>
-        <h3>
-<a id="gnag-gradle-plugin" class="anchor" href="#gnag-gradle-plugin" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Gnag Gradle Plugin</h3>
+        <h1>
+<a id="gnag-----" class="anchor" href="#gnag-----" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Gnag <a href="https://travis-ci.org/btkelly/gnag"><img src="https://travis-ci.org/btkelly/gnag.svg"></a> <a href="https://coveralls.io/github/btkelly/gnag?branch=master"><img src="https://coveralls.io/repos/btkelly/gnag/badge.svg?branch=master&amp;service=github" alt="Coverage Status"></a> <a href="http://www.detroitlabs.com/"><img src="https://img.shields.io/badge/Sponsor-Detroit%20Labs-000000.svg"></a> <a href="https://bintray.com/btkelly/maven/gnag-gradle-plugin/_latestVersion"><img src="https://api.bintray.com/packages/btkelly/maven/gnag-gradle-plugin/images/download.svg"></a> <a href="https://android-arsenal.com/details/1/3128"><img src="https://img.shields.io/badge/Android%20Arsenal-gnag-green.svg?style=true" alt="Android Arsenal"></a>
+</h1>
 
-<p>A Gradle plugin that helps facilitate Github PR checking and automatic commenting of violations.
-<a href="https://travis-ci.org/btkelly/gnag"><img src="https://travis-ci.org/btkelly/gnag.svg"></a> <a href="https://bintray.com/btkelly/maven/gnag-gradle-plugin/_latestVersion"><img src="https://api.bintray.com/packages/btkelly/maven/gnag-gradle-plugin/images/download.svg"></a> <a href="https://coveralls.io/github/btkelly/gnag?branch=master"><img src="https://coveralls.io/repos/btkelly/gnag/badge.svg?branch=master&amp;service=github" alt="Coverage Status"></a></p>
+<p>A Gradle plugin that helps facilitate Github PR checking and automatic commenting of violations for Android projects.</p>
 
-<h3>
-<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h3>
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
 
-<p>The simplest way to use this plugin is in conjunction with the <a href="https://github.com/noveogroup/android-check">android-check</a> plugin. This allows you to integrate checkstyle, findbugs, and PMD with minimal effort. It is important to leave the report output paths as default and disable the <code>abortOnError</code> flag to allow gnag to finish collecting all reports.</p>
+<p>Gnag is meant to be simple to use and easy to drop in to any Android project. Shown below is the simplest 
+Gnag setup that will report violations to GitHub. By default this config will report PMD, Findbugs, Checkstyle and 
+Android Lint to Github.</p>
 
-<p>Add the following to the build script of your project</p>
-
-<pre><code>buildscript {
+<div class="highlight highlight-source-groovy"><pre>buildscript {
     repositories {
         maven {
             jcenter()
         }
     }
     dependencies {
-        classpath 'com.btkelly:gnag:{current version}'
+        classpath <span class="pl-s"><span class="pl-pds">'</span>com.btkelly:gnag:{current version}<span class="pl-pds">'</span></span>
     }
 }
 
-apply plugin: 'gnag-plugin'
+apply <span class="pl-c1">plugin</span>: <span class="pl-s"><span class="pl-pds">'</span>gnag<span class="pl-pds">'</span></span>
 
 gnag {
-    gitHubRepoName 'user/repo'
-    gitHubAuthToken "12312n3j12n3jk1"
-    gitHubIssueNumber "11"
-    failBuildOnError true
-}
-</code></pre>
+    github {
+        repoName <span class="pl-s"><span class="pl-pds">'</span>btkelly/repo<span class="pl-pds">'</span></span>
+        authToken <span class="pl-s"><span class="pl-pds">'</span>0000000000000<span class="pl-pds">'</span></span>
+        issueNumber <span class="pl-s"><span class="pl-pds">'</span>1<span class="pl-pds">'</span></span>
+    }
+}</pre></div>
 
-<p>This is the simplest way to add automatic PR checking and commenting to your project. The options defined in the gnag closure can be overridden by passing command line parameters with the same name to your build. This is helpful when using in conjunction with a CI system to allow automated builds.</p>
+<p>This is the simplest way to add automatic PR checking and commenting to your project. The options defined in the Github closure can be overridden by passing command line parameters with the same name to your build. This is helpful when using in conjunction with a CI system to allow automated builds.</p>
 
-<h3>
-<a id="example-output" class="anchor" href="#example-output" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example Output</h3>
+<h4>
+<a id="tasks" class="anchor" href="#tasks" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tasks</h4>
+
+<p>You can use the gnagCheck gradle task to run Gnag locally and generate an HTML report in the build directory. </p>
+
+<div class="highlight highlight-source-groovy"><pre>.<span class="pl-k">/</span>gradlew clean gnagCheck</pre></div>
+
+<p>You can use the gnagReport task which will first run gnagCheck and then report this to the Github issue specified. 
+In this example the issue number and authtoken for the comment user are passed as commandline arguments.</p>
+
+<div class="highlight highlight-source-groovy"><pre>.<span class="pl-k">/</span>gradlew clean gnagReport <span class="pl-k">-</span><span class="pl-k">PissueNumber</span><span class="pl-k">=</span><span class="pl-c1">11</span> <span class="pl-k">-</span><span class="pl-k">PauthToken</span><span class="pl-k">=</span>iu2n3iu2nfjknfjk23nfkj23nk</pre></div>
+
+<h4>
+<a id="customization" class="anchor" href="#customization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Customization</h4>
+
+<div class="highlight highlight-source-groovy"><pre>gnag {
+    enabled <span class="pl-c1">true</span>
+    failOnError <span class="pl-c1">true</span>
+    checkstyle {
+        enabled <span class="pl-c1">true</span>
+        reporterConfig project<span class="pl-k">.</span>file(<span class="pl-s"><span class="pl-pds">'</span>config/checkstyle.xml<span class="pl-pds">'</span></span>)
+    }
+    pmd {
+        enabled <span class="pl-c1">true</span>
+        reporterConfig project<span class="pl-k">.</span>file(<span class="pl-s"><span class="pl-pds">'</span>config/pmd.xml<span class="pl-pds">'</span></span>)
+    }
+    findbugs {
+        enabled <span class="pl-c1">true</span>
+        reporterConfig project<span class="pl-k">.</span>file(<span class="pl-s"><span class="pl-pds">'</span>config/findbugs.xml<span class="pl-pds">'</span></span>)
+    }
+    androidLint {
+        enabled <span class="pl-c1">true</span>
+        severity <span class="pl-s"><span class="pl-pds">'</span>Error<span class="pl-pds">'</span></span>
+    }
+    github {
+        repoName <span class="pl-s"><span class="pl-pds">'</span>btkelly/repo<span class="pl-pds">'</span></span>
+        authToken <span class="pl-s"><span class="pl-pds">'</span>0000000000000<span class="pl-pds">'</span></span>
+        issueNumber <span class="pl-s"><span class="pl-pds">'</span>1<span class="pl-pds">'</span></span>
+    }
+}</pre></div>
+
+<ul>
+<li>
+<strong><em>enabled</em></strong> - easily disable Gnag in specific situations</li>
+<li>
+<strong><em>failOnError</em></strong> - should reporter violations cause the build to fail or just generate a report</li>
+<li>
+<strong><em>checkstyle</em></strong> - block to customize the checkstyle reporter
+
+<ul>
+<li>
+<strong><em>enabled</em></strong> - set if checkstyle should execute</li>
+<li>
+<strong><em>reporterConfig</em></strong> - provide a custom <a href="http://checkstyle.sourceforge.net/config.html">checkstyle config</a>
+</li>
+</ul>
+</li>
+<li>
+<strong><em>pmd</em></strong> - block to customize the pmd reporter
+
+<ul>
+<li>
+<strong><em>enabled</em></strong> - set if pmd should execute</li>
+<li>
+<strong><em>reporterConfig</em></strong> - provide a custom <a href="http://pmd.sourceforge.net/pmd-5.1.1/howtomakearuleset.html">pmd config</a>
+</li>
+</ul>
+</li>
+<li>
+<strong><em>findbugs</em></strong> - block to customize the findbugs reporter
+
+<ul>
+<li>
+<strong><em>enabled</em></strong> - set if findbugs should execute</li>
+<li>
+<strong><em>reporterConfig</em></strong> - provide a custom <a href="http://findbugs.sourceforge.net/manual/filter.html">findbugs config</a>
+</li>
+</ul>
+</li>
+<li>
+<strong><em>androidLint</em></strong> - block to customize the android lint reporter
+
+<ul>
+<li>
+<strong><em>enabled</em></strong> - set if the android lint reporter should look for a lint report</li>
+<li>
+<strong><em>severity</em></strong> - can be 'Error' or 'Warning' depending on which severity you want Gnag to check</li>
+</ul>
+</li>
+<li>
+<strong><em>github</em></strong> - block to customize Github reporting (only used during the <code>gnagReport</code> task
+
+<ul>
+<li>
+<strong><em>repoName</em></strong> - account and repo name to report violations to</li>
+<li>
+<strong><em>authToken</em></strong> - a Github token for a user that has access to comment on issues to the specified repo</li>
+<li>
+<strong><em>issueNumber</em></strong> - the issue or PR number currently being built</li>
+</ul>
+</li>
+</ul>
+
+<h2>
+<a id="example-output" class="anchor" href="#example-output" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example Output</h2>
 
 <p>Here is an example of the output posted to a GitHub pr on a project using gnag to enforce quality checks.</p>
 
 <p><img src="https://cloud.githubusercontent.com/assets/826036/11042826/641378e2-86e7-11e5-90ff-555a7cafd78c.png"></p>
 
-<h3>
-<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<h2>
+<a id="example-travis-ci-usage" class="anchor" href="#example-travis-ci-usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example <a href="http://travis-ci.org">Travis CI</a> Usage</h2>
 
-<p>Created by Bryan Kelly (<a href="https://github.com/btkelly" class="user-mention">@btkelly</a>) in collaboration with Stuart Kent (<a href="https://github.com/stkent" class="user-mention">@stkent</a>) and thanks to the support and time Detroit Labs (<a href="https://github.com/detroit-labs" class="user-mention">@detroit-labs</a>) has contributed. If you would like to contribute please check out the GitHub issues section to see what improvements or bug fixes you can help with <a href="https://github.com/btkelly/gnag/issues">https://github.com/btkelly/gnag/issues</a>.</p>
+<p>Travis is a continuous integration service and is free for open source projects. Below is an example of
+ how to configure Gnag to run on Travis.</p>
 
-<h3>
-<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Support or Contact</h3>
+<p>You must set an environment variable on your Travis instance for the <code>PR_BOT_AUTH_TOKEN</code> used to post comments back to Github.</p>
 
-<p>Having trouble with the library? Please don't hesitate to open a pull request or an issue on our GitHub repo.</p>
+<p><strong><em>.travis.yml</em></strong></p>
+
+<div class="highlight highlight-source-yaml"><pre><span class="pl-s"><span class="pl-ent">language:</span> <span class="pl-s">android</span></span>
+<span class="pl-s"><span class="pl-ent">android:</span></span>
+  <span class="pl-s"><span class="pl-ent">components:</span></span>
+  <span class="pl-s">- <span class="pl-s">platform-tools</span></span>
+  <span class="pl-s">- <span class="pl-s">tools</span></span>
+  <span class="pl-s">- <span class="pl-s">build-tools-23.0.2</span></span>
+  <span class="pl-s">- <span class="pl-s">android-23</span></span>
+<span class="pl-s"><span class="pl-ent">branches:</span></span>
+  <span class="pl-s"><span class="pl-ent">only:</span></span>
+  <span class="pl-s">- <span class="pl-s">master</span></span>
+<span class="pl-s"><span class="pl-ent">script:</span> <span class="pl-s"><span class="pl-pds">"</span>./travis-build.sh<span class="pl-pds">"</span></span></span></pre></div>
+
+<p><strong><em>travis-build.sh</em></strong></p>
+
+<div class="highlight highlight-source-shell"><pre><span class="pl-c">#!/bin/bash</span>
+<span class="pl-c1">set</span> -ev
+
+<span class="pl-k">if</span> [ <span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${TRAVIS_PULL_REQUEST}</span><span class="pl-pds">"</span></span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>false<span class="pl-pds">"</span></span> ]<span class="pl-k">;</span> <span class="pl-k">then</span>
+    ./gradlew clean gnagCheck
+<span class="pl-k">else</span>
+    ./gradlew clean gnagReport -PauthToken=<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${PR_BOT_AUTH_TOKEN}</span><span class="pl-pds">"</span></span> -PissueNumber=<span class="pl-s"><span class="pl-pds">"</span><span class="pl-smi">${TRAVIS_PULL_REQUEST}</span><span class="pl-pds">"</span></span>
+<span class="pl-k">fi</span></pre></div>
 
 <h3>
 <a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h3>
 
-<pre><code>Copyright 2015 Bryan Kelly
+<pre><code>Copyright 2016 Bryan Kelly
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
