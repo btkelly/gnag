@@ -10,9 +10,7 @@ Android Lint to Github.
 ```groovy
 buildscript {
     repositories {
-        maven {
-            jcenter()
-        }
+        jcenter()
     }
     dependencies {
         classpath 'com.btkelly:gnag:{current version}'

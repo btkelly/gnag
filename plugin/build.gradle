@@ -4,8 +4,8 @@ plugins {
 }
 
 apply plugin: 'groovy'
-apply from: file('bintray.gradle')
 apply from: file('../version.gradle')
+apply from: file('bintray.gradle')
 
 group 'com.btkelly'
 version gnagPluginVersion
