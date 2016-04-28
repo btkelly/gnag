@@ -64,10 +64,10 @@ gnag {
     }
     androidLint {
         enabled true
-        severity 'Error'
+        severity 'Warning'
     }
     github {
-        repoName 'btkelly/repo'
+        repoName 'btkelly/android-svsu-acm-20131120'
         authToken '0000000000000'
         issueNumber '1'
     }

@@ -33,7 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.btkelly.gnag.models.GitHubStatusType.ERROR;
+import static com.btkelly.gnag.models.GitHubStatusType.FAILURE;
 import static com.btkelly.gnag.models.GitHubStatusType.SUCCESS;
 
 /**
@@ -95,13 +95,21 @@ public class GnagCheck extends DefaultTask {
 
         if (foundErrors) {
 
-            getProject().setStatus(new CheckStatus(gnagReportBuilder.toString(), ERROR));
+            getProject().setStatus(new CheckStatus(gnagReportBuilder.toString(), FAILURE));
 
             TaskExecutionGraph taskGraph = getProject().getGradle().getTaskGraph();
 
+            boolean hasReportTask = false;
+
+            for (Task task : taskGraph.getAllTasks()) {
+                if (task.getName().equals(GnagReportTask.TASK_NAME)) {
+                    hasReportTask = true;
+                }
+            }
+
             String failedMessage = "One or more reporters has found violations";
 
-            if (gnagPluginExtension.shouldFailOnError() && !taskGraph.hasTask(GnagReportTask.TASK_NAME)) {
+            if (gnagPluginExtension.shouldFailOnError() && !hasReportTask) {
                 throw new GradleException(failedMessage);
             } else {
                 System.out.println(failedMessage);

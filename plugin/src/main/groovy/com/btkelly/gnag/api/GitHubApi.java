@@ -20,13 +20,11 @@ import com.btkelly.gnag.models.GitHubComment;
 import com.btkelly.gnag.models.GitHubPullRequest;
 import com.btkelly.gnag.models.GitHubStatus;
 import com.btkelly.gnag.models.GitHubStatusType;
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.btkelly.gnag.utils.gson.GsonConverterFactory;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
 
@@ -46,16 +44,16 @@ public class GitHubApi {
     public GitHubApi(final GitHubExtension gitHubExtension) {
         this.gitHubExtension = gitHubExtension;
 
-        OkHttpClient okHttpClient = new OkHttpClient();
-        okHttpClient.interceptors().add(new AuthInterceptor(gitHubExtension));
+        HttpLoggingInterceptor.Logger logger = System.out::println;
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new AuthInterceptor(gitHubExtension))
+                .addInterceptor(new HttpLoggingInterceptor(logger).setLevel(HttpLoggingInterceptor.Level.NONE))
+                .build();
 
         String baseUrl = "https://api.github.com/repos/" + gitHubExtension.getRepoName() + "/";
 
-        Gson gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                .create();
-
-        GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create(gson);
+        GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
@@ -87,10 +85,12 @@ public class GitHubApi {
     }
 
     public GitHubPullRequest getPullRequestDetails() {
+
         try {
             Response<GitHubPullRequest> gitHubPullRequestResponse = gitHubApiClient.getPullRequest(gitHubExtension.getIssueNumber()).execute();
             return gitHubPullRequestResponse.body();
-        } catch (IOException ignored) {
+        } catch (Exception ignored) {
+            ignored.printStackTrace();
             return null;
         }
     }

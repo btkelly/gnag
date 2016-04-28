@@ -73,6 +73,8 @@ public class GnagReportBuilder extends HtmlStringBuilder {
             append(name);
         }
 
+        notes = notes.replaceAll("\\r|\\n", "");
+
         return (GnagReportBuilder) insertLineBreak()
                 .appendBold("File: ")
                 .append(fileName)

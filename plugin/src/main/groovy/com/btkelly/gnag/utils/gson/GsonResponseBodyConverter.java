@@ -13,30 +13,31 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.btkelly.gnag.models;
+package com.btkelly.gnag.utils.gson;
+
+import com.google.gson.TypeAdapter;
+import okhttp3.ResponseBody;
+import retrofit2.Converter;
+
+import java.io.IOException;
 
 /**
- * Created by bobbake4 on 12/2/15.
+ * Created by bobbake4 on 4/28/16.
  */
-public enum GitHubStatusType {
+final class GsonResponseBodyConverter<T> implements Converter<ResponseBody, T> {
 
-    SUCCESS("Quality checks have passed!"),
-    PENDING("Checking code quality"),
-    ERROR("Error checking code quality"),
-    FAILURE("Quality violations found");
+    private final TypeAdapter<T> adapter;
 
-    private final String description;
-
-    GitHubStatusType(String description) {
-        this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
+    GsonResponseBodyConverter(TypeAdapter<T> adapter) {
+        this.adapter = adapter;
     }
 
     @Override
-    public String toString() {
-        return super.toString().toLowerCase();
+    public T convert(ResponseBody value) throws IOException {
+        try {
+            return adapter.fromJson(value.charStream());
+        } finally {
+            value.close();
+        }
     }
 }

@@ -20,6 +20,7 @@ import com.btkelly.gnag.extensions.GitHubExtension;
 import com.btkelly.gnag.models.CheckStatus;
 import com.btkelly.gnag.models.GitHubPullRequest;
 import com.btkelly.gnag.models.GitHubStatusType;
+import org.apache.commons.lang.StringUtils;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
@@ -27,6 +28,9 @@ import org.gradle.api.tasks.TaskAction;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.btkelly.gnag.models.GitHubStatusType.ERROR;
+import static com.btkelly.gnag.models.GitHubStatusType.PENDING;
 
 /**
  * Created by bobbake4 on 4/1/16.
@@ -49,31 +53,45 @@ public class GnagReportTask extends DefaultTask {
         gnagReportTask.setGitHubExtension(gitHubExtension);
     }
 
-    private GitHubExtension gitHubExtension;
+    private GitHubApi gitHubApi;
+    private String prSha;
 
     @TaskAction
     public void taskAction() {
 
-        GitHubApi gitHubApi = new GitHubApi(gitHubExtension);
-
-        GitHubPullRequest pullRequestDetails = gitHubApi.getPullRequestDetails();
-
-        String prSha = pullRequestDetails.getHead().getSha();
-
-        gitHubApi.postUpdatedGitHubStatus(GitHubStatusType.PENDING, prSha);
+        updatePRStatus(PENDING);
 
         Object projectStatus = getProject().getStatus();
 
         if (projectStatus instanceof CheckStatus) {
             CheckStatus checkStatus = (CheckStatus) projectStatus;
+
+            System.out.println("Project status: " + checkStatus);
+
             gitHubApi.postGitHubComment(checkStatus.getComment());
-            gitHubApi.postUpdatedGitHubStatus(checkStatus.getGitHubStatusType(), prSha);
+            updatePRStatus(checkStatus.getGitHubStatusType());
         } else {
-            gitHubApi.postUpdatedGitHubStatus(GitHubStatusType.ERROR, prSha);
+            System.out.println("Project status is not instanceof Check Status");
+            updatePRStatus(ERROR);
         }
     }
 
     public void setGitHubExtension(GitHubExtension gitHubExtension) {
-        this.gitHubExtension = gitHubExtension;
+        this.gitHubApi = new GitHubApi(gitHubExtension);
+    }
+
+    private void updatePRStatus(GitHubStatusType gitHubStatusType) {
+
+        if (StringUtils.isBlank(prSha)) {
+            GitHubPullRequest pullRequestDetails = gitHubApi.getPullRequestDetails();
+
+            if (pullRequestDetails != null && pullRequestDetails.getHead() != null) {
+                prSha = pullRequestDetails.getHead().getSha();
+            }
+        }
+
+        if (StringUtils.isNotBlank(prSha)) {
+            gitHubApi.postUpdatedGitHubStatus(gitHubStatusType, prSha);
+        }
     }
 }
