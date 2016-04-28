@@ -19,8 +19,8 @@ publishing {
 bintray {
     dryRun = false
     publish = true
-    user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
-    key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_KEY')
+    user = project.hasProperty('user') ? project.property('user') : System.getenv('BINTRAY_USER')
+    key = project.hasProperty('key') ? project.property('key') : System.getenv('BINTRAY_KEY')
     publications = ['GnagPublication']
     pkg {
         repo = 'maven'
