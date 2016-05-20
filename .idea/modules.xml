@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/gnag-plugin.iml" filepath="$PROJECT_DIR$/gnag-plugin.iml" />
-      <module fileurl="file://$PROJECT_DIR$/plugin/plugin.iml" filepath="$PROJECT_DIR$/plugin/plugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gnag-plugin.iml" filepath="$PROJECT_DIR$/.idea/modules/gnag-plugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/plugin/plugin.iml" filepath="$PROJECT_DIR$/.idea/modules/plugin/plugin.iml" group="plugin" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/plugin/plugin_main.iml" filepath="$PROJECT_DIR$/.idea/modules/plugin/plugin_main.iml" group="plugin" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/plugin/plugin_test.iml" filepath="$PROJECT_DIR$/.idea/modules/plugin/plugin_test.iml" group="plugin" />
     </modules>
   </component>
 </project>
