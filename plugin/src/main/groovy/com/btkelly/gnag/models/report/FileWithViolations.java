@@ -15,14 +15,24 @@
  */
 package com.btkelly.gnag.models.report;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
-public class Report {
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class FileWithViolations {
+    
+    @NotNull
+    private final String relativePath;
 
     /**
-     * A list of files in which violations were detected.
+     * A mapping between file line numbers and the lists of violations detected in those lines.
      */
-    final List<FileWithViolations> filesWithViolations = new ArrayList<>();
+    private final Map<Integer, List<Violation>> indexedViolations = new HashMap<>();
+
+    public FileWithViolations(@NotNull final String relativePath) {
+        this.relativePath = relativePath;
+    }
     
 }
