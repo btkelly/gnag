@@ -47,6 +47,8 @@ public class GnagReportBuilder extends HtmlStringBuilder {
     public GnagReportBuilder(@NotNull Project project, @NotNull File outputDirectory) {
         this.project = project;
         this.outputDirectory = outputDirectory;
+        
+        //noinspection ResultOfMethodCallIgnored
         this.outputDirectory.mkdirs();
     }
 
