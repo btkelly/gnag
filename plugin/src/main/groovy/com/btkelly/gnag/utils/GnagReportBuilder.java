@@ -42,14 +42,9 @@ public class GnagReportBuilder extends HtmlStringBuilder {
             "</article></html>";
 
     private final Project project;
-    private final File outputDirectory;
 
-    public GnagReportBuilder(@NotNull Project project, @NotNull File outputDirectory) {
+    public GnagReportBuilder(@NotNull Project project) {
         this.project = project;
-        this.outputDirectory = outputDirectory;
-        
-        //noinspection ResultOfMethodCallIgnored
-        this.outputDirectory.mkdirs();
     }
 
     public GnagReportBuilder insertReporterHeader(String reporterName) {
@@ -90,7 +85,9 @@ public class GnagReportBuilder extends HtmlStringBuilder {
                 .insertLineBreak();
     }
 
-    public boolean writeFile() {
+    public boolean writeReportToDirectory(@NotNull final File directory) {
+        //noinspection ResultOfMethodCallIgnored
+        directory.mkdirs();
 
         StringBuilder fullReport = new StringBuilder();
 
@@ -99,7 +96,7 @@ public class GnagReportBuilder extends HtmlStringBuilder {
         fullReport.append(HTML_REPORT_SUFFIX);
 
         try {
-            File htmlReportFile = new File(outputDirectory, REPORT_FILE_NAME);
+            File htmlReportFile = new File(directory, REPORT_FILE_NAME);
             FileUtils.write(htmlReportFile, fullReport.toString());
         } catch (IOException e) {
             System.out.println("Error writing Gnag local report.");
@@ -107,16 +104,16 @@ public class GnagReportBuilder extends HtmlStringBuilder {
             return false;
         }
 
-        copyCssFile();
+        copyCssFileToDirectory(directory);
 
         return true;
     }
 
-    private void copyCssFile() {
+    private void copyCssFileToDirectory(@NotNull final File directory) {
         try {
             //TODO fix this
             final InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream(CSS_FILE_NAME);
-            final File gnagCssOutputFile = new File(outputDirectory, CSS_FILE_NAME);
+            final File gnagCssOutputFile = new File(directory, CSS_FILE_NAME);
             FileUtils.copyInputStreamToFile(resourceAsStream, gnagCssOutputFile);
 
         } catch (final Exception e) {

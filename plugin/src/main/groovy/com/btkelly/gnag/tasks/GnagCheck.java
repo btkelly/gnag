@@ -74,7 +74,7 @@ public class GnagCheck extends DefaultTask {
         boolean foundErrors = false;
 
         ReportHelper reportHelper = new ReportHelper(getProject());
-        GnagReportBuilder gnagReportBuilder = new GnagReportBuilder(getProject(), reportHelper.getReportsDir());
+        GnagReportBuilder gnagReportBuilder = new GnagReportBuilder(getProject());
 
         for (Reporter reporter : reporters) {
 
@@ -91,7 +91,7 @@ public class GnagCheck extends DefaultTask {
             }
         }
 
-        gnagReportBuilder.writeFile();
+        gnagReportBuilder.writeReportToDirectory(reportHelper.getReportsDir());
 
         if (foundErrors) {
 
