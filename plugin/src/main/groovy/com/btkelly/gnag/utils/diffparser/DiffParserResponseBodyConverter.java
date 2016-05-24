@@ -24,12 +24,12 @@ public class DiffParserResponseBodyConverter implements Converter<ResponseBody, 
         try {
             final List<Diff> parsedDiffs = diffParser.parse(value.byteStream());
 
-            if (parsedDiffs == null || parsedDiffs.size() != 1) {
-                // We expect to find a single diff; treat any other outcome as erroneous.
+            if (parsedDiffs == null || parsedDiffs.isEmpty()) {
+                // We expect to find at least one diff; treat any other outcome as erroneous.
                 return null;
             }
 
-            return new GitHubPullRequestDiffWrapper(parsedDiffs.get(0));
+            return new GitHubPullRequestDiffWrapper(value.string(), parsedDiffs);
         } catch (final IllegalStateException e) {
             return null;
         } finally {

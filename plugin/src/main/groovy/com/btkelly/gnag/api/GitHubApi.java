@@ -92,4 +92,16 @@ public class GitHubApi {
         }
     }
 
+    public GitHubPullRequestDiffWrapper getPullRequestDiffWrapper() {
+        try {
+            final Response<GitHubPullRequestDiffWrapper> gitHubPullRequestDiffWrapperResponse
+                    = gitHubApiClient.getPullRequestDiffWrapper(gitHubExtension.getIssueNumber()).execute();
+            
+            return gitHubPullRequestDiffWrapperResponse.body();
+        } catch (final Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }
