@@ -16,10 +16,7 @@
 package com.btkelly.gnag.api;
 
 import com.btkelly.gnag.extensions.GitHubExtension;
-import com.btkelly.gnag.models.GitHubComment;
-import com.btkelly.gnag.models.GitHubPullRequest;
-import com.btkelly.gnag.models.GitHubStatus;
-import com.btkelly.gnag.models.GitHubStatusType;
+import com.btkelly.gnag.models.*;
 import com.btkelly.gnag.utils.diffparser.DiffParserConverterFactory;
 import com.btkelly.gnag.utils.gson.GsonConverterFactory;
 import okhttp3.OkHttpClient;
