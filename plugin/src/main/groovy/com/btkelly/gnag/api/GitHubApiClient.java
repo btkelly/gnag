@@ -40,6 +40,6 @@ public interface GitHubApiClient {
     Call<GitHubPullRequest> getPullRequest(@Path("issueNumber") String issueNumber);
 
     @GET("pulls/{issueNumber}")
-    Call<GitHubPullRequestDiffWrapper> getPullRequestDiff(@Path("issueNumber") String issueNumber);
+    Call<GitHubPullRequestDiffWrapper> getPullRequestDiffWrapper(@Path("issueNumber") String issueNumber);
 
 }
