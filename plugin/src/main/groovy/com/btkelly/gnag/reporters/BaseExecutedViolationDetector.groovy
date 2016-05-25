@@ -22,7 +22,7 @@ import org.gradle.api.Project
 /**
  * Created by bobbake4 on 4/1/16.
  */
-abstract class BaseExecutedReporter implements Reporter {
+abstract class BaseExecutedViolationDetector implements ViolationDetector {
 
     abstract void executeReporter()
 
@@ -30,7 +30,7 @@ abstract class BaseExecutedReporter implements Reporter {
     protected final Project project
     protected final ReportHelper reportHelper;
 
-    BaseExecutedReporter(ReporterExtension reporterExtension, Project project) {
+    BaseExecutedViolationDetector(ReporterExtension reporterExtension, Project project) {
         this.reporterExtension = reporterExtension
         this.project = project
         this.reportHelper = new ReportHelper(project)

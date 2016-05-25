@@ -26,9 +26,9 @@ import org.gradle.api.Project
 /**
  * Created by bobbake4 on 4/1/16.
  */
-class FindbugsReporter extends BaseExecutedReporter {
+class FindbugsViolationDetector extends BaseExecutedViolationDetector {
 
-    FindbugsReporter(ReporterExtension reporterExtension, Project project) {
+    FindbugsViolationDetector(ReporterExtension reporterExtension, Project project) {
         super(reporterExtension, project)
     }
 
@@ -88,7 +88,7 @@ class FindbugsReporter extends BaseExecutedReporter {
     }
 
     @Override
-    String reporterName() {
+    String name() {
         return "Findbugs"
     }
 
@@ -100,7 +100,7 @@ class FindbugsReporter extends BaseExecutedReporter {
     @Override
     void appendReport(GnagReportBuilder gnagReportBuilder) {
 
-        gnagReportBuilder.insertReporterHeader(reporterName())
+        gnagReportBuilder.insertReporterHeader(name())
 
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
 

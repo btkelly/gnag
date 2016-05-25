@@ -15,21 +15,21 @@
  */
 package com.btkelly.gnag.reporters
 
-import com.btkelly.gnag.utils.GnagReportBuilder
+import com.btkelly.gnag.models.report.Report
 
 /**
  * Created by bobbake4 on 4/19/16.
  */
-interface Reporter {
+interface ViolationDetector {
 
-    boolean foundViolations()
+    boolean isEnabled()
 
-    String reporterName()
+    String name()
 
     File reportFile()
 
-    void appendReport(GnagReportBuilder gnagReportBuilder)
-
-    boolean isEnabled()
+    boolean foundViolations()
+    
+    Report getReport()
     
 }

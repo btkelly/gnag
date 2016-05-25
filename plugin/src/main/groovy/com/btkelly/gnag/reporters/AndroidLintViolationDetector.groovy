@@ -26,12 +26,12 @@ import static com.btkelly.gnag.extensions.AndroidLintExtension.SEVERITY_WARNING
 /**
  * Created by bobbake4 on 4/18/16.
  */
-class AndroidLintReporter implements Reporter {
+class AndroidLintViolationDetector implements ViolationDetector {
 
     private final Project project
     private final AndroidLintExtension androidLintExtension;
 
-    AndroidLintReporter(AndroidLintExtension androidLintExtension, Project project) {
+    AndroidLintViolationDetector(AndroidLintExtension androidLintExtension, Project project) {
         this.project = project
         this.androidLintExtension = androidLintExtension
     }
@@ -43,7 +43,7 @@ class AndroidLintReporter implements Reporter {
             if (reportFile().exists()) {
                 return true
             } else {
-                println "Android Lint Reporter is enabled but no lint report was found"
+                println "Android Lint ViolationDetector is enabled but no lint report was found"
                 return false
             }
         } else {
@@ -60,7 +60,7 @@ class AndroidLintReporter implements Reporter {
     }
 
     @Override
-    String reporterName() {
+    String name() {
         return "Android Lint"
     }
 
@@ -72,7 +72,7 @@ class AndroidLintReporter implements Reporter {
     @Override
     void appendReport(GnagReportBuilder gnagReportBuilder) {
 
-        gnagReportBuilder.insertReporterHeader(reporterName())
+        gnagReportBuilder.insertReporterHeader(name())
 
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
 

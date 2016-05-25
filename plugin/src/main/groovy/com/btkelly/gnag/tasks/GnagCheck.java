@@ -54,13 +54,13 @@ public class GnagCheck extends DefaultTask {
 
         GnagCheck gnagCheckTask = (GnagCheck) project.task(taskOptions, TASK_NAME);
         gnagCheckTask.setGnagPluginExtension(gnagPluginExtension);
-        gnagCheckTask.reporters.add(new CheckstyleReporter(gnagPluginExtension.checkstyle, project));
-        gnagCheckTask.reporters.add(new PMDReporter(gnagPluginExtension.pmd, project));
-        gnagCheckTask.reporters.add(new FindbugsReporter(gnagPluginExtension.findbugs, project));
-        gnagCheckTask.reporters.add(new AndroidLintReporter(gnagPluginExtension.androidLint, project));
+        gnagCheckTask.violationDetectors.add(new CheckstyleViolationDetector(gnagPluginExtension.checkstyle, project));
+        gnagCheckTask.violationDetectors.add(new PMDViolationDetector(gnagPluginExtension.pmd, project));
+        gnagCheckTask.violationDetectors.add(new FindbugsViolationDetector(gnagPluginExtension.findbugs, project));
+        gnagCheckTask.violationDetectors.add(new AndroidLintViolationDetector(gnagPluginExtension.androidLint, project));
     }
 
-    private final List<Reporter> reporters = new ArrayList<>();
+    private final List<ViolationDetector> violationDetectors = new ArrayList<>();
     private GnagPluginExtension gnagPluginExtension;
 
     @TaskAction
@@ -76,17 +76,17 @@ public class GnagCheck extends DefaultTask {
         ReportHelper reportHelper = new ReportHelper(getProject());
         GnagReportBuilder gnagReportBuilder = new GnagReportBuilder(getProject());
 
-        for (Reporter reporter : reporters) {
+        for (ViolationDetector violationDetector : violationDetectors) {
 
-            if (reporter.isEnabled()) {
+            if (violationDetector.isEnabled()) {
 
-                if (reporter instanceof BaseExecutedReporter) {
-                    ((BaseExecutedReporter) reporter).executeReporter();
+                if (violationDetector instanceof BaseExecutedViolationDetector) {
+                    ((BaseExecutedViolationDetector) violationDetector).executeReporter();
                 }
 
-                if (reporter.foundViolations()) {
+                if (violationDetector.foundViolations()) {
                     foundErrors = true;
-                    reporter.appendReport(gnagReportBuilder);
+                    violationDetector.appendReport(gnagReportBuilder);
                 }
             }
         }
@@ -107,7 +107,7 @@ public class GnagCheck extends DefaultTask {
                 }
             }
 
-            String failedMessage = "One or more reporters has found violations";
+            String failedMessage = "One or more violationDetectors has found violations";
 
             if (gnagPluginExtension.shouldFailOnError() && !hasReportTask) {
                 throw new GradleException(failedMessage);

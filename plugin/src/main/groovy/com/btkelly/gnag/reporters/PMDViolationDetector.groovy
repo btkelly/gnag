@@ -17,80 +17,77 @@ package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
 import com.btkelly.gnag.utils.GnagReportBuilder
-import com.puppycrawl.tools.checkstyle.ant.CheckstyleAntTask
 import groovy.util.slurpersupport.GPathResult
+import net.sourceforge.pmd.ant.PMDTask
 import org.gradle.api.Project
 
 /**
  * Created by bobbake4 on 4/1/16.
  */
-class CheckstyleReporter extends BaseExecutedReporter {
+class PMDViolationDetector extends BaseExecutedViolationDetector {
 
-    CheckstyleReporter(ReporterExtension reporterExtension, Project project) {
+    PMDViolationDetector(ReporterExtension reporterExtension, Project project) {
         super(reporterExtension, project)
     }
 
     @Override
     void executeReporter() {
 
-        CheckstyleAntTask checkStyleTask = new CheckstyleAntTask()
-        checkStyleTask.project = project.ant.antProject
-        checkStyleTask.failOnViolation = false
-        checkStyleTask.addFormatter(new CheckstyleAntTask.Formatter(type: new CheckstyleAntTask.FormatterType(value: 'xml'), tofile: reportFile()))
+        PMDTask pmdTask = new PMDTask()
+        pmdTask.project = project.ant.antProject
+        pmdTask.addFormatter(new net.sourceforge.pmd.ant.Formatter(type: 'xml', toFile: reportFile()))
+
+        pmdTask.failOnError = false
+        pmdTask.failOnRuleViolation = false
 
         if (reporterExtension.hasReporterConfig()) {
-            checkStyleTask.setConfig(reporterExtension.getReporterConfig())
+            pmdTask.ruleSetFiles = reporterExtension.getReporterConfig().toString()
         } else {
-            checkStyleTask.setConfigUrl(getClass().getClassLoader().getResource("checkstyle.xml"))
+            pmdTask.ruleSetFiles = getClass().getClassLoader().getResource("pmd.xml").toString()
         }
 
         reportHelper.getAndroidSources().findAll { it.exists() }.each {
-            checkStyleTask.addFileset(project.ant.fileset(dir: it))
+            pmdTask.addFileset(project.ant.fileset(dir: it))
         }
 
-        checkStyleTask.perform()
+        pmdTask.perform()
     }
 
     @Override
     boolean foundViolations() {
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
-        int numberOfViolations = xml.file.inject(0) { count, file -> count + file.error.size() }
-        println "Checkstyle report executed, found " + numberOfViolations + " violations."
+        int numberOfViolations = xml.file.inject(0) { count, file -> count + file.violation.size() }
+        println "PMD report executed, found " + numberOfViolations + " violations."
         return numberOfViolations != 0
     }
 
     @Override
-    String reporterName() {
-        return "Checkstyle"
+    String name() {
+        return "PMD"
     }
 
     @Override
     File reportFile() {
-        return new File(reportHelper.getReportsDir(), "checkstyle_report.xml")
+        return new File(reportHelper.getReportsDir(), "pmd.xml")
     }
 
     @Override
     void appendReport(GnagReportBuilder gnagReportBuilder) {
 
-        gnagReportBuilder.insertReporterHeader(reporterName())
+        gnagReportBuilder.insertReporterHeader(name())
 
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
 
         xml.file.each { file ->
-            file.error.each { violation ->
-
-                String violationName = violation.@source.text()
-                violationName = violationName.substring(violationName.lastIndexOf(".") + 1)
-
+            file.violation.each { violation ->
                 gnagReportBuilder.appendViolation(
-                        violationName,
-                        null,
+                        violation.@rule.text(),
+                        violation.@externalInfoUrl.text(),
                         file.@name.text(),
-                        violation.@line.text(),
-                        violation.@message.text()
+                        violation.@beginline.text(),
+                        violation.text()
                 )
             }
         }
-
     }
 }

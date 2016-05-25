@@ -76,18 +76,18 @@ gnag {
 ```
 
 - ***enabled*** - easily disable Gnag in specific situations
-- ***failOnError*** - should reporter violations cause the build to fail or just generate a report
-- ***checkstyle*** - block to customize the checkstyle reporter
+- ***failOnError*** - should violationDetector violations cause the build to fail or just generate a report
+- ***checkstyle*** - block to customize the checkstyle violationDetector
   - ***enabled*** - set if checkstyle should execute
   - ***reporterConfig*** - provide a custom [checkstyle config](http://checkstyle.sourceforge.net/config.html)
-- ***pmd*** - block to customize the pmd reporter
+- ***pmd*** - block to customize the pmd violationDetector
   - ***enabled*** - set if pmd should execute
   - ***reporterConfig*** - provide a custom [pmd config](http://pmd.sourceforge.net/pmd-5.1.1/howtomakearuleset.html)
-- ***findbugs*** - block to customize the findbugs reporter
+- ***findbugs*** - block to customize the findbugs violationDetector
   - ***enabled*** - set if findbugs should execute
   - ***reporterConfig*** - provide a custom [findbugs config](http://findbugs.sourceforge.net/manual/filter.html)
-- ***androidLint*** - block to customize the android lint reporter
-  - ***enabled*** - set if the android lint reporter should look for a lint report
+- ***androidLint*** - block to customize the android lint violationDetector
+  - ***enabled*** - set if the android lint violationDetector should look for a lint report
   - ***severity*** - can be 'Error' or 'Warning' depending on which severity you want Gnag to check
 - ***github*** - block to customize Github reporting (only used during the `gnagReport` task
   - ***repoName*** - account and repo name to report violations to
