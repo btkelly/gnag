@@ -15,8 +15,8 @@
  */
 package com.btkelly.gnag.models;
 
+import com.github.stkent.githubdiffparser.models.Diff;
 import org.jetbrains.annotations.NotNull;
-import org.wickedsource.diffparser.api.model.Diff;
 
 import java.util.List;
 

@@ -16,10 +16,10 @@
 package com.btkelly.gnag.utils.diffparser;
 
 import com.btkelly.gnag.models.GitHubPullRequestDiffWrapper;
+import com.github.stkent.githubdiffparser.GitHubDiffParser;
+import com.github.stkent.githubdiffparser.models.Diff;
 import okhttp3.ResponseBody;
 import org.jetbrains.annotations.NotNull;
-import org.wickedsource.diffparser.api.DiffParser;
-import org.wickedsource.diffparser.api.model.Diff;
 import retrofit2.Converter;
 
 import java.io.IOException;
@@ -28,9 +28,9 @@ import java.util.List;
 public class DiffParserResponseBodyConverter implements Converter<ResponseBody, GitHubPullRequestDiffWrapper> {
 
     @NotNull
-    private final DiffParser diffParser;
+    private final GitHubDiffParser diffParser;
 
-    protected DiffParserResponseBodyConverter(@NotNull final DiffParser diffParser) {
+    protected DiffParserResponseBodyConverter(final @NotNull GitHubDiffParser diffParser) {
         this.diffParser = diffParser;
     }
 
@@ -39,7 +39,7 @@ public class DiffParserResponseBodyConverter implements Converter<ResponseBody, 
         try {
             final List<Diff> parsedDiffs = diffParser.parse(value.byteStream());
 
-            if (parsedDiffs == null || parsedDiffs.isEmpty()) {
+            if (parsedDiffs.isEmpty()) {
                 // We expect to find at least one diff; treat any other outcome as erroneous.
                 return null;
             }

@@ -16,12 +16,11 @@
 package com.btkelly.gnag.utils.diffparser;
 
 import com.btkelly.gnag.models.GitHubPullRequestDiffWrapper;
+import com.github.stkent.githubdiffparser.GitHubDiffParser;
 import com.google.common.reflect.TypeToken;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import org.jetbrains.annotations.NotNull;
-import org.wickedsource.diffparser.api.DiffParser;
-import org.wickedsource.diffparser.api.UnifiedDiffParser;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 
@@ -31,12 +30,12 @@ import java.lang.reflect.Type;
 public class DiffParserConverterFactory extends Converter.Factory {
 
     public static DiffParserConverterFactory create() {
-        return new DiffParserConverterFactory(new UnifiedDiffParser());
+        return new DiffParserConverterFactory(new GitHubDiffParser());
     }
 
-    private final DiffParser diffParser;
+    private final GitHubDiffParser diffParser;
 
-    private DiffParserConverterFactory(@NotNull final DiffParser diffParser) {
+    private DiffParserConverterFactory(@NotNull final GitHubDiffParser diffParser) {
         this.diffParser = diffParser;
     }
 
