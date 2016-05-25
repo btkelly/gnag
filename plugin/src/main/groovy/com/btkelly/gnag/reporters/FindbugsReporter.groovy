@@ -80,11 +80,11 @@ class FindbugsReporter extends BaseExecutedReporter {
     }
 
     @Override
-    boolean hasErrors() {
+    boolean foundViolations() {
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
-        int numErrors = xml.FindBugsSummary.getProperty('@total_bugs').text() as int
-        println "Findbugs report executed, found " + numErrors + " errors."
-        return numErrors != 0
+        int numberOfViolations = xml.FindBugsSummary.getProperty('@total_bugs').text() as int
+        println "Findbugs report executed, found " + numberOfViolations + " violations."
+        return numberOfViolations != 0
     }
 
     @Override

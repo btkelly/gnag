@@ -52,11 +52,11 @@ class AndroidLintReporter implements Reporter {
     }
 
     @Override
-    boolean hasErrors() {
+    boolean foundViolations() {
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
-        int numErrors = xml.issue.count { severityEnabled(it.@severity.text()) }
-        println "Android Lint report executed, found " + numErrors + " errors."
-        return numErrors != 0
+        int numberOfViolations = xml.issue.count { severityEnabled(it.@severity.text()) }
+        println "Android Lint report executed, found " + numberOfViolations + " violations."
+        return numberOfViolations != 0
     }
 
     @Override

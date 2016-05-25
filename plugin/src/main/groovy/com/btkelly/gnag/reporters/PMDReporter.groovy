@@ -54,11 +54,11 @@ class PMDReporter extends BaseExecutedReporter {
     }
 
     @Override
-    boolean hasErrors() {
+    boolean foundViolations() {
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
-        int numErrors = xml.file.inject(0) { count, file -> count + file.violation.size() }
-        println "PMD report executed, found " + numErrors + " errors."
-        return numErrors != 0
+        int numberOfViolations = xml.file.inject(0) { count, file -> count + file.violation.size() }
+        println "PMD report executed, found " + numberOfViolations + " violations."
+        return numberOfViolations != 0
     }
 
     @Override

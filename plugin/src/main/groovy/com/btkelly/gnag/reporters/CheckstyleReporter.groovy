@@ -52,11 +52,11 @@ class CheckstyleReporter extends BaseExecutedReporter {
     }
 
     @Override
-    boolean hasErrors() {
+    boolean foundViolations() {
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
-        int numErrors = xml.file.inject(0) { count, file -> count + file.error.size() }
-        println "Checkstyle report executed, found " + numErrors + " errors."
-        return numErrors != 0
+        int numberOfViolations = xml.file.inject(0) { count, file -> count + file.error.size() }
+        println "Checkstyle report executed, found " + numberOfViolations + " violations."
+        return numberOfViolations != 0
     }
 
     @Override

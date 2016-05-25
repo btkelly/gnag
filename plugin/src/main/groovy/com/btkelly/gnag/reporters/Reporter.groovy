@@ -22,7 +22,7 @@ import com.btkelly.gnag.utils.GnagReportBuilder
  */
 interface Reporter {
 
-    boolean hasErrors()
+    boolean foundViolations()
 
     String reporterName()
 
@@ -31,4 +31,5 @@ interface Reporter {
     void appendReport(GnagReportBuilder gnagReportBuilder)
 
     boolean isEnabled()
+    
 }

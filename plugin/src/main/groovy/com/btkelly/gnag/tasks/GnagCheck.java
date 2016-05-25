@@ -84,7 +84,7 @@ public class GnagCheck extends DefaultTask {
                     ((BaseExecutedReporter) reporter).executeReporter();
                 }
 
-                if (reporter.hasErrors()) {
+                if (reporter.foundViolations()) {
                     foundErrors = true;
                     reporter.appendReport(gnagReportBuilder);
                 }
