@@ -29,6 +29,6 @@ interface ViolationDetector {
 
     File reportFile()
     
-    List<Violation> getDetectedViolations(final Project project)
+    List<Violation> getDetectedViolations()
     
 }

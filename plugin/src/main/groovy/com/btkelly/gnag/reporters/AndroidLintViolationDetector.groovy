@@ -17,12 +17,12 @@ package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.AndroidLintExtension
 import com.btkelly.gnag.models.Violation
-import com.btkelly.gnag.utils.StringUtils
 import groovy.util.slurpersupport.GPathResult
 import org.gradle.api.Project
 
 import static com.btkelly.gnag.extensions.AndroidLintExtension.SEVERITY_ERROR
 import static com.btkelly.gnag.extensions.AndroidLintExtension.SEVERITY_WARNING
+import static com.btkelly.gnag.utils.StringUtils.sanitize
 /**
  * Created by bobbake4 on 4/18/16.
  */
@@ -52,7 +52,7 @@ class AndroidLintViolationDetector implements ViolationDetector {
     }
 
     @Override
-    List<Violation> getDetectedViolations(final Project project) {
+    List<Violation> getDetectedViolations() {
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
 
         final List<Violation> result = new ArrayList<>()
@@ -70,11 +70,13 @@ class AndroidLintViolationDetector implements ViolationDetector {
                         }
 
                         result.add(new Violation(
-                                StringUtils.sanitize((String) violation.@id.text()),
-                                StringUtils.sanitize((String) name()),
-                                StringUtils.sanitize((String) violation.@message.text()),
-                                StringUtils.sanitize((String) violation.@url.text()),
-                                StringUtils.sanitize((String) violation.location.@file.text()), // todo: make relative
+                                sanitize((String) violation.@id.text()),
+                                sanitize((String) name()),
+                                sanitize((String) violation.@message.text()),
+                                sanitize((String) violation.@url.text()),
+                                sanitize((String) violation.location.@file.text())
+                                        .replace(project.rootDir.absolutePath + "/", ""),
+                                
                                 lineNumber))
                 }
         

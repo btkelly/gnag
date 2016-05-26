@@ -17,12 +17,15 @@ package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
 import com.btkelly.gnag.models.Violation
-import com.btkelly.gnag.utils.StringUtils
 import edu.umd.cs.findbugs.anttask.FindBugsTask
 import groovy.util.slurpersupport.GPathResult
 import org.apache.tools.ant.types.FileSet
 import org.apache.tools.ant.types.Path
 import org.gradle.api.Project
+
+import java.util.stream.Collectors
+
+import static com.btkelly.gnag.utils.StringUtils.sanitize
 /**
  * Created by bobbake4 on 4/1/16.
  */
@@ -80,8 +83,9 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
     }
 
     @Override
-    List<Violation> getDetectedViolations(final Project project) {
+    List<Violation> getDetectedViolations() {
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
+        final List<String> sourceFilePaths = computeSourceFilePaths(xml)
 
         final List<Violation> result = new ArrayList<>()
 
@@ -92,17 +96,20 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
                         try {
                             lineNumber = violation.SourceLine.@end.toInteger()
                         } catch (final NumberFormatException e) {
-                            System.out.println("Error reading line number from Findbugs violations.");
+                            println("Error reading line number from Findbugs violations.")
                             e.printStackTrace();
                             lineNumber = null
                         }
+            
+                        final String relativeFilePath = computeRelativeFilePathIfPossible(
+                                (GPathResult) violation, sourceFilePaths)
 
                         result.add(new Violation(
-                                StringUtils.sanitize((String) violation.@type.text()),
-                                StringUtils.sanitize((String) name()),
-                                StringUtils.sanitize((String) violation.ShortMessage.text()),
+                                sanitize((String) violation.@type.text()),
+                                sanitize((String) name()),
+                                sanitize((String) violation.ShortMessage.text()),
                                 null,
-                                StringUtils.sanitize((String) violation.SourceLine.@sourcepath), // todo: check relativity
+                                relativeFilePath,
                                 lineNumber))
                 }
         
@@ -117,6 +124,37 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
     @Override
     File reportFile() {
         return new File(reportHelper.getReportsDir(), "findbugs.xml")
+    }
+    
+    private static List computeSourceFilePaths(final GPathResult xml) {
+        final List<String> result = new ArrayList<>()
+
+        xml.Project.SrcDir.list().each { sourceFile ->
+            result.add((String) sourceFile.text())
+        }
+        
+        return result
+    }
+    
+    private String computeRelativeFilePathIfPossible(
+            final GPathResult violation, 
+            final List<String> sourceFilePaths) {
+        
+        final String shortFilePath =
+                sanitize((String) violation.SourceLine.@sourcepath)
+
+        final List<String> longFilePaths =
+                sourceFilePaths
+                        .stream()
+                        .filter { it.endsWith(shortFilePath) }
+                        .collect(Collectors.toList())
+
+        if (longFilePaths.isEmpty() || longFilePaths.size() > 1) {
+            return null
+        } else {
+            return longFilePaths.get(0)
+                    .replace(project.rootDir.absolutePath + "/", "")
+        }
     }
     
 }

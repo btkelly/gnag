@@ -17,10 +17,11 @@ package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
 import com.btkelly.gnag.models.Violation
-import com.btkelly.gnag.utils.StringUtils
 import groovy.util.slurpersupport.GPathResult
 import net.sourceforge.pmd.ant.PMDTask
 import org.gradle.api.Project
+
+import static com.btkelly.gnag.utils.StringUtils.sanitize
 /**
  * Created by bobbake4 on 4/1/16.
  */
@@ -54,7 +55,7 @@ class PMDViolationDetector extends BaseExecutedViolationDetector {
     }
 
     @Override
-    List<Violation> getDetectedViolations(final Project project) {
+    List<Violation> getDetectedViolations() {
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
 
         final List<Violation> result = new ArrayList<>()
@@ -72,11 +73,12 @@ class PMDViolationDetector extends BaseExecutedViolationDetector {
                 }
 
                 result.add(new Violation(
-                        StringUtils.sanitize((String) violation.@rule.text()),
-                        StringUtils.sanitize((String) name()),
-                        StringUtils.sanitize((String) violation.text()),
-                        StringUtils.sanitize((String) violation.@externalInfoUrl.text()),
-                        StringUtils.sanitize((String) file.@name.text()), // todo: make relative
+                        sanitize((String) violation.@rule.text()),
+                        sanitize((String) name()),
+                        sanitize((String) violation.text()),
+                        sanitize((String) violation.@externalInfoUrl.text()),
+                        sanitize((String) file.@name.text())
+                                .replace(project.rootDir.absolutePath + "/", ""),
                         lineNumber))
             }
         }

@@ -79,7 +79,7 @@ public class GnagCheck extends DefaultTask {
                             ((BaseExecutedViolationDetector) violationDetector).executeReporter();
                         }
 
-                        detectedViolations.addAll(violationDetector.getDetectedViolations(getProject()));
+                        detectedViolations.addAll(violationDetector.getDetectedViolations());
                     
                 });
 

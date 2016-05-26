@@ -17,10 +17,11 @@ package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
 import com.btkelly.gnag.models.Violation
-import com.btkelly.gnag.utils.StringUtils
 import com.puppycrawl.tools.checkstyle.ant.CheckstyleAntTask
 import groovy.util.slurpersupport.GPathResult
 import org.gradle.api.Project
+
+import static com.btkelly.gnag.utils.StringUtils.sanitize
 /**
  * Created by bobbake4 on 4/1/16.
  */
@@ -52,7 +53,7 @@ class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
     }
 
     @Override
-    List<Violation> getDetectedViolations(final Project project) {
+    List<Violation> getDetectedViolations() {
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
 
         final List<Violation> result = new ArrayList<>()
@@ -72,11 +73,12 @@ class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
                         final String violationName = violation.@source.text()
                     
                         result.add(new Violation(
-                                StringUtils.sanitize((String) violationName.substring(violationName.lastIndexOf(".") + 1)),
-                                StringUtils.sanitize((String) name()),
-                                StringUtils.sanitize((String) violation.@message.text()),
+                                sanitize((String) violationName.substring(violationName.lastIndexOf(".") + 1)),
+                                sanitize((String) name()),
+                                sanitize((String) violation.@message.text()),
                                 null,
-                                StringUtils.sanitize((String) file.@name.text()), // todo: make relative
+                                sanitize((String) file.@name.text())
+                                        .replace(project.rootDir.absolutePath + "/", ""),
                                 lineNumber))
                 }
         }
