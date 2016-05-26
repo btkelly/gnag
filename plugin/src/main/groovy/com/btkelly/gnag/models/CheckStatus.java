@@ -15,29 +15,50 @@
  */
 package com.btkelly.gnag.models;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import static com.btkelly.gnag.models.GitHubStatusType.SUCCESS;
+
 /**
  * Created by bobbake4 on 4/26/16.
  */
 public class CheckStatus {
+    
+    public static CheckStatus getSuccessfulCheckStatus() {
+        return new CheckStatus(SUCCESS, new HashSet<>());
+    }
 
-    private final String comment;
+    @NotNull
     private final GitHubStatusType gitHubStatusType;
 
-    public CheckStatus(String comment, GitHubStatusType gitHubStatusType) {
-        this.comment = comment;
+    @NotNull
+    private final Set<Violation> violations;
+
+    public CheckStatus(@NotNull final GitHubStatusType gitHubStatusType, @NotNull final Set<Violation> violations) {
+        if (gitHubStatusType == SUCCESS && !violations.isEmpty()) {
+            throw new IllegalStateException("Status cannot be SUCCESS if violations are found.");
+        }
+        
+        this.violations = violations;
         this.gitHubStatusType = gitHubStatusType;
     }
 
-    public String getComment() {
-        return comment;
-    }
-
+    @NotNull
     public GitHubStatusType getGitHubStatusType() {
         return gitHubStatusType;
+    }
+
+    @NotNull
+    public Set<Violation> getViolations() {
+        return violations;
     }
 
     @Override
     public String toString() {
         return gitHubStatusType.toString();
     }
+    
 }

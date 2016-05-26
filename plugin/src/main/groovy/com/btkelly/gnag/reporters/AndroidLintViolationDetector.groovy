@@ -16,13 +16,12 @@
 package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.AndroidLintExtension
-import com.btkelly.gnag.utils.GnagReportBuilder
+import com.btkelly.gnag.models.Violation
 import groovy.util.slurpersupport.GPathResult
 import org.gradle.api.Project
 
 import static com.btkelly.gnag.extensions.AndroidLintExtension.SEVERITY_ERROR
 import static com.btkelly.gnag.extensions.AndroidLintExtension.SEVERITY_WARNING
-
 /**
  * Created by bobbake4 on 4/18/16.
  */
@@ -43,7 +42,7 @@ class AndroidLintViolationDetector implements ViolationDetector {
             if (reportFile().exists()) {
                 return true
             } else {
-                println "Android Lint ViolationDetector is enabled but no lint report was found"
+                println "Android Lint ViolationDetector is enabled but no lint violations was found"
                 return false
             }
         } else {
@@ -52,11 +51,33 @@ class AndroidLintViolationDetector implements ViolationDetector {
     }
 
     @Override
-    boolean foundViolations() {
+    List<Violation> getDetectedViolations() {
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
-        int numberOfViolations = xml.issue.count { severityEnabled(it.@severity.text()) }
-        println "Android Lint report executed, found " + numberOfViolations + " violations."
-        return numberOfViolations != 0
+
+        final List<Violation> result = new ArrayList<>()
+        
+        xml.issue.findAll { severityEnabled((String) it.@severity.text()) }
+                .each { violation ->
+                        final Integer lineNumber;
+            
+                        try {
+                            lineNumber = violation.location.@line.toInteger()
+                        } catch (final NumberFormatException e) {
+                            System.out.println("Error reading line number from Android Lint violations.");
+                            e.printStackTrace();
+                            lineNumber = null
+                        }
+
+                        result.add(new Violation(
+                                (String) violation.@id.text(),
+                                (String) name(),
+                                (String) violation.@message.text(),
+                                (String) violation.@url.text(),
+                                (String) violation.location.@file.text(), // todo: make relative
+                                lineNumber))
+                }
+        
+        return result
     }
 
     @Override
@@ -67,24 +88,6 @@ class AndroidLintViolationDetector implements ViolationDetector {
     @Override
     File reportFile() {
         return new File(new FileNameByRegexFinder().getFileNames(project.buildDir.path + "/outputs/", "lint-results.+\\.xml").first())
-    }
-
-    @Override
-    void appendReport(GnagReportBuilder gnagReportBuilder) {
-
-        gnagReportBuilder.insertReporterHeader(name())
-
-        GPathResult xml = new XmlSlurper().parseText(reportFile().text)
-
-        xml.issue.findAll { severityEnabled(it.@severity.text()) }.each { violation ->
-            gnagReportBuilder.appendViolation(
-                    violation.@id.text(),
-                    violation.@url.text(),
-                    violation.location.@file.text(),
-                    violation.location.@line.text(),
-                    violation.@message.text()
-            )
-        }
     }
 
     private boolean severityEnabled(String severity) {

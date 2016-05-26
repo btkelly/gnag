@@ -16,11 +16,10 @@
 package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
-import com.btkelly.gnag.utils.GnagReportBuilder
+import com.btkelly.gnag.models.Violation
 import com.puppycrawl.tools.checkstyle.ant.CheckstyleAntTask
 import groovy.util.slurpersupport.GPathResult
 import org.gradle.api.Project
-
 /**
  * Created by bobbake4 on 4/1/16.
  */
@@ -52,11 +51,36 @@ class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
     }
 
     @Override
-    boolean foundViolations() {
+    List<Violation> getDetectedViolations() {
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
-        int numberOfViolations = xml.file.inject(0) { count, file -> count + file.error.size() }
-        println "Checkstyle report executed, found " + numberOfViolations + " violations."
-        return numberOfViolations != 0
+
+        final List<Violation> result = new ArrayList<>()
+        
+        xml.file.each { file ->
+                file.error.each { violation ->
+                        final Integer lineNumber;
+    
+                        try {
+                            lineNumber = violation.@line.toInteger()
+                        } catch (final NumberFormatException e) {
+                            System.out.println("Error reading line number from Checkstyle violations.");
+                            e.printStackTrace();
+                            lineNumber = null
+                        }
+                    
+                        final String violationName = violation.@source.text()
+                    
+                        result.add(new Violation(
+                                (String) violationName.substring(violationName.lastIndexOf(".") + 1),
+                                (String) name(),
+                                (String) violation.@message.text(),
+                                null,
+                                (String) file.@name.text(), // todo: make relative
+                                lineNumber))
+                }
+        }
+        
+        return result
     }
 
     @Override
@@ -68,29 +92,5 @@ class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
     File reportFile() {
         return new File(reportHelper.getReportsDir(), "checkstyle_report.xml")
     }
-
-    @Override
-    void appendReport(GnagReportBuilder gnagReportBuilder) {
-
-        gnagReportBuilder.insertReporterHeader(name())
-
-        GPathResult xml = new XmlSlurper().parseText(reportFile().text)
-
-        xml.file.each { file ->
-            file.error.each { violation ->
-
-                String violationName = violation.@source.text()
-                violationName = violationName.substring(violationName.lastIndexOf(".") + 1)
-
-                gnagReportBuilder.appendViolation(
-                        violationName,
-                        null,
-                        file.@name.text(),
-                        violation.@line.text(),
-                        violation.@message.text()
-                )
-            }
-        }
-
-    }
+    
 }

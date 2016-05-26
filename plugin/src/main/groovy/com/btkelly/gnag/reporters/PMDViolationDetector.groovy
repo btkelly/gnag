@@ -16,11 +16,10 @@
 package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
-import com.btkelly.gnag.utils.GnagReportBuilder
+import com.btkelly.gnag.models.Violation
 import groovy.util.slurpersupport.GPathResult
 import net.sourceforge.pmd.ant.PMDTask
 import org.gradle.api.Project
-
 /**
  * Created by bobbake4 on 4/1/16.
  */
@@ -54,11 +53,34 @@ class PMDViolationDetector extends BaseExecutedViolationDetector {
     }
 
     @Override
-    boolean foundViolations() {
+    List<Violation> getDetectedViolations() {
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
-        int numberOfViolations = xml.file.inject(0) { count, file -> count + file.violation.size() }
-        println "PMD report executed, found " + numberOfViolations + " violations."
-        return numberOfViolations != 0
+
+        final List<Violation> result = new ArrayList<>()
+
+        xml.file.each { file ->
+            file.violation.each { violation ->
+                final Integer lineNumber;
+
+                try {
+                    lineNumber = violation.@endline.toInteger()
+                } catch (final NumberFormatException e) {
+                    System.out.println("Error reading line number from PMD violations.");
+                    e.printStackTrace();
+                    lineNumber = null
+                }
+
+                result.add(new Violation(
+                        (String) violation.@rule.text(),
+                        (String) name(),
+                        (String) violation.text(),
+                        (String) violation.@externalInfoUrl.text(),
+                        (String) file.@name.text(), // todo: make relative
+                        lineNumber))
+            }
+        }
+
+        return result
     }
 
     @Override
@@ -70,24 +92,5 @@ class PMDViolationDetector extends BaseExecutedViolationDetector {
     File reportFile() {
         return new File(reportHelper.getReportsDir(), "pmd.xml")
     }
-
-    @Override
-    void appendReport(GnagReportBuilder gnagReportBuilder) {
-
-        gnagReportBuilder.insertReporterHeader(name())
-
-        GPathResult xml = new XmlSlurper().parseText(reportFile().text)
-
-        xml.file.each { file ->
-            file.violation.each { violation ->
-                gnagReportBuilder.appendViolation(
-                        violation.@rule.text(),
-                        violation.@externalInfoUrl.text(),
-                        file.@name.text(),
-                        violation.@beginline.text(),
-                        violation.text()
-                )
-            }
-        }
-    }
+    
 }

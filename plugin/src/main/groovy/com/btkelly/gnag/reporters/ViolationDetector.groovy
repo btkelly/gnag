@@ -15,8 +15,7 @@
  */
 package com.btkelly.gnag.reporters
 
-import com.btkelly.gnag.models.report.Report
-
+import com.btkelly.gnag.models.Violation
 /**
  * Created by bobbake4 on 4/19/16.
  */
@@ -27,9 +26,7 @@ interface ViolationDetector {
     String name()
 
     File reportFile()
-
-    boolean foundViolations()
     
-    Report getReport()
+    List<Violation> getDetectedViolations()
     
 }

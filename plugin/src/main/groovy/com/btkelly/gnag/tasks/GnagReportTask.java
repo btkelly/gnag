@@ -20,6 +20,7 @@ import com.btkelly.gnag.extensions.GitHubExtension;
 import com.btkelly.gnag.models.CheckStatus;
 import com.btkelly.gnag.models.GitHubPullRequest;
 import com.btkelly.gnag.models.GitHubStatusType;
+import com.btkelly.gnag.utils.ViolationsFormatter;
 import org.apache.commons.lang.StringUtils;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
@@ -31,6 +32,7 @@ import java.util.Map;
 
 import static com.btkelly.gnag.models.GitHubStatusType.ERROR;
 import static com.btkelly.gnag.models.GitHubStatusType.PENDING;
+import static com.btkelly.gnag.models.GitHubStatusType.SUCCESS;
 
 /**
  * Created by bobbake4 on 4/1/16.
@@ -38,6 +40,7 @@ import static com.btkelly.gnag.models.GitHubStatusType.PENDING;
 public class GnagReportTask extends DefaultTask {
 
     public static final String TASK_NAME = "gnagReport";
+    private static final String REMOTE_SUCCESS_COMMENT = "Congrats, no poop code found! This PR is safe to merge.";
 
     public static void addTask(Project project, GitHubExtension gitHubExtension) {
         Map<String, Object> taskOptions = new HashMap<>();
@@ -61,15 +64,22 @@ public class GnagReportTask extends DefaultTask {
 
         updatePRStatus(PENDING);
 
-        Object projectStatus = getProject().getStatus();
+        final Object projectStatus = getProject().getStatus();
 
         if (projectStatus instanceof CheckStatus) {
-            CheckStatus checkStatus = (CheckStatus) projectStatus;
-
+            final CheckStatus checkStatus = (CheckStatus) projectStatus;
             System.out.println("Project status: " + checkStatus);
 
-            gitHubApi.postGitHubComment(checkStatus.getComment());
+            if (checkStatus.getGitHubStatusType() == SUCCESS) {
+                gitHubApi.postGitHubComment(REMOTE_SUCCESS_COMMENT);
+            } else {
+                // TODO: send individual message(s) here when possible
+                gitHubApi.postGitHubComment(
+                        ViolationsFormatter.getHtmlStringForAggregatedComment(checkStatus.getViolations()));
+            }
+
             updatePRStatus(checkStatus.getGitHubStatusType());
+
         } else {
             System.out.println("Project status is not instanceof Check Status");
             updatePRStatus(ERROR);

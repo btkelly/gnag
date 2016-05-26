@@ -16,13 +16,12 @@
 package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
-import com.btkelly.gnag.utils.GnagReportBuilder
+import com.btkelly.gnag.models.Violation
 import edu.umd.cs.findbugs.anttask.FindBugsTask
 import groovy.util.slurpersupport.GPathResult
 import org.apache.tools.ant.types.FileSet
 import org.apache.tools.ant.types.Path
 import org.gradle.api.Project
-
 /**
  * Created by bobbake4 on 4/1/16.
  */
@@ -80,11 +79,33 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
     }
 
     @Override
-    boolean foundViolations() {
+    List<Violation> getDetectedViolations() {
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
-        int numberOfViolations = xml.FindBugsSummary.getProperty('@total_bugs').text() as int
-        println "Findbugs report executed, found " + numberOfViolations + " violations."
-        return numberOfViolations != 0
+
+        final List<Violation> result = new ArrayList<>()
+
+        xml.BugInstance.list()
+                .each { violation ->
+                        final Integer lineNumber;
+        
+                        try {
+                            lineNumber = violation.SourceLine.@end.toInteger()
+                        } catch (final NumberFormatException e) {
+                            System.out.println("Error reading line number from Findbugs violations.");
+                            e.printStackTrace();
+                            lineNumber = null
+                        }
+
+                        result.add(new Violation(
+                                (String) violation.@type.text(),
+                                (String) name(),
+                                (String) violation.ShortMessage.text(),
+                                null,
+                                (String) violation.SourceLine.@sourcepath, // todo: check relativity
+                                lineNumber))
+                }
+        
+        return result
     }
 
     @Override
@@ -96,22 +117,5 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
     File reportFile() {
         return new File(reportHelper.getReportsDir(), "findbugs.xml")
     }
-
-    @Override
-    void appendReport(GnagReportBuilder gnagReportBuilder) {
-
-        gnagReportBuilder.insertReporterHeader(name())
-
-        GPathResult xml = new XmlSlurper().parseText(reportFile().text)
-
-        xml.BugInstance.each { violation ->
-            gnagReportBuilder.appendViolation(
-                    violation.@type.text(),
-                    null,
-                    violation.SourceLine.@classname.text(),
-                    violation.SourceLine.@start.text(),
-                    violation.ShortMessage.text()
-            )
-        }
-    }
+    
 }

@@ -28,6 +28,7 @@ class ReportHelper {
         this.project = project
     }
 
+    // todo: this doesn't seem like it belongs in the ReportHelper. refactor?
     public List<File> getAndroidSources() {
         project.android.sourceSets.inject([]) {
             dirs, sourceSet -> dirs + sourceSet.java.srcDirs

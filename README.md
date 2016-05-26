@@ -4,7 +4,7 @@ A Gradle plugin that helps facilitate Github PR checking and automatic commentin
 ## Usage
 
 Gnag is meant to be simple to use and easy to drop in to any Android project. Shown below is the simplest 
-Gnag setup that will report violations to GitHub. By default this config will report PMD, Findbugs, Checkstyle and 
+Gnag setup that will violations violations to GitHub. By default this config will violations PMD, Findbugs, Checkstyle and 
 Android Lint to Github.
 
 ```groovy
@@ -34,12 +34,12 @@ This is the simplest way to add automatic PR checking and commenting to your pro
 
 #### Tasks
 
-You can use the gnagCheck gradle task to run Gnag locally and generate an HTML report in the build directory. 
+You can use the gnagCheck gradle task to run Gnag locally and generate an HTML violations in the build directory. 
 ```groovy
 ./gradlew clean gnagCheck
 ```
 
-You can use the gnagReport task which will first run gnagCheck and then report this to the Github issue specified. 
+You can use the gnagReport task which will first run gnagCheck and then violations this to the Github issue specified. 
 In this example the issue number and authtoken for the comment user are passed as commandline arguments.
 ```groovy
 ./gradlew clean gnagReport -PissueNumber=11 -PauthToken=iu2n3iu2nfjknfjk23nfkj23nk
@@ -76,7 +76,7 @@ gnag {
 ```
 
 - ***enabled*** - easily disable Gnag in specific situations
-- ***failOnError*** - should violationDetector violations cause the build to fail or just generate a report
+- ***failOnError*** - should violationDetector violations cause the build to fail or just generate a violations
 - ***checkstyle*** - block to customize the checkstyle violationDetector
   - ***enabled*** - set if checkstyle should execute
   - ***reporterConfig*** - provide a custom [checkstyle config](http://checkstyle.sourceforge.net/config.html)
@@ -87,10 +87,10 @@ gnag {
   - ***enabled*** - set if findbugs should execute
   - ***reporterConfig*** - provide a custom [findbugs config](http://findbugs.sourceforge.net/manual/filter.html)
 - ***androidLint*** - block to customize the android lint violationDetector
-  - ***enabled*** - set if the android lint violationDetector should look for a lint report
+  - ***enabled*** - set if the android lint violationDetector should look for a lint violations
   - ***severity*** - can be 'Error' or 'Warning' depending on which severity you want Gnag to check
 - ***github*** - block to customize Github reporting (only used during the `gnagReport` task
-  - ***repoName*** - account and repo name to report violations to
+  - ***repoName*** - account and repo name to violations violations to
   - ***authToken*** - a Github token for a user that has access to comment on issues to the specified repo
   - ***issueNumber*** - the issue or PR number currently being built
 

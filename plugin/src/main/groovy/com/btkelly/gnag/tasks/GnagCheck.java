@@ -17,9 +17,10 @@ package com.btkelly.gnag.tasks;
 
 import com.btkelly.gnag.extensions.GnagPluginExtension;
 import com.btkelly.gnag.models.CheckStatus;
+import com.btkelly.gnag.models.Violation;
 import com.btkelly.gnag.reporters.*;
-import com.btkelly.gnag.utils.GnagReportBuilder;
 import com.btkelly.gnag.utils.ReportHelper;
+import com.btkelly.gnag.utils.ReportWriter;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
@@ -28,13 +29,9 @@ import org.gradle.api.execution.TaskExecutionGraph;
 import org.gradle.api.tasks.StopExecutionException;
 import org.gradle.api.tasks.TaskAction;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.btkelly.gnag.models.GitHubStatusType.FAILURE;
-import static com.btkelly.gnag.models.GitHubStatusType.SUCCESS;
 
 /**
  * Created by bobbake4 on 4/1/16.
@@ -71,56 +68,52 @@ public class GnagCheck extends DefaultTask {
     }
 
     private void executeGnagCheck() {
-        boolean foundErrors = false;
+        final Set<Violation> detectedViolations = new HashSet<>();
+        
+        violationDetectors
+                .stream()
+                .filter(ViolationDetector::isEnabled)
+                .forEach(violationDetector -> {
+                    
+                        if (violationDetector instanceof BaseExecutedViolationDetector) {
+                            ((BaseExecutedViolationDetector) violationDetector).executeReporter();
+                        }
 
-        ReportHelper reportHelper = new ReportHelper(getProject());
-        GnagReportBuilder gnagReportBuilder = new GnagReportBuilder(getProject());
+                        detectedViolations.addAll(violationDetector.getDetectedViolations());
+                    
+                });
 
-        for (ViolationDetector violationDetector : violationDetectors) {
+        final ReportHelper reportHelper = new ReportHelper(getProject());
+        ReportWriter.writeReportToDirectory(detectedViolations, reportHelper.getReportsDir());
 
-            if (violationDetector.isEnabled()) {
+        if (detectedViolations.isEmpty()) {
+            getProject().setStatus(CheckStatus.getSuccessfulCheckStatus());
+        } else {
+            getProject().setStatus(new CheckStatus(FAILURE, detectedViolations));
 
-                if (violationDetector instanceof BaseExecutedViolationDetector) {
-                    ((BaseExecutedViolationDetector) violationDetector).executeReporter();
-                }
-
-                if (violationDetector.foundViolations()) {
-                    foundErrors = true;
-                    violationDetector.appendReport(gnagReportBuilder);
-                }
-            }
-        }
-
-        gnagReportBuilder.writeReportToDirectory(reportHelper.getReportsDir());
-
-        if (foundErrors) {
-
-            getProject().setStatus(new CheckStatus(gnagReportBuilder.toString(), FAILURE));
-
-            TaskExecutionGraph taskGraph = getProject().getGradle().getTaskGraph();
+            final TaskExecutionGraph taskGraph = getProject().getGradle().getTaskGraph();
 
             boolean hasReportTask = false;
 
-            for (Task task : taskGraph.getAllTasks()) {
+            for (final Task task : taskGraph.getAllTasks()) {
                 if (task.getName().equals(GnagReportTask.TASK_NAME)) {
                     hasReportTask = true;
                 }
             }
 
-            String failedMessage = "One or more violationDetectors has found violations";
+            final String failedMessage = "One or more violationDetectors has found violations";
 
             if (gnagPluginExtension.shouldFailOnError() && !hasReportTask) {
                 throw new GradleException(failedMessage);
             } else {
                 System.out.println(failedMessage);
                 throw new StopExecutionException(failedMessage);
-            }
-        } else {
-            getProject().setStatus(new CheckStatus("Congrats! No :poop: code found, this PR is safe to merge.", SUCCESS));
+            } 
         }
     }
 
     private void setGnagPluginExtension(GnagPluginExtension gnagPluginExtension) {
         this.gnagPluginExtension = gnagPluginExtension;
     }
+    
 }
