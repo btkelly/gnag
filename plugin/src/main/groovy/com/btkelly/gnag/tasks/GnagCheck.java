@@ -71,7 +71,7 @@ public class GnagCheck extends DefaultTask {
     }
 
     private void executeGnagCheck() {
-        final Set<Violation> detectedViolations = new HashSet<>();
+        final Set<Violation> allDetectedViolations = new HashSet<>();
         
         violationDetectors
                 .stream()
@@ -82,16 +82,19 @@ public class GnagCheck extends DefaultTask {
                             ((BaseExecutedViolationDetector) violationDetector).executeReporter();
                         }
 
-                        detectedViolations.addAll(violationDetector.getDetectedViolations());
-                    
+                        final List<Violation> detectedViolations = violationDetector.getDetectedViolations();
+                        allDetectedViolations.addAll(detectedViolations);
+
+                        System.out.println(
+                                violationDetector.name() + " detected " + detectedViolations.size() + " violations.");
                 });
 
-        ReportWriter.writeReportToDirectory(detectedViolations, reportHelper.getReportsDir());
+        ReportWriter.writeReportToDirectory(allDetectedViolations, reportHelper.getReportsDir());
 
-        if (detectedViolations.isEmpty()) {
+        if (allDetectedViolations.isEmpty()) {
             getProject().setStatus(CheckStatus.getSuccessfulCheckStatus());
         } else {
-            getProject().setStatus(new CheckStatus(FAILURE, detectedViolations));
+            getProject().setStatus(new CheckStatus(FAILURE, allDetectedViolations));
 
             final TaskExecutionGraph taskGraph = getProject().getGradle().getTaskGraph();
 
