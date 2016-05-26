@@ -40,7 +40,7 @@ import static com.btkelly.gnag.models.GitHubStatusType.SUCCESS;
 public class GnagReportTask extends DefaultTask {
 
     public static final String TASK_NAME = "gnagReport";
-    private static final String REMOTE_SUCCESS_COMMENT = "Congrats, no poop code found! This PR is safe to merge.";
+    private static final String REMOTE_SUCCESS_COMMENT = "Congrats, no :poop: code found! This PR is safe to merge.";
 
     public static void addTask(Project project, GitHubExtension gitHubExtension) {
         Map<String, Object> taskOptions = new HashMap<>();
