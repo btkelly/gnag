@@ -20,19 +20,20 @@ import com.btkelly.gnag.extensions.GitHubExtension;
 import com.btkelly.gnag.models.CheckStatus;
 import com.btkelly.gnag.models.GitHubPullRequest;
 import com.btkelly.gnag.models.GitHubStatusType;
+import com.btkelly.gnag.models.Violation;
 import com.btkelly.gnag.utils.ViolationsFormatter;
 import org.apache.commons.lang.StringUtils;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.tasks.TaskAction;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-import static com.btkelly.gnag.models.GitHubStatusType.ERROR;
-import static com.btkelly.gnag.models.GitHubStatusType.PENDING;
-import static com.btkelly.gnag.models.GitHubStatusType.SUCCESS;
+import static com.btkelly.gnag.models.GitHubStatusType.*;
 
 /**
  * Created by bobbake4 on 4/1/16.
@@ -70,16 +71,17 @@ public class GnagReportTask extends DefaultTask {
             final CheckStatus checkStatus = (CheckStatus) projectStatus;
             System.out.println("Project status: " + checkStatus);
 
+            // TODO: retry a couple times if this fails; if we can't grab the PR sha, we will
+            // need to fall back to posting all violations in an aggregate comment
+            fetchPRShaIfRequired();
+            
             if (checkStatus.getGitHubStatusType() == SUCCESS) {
                 gitHubApi.postGitHubComment(REMOTE_SUCCESS_COMMENT);
             } else {
-                // TODO: send individual message(s) here when possible
-                gitHubApi.postGitHubComment(
-                        ViolationsFormatter.getHtmlStringForAggregatedComment(checkStatus.getViolations()));
+                postViolationComments(checkStatus.getViolations());
             }
 
             updatePRStatus(checkStatus.getGitHubStatusType());
-
         } else {
             System.out.println("Project status is not instanceof Check Status");
             updatePRStatus(ERROR);
@@ -90,8 +92,7 @@ public class GnagReportTask extends DefaultTask {
         this.gitHubApi = new GitHubApi(gitHubExtension);
     }
 
-    private void updatePRStatus(GitHubStatusType gitHubStatusType) {
-
+    private void fetchPRShaIfRequired() {
         if (StringUtils.isBlank(prSha)) {
             GitHubPullRequest pullRequestDetails = gitHubApi.getPullRequestDetails();
 
@@ -99,9 +100,26 @@ public class GnagReportTask extends DefaultTask {
                 prSha = pullRequestDetails.getHead().getSha();
             }
         }
+    }
 
+    private void updatePRStatus(GitHubStatusType gitHubStatusType) {
         if (StringUtils.isNotBlank(prSha)) {
             gitHubApi.postUpdatedGitHubStatus(gitHubStatusType, prSha);
         }
     }
+
+    private void postViolationComments(@NotNull final Set<Violation> violations) {
+        if (StringUtils.isBlank(prSha)) {
+            // If SHA is unavailable, we must fall back to posting all violations in a single comment.
+            gitHubApi.postGitHubComment(
+                    ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
+        } else {
+            // TODO: fetch and parse diff for the current PR
+            // TODO: determine which violations have all required location information
+            // TODO: determine which of those violations correspond to valid targets in the parsed diff
+            // TODO: post these violations as individual comments
+            // TODO: post all remaining violations as an aggregated comment
+        }
+    }
+    
 }
