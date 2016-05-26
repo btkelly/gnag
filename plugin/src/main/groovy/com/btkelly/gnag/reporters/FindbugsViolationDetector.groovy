@@ -17,6 +17,7 @@ package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
 import com.btkelly.gnag.models.Violation
+import com.btkelly.gnag.utils.StringUtils
 import edu.umd.cs.findbugs.anttask.FindBugsTask
 import groovy.util.slurpersupport.GPathResult
 import org.apache.tools.ant.types.FileSet
@@ -97,11 +98,11 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
                         }
 
                         result.add(new Violation(
-                                (String) violation.@type.text(),
-                                (String) name(),
-                                (String) violation.ShortMessage.text(),
+                                StringUtils.sanitize((String) violation.@type.text()),
+                                StringUtils.sanitize((String) name()),
+                                StringUtils.sanitize((String) violation.ShortMessage.text()),
                                 null,
-                                (String) violation.SourceLine.@sourcepath, // todo: check relativity
+                                StringUtils.sanitize((String) violation.SourceLine.@sourcepath), // todo: check relativity
                                 lineNumber))
                 }
         

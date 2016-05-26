@@ -17,6 +17,7 @@ package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
 import com.btkelly.gnag.models.Violation
+import com.btkelly.gnag.utils.StringUtils
 import groovy.util.slurpersupport.GPathResult
 import net.sourceforge.pmd.ant.PMDTask
 import org.gradle.api.Project
@@ -71,11 +72,11 @@ class PMDViolationDetector extends BaseExecutedViolationDetector {
                 }
 
                 result.add(new Violation(
-                        (String) violation.@rule.text(),
-                        (String) name(),
-                        (String) violation.text(),
-                        (String) violation.@externalInfoUrl.text(),
-                        (String) file.@name.text(), // todo: make relative
+                        StringUtils.sanitize((String) violation.@rule.text()),
+                        StringUtils.sanitize((String) name()),
+                        StringUtils.sanitize((String) violation.text()),
+                        StringUtils.sanitize((String) violation.@externalInfoUrl.text()),
+                        StringUtils.sanitize((String) file.@name.text()), // todo: make relative
                         lineNumber))
             }
         }

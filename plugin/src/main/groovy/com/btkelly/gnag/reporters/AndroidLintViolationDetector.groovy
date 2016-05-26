@@ -17,6 +17,7 @@ package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.AndroidLintExtension
 import com.btkelly.gnag.models.Violation
+import com.btkelly.gnag.utils.StringUtils
 import groovy.util.slurpersupport.GPathResult
 import org.gradle.api.Project
 
@@ -69,11 +70,11 @@ class AndroidLintViolationDetector implements ViolationDetector {
                         }
 
                         result.add(new Violation(
-                                (String) violation.@id.text(),
-                                (String) name(),
-                                (String) violation.@message.text(),
-                                (String) violation.@url.text(),
-                                (String) violation.location.@file.text(), // todo: make relative
+                                StringUtils.sanitize((String) violation.@id.text()),
+                                StringUtils.sanitize((String) name()),
+                                StringUtils.sanitize((String) violation.@message.text()),
+                                StringUtils.sanitize((String) violation.@url.text()),
+                                StringUtils.sanitize((String) violation.location.@file.text()), // todo: make relative
                                 lineNumber))
                 }
         

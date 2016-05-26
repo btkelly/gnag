@@ -17,6 +17,7 @@ package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
 import com.btkelly.gnag.models.Violation
+import com.btkelly.gnag.utils.StringUtils
 import com.puppycrawl.tools.checkstyle.ant.CheckstyleAntTask
 import groovy.util.slurpersupport.GPathResult
 import org.gradle.api.Project
@@ -71,11 +72,11 @@ class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
                         final String violationName = violation.@source.text()
                     
                         result.add(new Violation(
-                                (String) violationName.substring(violationName.lastIndexOf(".") + 1),
-                                (String) name(),
-                                (String) violation.@message.text(),
+                                StringUtils.sanitize((String) violationName.substring(violationName.lastIndexOf(".") + 1)),
+                                StringUtils.sanitize((String) name()),
+                                StringUtils.sanitize((String) violation.@message.text()),
                                 null,
-                                (String) file.@name.text(), // todo: make relative
+                                StringUtils.sanitize((String) file.@name.text()), // todo: make relative
                                 lineNumber))
                 }
         }
