@@ -16,19 +16,22 @@
 package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
-import com.btkelly.gnag.utils.GnagReportBuilder
+import com.btkelly.gnag.models.Violation
 import edu.umd.cs.findbugs.anttask.FindBugsTask
 import groovy.util.slurpersupport.GPathResult
 import org.apache.tools.ant.types.FileSet
 import org.apache.tools.ant.types.Path
 import org.gradle.api.Project
 
+import java.util.stream.Collectors
+
+import static com.btkelly.gnag.utils.StringUtils.sanitize
 /**
  * Created by bobbake4 on 4/1/16.
  */
-class FindbugsReporter extends BaseExecutedReporter {
+class FindbugsViolationDetector extends BaseExecutedViolationDetector {
 
-    FindbugsReporter(ReporterExtension reporterExtension, Project project) {
+    FindbugsViolationDetector(ReporterExtension reporterExtension, Project project) {
         super(reporterExtension, project)
     }
 
@@ -80,15 +83,41 @@ class FindbugsReporter extends BaseExecutedReporter {
     }
 
     @Override
-    boolean hasErrors() {
+    List<Violation> getDetectedViolations() {
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
-        int numErrors = xml.FindBugsSummary.getProperty('@total_bugs').text() as int
-        println "Findbugs report executed, found " + numErrors + " errors."
-        return numErrors != 0
+        final List<String> sourceFilePaths = computeSourceFilePaths(xml)
+
+        final List<Violation> result = new ArrayList<>()
+
+        xml.BugInstance.list()
+                .each { violation ->
+                        final Integer lineNumber;
+        
+                        try {
+                            lineNumber = violation.SourceLine.@end.toInteger()
+                        } catch (final NumberFormatException e) {
+                            println("Error reading line number from Findbugs violations.")
+                            e.printStackTrace();
+                            lineNumber = null
+                        }
+            
+                        final String relativeFilePath = computeRelativeFilePathIfPossible(
+                                (GPathResult) violation, sourceFilePaths)
+
+                        result.add(new Violation(
+                                sanitize((String) violation.@type.text()),
+                                sanitize((String) name()),
+                                sanitize((String) violation.ShortMessage.text()),
+                                null,
+                                relativeFilePath,
+                                lineNumber))
+                }
+        
+        return result
     }
 
     @Override
-    String reporterName() {
+    String name() {
         return "Findbugs"
     }
 
@@ -96,22 +125,36 @@ class FindbugsReporter extends BaseExecutedReporter {
     File reportFile() {
         return new File(reportHelper.getReportsDir(), "findbugs.xml")
     }
+    
+    private static List computeSourceFilePaths(final GPathResult xml) {
+        final List<String> result = new ArrayList<>()
 
-    @Override
-    void appendReport(GnagReportBuilder gnagReportBuilder) {
+        xml.Project.SrcDir.list().each { sourceFile ->
+            result.add((String) sourceFile.text())
+        }
+        
+        return result
+    }
+    
+    private String computeRelativeFilePathIfPossible(
+            final GPathResult violation, 
+            final List<String> sourceFilePaths) {
+        
+        final String shortFilePath =
+                sanitize((String) violation.SourceLine.@sourcepath)
 
-        gnagReportBuilder.insertReporterHeader(reporterName())
+        final List<String> longFilePaths =
+                sourceFilePaths
+                        .stream()
+                        .filter { it.endsWith(shortFilePath) }
+                        .collect(Collectors.toList())
 
-        GPathResult xml = new XmlSlurper().parseText(reportFile().text)
-
-        xml.BugInstance.each { violation ->
-            gnagReportBuilder.appendViolation(
-                    violation.@type.text(),
-                    null,
-                    violation.SourceLine.@classname.text(),
-                    violation.SourceLine.@start.text(),
-                    violation.ShortMessage.text()
-            )
+        if (longFilePaths.isEmpty() || longFilePaths.size() > 1) {
+            return null
+        } else {
+            return longFilePaths.get(0)
+                    .replace(project.rootDir.absolutePath + "/", "")
         }
     }
+    
 }

@@ -16,22 +16,22 @@
 package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.AndroidLintExtension
-import com.btkelly.gnag.utils.GnagReportBuilder
+import com.btkelly.gnag.models.Violation
 import groovy.util.slurpersupport.GPathResult
 import org.gradle.api.Project
 
 import static com.btkelly.gnag.extensions.AndroidLintExtension.SEVERITY_ERROR
 import static com.btkelly.gnag.extensions.AndroidLintExtension.SEVERITY_WARNING
-
+import static com.btkelly.gnag.utils.StringUtils.sanitize
 /**
  * Created by bobbake4 on 4/18/16.
  */
-class AndroidLintReporter implements Reporter {
+class AndroidLintViolationDetector implements ViolationDetector {
 
     private final Project project
     private final AndroidLintExtension androidLintExtension;
 
-    AndroidLintReporter(AndroidLintExtension androidLintExtension, Project project) {
+    AndroidLintViolationDetector(AndroidLintExtension androidLintExtension, Project project) {
         this.project = project
         this.androidLintExtension = androidLintExtension
     }
@@ -43,7 +43,7 @@ class AndroidLintReporter implements Reporter {
             if (reportFile().exists()) {
                 return true
             } else {
-                println "Android Lint Reporter is enabled but no lint report was found"
+                println "Android Lint ViolationDetector is enabled but no lint violations was found"
                 return false
             }
         } else {
@@ -52,39 +52,45 @@ class AndroidLintReporter implements Reporter {
     }
 
     @Override
-    boolean hasErrors() {
+    List<Violation> getDetectedViolations() {
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
-        int numErrors = xml.issue.count { severityEnabled(it.@severity.text()) }
-        println "Android Lint report executed, found " + numErrors + " errors."
-        return numErrors != 0
+
+        final List<Violation> result = new ArrayList<>()
+        
+        xml.issue.findAll { severityEnabled((String) it.@severity.text()) }
+                .each { violation ->
+                        final Integer lineNumber;
+            
+                        try {
+                            lineNumber = violation.location.@line.toInteger()
+                        } catch (final NumberFormatException e) {
+                            System.out.println("Error reading line number from Android Lint violations.");
+                            e.printStackTrace();
+                            lineNumber = null
+                        }
+
+                        result.add(new Violation(
+                                sanitize((String) violation.@id.text()),
+                                sanitize((String) name()),
+                                sanitize((String) violation.@message.text()),
+                                sanitize((String) violation.@url.text()),
+                                sanitize((String) violation.location.@file.text())
+                                        .replace(project.rootDir.absolutePath + "/", ""),
+                                
+                                lineNumber))
+                }
+        
+        return result
     }
 
     @Override
-    String reporterName() {
+    String name() {
         return "Android Lint"
     }
 
     @Override
     File reportFile() {
         return new File(new FileNameByRegexFinder().getFileNames(project.buildDir.path + "/outputs/", "lint-results.+\\.xml").first())
-    }
-
-    @Override
-    void appendReport(GnagReportBuilder gnagReportBuilder) {
-
-        gnagReportBuilder.insertReporterHeader(reporterName())
-
-        GPathResult xml = new XmlSlurper().parseText(reportFile().text)
-
-        xml.issue.findAll { severityEnabled(it.@severity.text()) }.each { violation ->
-            gnagReportBuilder.appendViolation(
-                    violation.@id.text(),
-                    violation.@url.text(),
-                    violation.location.@file.text(),
-                    violation.location.@line.text(),
-                    violation.@message.text()
-            )
-        }
     }
 
     private boolean severityEnabled(String severity) {

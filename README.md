@@ -39,7 +39,7 @@ You can use the gnagCheck gradle task to run Gnag locally and generate an HTML r
 ./gradlew clean gnagCheck
 ```
 
-You can use the gnagReport task which will first run gnagCheck and then report this to the Github issue specified. 
+You can use the gnagReport task which will first run gnagCheck and then report detected violations to the Github issue specified. 
 In this example the issue number and authtoken for the comment user are passed as commandline arguments.
 ```groovy
 ./gradlew clean gnagReport -PissueNumber=11 -PauthToken=iu2n3iu2nfjknfjk23nfkj23nk
@@ -76,7 +76,7 @@ gnag {
 ```
 
 - ***enabled*** - easily disable Gnag in specific situations
-- ***failOnError*** - should reporter violations cause the build to fail or just generate a report
+- ***failOnError*** - should violations cause the build to fail or just generate a report
 - ***checkstyle*** - block to customize the checkstyle reporter
   - ***enabled*** - set if checkstyle should execute
   - ***reporterConfig*** - provide a custom [checkstyle config](http://checkstyle.sourceforge.net/config.html)

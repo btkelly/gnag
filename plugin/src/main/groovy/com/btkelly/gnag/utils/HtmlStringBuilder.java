@@ -17,16 +17,21 @@ package com.btkelly.gnag.utils;
 
 import org.jetbrains.annotations.NotNull;
 
-public class HtmlStringBuilder {
+public final class HtmlStringBuilder {
 
     private static final String BOLD_OPEN_TAG  = "<b>";
     private static final String BOLD_CLOSE_TAG = "</b>";
     private static final String LINE_BREAK_TAG = "<br />";
 
     private final StringBuilder stringBuilder;
-
+    
     public HtmlStringBuilder() {
         stringBuilder = new StringBuilder();
+    }
+
+    @Override
+    public String toString() {
+        return stringBuilder.toString();
     }
 
     public HtmlStringBuilder append(@NotNull final CharSequence string) {
@@ -55,11 +60,6 @@ public class HtmlStringBuilder {
     public HtmlStringBuilder insertLineBreak() {
         stringBuilder.append(LINE_BREAK_TAG);
         return this;
-    }
-
-    @Override
-    public String toString() {
-        return stringBuilder.toString();
     }
 
 }

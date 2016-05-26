@@ -16,17 +16,18 @@
 package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
-import com.btkelly.gnag.utils.GnagReportBuilder
+import com.btkelly.gnag.models.Violation
 import com.puppycrawl.tools.checkstyle.ant.CheckstyleAntTask
 import groovy.util.slurpersupport.GPathResult
 import org.gradle.api.Project
 
+import static com.btkelly.gnag.utils.StringUtils.sanitize
 /**
  * Created by bobbake4 on 4/1/16.
  */
-class CheckstyleReporter extends BaseExecutedReporter {
+class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
 
-    CheckstyleReporter(ReporterExtension reporterExtension, Project project) {
+    CheckstyleViolationDetector(ReporterExtension reporterExtension, Project project) {
         super(reporterExtension, project)
     }
 
@@ -52,15 +53,41 @@ class CheckstyleReporter extends BaseExecutedReporter {
     }
 
     @Override
-    boolean hasErrors() {
+    List<Violation> getDetectedViolations() {
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
-        int numErrors = xml.file.inject(0) { count, file -> count + file.error.size() }
-        println "Checkstyle report executed, found " + numErrors + " errors."
-        return numErrors != 0
+
+        final List<Violation> result = new ArrayList<>()
+        
+        xml.file.each { file ->
+                file.error.each { violation ->
+                        final Integer lineNumber;
+    
+                        try {
+                            lineNumber = violation.@line.toInteger()
+                        } catch (final NumberFormatException e) {
+                            System.out.println("Error reading line number from Checkstyle violations.");
+                            e.printStackTrace();
+                            lineNumber = null
+                        }
+                    
+                        final String violationName = violation.@source.text()
+                    
+                        result.add(new Violation(
+                                sanitize((String) violationName.substring(violationName.lastIndexOf(".") + 1)),
+                                sanitize((String) name()),
+                                sanitize((String) violation.@message.text()),
+                                null,
+                                sanitize((String) file.@name.text())
+                                        .replace(project.rootDir.absolutePath + "/", ""),
+                                lineNumber))
+                }
+        }
+        
+        return result
     }
 
     @Override
-    String reporterName() {
+    String name() {
         return "Checkstyle"
     }
 
@@ -68,29 +95,5 @@ class CheckstyleReporter extends BaseExecutedReporter {
     File reportFile() {
         return new File(reportHelper.getReportsDir(), "checkstyle_report.xml")
     }
-
-    @Override
-    void appendReport(GnagReportBuilder gnagReportBuilder) {
-
-        gnagReportBuilder.insertReporterHeader(reporterName())
-
-        GPathResult xml = new XmlSlurper().parseText(reportFile().text)
-
-        xml.file.each { file ->
-            file.error.each { violation ->
-
-                String violationName = violation.@source.text()
-                violationName = violationName.substring(violationName.lastIndexOf(".") + 1)
-
-                gnagReportBuilder.appendViolation(
-                        violationName,
-                        null,
-                        file.@name.text(),
-                        violation.@line.text(),
-                        violation.@message.text()
-                )
-            }
-        }
-
-    }
+    
 }

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2016 Bryan Kelly
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -13,22 +13,27 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.btkelly.gnag.reporters
+package com.btkelly.gnag.utils;
 
-import com.btkelly.gnag.utils.GnagReportBuilder
+import org.jetbrains.annotations.Nullable;
 
-/**
- * Created by bobbake4 on 4/19/16.
- */
-interface Reporter {
+public final class StringUtils {
 
-    boolean hasErrors()
+    /**
+     * Removes leading/trailing whitespace and newlines.
+     */
+    public static String sanitize(@Nullable final String string) {
+        if (string == null) {
+            return null;
+        }
 
-    String reporterName()
-
-    File reportFile()
-
-    void appendReport(GnagReportBuilder gnagReportBuilder)
-
-    boolean isEnabled()
+        return string
+                .trim()
+                .replaceAll("^\\r|^\\n|\\r$\\n$", "");
+    }
+    
+    private StringUtils() {
+        // This constructor intentionally left blank.
+    }
+    
 }
