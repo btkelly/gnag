@@ -30,8 +30,8 @@ bintray {
         labels = ['android', 'gradle', 'github']
         vcsUrl = 'https://github.com/btkelly/gnag.git'
         version {
-            name = project.version
-            vcsTag = project.version
+            name = gnagPluginVersion
+            vcsTag = gnagPluginVersion
             released  = new Date()
         }
     }
