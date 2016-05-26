@@ -32,6 +32,7 @@ import org.gradle.api.tasks.TaskAction;
 import java.util.*;
 
 import static com.btkelly.gnag.models.GitHubStatusType.FAILURE;
+import static com.btkelly.gnag.utils.ReportWriter.REPORT_FILE_NAME;
 
 /**
  * Created by bobbake4 on 4/1/16.
@@ -58,6 +59,8 @@ public class GnagCheck extends DefaultTask {
     }
 
     private final List<ViolationDetector> violationDetectors = new ArrayList<>();
+    private final ReportHelper reportHelper = new ReportHelper(getProject());
+
     private GnagPluginExtension gnagPluginExtension;
 
     @TaskAction
@@ -83,7 +86,6 @@ public class GnagCheck extends DefaultTask {
                     
                 });
 
-        final ReportHelper reportHelper = new ReportHelper(getProject());
         ReportWriter.writeReportToDirectory(detectedViolations, reportHelper.getReportsDir());
 
         if (detectedViolations.isEmpty()) {
@@ -101,7 +103,10 @@ public class GnagCheck extends DefaultTask {
                 }
             }
 
-            final String failedMessage = "One or more violationDetectors has found violations";
+            final String failedMessage
+                    = "One or more violation detectors has found violations. Check the report at "
+                      + reportHelper.getReportsDir()
+                      + REPORT_FILE_NAME + " for details.";
 
             if (gnagPluginExtension.shouldFailOnError() && !hasReportTask) {
                 throw new GradleException(failedMessage);

@@ -29,10 +29,9 @@ import java.util.Set;
  */
 public final class ReportWriter {
 
-    private static final String LOCAL_SUCCESS_COMMENT = "Congrats, no poop code found!";
-
-    private static final String REPORT_FILE_NAME = "gnag.html";
+    public static final String REPORT_FILE_NAME = "gnag.html";
     private static final String CSS_FILE_NAME = "github-markdown.css";
+    private static final String LOCAL_SUCCESS_COMMENT = "Congrats, no poop code found!";
 
     private static final String HTML_REPORT_PREFIX =
             "<!DOCTYPE html>"
