@@ -16,17 +16,18 @@
 package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
-import com.btkelly.gnag.utils.GnagReportBuilder
+import com.btkelly.gnag.models.Violation
 import groovy.util.slurpersupport.GPathResult
 import net.sourceforge.pmd.ant.PMDTask
 import org.gradle.api.Project
 
+import static com.btkelly.gnag.utils.StringUtils.sanitize
 /**
  * Created by bobbake4 on 4/1/16.
  */
-class PMDReporter extends BaseExecutedReporter {
+class PMDViolationDetector extends BaseExecutedViolationDetector {
 
-    PMDReporter(ReporterExtension reporterExtension, Project project) {
+    PMDViolationDetector(ReporterExtension reporterExtension, Project project) {
         super(reporterExtension, project)
     }
 
@@ -54,15 +55,39 @@ class PMDReporter extends BaseExecutedReporter {
     }
 
     @Override
-    boolean hasErrors() {
+    List<Violation> getDetectedViolations() {
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
-        int numErrors = xml.file.inject(0) { count, file -> count + file.violation.size() }
-        println "PMD report executed, found " + numErrors + " errors."
-        return numErrors != 0
+
+        final List<Violation> result = new ArrayList<>()
+
+        xml.file.each { file ->
+            file.violation.each { violation ->
+                final Integer lineNumber;
+
+                try {
+                    lineNumber = violation.@endline.toInteger()
+                } catch (final NumberFormatException e) {
+                    System.out.println("Error reading line number from PMD violations.");
+                    e.printStackTrace();
+                    lineNumber = null
+                }
+
+                result.add(new Violation(
+                        sanitize((String) violation.@rule.text()),
+                        sanitize((String) name()),
+                        sanitize((String) violation.text()),
+                        sanitize((String) violation.@externalInfoUrl.text()),
+                        sanitize((String) file.@name.text())
+                                .replace(project.rootDir.absolutePath + "/", ""),
+                        lineNumber))
+            }
+        }
+
+        return result
     }
 
     @Override
-    String reporterName() {
+    String name() {
         return "PMD"
     }
 
@@ -70,24 +95,5 @@ class PMDReporter extends BaseExecutedReporter {
     File reportFile() {
         return new File(reportHelper.getReportsDir(), "pmd.xml")
     }
-
-    @Override
-    void appendReport(GnagReportBuilder gnagReportBuilder) {
-
-        gnagReportBuilder.insertReporterHeader(reporterName())
-
-        GPathResult xml = new XmlSlurper().parseText(reportFile().text)
-
-        xml.file.each { file ->
-            file.violation.each { violation ->
-                gnagReportBuilder.appendViolation(
-                        violation.@rule.text(),
-                        violation.@externalInfoUrl.text(),
-                        file.@name.text(),
-                        violation.@beginline.text(),
-                        violation.text()
-                )
-            }
-        }
-    }
+    
 }

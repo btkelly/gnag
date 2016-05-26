@@ -3,6 +3,7 @@ buildscript {
         mavenLocal()
         jcenter()
     }
+
     dependencies {
         classpath 'com.btkelly:gnag:' + gnagPluginVersion
     }

@@ -13,31 +13,22 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.btkelly.gnag.utils
+package com.btkelly.gnag.reporters
 
+import com.btkelly.gnag.models.Violation
 import org.gradle.api.Project
 
 /**
  * Created by bobbake4 on 4/19/16.
  */
-class ReportHelper {
+interface ViolationDetector {
 
-    private final Project project;
+    boolean isEnabled()
 
-    ReportHelper(Project project) {
-        this.project = project
-    }
+    String name()
 
-    // todo: this doesn't seem like it belongs in the ReportHelper. refactor?
-    public List<File> getAndroidSources() {
-        project.android.sourceSets.inject([]) {
-            dirs, sourceSet -> dirs + sourceSet.java.srcDirs
-        }
-    }
-
-    public File getReportsDir() {
-        File reportsDir = new File(project.buildDir.path + "/outputs/gnag/")
-        reportsDir.mkdirs()
-        return reportsDir
-    }
+    File reportFile()
+    
+    List<Violation> getDetectedViolations()
+    
 }
