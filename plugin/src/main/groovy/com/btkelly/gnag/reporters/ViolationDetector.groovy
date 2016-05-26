@@ -16,6 +16,8 @@
 package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.models.Violation
+import org.gradle.api.Project
+
 /**
  * Created by bobbake4 on 4/19/16.
  */
@@ -27,6 +29,6 @@ interface ViolationDetector {
 
     File reportFile()
     
-    List<Violation> getDetectedViolations()
+    List<Violation> getDetectedViolations(final Project project)
     
 }

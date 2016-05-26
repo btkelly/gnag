@@ -52,7 +52,7 @@ class AndroidLintViolationDetector implements ViolationDetector {
     }
 
     @Override
-    List<Violation> getDetectedViolations() {
+    List<Violation> getDetectedViolations(final Project project) {
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
 
         final List<Violation> result = new ArrayList<>()
