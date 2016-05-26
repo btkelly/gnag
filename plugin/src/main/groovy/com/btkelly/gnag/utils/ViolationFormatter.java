@@ -59,8 +59,7 @@ public final class ViolationFormatter {
         final HtmlStringBuilder builder = new HtmlStringBuilder();
 
         appendViolationNameToBuilder(violation, builder);
-        appendRelativeFilePathToBuilderIfPresent(violation, builder);
-        appendViolationLineNumberToBuilderIfPresent(violation, builder);
+        appendLocationInformationToBuilderIfPresent(violation, builder);
         appendViolationCommentToBuilderIfPresent(violation, builder);
 
         return builder.toString();
@@ -81,33 +80,42 @@ public final class ViolationFormatter {
             builder.append(violationName);
         }
     }
-
-    private static void appendRelativeFilePathToBuilderIfPresent(
+    
+    private static void appendLocationInformationToBuilderIfPresent(
             @NotNull final Violation violation,
             @NotNull final HtmlStringBuilder builder) {
 
         final String violationRelativeFilePath = violation.getRelativeFilePath();
-
+        
         if (violationRelativeFilePath != null) {
-            builder
-                    .insertLineBreak()
-                    .appendBold(VIOLATION_FILE_LABEL)
-                    .append(violationRelativeFilePath);
+            appendRelativeFilePathToBuilder(violationRelativeFilePath, builder);
+
+            final Integer violationFileLineNumber = violation.getFileLineNumber();
+            
+            if (violationFileLineNumber != null) {
+                appendViolationLineNumberToBuilder(violationFileLineNumber, builder);
+            }
         }
     }
-
-    private static void appendViolationLineNumberToBuilderIfPresent(
-            @NotNull final Violation violation,
+    
+    private static void appendRelativeFilePathToBuilder(
+            @NotNull final String violationRelativeFilePath,
             @NotNull final HtmlStringBuilder builder) {
         
-        final Integer violationFileLineNumber = violation.getFileLineNumber();
+        builder
+                .insertLineBreak()
+                .appendBold(VIOLATION_FILE_LABEL)
+                .append(violationRelativeFilePath);
+    }
 
-        if (violationFileLineNumber != null) {
-            builder
-                    .insertLineBreak()
-                    .appendBold(VIOLATION_LINE_LABEL)
-                    .append(Integer.toString(violationFileLineNumber));
-        }
+    private static void appendViolationLineNumberToBuilder(
+            @NotNull final Integer violationFileLineNumber,
+            @NotNull final HtmlStringBuilder builder) {
+        
+        builder
+                .insertLineBreak()
+                .appendBold(VIOLATION_LINE_LABEL)
+                .append(Integer.toString(violationFileLineNumber));
     }
 
     private static void appendViolationCommentToBuilderIfPresent(
