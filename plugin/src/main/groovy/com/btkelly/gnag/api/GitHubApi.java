@@ -17,7 +17,6 @@ package com.btkelly.gnag.api;
 
 import com.btkelly.gnag.extensions.GitHubExtension;
 import com.btkelly.gnag.models.*;
-import com.btkelly.gnag.utils.diffparser.DiffParserConverterFactory;
 import com.btkelly.gnag.utils.gson.GsonConverterFactory;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -54,7 +53,6 @@ public class GitHubApi {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .client(okHttpClient)
-                .addConverterFactory(DiffParserConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
