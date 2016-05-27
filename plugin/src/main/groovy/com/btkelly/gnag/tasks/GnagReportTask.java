@@ -129,7 +129,7 @@ public class GnagReportTask extends DefaultTask {
                     ViolationFormatter.getHtmlStringForInlineComment(violation),
                     prSha,
                     violation.getRelativeFilePath(),
-                    violation.getFileLineNumber());
+                    violation.getFileLineNumber()); // todo: this needs to change
         }
         
         gitHubApi.postGitHubIssueCommentAsync(
