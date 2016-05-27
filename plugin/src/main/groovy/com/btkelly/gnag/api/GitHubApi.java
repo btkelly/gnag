@@ -64,7 +64,7 @@ public class GitHubApi {
     public Status postGitHubComment(String comment) {
 
         try {
-            Response<GitHubComment> gitHubCommentResponse = gitHubApiClient.postComment(new GitHubComment(comment), gitHubExtension.getIssueNumber()).execute();
+            Response<GitHubIssueComment> gitHubCommentResponse = gitHubApiClient.postComment(new GitHubIssueComment(comment), gitHubExtension.getIssueNumber()).execute();
             return gitHubCommentResponse.isSuccessful() ? Status.OK : Status.FAIL;
         } catch (IOException ignored) {
             return Status.FAIL;

@@ -15,7 +15,7 @@
  */
 package com.btkelly.gnag.api;
 
-import com.btkelly.gnag.models.GitHubComment;
+import com.btkelly.gnag.models.GitHubIssueComment;
 import com.btkelly.gnag.models.GitHubPRDetails;
 import com.btkelly.gnag.models.GitHubPRDiffWrapper;
 import com.btkelly.gnag.models.GitHubStatus;
@@ -31,7 +31,7 @@ import retrofit2.http.Path;
 public interface GitHubApiClient {
 
     @POST("issues/{issueNumber}/comments")
-    Call<GitHubComment> postComment(@Body GitHubComment gitHubComment, @Path("issueNumber") String issueNumber);
+    Call<GitHubIssueComment> postComment(@Body GitHubIssueComment gitHubIssueComment, @Path("issueNumber") String issueNumber);
 
     @POST("statuses/{sha}")
     Call<GitHubStatus> postUpdatedStatus(@Body GitHubStatus gitHubStatus, @Path("sha") String sha);

@@ -18,17 +18,17 @@ package com.btkelly.gnag.models;
 /**
  * Created by bobbake4 on 12/1/15.
  */
-public class GitHubComment {
+public class GitHubIssueComment {
 
     private final String body;
 
-    public GitHubComment(String body) {
+    public GitHubIssueComment(String body) {
         this.body = body;
     }
 
     @Override
     public String toString() {
-        return "GitHubComment{" +
+        return "GitHubIssueComment{" +
                 "body='" + body + '\'' +
                 '}';
     }
