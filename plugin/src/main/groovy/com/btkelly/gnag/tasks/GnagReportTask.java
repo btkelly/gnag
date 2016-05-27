@@ -147,7 +147,7 @@ public class GnagReportTask extends DefaultTask {
 
     private Set<Violation> getViolationsWithValidLocationInfo(
             @NotNull final Set<Violation> violations,
-            @NotNull final List<Diff> diffWrapper) {
+            @NotNull final List<Diff> diffs) {
 
         return new HashSet<>();
         
