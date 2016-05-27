@@ -15,10 +15,7 @@
  */
 package com.btkelly.gnag.api;
 
-import com.btkelly.gnag.models.GitHubIssueComment;
-import com.btkelly.gnag.models.GitHubPRDetails;
-import com.btkelly.gnag.models.GitHubPRDiffWrapper;
-import com.btkelly.gnag.models.GitHubStatus;
+import com.btkelly.gnag.models.*;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -30,6 +27,7 @@ import retrofit2.http.Path;
  */
 public interface GitHubApiClient {
 
+    // https://developer.github.com/v3/issues/comments/#create-a-comment
     @POST("issues/{issueNumber}/comments")
     Call<GitHubIssueComment> postComment(@Body GitHubIssueComment gitHubIssueComment, @Path("issueNumber") String issueNumber);
 
@@ -41,5 +39,11 @@ public interface GitHubApiClient {
 
     @GET("pulls/{issueNumber}")
     Call<GitHubPRDiffWrapper> getPRDiffWrapper(@Path("issueNumber") String issueNumber);
+
+    // https://developer.github.com/v3/pulls/comments/#create-a-comment
+    @POST("pulls/{issueNumber}/comments")
+    // TODO: validate choice of Void here
+    Call<Void> postComment(@Body GitHubPRComment gitHubPRComment, @Path("issueNumber") String issueNumber);
+
 
 }
