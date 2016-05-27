@@ -23,6 +23,7 @@ import com.btkelly.gnag.models.GitHubStatusType;
 import com.btkelly.gnag.models.Violation;
 import com.btkelly.gnag.utils.ViolationFormatter;
 import com.btkelly.gnag.utils.ViolationsFormatter;
+import com.btkelly.gnag.utils.ViolationsUtility;
 import com.github.stkent.githubdiffparser.models.Diff;
 import org.apache.commons.lang.StringUtils;
 import org.gradle.api.DefaultTask;
@@ -31,8 +32,10 @@ import org.gradle.api.Task;
 import org.gradle.api.tasks.TaskAction;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static com.btkelly.gnag.models.GitHubStatusType.*;
 
@@ -110,7 +113,8 @@ public class GnagReportTask extends DefaultTask {
     }
 
     private void postViolationComments(@NotNull final Set<Violation> violations) {
-        final Set<Violation> violationsWithAllLocationInfo = getViolationsWithAllLocationInfo(violations);
+        final Set<Violation> violationsWithAllLocationInfo
+                = ViolationsUtility.getViolationsWithAllLocationInfo(violations);
 
         if (StringUtils.isBlank(prSha) || violationsWithAllLocationInfo.isEmpty()) {
             gitHubApi.postGitHubPRCommentAsync(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
@@ -124,46 +128,23 @@ public class GnagReportTask extends DefaultTask {
             return;
         }
 
-        for (final Violation violation : getViolationsWithValidLocationInfo(violations, diffs)) {
+        for (final Violation violation : ViolationsUtility.getViolationsWithValidLocationInfo(violations, diffs)) {
+            //noinspection ConstantConditions
+            final int offsetDiffLineNumber = ViolationsUtility.getOffsetDiffLineNumberForViolation(violation, diffs);
+            
             //noinspection ConstantConditions
             gitHubApi.postGitHubInlineCommentAsync(
                     ViolationFormatter.getHtmlStringForInlineComment(violation),
                     prSha,
                     violation.getRelativeFilePath(),
-                    violation.getFileLineNumber()); // todo: this needs to change
+                    offsetDiffLineNumber);
         }
         
         gitHubApi.postGitHubPRCommentAsync(
                 ViolationsFormatter.getHtmlStringForAggregatedComment(
-                        getViolationsWithMissingOrInvalidLocationInfo(violations, diffs)));
+                        ViolationsUtility.getViolationsWithMissingOrInvalidLocationInfo(violations, diffs)));
     }
     
-    private Set<Violation> getViolationsWithAllLocationInfo(@NotNull final Set<Violation> violations) {
-        return violations
-                .stream()
-                .filter(Violation::hasAllLocationInfo)
-                .collect(Collectors.toSet());
-    }
-
-    private Set<Violation> getViolationsWithValidLocationInfo(
-            @NotNull final Set<Violation> violations,
-            @NotNull final List<Diff> diffs) {
-
-        return new HashSet<>();
-        
-//        return getViolationsWithAllLocationInfo(violations)
-//                .stream()
-//                // .filter() TODO
-//                .collect(Collectors.toSet());
-    }
-
-    private Set<Violation> getViolationsWithMissingOrInvalidLocationInfo(
-            @NotNull final Set<Violation> violations,
-            @NotNull final List<Diff> diffWrapper) {
-        
-        final Set<Violation> result = new HashSet<>(violations);
-        result.removeAll(getViolationsWithValidLocationInfo(violations, diffWrapper));
-        return result;
-    }
+    
     
 }
