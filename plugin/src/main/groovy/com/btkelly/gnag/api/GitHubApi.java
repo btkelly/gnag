@@ -29,6 +29,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -74,24 +75,24 @@ public class GitHubApi {
     @Nullable
     public GitHubPRDetails getPRDetailsSync() {
         try {
-            Response<GitHubPRDetails> gitHubPRResponse = gitHubApiClient.getPRDetails(gitHubExtension.getIssueNumber()).execute();
-            return gitHubPRResponse.body();
+            Response<GitHubPRDetails> gitHubPRDetailsResponse = gitHubApiClient.getPRDetails(gitHubExtension.getIssueNumber()).execute();
+            return gitHubPRDetailsResponse.body();
         } catch (final Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    @Nullable
+    @NotNull
     public List<Diff> getPRDiffsSync() {
         try {
-            final Response<List<Diff>> gitHubPullRequestDiffWrapperResponse
+            final Response<List<Diff>> gitHubPRDiffsResponse
                     = gitHubApiClient.getPRDiffs(gitHubExtension.getIssueNumber()).execute();
             
-            return gitHubPullRequestDiffWrapperResponse.body();
+            return gitHubPRDiffsResponse.body();
         } catch (final Exception e) {
             e.printStackTrace();
-            return null;
+            return new ArrayList<>();
         }
     }
 

@@ -119,7 +119,7 @@ public class GnagReportTask extends DefaultTask {
         
         final List<Diff> diffs = gitHubApi.getPRDiffsSync();
         
-        if (diffs == null || diffs.isEmpty()) {
+        if (diffs.isEmpty()) {
             gitHubApi.postGitHubPRCommentAsync(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
             return;
         }
