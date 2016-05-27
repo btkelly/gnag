@@ -22,6 +22,7 @@ import com.btkelly.gnag.utils.gson.GsonConverterFactory;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
@@ -75,6 +76,7 @@ public class GitHubApi {
         }
     }
 
+    @Nullable
     public GitHubPRDetails getPRDetails() {
 
         try {
@@ -86,6 +88,7 @@ public class GitHubApi {
         }
     }
 
+    @Nullable
     public GitHubPRDiffWrapper getPRDiffWrapper() {
         try {
             final Response<GitHubPRDiffWrapper> gitHubPullRequestDiffWrapperResponse

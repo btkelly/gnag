@@ -108,24 +108,26 @@ public class GnagReportTask extends DefaultTask {
     }
 
     private void postViolationComments(@NotNull final Set<Violation> violations) {
-        if (StringUtils.isBlank(prSha)) {
-            // If SHA is unavailable, we must fall back to posting all violations in a single comment.
-            gitHubApi.postGitHubIssueComment(
-                    ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
-        } else {
-            final Set<Violation> violationsWithAllLocationInfo = getViolationsWithAllLocationInfo(violations);
-
-            if (violationsWithAllLocationInfo.isEmpty()) {
+        final Runnable postAllViolationsAsAggregatedCommentRunnable = () ->
                 gitHubApi.postGitHubIssueComment(
                         ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
-            } else {
-                // TODO: fetch and parse diff for the current PR
-                final GitHubPRDiffWrapper diffWrapper = gitHubApi.getPRDiffWrapper();
 
-                // TODO: post violationsWithValidLocationInfo as individual comments
-                // TODO: post violationsWithMissingOrInvalidLocationInfo as an aggregated comment
-            }
+        final Set<Violation> violationsWithAllLocationInfo = getViolationsWithAllLocationInfo(violations);
+
+        if (StringUtils.isBlank(prSha) || violationsWithAllLocationInfo.isEmpty()) {
+            postAllViolationsAsAggregatedCommentRunnable.run();
+            return;
         }
+        
+        final GitHubPRDiffWrapper diffWrapper = gitHubApi.getPRDiffWrapper();
+        
+        if (diffWrapper == null) {
+            postAllViolationsAsAggregatedCommentRunnable.run();
+            return;
+        }
+        
+        // TODO: post violationsWithValidLocationInfo as individual comments
+        // TODO: post violationsWithMissingOrInvalidLocationInfo as an aggregated comment
     }
     
     private Set<Violation> getViolationsWithAllLocationInfo(@NotNull final Set<Violation> violations) {
