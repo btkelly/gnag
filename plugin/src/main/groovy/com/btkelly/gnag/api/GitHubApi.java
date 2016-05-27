@@ -21,6 +21,7 @@ import com.btkelly.gnag.utils.diffparser.DiffParserConverterFactory;
 import com.btkelly.gnag.utils.gson.GsonConverterFactory;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import org.jetbrains.annotations.NotNull;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
@@ -101,6 +102,24 @@ public class GitHubApi {
         } catch (final Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public Status postGitHubPRComment(
+            @NotNull final String body,
+            @NotNull final String prSha,
+            @NotNull final String relativeFilePath,
+            final int diffLineIndex) {
+
+        try {
+            Response<Void> gitHubPRCommentResponse
+                    = gitHubApiClient.postComment(
+                            new GitHubPRComment(body, prSha, relativeFilePath, diffLineIndex),
+                            gitHubExtension.getIssueNumber()).execute();
+            
+            return gitHubPRCommentResponse.isSuccessful() ? Status.OK : Status.FAIL;
+        } catch (IOException ignored) {
+            return Status.FAIL;
         }
     }
 
