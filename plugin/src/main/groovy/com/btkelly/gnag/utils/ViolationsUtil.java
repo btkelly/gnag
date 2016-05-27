@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public final class ViolationsUtility {
+public final class ViolationsUtil {
 
     public static Integer getOffsetDiffLineNumberForViolation(
             @NotNull final Violation violation, @NotNull final List<Diff> diffs) {
@@ -92,7 +92,7 @@ public final class ViolationsUtility {
         return result;
     }
     
-    private ViolationsUtility() {
+    private ViolationsUtil() {
         // This constructor intentionally left blank.
     }
     

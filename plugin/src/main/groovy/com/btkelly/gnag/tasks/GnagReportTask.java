@@ -23,7 +23,7 @@ import com.btkelly.gnag.models.GitHubStatusType;
 import com.btkelly.gnag.models.Violation;
 import com.btkelly.gnag.utils.ViolationFormatter;
 import com.btkelly.gnag.utils.ViolationsFormatter;
-import com.btkelly.gnag.utils.ViolationsUtility;
+import com.btkelly.gnag.utils.ViolationsUtil;
 import com.github.stkent.githubdiffparser.models.Diff;
 import org.apache.commons.lang.StringUtils;
 import org.gradle.api.DefaultTask;
@@ -114,7 +114,7 @@ public class GnagReportTask extends DefaultTask {
 
     private void postViolationComments(@NotNull final Set<Violation> violations) {
         final Set<Violation> violationsWithAllLocationInfo
-                = ViolationsUtility.getViolationsWithAllLocationInfo(violations);
+                = ViolationsUtil.getViolationsWithAllLocationInfo(violations);
 
         if (StringUtils.isBlank(prSha) || violationsWithAllLocationInfo.isEmpty()) {
             gitHubApi.postGitHubPRCommentAsync(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
@@ -128,9 +128,9 @@ public class GnagReportTask extends DefaultTask {
             return;
         }
 
-        for (final Violation violation : ViolationsUtility.getViolationsWithValidLocationInfo(violations, diffs)) {
+        for (final Violation violation : ViolationsUtil.getViolationsWithValidLocationInfo(violations, diffs)) {
             //noinspection ConstantConditions
-            final int offsetDiffLineNumber = ViolationsUtility.getOffsetDiffLineNumberForViolation(violation, diffs);
+            final int offsetDiffLineNumber = ViolationsUtil.getOffsetDiffLineNumberForViolation(violation, diffs);
             
             //noinspection ConstantConditions
             gitHubApi.postGitHubInlineCommentAsync(
@@ -142,7 +142,7 @@ public class GnagReportTask extends DefaultTask {
         
         gitHubApi.postGitHubPRCommentAsync(
                 ViolationsFormatter.getHtmlStringForAggregatedComment(
-                        ViolationsUtility.getViolationsWithMissingOrInvalidLocationInfo(violations, diffs)));
+                        ViolationsUtil.getViolationsWithMissingOrInvalidLocationInfo(violations, diffs)));
     }
     
 }
