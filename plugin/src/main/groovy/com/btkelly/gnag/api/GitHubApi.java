@@ -61,11 +61,11 @@ public class GitHubApi {
         gitHubApiClient = retrofit.create(GitHubApiClient.class);
     }
 
-    public Status postGitHubComment(String comment) {
+    public Status postGitHubIssueComment(String comment) {
 
         try {
-            Response<GitHubIssueComment> gitHubCommentResponse = gitHubApiClient.postComment(new GitHubIssueComment(comment), gitHubExtension.getIssueNumber()).execute();
-            return gitHubCommentResponse.isSuccessful() ? Status.OK : Status.FAIL;
+            Response<GitHubIssueComment> gitHubIssueCommentResponse = gitHubApiClient.postComment(new GitHubIssueComment(comment), gitHubExtension.getIssueNumber()).execute();
+            return gitHubIssueCommentResponse.isSuccessful() ? Status.OK : Status.FAIL;
         } catch (IOException ignored) {
             return Status.FAIL;
         }

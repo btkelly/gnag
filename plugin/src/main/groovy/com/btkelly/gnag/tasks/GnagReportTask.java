@@ -75,7 +75,7 @@ public class GnagReportTask extends DefaultTask {
             fetchPRShaIfRequired();
             
             if (checkStatus.getGitHubStatusType() == SUCCESS) {
-                gitHubApi.postGitHubComment(REMOTE_SUCCESS_COMMENT);
+                gitHubApi.postGitHubIssueComment(REMOTE_SUCCESS_COMMENT);
             } else {
                 postViolationComments(checkStatus.getViolations());
             }
@@ -110,13 +110,13 @@ public class GnagReportTask extends DefaultTask {
     private void postViolationComments(@NotNull final Set<Violation> violations) {
         if (StringUtils.isBlank(prSha)) {
             // If SHA is unavailable, we must fall back to posting all violations in a single comment.
-            gitHubApi.postGitHubComment(
+            gitHubApi.postGitHubIssueComment(
                     ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
         } else {
             final Set<Violation> violationsWithAllLocationInfo = getViolationsWithAllLocationInfo(violations);
 
             if (violationsWithAllLocationInfo.isEmpty()) {
-                gitHubApi.postGitHubComment(
+                gitHubApi.postGitHubIssueComment(
                         ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
             } else {
                 // TODO: fetch and parse diff for the current PR
