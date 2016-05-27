@@ -17,10 +17,7 @@ package com.btkelly.gnag.api;
 
 import com.btkelly.gnag.models.*;
 import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Path;
+import retrofit2.http.*;
 
 /**
  * Created by bobbake4 on 12/1/15.
@@ -29,20 +26,24 @@ public interface GitHubApiClient {
 
     // https://developer.github.com/v3/issues/comments/#create-a-comment
     @POST("issues/{issueNumber}/comments")
+    @Headers("Accept: application/vnd.github.v3+json")
     Call<GitHubIssueComment> postComment(@Body GitHubIssueComment gitHubIssueComment, @Path("issueNumber") String issueNumber);
 
     @POST("statuses/{sha}")
+    @Headers("Accept: application/vnd.github.v3+json")
     Call<GitHubStatus> postUpdatedStatus(@Body GitHubStatus gitHubStatus, @Path("sha") String sha);
 
     @GET("pulls/{issueNumber}")
+    @Headers("Accept: application/vnd.github.v3+json")
     Call<GitHubPRDetails> getPRDetails(@Path("issueNumber") String issueNumber);
 
     @GET("pulls/{issueNumber}")
+    @Headers("Accept: application/vnd.github.v3+json")
     Call<GitHubPRDiffWrapper> getPRDiffWrapper(@Path("issueNumber") String issueNumber);
 
     // https://developer.github.com/v3/pulls/comments/#create-a-comment
     @POST("pulls/{issueNumber}/comments")
-    // TODO: validate choice of Void here
+    @Headers("Accept: application/vnd.github.v3.diff")
     Call<Void> postComment(@Body GitHubPRComment gitHubPRComment, @Path("issueNumber") String issueNumber);
 
 
