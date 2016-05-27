@@ -81,21 +81,21 @@ public class GitHubApi {
         }
     }
 
-    public GitHubPullRequest getPullRequestDetails() {
+    public GitHubPRDetails getPRDetails() {
 
         try {
-            Response<GitHubPullRequest> gitHubPullRequestResponse = gitHubApiClient.getPullRequest(gitHubExtension.getIssueNumber()).execute();
-            return gitHubPullRequestResponse.body();
+            Response<GitHubPRDetails> gitHubPRResponse = gitHubApiClient.getPRDetails(gitHubExtension.getIssueNumber()).execute();
+            return gitHubPRResponse.body();
         } catch (Exception ignored) {
             ignored.printStackTrace();
             return null;
         }
     }
 
-    public GitHubPullRequestDiffWrapper getPullRequestDiffWrapper() {
+    public GitHubPRDiffWrapper getPRDiffWrapper() {
         try {
-            final Response<GitHubPullRequestDiffWrapper> gitHubPullRequestDiffWrapperResponse
-                    = gitHubApiClient.getPullRequestDiffWrapper(gitHubExtension.getIssueNumber()).execute();
+            final Response<GitHubPRDiffWrapper> gitHubPullRequestDiffWrapperResponse
+                    = gitHubApiClient.getPRDiffWrapper(gitHubExtension.getIssueNumber()).execute();
             
             return gitHubPullRequestDiffWrapperResponse.body();
         } catch (final Exception e) {

@@ -16,8 +16,8 @@
 package com.btkelly.gnag.api;
 
 import com.btkelly.gnag.models.GitHubComment;
-import com.btkelly.gnag.models.GitHubPullRequest;
-import com.btkelly.gnag.models.GitHubPullRequestDiffWrapper;
+import com.btkelly.gnag.models.GitHubPRDetails;
+import com.btkelly.gnag.models.GitHubPRDiffWrapper;
 import com.btkelly.gnag.models.GitHubStatus;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -37,9 +37,9 @@ public interface GitHubApiClient {
     Call<GitHubStatus> postUpdatedStatus(@Body GitHubStatus gitHubStatus, @Path("sha") String sha);
 
     @GET("pulls/{issueNumber}")
-    Call<GitHubPullRequest> getPullRequest(@Path("issueNumber") String issueNumber);
+    Call<GitHubPRDetails> getPRDetails(@Path("issueNumber") String issueNumber);
 
     @GET("pulls/{issueNumber}")
-    Call<GitHubPullRequestDiffWrapper> getPullRequestDiffWrapper(@Path("issueNumber") String issueNumber);
+    Call<GitHubPRDiffWrapper> getPRDiffWrapper(@Path("issueNumber") String issueNumber);
 
 }

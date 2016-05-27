@@ -17,10 +17,7 @@ package com.btkelly.gnag.tasks;
 
 import com.btkelly.gnag.api.GitHubApi;
 import com.btkelly.gnag.extensions.GitHubExtension;
-import com.btkelly.gnag.models.CheckStatus;
-import com.btkelly.gnag.models.GitHubPullRequest;
-import com.btkelly.gnag.models.GitHubStatusType;
-import com.btkelly.gnag.models.Violation;
+import com.btkelly.gnag.models.*;
 import com.btkelly.gnag.utils.ViolationsFormatter;
 import org.apache.commons.lang.StringUtils;
 import org.gradle.api.DefaultTask;
@@ -30,8 +27,10 @@ import org.gradle.api.tasks.TaskAction;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.btkelly.gnag.models.GitHubStatusType.*;
 
@@ -94,7 +93,7 @@ public class GnagReportTask extends DefaultTask {
 
     private void fetchPRShaIfRequired() {
         if (StringUtils.isBlank(prSha)) {
-            GitHubPullRequest pullRequestDetails = gitHubApi.getPullRequestDetails();
+            GitHubPRDetails pullRequestDetails = gitHubApi.getPRDetails();
 
             if (pullRequestDetails != null && pullRequestDetails.getHead() != null) {
                 prSha = pullRequestDetails.getHead().getSha();
@@ -114,12 +113,45 @@ public class GnagReportTask extends DefaultTask {
             gitHubApi.postGitHubComment(
                     ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
         } else {
-            // TODO: fetch and parse diff for the current PR
-            // TODO: determine which violations have all required location information
-            // TODO: determine which of those violations correspond to valid targets in the parsed diff
-            // TODO: post these violations as individual comments
-            // TODO: post all remaining violations as an aggregated comment
+            final Set<Violation> violationsWithAllLocationInfo = getViolationsWithAllLocationInfo(violations);
+
+            if (violationsWithAllLocationInfo.isEmpty()) {
+                gitHubApi.postGitHubComment(
+                        ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
+            } else {
+                // TODO: fetch and parse diff for the current PR
+                final GitHubPRDiffWrapper diffWrapper = gitHubApi.getPRDiffWrapper();
+
+                // TODO: post violationsWithValidLocationInfo as individual comments
+                // TODO: post violationsWithMissingOrInvalidLocationInfo as an aggregated comment
+            }
         }
+    }
+    
+    private Set<Violation> getViolationsWithAllLocationInfo(@NotNull final Set<Violation> violations) {
+        return violations
+                .stream()
+                .filter(Violation::hasAllLocationInfo)
+                .collect(Collectors.toSet());
+    }
+
+    private Set<Violation> getViolationsWithValidLocationInfo(
+            @NotNull final Set<Violation> violations,
+            @NotNull final GitHubPRDiffWrapper diffWrapper) {
+        
+        return getViolationsWithAllLocationInfo(violations)
+                .stream()
+                // .filter() TODO
+                .collect(Collectors.toSet());
+    }
+
+    private Set<Violation> getViolationsWithMissingOrInvalidLocationInfo(
+            @NotNull final Set<Violation> violations,
+            @NotNull final GitHubPRDiffWrapper diffWrapper) {
+        
+        final Set<Violation> result = new HashSet<>(violations);
+        result.removeAll(getViolationsWithValidLocationInfo(violations, diffWrapper));
+        return result;
     }
     
 }

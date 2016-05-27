@@ -15,7 +15,7 @@
  */
 package com.btkelly.gnag.utils.diffparser;
 
-import com.btkelly.gnag.models.GitHubPullRequestDiffWrapper;
+import com.btkelly.gnag.models.GitHubPRDiffWrapper;
 import com.github.stkent.githubdiffparser.GitHubDiffParser;
 import com.github.stkent.githubdiffparser.models.Diff;
 import okhttp3.ResponseBody;
@@ -25,7 +25,7 @@ import retrofit2.Converter;
 import java.io.IOException;
 import java.util.List;
 
-public class DiffParserResponseBodyConverter implements Converter<ResponseBody, GitHubPullRequestDiffWrapper> {
+public class DiffParserResponseBodyConverter implements Converter<ResponseBody, GitHubPRDiffWrapper> {
 
     @NotNull
     private final GitHubDiffParser diffParser;
@@ -35,7 +35,7 @@ public class DiffParserResponseBodyConverter implements Converter<ResponseBody, 
     }
 
     @Override
-    public GitHubPullRequestDiffWrapper convert(final ResponseBody value) throws IOException {
+    public GitHubPRDiffWrapper convert(final ResponseBody value) throws IOException {
         try {
             final List<Diff> parsedDiffs = diffParser.parse(value.byteStream());
 
@@ -44,7 +44,7 @@ public class DiffParserResponseBodyConverter implements Converter<ResponseBody, 
                 return null;
             }
 
-            return new GitHubPullRequestDiffWrapper(value.string(), parsedDiffs);
+            return new GitHubPRDiffWrapper(value.string(), parsedDiffs);
         } catch (final IllegalStateException e) {
             return null;
         } finally {

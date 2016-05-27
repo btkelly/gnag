@@ -89,6 +89,10 @@ public class Violation {
     public Integer getFileLineNumber() {
         return fileLineNumber;
     }
+    
+    public boolean hasAllLocationInfo() {
+        return getRelativeFilePath() != null && getFileLineNumber() != null;
+    }
 
     // Generated equals and hashcode
     

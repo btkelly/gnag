@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public final class GitHubPullRequestDiffWrapper {
+public final class GitHubPRDiffWrapper {
 
     @NotNull
     private final String rawDiff;
@@ -41,7 +41,7 @@ public final class GitHubPullRequestDiffWrapper {
      * 
      */
 
-    public GitHubPullRequestDiffWrapper(
+    public GitHubPRDiffWrapper(
             @NotNull final String rawDiff,
             @NotNull final List<Diff> parsedDiffs) {
 
