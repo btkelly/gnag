@@ -23,10 +23,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-
-import java.io.IOException;
 
 /**
  * Created by bobbake4 on 12/1/15.
@@ -58,27 +58,18 @@ public class GitHubApi {
         gitHubApiClient = retrofit.create(GitHubApiClient.class);
     }
 
-    public void postGitHubIssueComment(String comment) {
-
-        try {
-            gitHubApiClient.postComment(new GitHubIssueComment(comment), gitHubExtension.getIssueNumber()).execute();
-        } catch (final IOException e) {
-            e.printStackTrace();
-        }
+    public void postGitHubIssueCommentAsync(final String comment) {
+        gitHubApiClient.postComment(new GitHubIssueComment(comment), gitHubExtension.getIssueNumber())
+                .enqueue(new DefaultCallback<>());
     }
 
-    public void postUpdatedGitHubStatus(GitHubStatusType gitHubStatusType, String sha) {
-
-        try {
-            gitHubApiClient.postUpdatedStatus(new GitHubStatus(gitHubStatusType), sha).execute();
-        } catch (final IOException e) {
-            e.printStackTrace();
-        }
+    public void postUpdatedGitHubStatusAsync(final GitHubStatusType gitHubStatusType, final String prSha) {
+        gitHubApiClient.postUpdatedStatus(new GitHubStatus(gitHubStatusType), prSha)
+                .enqueue(new DefaultCallback<>());
     }
 
     @Nullable
-    public GitHubPRDetails getPRDetails() {
-
+    public GitHubPRDetails getPRDetailsSync() {
         try {
             Response<GitHubPRDetails> gitHubPRResponse = gitHubApiClient.getPRDetails(gitHubExtension.getIssueNumber()).execute();
             return gitHubPRResponse.body();
@@ -89,7 +80,7 @@ public class GitHubApi {
     }
 
     @Nullable
-    public GitHubPRDiffWrapper getPRDiffWrapper() {
+    public GitHubPRDiffWrapper getPRDiffWrapperSync() {
         try {
             final Response<GitHubPRDiffWrapper> gitHubPullRequestDiffWrapperResponse
                     = gitHubApiClient.getPRDiffWrapper(gitHubExtension.getIssueNumber()).execute();
@@ -101,19 +92,33 @@ public class GitHubApi {
         }
     }
 
-    public void postGitHubPRComment(
+    public void postGitHubPRCommentAsync(
             @NotNull final String body,
             @NotNull final String prSha,
             @NotNull final String relativeFilePath,
             final int diffLineIndex) {
 
-        try {
-            gitHubApiClient.postComment(
-                    new GitHubPRComment(body, prSha, relativeFilePath, diffLineIndex),
-                    gitHubExtension.getIssueNumber()).execute();
-        } catch (final IOException e) {
-            e.printStackTrace();
+        gitHubApiClient.postComment(
+                new GitHubPRComment(body, prSha, relativeFilePath, diffLineIndex), gitHubExtension.getIssueNumber())
+                        .enqueue(new DefaultCallback<>());
+    }
+    
+    private static final class DefaultCallback<T> implements Callback<T> {
+
+        private DefaultCallback() {
+            // This constructor intentionally left blank.
         }
+
+        @Override
+        public void onResponse(final Call<T> call, final Response<T> response) {
+            // This method intentionally left blank.            
+        }
+
+        @Override
+        public void onFailure(final Call<T> call, final Throwable t) {
+            t.printStackTrace();
+        }
+        
     }
 
 }

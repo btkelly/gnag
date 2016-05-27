@@ -18,6 +18,7 @@ package com.btkelly.gnag.tasks;
 import com.btkelly.gnag.api.GitHubApi;
 import com.btkelly.gnag.extensions.GitHubExtension;
 import com.btkelly.gnag.models.*;
+import com.btkelly.gnag.utils.ViolationFormatter;
 import com.btkelly.gnag.utils.ViolationsFormatter;
 import org.apache.commons.lang.StringUtils;
 import org.gradle.api.DefaultTask;
@@ -75,7 +76,7 @@ public class GnagReportTask extends DefaultTask {
             fetchPRShaIfRequired();
             
             if (checkStatus.getGitHubStatusType() == SUCCESS) {
-                gitHubApi.postGitHubIssueComment(REMOTE_SUCCESS_COMMENT);
+                gitHubApi.postGitHubIssueCommentAsync(REMOTE_SUCCESS_COMMENT);
             } else {
                 postViolationComments(checkStatus.getViolations());
             }
@@ -93,7 +94,7 @@ public class GnagReportTask extends DefaultTask {
 
     private void fetchPRShaIfRequired() {
         if (StringUtils.isBlank(prSha)) {
-            GitHubPRDetails pullRequestDetails = gitHubApi.getPRDetails();
+            GitHubPRDetails pullRequestDetails = gitHubApi.getPRDetailsSync();
 
             if (pullRequestDetails != null && pullRequestDetails.getHead() != null) {
                 prSha = pullRequestDetails.getHead().getSha();
@@ -103,31 +104,37 @@ public class GnagReportTask extends DefaultTask {
 
     private void updatePRStatus(GitHubStatusType gitHubStatusType) {
         if (StringUtils.isNotBlank(prSha)) {
-            gitHubApi.postUpdatedGitHubStatus(gitHubStatusType, prSha);
+            gitHubApi.postUpdatedGitHubStatusAsync(gitHubStatusType, prSha);
         }
     }
 
     private void postViolationComments(@NotNull final Set<Violation> violations) {
-        final Runnable postAllViolationsAsAggregatedCommentRunnable = () ->
-                gitHubApi.postGitHubIssueComment(
-                        ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
-
         final Set<Violation> violationsWithAllLocationInfo = getViolationsWithAllLocationInfo(violations);
 
         if (StringUtils.isBlank(prSha) || violationsWithAllLocationInfo.isEmpty()) {
-            postAllViolationsAsAggregatedCommentRunnable.run();
+            gitHubApi.postGitHubIssueCommentAsync(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
             return;
         }
         
-        final GitHubPRDiffWrapper diffWrapper = gitHubApi.getPRDiffWrapper();
+        final GitHubPRDiffWrapper diffWrapper = gitHubApi.getPRDiffWrapperSync();
         
         if (diffWrapper == null) {
-            postAllViolationsAsAggregatedCommentRunnable.run();
+            gitHubApi.postGitHubIssueCommentAsync(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
             return;
         }
+
+        for (final Violation violation : getViolationsWithValidLocationInfo(violations, diffWrapper)) {
+            //noinspection ConstantConditions
+            gitHubApi.postGitHubPRCommentAsync(
+                    ViolationFormatter.getHtmlStringForInlineComment(violation),
+                    prSha,
+                    violation.getRelativeFilePath(),
+                    violation.getFileLineNumber());
+        }
         
-        // TODO: post violationsWithValidLocationInfo as individual comments
-        // TODO: post violationsWithMissingOrInvalidLocationInfo as an aggregated comment
+        gitHubApi.postGitHubIssueCommentAsync(
+                ViolationsFormatter.getHtmlStringForAggregatedComment(
+                        getViolationsWithMissingOrInvalidLocationInfo(violations, diffWrapper)));
     }
     
     private Set<Violation> getViolationsWithAllLocationInfo(@NotNull final Set<Violation> violations) {
@@ -140,11 +147,13 @@ public class GnagReportTask extends DefaultTask {
     private Set<Violation> getViolationsWithValidLocationInfo(
             @NotNull final Set<Violation> violations,
             @NotNull final GitHubPRDiffWrapper diffWrapper) {
+
+        return new HashSet<>();
         
-        return getViolationsWithAllLocationInfo(violations)
-                .stream()
-                // .filter() TODO
-                .collect(Collectors.toSet());
+//        return getViolationsWithAllLocationInfo(violations)
+//                .stream()
+//                // .filter() TODO
+//                .collect(Collectors.toSet());
     }
 
     private Set<Violation> getViolationsWithMissingOrInvalidLocationInfo(
