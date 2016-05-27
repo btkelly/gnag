@@ -28,6 +28,7 @@ public final class ViolationFormatter {
     private static final String VIOLATION_LINE_LABEL  = "Line: ";
     private static final String VIOLATION_NAME_LABEL  = "Violation: ";
     private static final String VIOLATION_NOTES_LABEL = "Notes: ";
+    private static final String VIOLATION_REPORTER_LABEL = "Reporter: ";
 
     /**
      * Use this method to create a formatted HTML string representing a violation that will be posted as an inline 
@@ -44,6 +45,7 @@ public final class ViolationFormatter {
         
         final HtmlStringBuilder builder = new HtmlStringBuilder();
 
+        appendViolationReporterToBuilder(violation, builder);
         appendViolationNameToBuilder(violation, builder);
         appendViolationCommentToBuilderIfPresent(violation, builder);
 
@@ -63,6 +65,15 @@ public final class ViolationFormatter {
         appendViolationCommentToBuilderIfPresent(violation, builder);
 
         return builder.toString();
+    }
+
+    private static void appendViolationReporterToBuilder(
+            @NotNull final Violation violation,
+            @NotNull final HtmlStringBuilder builder) {
+
+        builder.appendBold(VIOLATION_REPORTER_LABEL);
+        builder.append(violation.getReporterName());
+        builder.insertLineBreak();
     }
 
     private static void appendViolationNameToBuilder(
