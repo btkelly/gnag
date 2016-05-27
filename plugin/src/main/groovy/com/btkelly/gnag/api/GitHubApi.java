@@ -31,12 +31,7 @@ import java.io.IOException;
  * Created by bobbake4 on 12/1/15.
  */
 public class GitHubApi {
-
-    public enum Status {
-        OK,
-        FAIL
-    }
-
+    
     private final GitHubApiClient gitHubApiClient;
     private final GitHubExtension gitHubExtension;
 
@@ -62,23 +57,21 @@ public class GitHubApi {
         gitHubApiClient = retrofit.create(GitHubApiClient.class);
     }
 
-    public Status postGitHubIssueComment(String comment) {
+    public void postGitHubIssueComment(String comment) {
 
         try {
-            Response<GitHubIssueComment> gitHubIssueCommentResponse = gitHubApiClient.postComment(new GitHubIssueComment(comment), gitHubExtension.getIssueNumber()).execute();
-            return gitHubIssueCommentResponse.isSuccessful() ? Status.OK : Status.FAIL;
-        } catch (IOException ignored) {
-            return Status.FAIL;
+            gitHubApiClient.postComment(new GitHubIssueComment(comment), gitHubExtension.getIssueNumber()).execute();
+        } catch (final IOException e) {
+            e.printStackTrace();
         }
     }
 
-    public Status postUpdatedGitHubStatus(GitHubStatusType gitHubStatusType, String sha) {
+    public void postUpdatedGitHubStatus(GitHubStatusType gitHubStatusType, String sha) {
 
         try {
-            Response<GitHubStatus> gitHubStatusResponse = gitHubApiClient.postUpdatedStatus(new GitHubStatus(gitHubStatusType), sha).execute();
-            return gitHubStatusResponse.isSuccessful() ? Status.OK : Status.FAIL;
-        } catch (IOException ignored) {
-            return Status.FAIL;
+            gitHubApiClient.postUpdatedStatus(new GitHubStatus(gitHubStatusType), sha).execute();
+        } catch (final IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -87,8 +80,8 @@ public class GitHubApi {
         try {
             Response<GitHubPRDetails> gitHubPRResponse = gitHubApiClient.getPRDetails(gitHubExtension.getIssueNumber()).execute();
             return gitHubPRResponse.body();
-        } catch (Exception ignored) {
-            ignored.printStackTrace();
+        } catch (final Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -105,21 +98,18 @@ public class GitHubApi {
         }
     }
 
-    public Status postGitHubPRComment(
+    public void postGitHubPRComment(
             @NotNull final String body,
             @NotNull final String prSha,
             @NotNull final String relativeFilePath,
             final int diffLineIndex) {
 
         try {
-            Response<Void> gitHubPRCommentResponse
-                    = gitHubApiClient.postComment(
-                            new GitHubPRComment(body, prSha, relativeFilePath, diffLineIndex),
-                            gitHubExtension.getIssueNumber()).execute();
-            
-            return gitHubPRCommentResponse.isSuccessful() ? Status.OK : Status.FAIL;
-        } catch (IOException ignored) {
-            return Status.FAIL;
+            gitHubApiClient.postComment(
+                    new GitHubPRComment(body, prSha, relativeFilePath, diffLineIndex),
+                    gitHubExtension.getIssueNumber()).execute();
+        } catch (final IOException e) {
+            e.printStackTrace();
         }
     }
 
