@@ -37,14 +37,16 @@ public class DiffParserResponseBodyConverter implements Converter<ResponseBody, 
     @Override
     public GitHubPRDiffWrapper convert(final ResponseBody value) throws IOException {
         try {
-            final List<Diff> parsedDiffs = diffParser.parse(value.byteStream());
+            final String rawResponse = value.string();
+            
+            final List<Diff> parsedDiffs = diffParser.parse(rawResponse.getBytes());
 
             if (parsedDiffs.isEmpty()) {
                 // We expect to find at least one diff; treat any other outcome as erroneous.
                 return null;
             }
 
-            return new GitHubPRDiffWrapper(value.string(), parsedDiffs);
+            return new GitHubPRDiffWrapper(rawResponse, parsedDiffs);
         } catch (final IllegalStateException e) {
             return null;
         } finally {
