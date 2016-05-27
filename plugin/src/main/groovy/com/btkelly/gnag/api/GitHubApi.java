@@ -61,7 +61,7 @@ public class GitHubApi {
         gitHubApiClient = retrofit.create(GitHubApiClient.class);
     }
 
-    public void postGitHubIssueCommentAsync(final String comment) {
+    public void postGitHubPRCommentAsync(final String comment) {
         gitHubApiClient.postPRComment(new GitHubPRComment(comment), gitHubExtension.getIssueNumber())
                 .enqueue(new DefaultCallback<>());
     }
@@ -95,7 +95,7 @@ public class GitHubApi {
         }
     }
 
-    public void postGitHubPRCommentAsync(
+    public void postGitHubInlineCommentAsync(
             @NotNull final String body,
             @NotNull final String prSha,
             @NotNull final String relativeFilePath,

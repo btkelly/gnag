@@ -77,7 +77,7 @@ public class GnagReportTask extends DefaultTask {
             fetchPRShaIfRequired();
             
             if (checkStatus.getGitHubStatusType() == SUCCESS) {
-                gitHubApi.postGitHubIssueCommentAsync(REMOTE_SUCCESS_COMMENT);
+                gitHubApi.postGitHubPRCommentAsync(REMOTE_SUCCESS_COMMENT);
             } else {
                 postViolationComments(checkStatus.getViolations());
             }
@@ -113,27 +113,27 @@ public class GnagReportTask extends DefaultTask {
         final Set<Violation> violationsWithAllLocationInfo = getViolationsWithAllLocationInfo(violations);
 
         if (StringUtils.isBlank(prSha) || violationsWithAllLocationInfo.isEmpty()) {
-            gitHubApi.postGitHubIssueCommentAsync(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
+            gitHubApi.postGitHubPRCommentAsync(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
             return;
         }
         
         final List<Diff> diffs = gitHubApi.getPRDiffsSync();
         
         if (diffs == null || diffs.isEmpty()) {
-            gitHubApi.postGitHubIssueCommentAsync(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
+            gitHubApi.postGitHubPRCommentAsync(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
             return;
         }
 
         for (final Violation violation : getViolationsWithValidLocationInfo(violations, diffs)) {
             //noinspection ConstantConditions
-            gitHubApi.postGitHubPRCommentAsync(
+            gitHubApi.postGitHubInlineCommentAsync(
                     ViolationFormatter.getHtmlStringForInlineComment(violation),
                     prSha,
                     violation.getRelativeFilePath(),
                     violation.getFileLineNumber()); // todo: this needs to change
         }
         
-        gitHubApi.postGitHubIssueCommentAsync(
+        gitHubApi.postGitHubPRCommentAsync(
                 ViolationsFormatter.getHtmlStringForAggregatedComment(
                         getViolationsWithMissingOrInvalidLocationInfo(violations, diffs)));
     }
