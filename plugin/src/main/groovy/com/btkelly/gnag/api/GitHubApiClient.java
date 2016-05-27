@@ -29,21 +29,25 @@ public interface GitHubApiClient {
     @Headers("Accept: application/vnd.github.v3+json")
     Call<GitHubIssueComment> postComment(@Body GitHubIssueComment gitHubIssueComment, @Path("issueNumber") String issueNumber);
 
+    // https://developer.github.com/v3/repos/statuses/#create-a-status
     @POST("statuses/{sha}")
     @Headers("Accept: application/vnd.github.v3+json")
     Call<GitHubStatus> postUpdatedStatus(@Body GitHubStatus gitHubStatus, @Path("sha") String sha);
 
+    // https://developer.github.com/v3/pulls/#get-a-single-pull-request
     @GET("pulls/{issueNumber}")
     @Headers("Accept: application/vnd.github.v3+json")
     Call<GitHubPRDetails> getPRDetails(@Path("issueNumber") String issueNumber);
 
+    // https://developer.github.com/v3/pulls/#get-a-single-pull-request
+    // https://developer.github.com/v3/media/#commits-commit-comparison-and-pull-requests
     @GET("pulls/{issueNumber}")
-    @Headers("Accept: application/vnd.github.v3+json")
+    @Headers("Accept: application/vnd.github.v3.diff")
     Call<GitHubPRDiffWrapper> getPRDiffWrapper(@Path("issueNumber") String issueNumber);
 
     // https://developer.github.com/v3/pulls/comments/#create-a-comment
     @POST("pulls/{issueNumber}/comments")
-    @Headers("Accept: application/vnd.github.v3.diff")
+    @Headers("Accept: application/vnd.github.v3+json")
     Call<Void> postComment(@Body GitHubPRComment gitHubPRComment, @Path("issueNumber") String issueNumber);
     
 }
