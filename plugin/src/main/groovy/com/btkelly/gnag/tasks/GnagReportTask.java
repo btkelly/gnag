@@ -17,9 +17,13 @@ package com.btkelly.gnag.tasks;
 
 import com.btkelly.gnag.api.GitHubApi;
 import com.btkelly.gnag.extensions.GitHubExtension;
-import com.btkelly.gnag.models.*;
+import com.btkelly.gnag.models.CheckStatus;
+import com.btkelly.gnag.models.GitHubPRDetails;
+import com.btkelly.gnag.models.GitHubStatusType;
+import com.btkelly.gnag.models.Violation;
 import com.btkelly.gnag.utils.ViolationFormatter;
 import com.btkelly.gnag.utils.ViolationsFormatter;
+import com.github.stkent.githubdiffparser.models.Diff;
 import org.apache.commons.lang.StringUtils;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
@@ -27,10 +31,7 @@ import org.gradle.api.Task;
 import org.gradle.api.tasks.TaskAction;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.btkelly.gnag.models.GitHubStatusType.*;
@@ -116,14 +117,14 @@ public class GnagReportTask extends DefaultTask {
             return;
         }
         
-        final GitHubPRDiffWrapper diffWrapper = gitHubApi.getPRDiffWrapperSync();
+        final List<Diff> diffs = gitHubApi.getPRDiffsSync();
         
-        if (diffWrapper == null) {
+        if (diffs == null || diffs.isEmpty()) {
             gitHubApi.postGitHubIssueCommentAsync(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
             return;
         }
 
-        for (final Violation violation : getViolationsWithValidLocationInfo(violations, diffWrapper)) {
+        for (final Violation violation : getViolationsWithValidLocationInfo(violations, diffs)) {
             //noinspection ConstantConditions
             gitHubApi.postGitHubPRCommentAsync(
                     ViolationFormatter.getHtmlStringForInlineComment(violation),
@@ -134,7 +135,7 @@ public class GnagReportTask extends DefaultTask {
         
         gitHubApi.postGitHubIssueCommentAsync(
                 ViolationsFormatter.getHtmlStringForAggregatedComment(
-                        getViolationsWithMissingOrInvalidLocationInfo(violations, diffWrapper)));
+                        getViolationsWithMissingOrInvalidLocationInfo(violations, diffs)));
     }
     
     private Set<Violation> getViolationsWithAllLocationInfo(@NotNull final Set<Violation> violations) {
@@ -146,7 +147,7 @@ public class GnagReportTask extends DefaultTask {
 
     private Set<Violation> getViolationsWithValidLocationInfo(
             @NotNull final Set<Violation> violations,
-            @NotNull final GitHubPRDiffWrapper diffWrapper) {
+            @NotNull final List<Diff> diffWrapper) {
 
         return new HashSet<>();
         
@@ -158,7 +159,7 @@ public class GnagReportTask extends DefaultTask {
 
     private Set<Violation> getViolationsWithMissingOrInvalidLocationInfo(
             @NotNull final Set<Violation> violations,
-            @NotNull final GitHubPRDiffWrapper diffWrapper) {
+            @NotNull final List<Diff> diffWrapper) {
         
         final Set<Violation> result = new HashSet<>(violations);
         result.removeAll(getViolationsWithValidLocationInfo(violations, diffWrapper));

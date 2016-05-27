@@ -19,6 +19,7 @@ import com.btkelly.gnag.extensions.GitHubExtension;
 import com.btkelly.gnag.models.*;
 import com.btkelly.gnag.utils.diffparser.DiffParserConverterFactory;
 import com.btkelly.gnag.utils.gson.GsonConverterFactory;
+import com.github.stkent.githubdiffparser.models.Diff;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.jetbrains.annotations.NotNull;
@@ -27,6 +28,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+
+import java.util.List;
 
 /**
  * Created by bobbake4 on 12/1/15.
@@ -80,10 +83,10 @@ public class GitHubApi {
     }
 
     @Nullable
-    public GitHubPRDiffWrapper getPRDiffWrapperSync() {
+    public List<Diff> getPRDiffsSync() {
         try {
-            final Response<GitHubPRDiffWrapper> gitHubPullRequestDiffWrapperResponse
-                    = gitHubApiClient.getPRDiffWrapper(gitHubExtension.getIssueNumber()).execute();
+            final Response<List<Diff>> gitHubPullRequestDiffWrapperResponse
+                    = gitHubApiClient.getPRDiffs(gitHubExtension.getIssueNumber()).execute();
             
             return gitHubPullRequestDiffWrapperResponse.body();
         } catch (final Exception e) {

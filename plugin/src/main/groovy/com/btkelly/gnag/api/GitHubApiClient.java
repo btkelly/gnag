@@ -15,9 +15,15 @@
  */
 package com.btkelly.gnag.api;
 
-import com.btkelly.gnag.models.*;
+import com.btkelly.gnag.models.GitHubInlineComment;
+import com.btkelly.gnag.models.GitHubPRComment;
+import com.btkelly.gnag.models.GitHubPRDetails;
+import com.btkelly.gnag.models.GitHubStatus;
+import com.github.stkent.githubdiffparser.models.Diff;
 import retrofit2.Call;
 import retrofit2.http.*;
+
+import java.util.List;
 
 /**
  * Created by bobbake4 on 12/1/15.
@@ -43,7 +49,7 @@ public interface GitHubApiClient {
     // https://developer.github.com/v3/media/#commits-commit-comparison-and-pull-requests
     @GET("pulls/{issueNumber}")
     @Headers("Accept: application/vnd.github.v3.diff")
-    Call<GitHubPRDiffWrapper> getPRDiffWrapper(@Path("issueNumber") String issueNumber);
+    Call<List<Diff>> getPRDiffs(@Path("issueNumber") String issueNumber);
 
     // https://developer.github.com/v3/pulls/comments/#create-a-comment
     @POST("pulls/{issueNumber}/comments")

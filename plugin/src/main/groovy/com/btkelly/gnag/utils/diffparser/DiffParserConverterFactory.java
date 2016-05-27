@@ -15,8 +15,8 @@
  */
 package com.btkelly.gnag.utils.diffparser;
 
-import com.btkelly.gnag.models.GitHubPRDiffWrapper;
 import com.github.stkent.githubdiffparser.GitHubDiffParser;
+import com.github.stkent.githubdiffparser.models.Diff;
 import com.google.common.reflect.TypeToken;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -26,6 +26,7 @@ import retrofit2.Retrofit;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.util.List;
 
 public class DiffParserConverterFactory extends Converter.Factory {
 
@@ -41,7 +42,7 @@ public class DiffParserConverterFactory extends Converter.Factory {
 
     @Override
     public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
-        final Type diffListType = new TypeToken<GitHubPRDiffWrapper>() {}.getType();
+        final Type diffListType = new TypeToken<List<Diff>>() {}.getType();
 
         if (diffListType.equals(type)) {
             return new DiffParserResponseBodyConverter(diffParser);

@@ -15,7 +15,6 @@
  */
 package com.btkelly.gnag.utils.diffparser;
 
-import com.btkelly.gnag.models.GitHubPRDiffWrapper;
 import com.github.stkent.githubdiffparser.GitHubDiffParser;
 import com.github.stkent.githubdiffparser.models.Diff;
 import okhttp3.ResponseBody;
@@ -23,9 +22,10 @@ import org.jetbrains.annotations.NotNull;
 import retrofit2.Converter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class DiffParserResponseBodyConverter implements Converter<ResponseBody, GitHubPRDiffWrapper> {
+public class DiffParserResponseBodyConverter implements Converter<ResponseBody, List<Diff>> {
 
     @NotNull
     private final GitHubDiffParser diffParser;
@@ -35,20 +35,12 @@ public class DiffParserResponseBodyConverter implements Converter<ResponseBody, 
     }
 
     @Override
-    public GitHubPRDiffWrapper convert(final ResponseBody value) throws IOException {
+    public List<Diff> convert(final ResponseBody value) throws IOException {
         try {
             final String rawResponse = value.string();
-            
-            final List<Diff> parsedDiffs = diffParser.parse(rawResponse.getBytes());
-
-            if (parsedDiffs.isEmpty()) {
-                // We expect to find at least one diff; treat any other outcome as erroneous.
-                return null;
-            }
-
-            return new GitHubPRDiffWrapper(rawResponse, parsedDiffs);
+            return diffParser.parse(rawResponse.getBytes());
         } catch (final IllegalStateException e) {
-            return null;
+            return new ArrayList<>();
         } finally {
             value.close();
         }
