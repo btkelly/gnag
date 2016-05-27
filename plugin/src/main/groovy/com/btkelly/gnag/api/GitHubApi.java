@@ -59,7 +59,7 @@ public class GitHubApi {
     }
 
     public void postGitHubIssueCommentAsync(final String comment) {
-        gitHubApiClient.postComment(new GitHubIssueComment(comment), gitHubExtension.getIssueNumber())
+        gitHubApiClient.postPRComment(new GitHubPRComment(comment), gitHubExtension.getIssueNumber())
                 .enqueue(new DefaultCallback<>());
     }
 
@@ -98,8 +98,8 @@ public class GitHubApi {
             @NotNull final String relativeFilePath,
             final int diffLineIndex) {
 
-        gitHubApiClient.postComment(
-                new GitHubPRComment(body, prSha, relativeFilePath, diffLineIndex), gitHubExtension.getIssueNumber())
+        gitHubApiClient.postInlineComment(
+                new GitHubInlineComment(body, prSha, relativeFilePath, diffLineIndex), gitHubExtension.getIssueNumber())
                         .enqueue(new DefaultCallback<>());
     }
     

@@ -27,7 +27,7 @@ public interface GitHubApiClient {
     // https://developer.github.com/v3/issues/comments/#create-a-comment
     @POST("issues/{issueNumber}/comments")
     @Headers("Accept: application/vnd.github.v3+json")
-    Call<GitHubIssueComment> postComment(@Body GitHubIssueComment gitHubIssueComment, @Path("issueNumber") String issueNumber);
+    Call<GitHubPRComment> postPRComment(@Body GitHubPRComment gitHubPRComment, @Path("issueNumber") String issueNumber);
 
     // https://developer.github.com/v3/repos/statuses/#create-a-status
     @POST("statuses/{sha}")
@@ -48,6 +48,6 @@ public interface GitHubApiClient {
     // https://developer.github.com/v3/pulls/comments/#create-a-comment
     @POST("pulls/{issueNumber}/comments")
     @Headers("Accept: application/vnd.github.v3+json")
-    Call<Void> postComment(@Body GitHubPRComment gitHubPRComment, @Path("issueNumber") String issueNumber);
+    Call<Void> postInlineComment(@Body GitHubInlineComment gitHubInlineComment, @Path("issueNumber") String issueNumber);
     
 }
