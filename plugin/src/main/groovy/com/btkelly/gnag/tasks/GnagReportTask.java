@@ -145,6 +145,4 @@ public class GnagReportTask extends DefaultTask {
                         ViolationsUtility.getViolationsWithMissingOrInvalidLocationInfo(violations, diffs)));
     }
     
-    
-    
 }
