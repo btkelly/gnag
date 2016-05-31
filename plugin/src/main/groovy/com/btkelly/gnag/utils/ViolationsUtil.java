@@ -35,7 +35,6 @@ public final class ViolationsUtil {
             return null;
         }
 
-        //noinspection ConstantConditions
         final List<Diff> diffsContainingViolationLocation = new ArrayList<>();
         final List<Integer> offsetDiffLineNumbers = new ArrayList<>();
         
@@ -75,7 +74,6 @@ public final class ViolationsUtil {
             @NotNull final Set<Violation> violations,
             @NotNull final List<Diff> diffs) {
 
-        //noinspection Convert2Lambda
         return getViolationsWithAllLocationInfo(violations)
                 .stream()
                 .filter(violation -> getOffsetDiffLineNumberForViolation(violation, diffs) != null)
