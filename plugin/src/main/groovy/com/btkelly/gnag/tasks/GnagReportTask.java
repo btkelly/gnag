@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import static com.btkelly.gnag.models.GitHubStatusType.*;
 
@@ -131,16 +132,31 @@ public class GnagReportTask extends DefaultTask {
             final int offsetDiffLineNumber = ViolationsUtil.getOffsetDiffLineNumberForViolation(violation, diffs);
             
             //noinspection ConstantConditions
-            gitHubApi.postGitHubInlineCommentAsync(
+            gitHubApi.postGitHubInlineCommentSync(
                     ViolationFormatter.getHtmlStringForInlineComment(violation),
                     prSha,
                     violation.getRelativeFilePath(),
                     offsetDiffLineNumber);
         }
         
-        gitHubApi.postGitHubPRCommentAsync(
-                ViolationsFormatter.getHtmlStringForAggregatedComment(
-                        ViolationsUtil.getViolationsWithMissingOrInvalidLocationInfo(violations, diffs)));
+        final Set<Violation> violationsWithMissingOrInvalidLocationInfo = 
+                ViolationsUtil.getViolationsWithMissingOrInvalidLocationInfo(violations, diffs);
+        
+        if (!violationsWithMissingOrInvalidLocationInfo.isEmpty()) {
+            try {
+                /*
+                 * Try to post the aggregate comment _strictly after_ all individual comments. GitHub seems to round
+                 * post times to the nearest second, so delaying by one whole second should be sufficient here.
+                 */
+                Thread.sleep(TimeUnit.SECONDS.toMillis(1));
+            } catch (final InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            gitHubApi.postGitHubPRCommentAsync(
+                    ViolationsFormatter.getHtmlStringForAggregatedComment(
+                            violationsWithMissingOrInvalidLocationInfo));
+        }
     }
     
 }

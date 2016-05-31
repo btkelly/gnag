@@ -29,6 +29,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,15 +98,19 @@ public class GitHubApi {
         }
     }
 
-    public void postGitHubInlineCommentAsync(
+    public void postGitHubInlineCommentSync(
             @NotNull final String body,
             @NotNull final String prSha,
             @NotNull final String relativeFilePath,
             final int diffLineIndex) {
 
-        gitHubApiClient.postInlineComment(
-                new GitHubInlineComment(body, prSha, relativeFilePath, diffLineIndex), gitHubExtension.getIssueNumber())
-                        .enqueue(new DefaultCallback<>());
+        try {
+            gitHubApiClient.postInlineComment(
+                    new GitHubInlineComment(body, prSha, relativeFilePath, diffLineIndex), gitHubExtension.getIssueNumber())
+                            .execute();
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
     }
     
     private static final class DefaultCallback<T> implements Callback<T> {
