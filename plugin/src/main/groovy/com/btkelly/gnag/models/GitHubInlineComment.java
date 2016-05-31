@@ -38,13 +38,12 @@ public final class GitHubInlineComment {
     public GitHubInlineComment(
             @NotNull final String body,
             @NotNull final String prSha,
-            @NotNull final String relativeFilePath,
-            final int diffLineIndex) {
+            @NotNull final PRLocation prLocation) {
         
         this.body = body;
         this.prSha = prSha;
-        this.relativeFilePath = relativeFilePath;
-        this.diffLineIndex = diffLineIndex;
+        this.relativeFilePath = prLocation.getRelativeFilePath();
+        this.diffLineIndex = prLocation.getDiffLineIndex();
     }
 
     @Override

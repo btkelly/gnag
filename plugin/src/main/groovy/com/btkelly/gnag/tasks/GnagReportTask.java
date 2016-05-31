@@ -17,10 +17,7 @@ package com.btkelly.gnag.tasks;
 
 import com.btkelly.gnag.api.GitHubApi;
 import com.btkelly.gnag.extensions.GitHubExtension;
-import com.btkelly.gnag.models.CheckStatus;
-import com.btkelly.gnag.models.GitHubPRDetails;
-import com.btkelly.gnag.models.GitHubStatusType;
-import com.btkelly.gnag.models.Violation;
+import com.btkelly.gnag.models.*;
 import com.btkelly.gnag.utils.ViolationFormatter;
 import com.btkelly.gnag.utils.ViolationsFormatter;
 import com.btkelly.gnag.utils.ViolationsUtil;
@@ -32,10 +29,7 @@ import org.gradle.api.Task;
 import org.gradle.api.tasks.TaskAction;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static com.btkelly.gnag.models.GitHubStatusType.*;
@@ -65,6 +59,7 @@ public class GnagReportTask extends DefaultTask {
     private GitHubApi gitHubApi;
     private String prSha;
 
+    @SuppressWarnings("unused")
     @TaskAction
     public void taskAction() {
 
@@ -112,10 +107,10 @@ public class GnagReportTask extends DefaultTask {
     }
 
     private void postViolationComments(@NotNull final Set<Violation> violations) {
-        final Set<Violation> violationsWithAllLocationInfo
-                = ViolationsUtil.getViolationsWithAllLocationInfo(violations);
+        final Set<Violation> violationsWithAllLocationInformation
+                = ViolationsUtil.hasViolationWithAllLocationInformation(violations);
 
-        if (StringUtils.isBlank(prSha) || violationsWithAllLocationInfo.isEmpty()) {
+        if (StringUtils.isBlank(prSha) || violationsWithAllLocationInformation.isEmpty()) {
             gitHubApi.postGitHubPRCommentAsync(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
             return;
         }
@@ -127,20 +122,30 @@ public class GnagReportTask extends DefaultTask {
             return;
         }
 
-        for (final Violation violation : ViolationsUtil.getViolationsWithValidLocationInfo(violations, diffs)) {
-            //noinspection ConstantConditions
-            final int offsetDiffLineNumber = ViolationsUtil.getOffsetDiffLineNumberForViolation(violation, diffs);
-            
-            //noinspection ConstantConditions
-            gitHubApi.postGitHubInlineCommentSync(
-                    ViolationFormatter.getHtmlStringForInlineComment(violation),
-                    prSha,
-                    violation.getRelativeFilePath(),
-                    offsetDiffLineNumber);
+        final Map<Violation, PRLocation> violationPRLocationMap
+                = ViolationsUtil.getPRLocationsForViolations(violations, diffs);
+
+        final List<Violation> violationsWithValidLocationInfo = new ArrayList<>();
+        final Set<Violation> violationsWithMissingOrInvalidLocationInfo = new HashSet<>();
+        
+        for (final Map.Entry<Violation, PRLocation> entry : violationPRLocationMap.entrySet()) {
+            final Violation violation = entry.getKey();
+            final PRLocation prLocation = entry.getValue();
+
+            if (prLocation != null) {
+                violationsWithValidLocationInfo.add(violation);
+            } else {
+                violationsWithMissingOrInvalidLocationInfo.add(violation);
+            }
         }
         
-        final Set<Violation> violationsWithMissingOrInvalidLocationInfo = 
-                ViolationsUtil.getViolationsWithMissingOrInvalidLocationInfo(violations, diffs);
+        violationsWithValidLocationInfo.sort(Violation.COMMENT_POSTING_COMPARATOR);
+        
+        violationsWithValidLocationInfo.stream()
+                .forEach(violation -> gitHubApi.postGitHubInlineCommentSync(
+                        ViolationFormatter.getHtmlStringForInlineComment(violation),
+                        prSha,
+                        violationPRLocationMap.get(violation)));
         
         if (!violationsWithMissingOrInvalidLocationInfo.isEmpty()) {
             try {

@@ -29,7 +29,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,12 +100,11 @@ public class GitHubApi {
     public void postGitHubInlineCommentSync(
             @NotNull final String body,
             @NotNull final String prSha,
-            @NotNull final String relativeFilePath,
-            final int diffLineIndex) {
+            @NotNull final PRLocation prLocation) {
 
         try {
             gitHubApiClient.postInlineComment(
-                    new GitHubInlineComment(body, prSha, relativeFilePath, diffLineIndex), gitHubExtension.getIssueNumber())
+                    new GitHubInlineComment(body, prSha, prLocation), gitHubExtension.getIssueNumber())
                             .execute();
         } catch (final Exception e) {
             e.printStackTrace();
