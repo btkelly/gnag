@@ -75,8 +75,6 @@ public class GnagReportTask extends DefaultTask {
             final CheckStatus checkStatus = (CheckStatus) projectStatus;
             System.out.println("Project status: " + checkStatus);
 
-            // TODO: retry a couple times if this fails; if we can't grab the PR sha, we will
-            // need to fall back to posting all violations in an aggregate comment
             fetchPRShaIfRequired();
             
             if (checkStatus.getGitHubStatusType() == SUCCESS) {
