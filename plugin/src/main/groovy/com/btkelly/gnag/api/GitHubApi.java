@@ -46,6 +46,7 @@ public class GitHubApi {
         HttpLoggingInterceptor.Logger logger = System.out::println;
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new UserAgentInterceptor())
                 .addInterceptor(new AuthInterceptor(gitHubExtension))
                 .addInterceptor(new HttpLoggingInterceptor(logger).setLevel(HttpLoggingInterceptor.Level.NONE))
                 .build();
