@@ -47,7 +47,7 @@ public class GitHubApi {
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(new UserAgentInterceptor())
-                .addInterceptor(new AuthInterceptor(gitHubExtension))
+                .addInterceptor(new AuthInterceptor(gitHubExtension.getAuthToken()))
                 .addInterceptor(new HttpLoggingInterceptor(logger).setLevel(HttpLoggingInterceptor.Level.NONE))
                 .build();
 
