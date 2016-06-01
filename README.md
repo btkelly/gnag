@@ -94,9 +94,22 @@ gnag {
 
 ## Example Output
 
-Here is an example of the output posted to a GitHub PR on a project using Gnag to enforce quality checks.
+Below are examples of output posted to a GitHub PR on a project using Gnag to enforce quality checks.
 
-<img src="https://cloud.githubusercontent.com/assets/826036/11042826/641378e2-86e7-11e5-90ff-555a7cafd78c.png" />
+### Inline Comments
+
+Violations associated with a specific line in your PR will be posted as comments on that line:
+
+![](assets/comments-inline.png)
+
+### Aggregated Comments
+
+Violations that cannot be associated with a specific line in your PR will be aggregated and posted in a single top-level PR comment. This will include:
+
+- violations associated with entire files or projects;
+- violations detected by individual reporters with invalid file location information.
+
+![](assets/comments-aggregated.png)
 
 ## Example [Travis CI](http://travis-ci.org) Usage
 
