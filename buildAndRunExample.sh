@@ -2,8 +2,10 @@
 
 ./gradlew clean publishGnagPublicationPublicationToMavenLocal
 
-cd example/
+if [ $? -eq 0 ]; then
+	cd example/
 
-./gradlew clean gnagCheck
+	./gradlew clean gnagCheck
 
-cd ..
+	cd ..
+fi
