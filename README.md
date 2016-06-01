@@ -94,7 +94,7 @@ gnag {
 
 ## Example Output
 
-Here is an example of the output posted to a GitHub pr on a project using gnag to enforce quality checks.
+Here is an example of the output posted to a GitHub PR on a project using Gnag to enforce quality checks.
 
 <img src="https://cloud.githubusercontent.com/assets/826036/11042826/641378e2-86e7-11e5-90ff-555a7cafd78c.png" />
 
