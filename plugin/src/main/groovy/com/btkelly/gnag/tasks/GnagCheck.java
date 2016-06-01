@@ -29,6 +29,7 @@ import org.gradle.api.execution.TaskExecutionGraph;
 import org.gradle.api.tasks.StopExecutionException;
 import org.gradle.api.tasks.TaskAction;
 
+import java.io.File;
 import java.util.*;
 
 import static com.btkelly.gnag.models.GitHubStatusType.FAILURE;
@@ -109,6 +110,7 @@ public class GnagCheck extends DefaultTask {
             final String failedMessage
                     = "One or more violation detectors has found violations. Check the report at "
                       + reportHelper.getReportsDir()
+                      + File.separatorChar
                       + REPORT_FILE_NAME + " for details.";
 
             if (gnagPluginExtension.shouldFailOnError() && !hasReportTask) {
