@@ -64,6 +64,7 @@ public class GnagCheck extends DefaultTask {
 
     private GnagPluginExtension gnagPluginExtension;
 
+    @SuppressWarnings("unused")
     @TaskAction
     public void taskAction() {
         if (gnagPluginExtension.isEnabled()) {

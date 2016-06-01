@@ -18,7 +18,7 @@ package com.btkelly.gnag.models;
 /**
  * Created by bobbake4 on 12/2/15.
  */
-public class GitHubPullRequest {
+public class GitHubPRDetails {
 
     private int id;
     private int number;
@@ -63,7 +63,7 @@ public class GitHubPullRequest {
 
     @Override
     public String toString() {
-        return "GitHubPullRequest{" +
+        return "GitHubPRDetails{" +
                 "id=" + id +
                 ", number=" + number +
                 ", state='" + state + '\'' +

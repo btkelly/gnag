@@ -17,22 +17,22 @@ package com.btkelly.gnag.tasks;
 
 import com.btkelly.gnag.api.GitHubApi;
 import com.btkelly.gnag.extensions.GitHubExtension;
-import com.btkelly.gnag.models.CheckStatus;
-import com.btkelly.gnag.models.GitHubPullRequest;
-import com.btkelly.gnag.models.GitHubStatusType;
+import com.btkelly.gnag.models.*;
+import com.btkelly.gnag.utils.ViolationFormatter;
 import com.btkelly.gnag.utils.ViolationsFormatter;
+import com.btkelly.gnag.utils.ViolationsUtil;
+import com.github.stkent.githubdiffparser.models.Diff;
 import org.apache.commons.lang.StringUtils;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.tasks.TaskAction;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
-import static com.btkelly.gnag.models.GitHubStatusType.ERROR;
-import static com.btkelly.gnag.models.GitHubStatusType.PENDING;
-import static com.btkelly.gnag.models.GitHubStatusType.SUCCESS;
+import static com.btkelly.gnag.models.GitHubStatusType.*;
 
 /**
  * Created by bobbake4 on 4/1/16.
@@ -59,6 +59,7 @@ public class GnagReportTask extends DefaultTask {
     private GitHubApi gitHubApi;
     private String prSha;
 
+    @SuppressWarnings("unused")
     @TaskAction
     public void taskAction() {
 
@@ -70,16 +71,15 @@ public class GnagReportTask extends DefaultTask {
             final CheckStatus checkStatus = (CheckStatus) projectStatus;
             System.out.println("Project status: " + checkStatus);
 
+            fetchPRShaIfRequired();
+            
             if (checkStatus.getGitHubStatusType() == SUCCESS) {
-                gitHubApi.postGitHubComment(REMOTE_SUCCESS_COMMENT);
+                gitHubApi.postGitHubPRCommentAsync(REMOTE_SUCCESS_COMMENT);
             } else {
-                // TODO: send individual message(s) here when possible
-                gitHubApi.postGitHubComment(
-                        ViolationsFormatter.getHtmlStringForAggregatedComment(checkStatus.getViolations()));
+                postViolationComments(checkStatus.getViolations());
             }
 
             updatePRStatus(checkStatus.getGitHubStatusType());
-
         } else {
             System.out.println("Project status is not instanceof Check Status");
             updatePRStatus(ERROR);
@@ -90,18 +90,78 @@ public class GnagReportTask extends DefaultTask {
         this.gitHubApi = new GitHubApi(gitHubExtension);
     }
 
-    private void updatePRStatus(GitHubStatusType gitHubStatusType) {
-
+    private void fetchPRShaIfRequired() {
         if (StringUtils.isBlank(prSha)) {
-            GitHubPullRequest pullRequestDetails = gitHubApi.getPullRequestDetails();
+            GitHubPRDetails pullRequestDetails = gitHubApi.getPRDetailsSync();
 
             if (pullRequestDetails != null && pullRequestDetails.getHead() != null) {
                 prSha = pullRequestDetails.getHead().getSha();
             }
         }
+    }
 
+    private void updatePRStatus(GitHubStatusType gitHubStatusType) {
         if (StringUtils.isNotBlank(prSha)) {
-            gitHubApi.postUpdatedGitHubStatus(gitHubStatusType, prSha);
+            gitHubApi.postUpdatedGitHubStatusAsync(gitHubStatusType, prSha);
         }
     }
+
+    private void postViolationComments(@NotNull final Set<Violation> violations) {
+        final Set<Violation> violationsWithAllLocationInformation
+                = ViolationsUtil.hasViolationWithAllLocationInformation(violations);
+
+        if (StringUtils.isBlank(prSha) || violationsWithAllLocationInformation.isEmpty()) {
+            gitHubApi.postGitHubPRCommentAsync(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
+            return;
+        }
+        
+        final List<Diff> diffs = gitHubApi.getPRDiffsSync();
+        
+        if (diffs.isEmpty()) {
+            gitHubApi.postGitHubPRCommentAsync(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
+            return;
+        }
+
+        final Map<Violation, PRLocation> violationPRLocationMap
+                = ViolationsUtil.getPRLocationsForViolations(violations, diffs);
+
+        final List<Violation> violationsWithValidLocationInfo = new ArrayList<>();
+        final Set<Violation> violationsWithMissingOrInvalidLocationInfo = new HashSet<>();
+        
+        for (final Map.Entry<Violation, PRLocation> entry : violationPRLocationMap.entrySet()) {
+            final Violation violation = entry.getKey();
+            final PRLocation prLocation = entry.getValue();
+
+            if (prLocation != null) {
+                violationsWithValidLocationInfo.add(violation);
+            } else {
+                violationsWithMissingOrInvalidLocationInfo.add(violation);
+            }
+        }
+        
+        violationsWithValidLocationInfo.sort(Violation.COMMENT_POSTING_COMPARATOR);
+        
+        violationsWithValidLocationInfo.stream()
+                .forEach(violation -> gitHubApi.postGitHubInlineCommentSync(
+                        ViolationFormatter.getHtmlStringForInlineComment(violation),
+                        prSha,
+                        violationPRLocationMap.get(violation)));
+        
+        if (!violationsWithMissingOrInvalidLocationInfo.isEmpty()) {
+            try {
+                /*
+                 * Try to post the aggregate comment _strictly after_ all individual comments. GitHub seems to round
+                 * post times to the nearest second, so delaying by one whole second should be sufficient here.
+                 */
+                Thread.sleep(TimeUnit.SECONDS.toMillis(1));
+            } catch (final InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            gitHubApi.postGitHubPRCommentAsync(
+                    ViolationsFormatter.getHtmlStringForAggregatedComment(
+                            violationsWithMissingOrInvalidLocationInfo));
+        }
+    }
+    
 }

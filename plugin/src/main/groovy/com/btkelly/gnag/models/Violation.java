@@ -18,7 +18,31 @@ package com.btkelly.gnag.models;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class Violation {
+import java.util.Comparator;
+
+public final class Violation {
+
+    /**
+     * WARNING: do not use this comparator to sort Violations with missing or partial location information only!
+     *
+     * Violations that will be reported as inline comments should be reported in the order specified by this Comparator.
+     * Comments will be sorted first by relative file path, then within each file by line number.
+     */
+    @SuppressWarnings("ConstantConditions")
+    public static final Comparator<Violation> COMMENT_POSTING_COMPARATOR = (v1, v2) -> {
+        if (!v1.hasAllLocationInfo() || !v2.hasAllLocationInfo()) {
+            return 0;
+        }
+
+        final String v1RelativeFilePath = v1.getRelativeFilePath();
+        final String v2RelativeFilePath = v2.getRelativeFilePath();
+
+        if (v1RelativeFilePath.equals(v2RelativeFilePath)) {
+            return v1.getFileLineNumber().compareTo(v2.getFileLineNumber());
+        } else {
+            return v1RelativeFilePath.compareTo(v2RelativeFilePath);
+        }
+    };
     
     @NotNull
     private final String name;
@@ -88,6 +112,10 @@ public class Violation {
     @Nullable
     public Integer getFileLineNumber() {
         return fileLineNumber;
+    }
+    
+    public boolean hasAllLocationInfo() {
+        return getRelativeFilePath() != null && getFileLineNumber() != null;
     }
 
     // Generated equals and hashcode

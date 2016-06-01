@@ -18,29 +18,23 @@ package com.btkelly.gnag.api;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
 /**
- * Created by bobbake4 on 12/3/15.
+ * User-Agent header is required by GitHub API v3, see
+ * https://developer.github.com/v3/#user-agent-required
  */
-public class AuthInterceptor implements Interceptor {
-
-    @NotNull
-    private final String authToken;
-
-    public AuthInterceptor(@NotNull final String authToken) {
-        this.authToken = authToken;
-    }
-
+public class UserAgentInterceptor implements Interceptor {
+    
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(final Chain chain) throws IOException {
         final Request request = chain.request()
                 .newBuilder()
-                .addHeader("Authorization", "token " + authToken)
+                .addHeader("User-Agent", "btkelly-gnag")
                 .build();
 
         return chain.proceed(request);
     }
+    
 }

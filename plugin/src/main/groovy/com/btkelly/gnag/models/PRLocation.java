@@ -15,21 +15,27 @@
  */
 package com.btkelly.gnag.models;
 
-/**
- * Created by bobbake4 on 12/1/15.
- */
-public class GitHubComment {
+import org.jetbrains.annotations.NotNull;
 
-    private final String body;
+public final class PRLocation {
+    
+    @NotNull
+    private final String relativeFilePath;
+    
+    private final int diffLineIndex;
 
-    public GitHubComment(String body) {
-        this.body = body;
+    public PRLocation(@NotNull final String relativeFilePath, final int diffLineIndex) {
+        this.relativeFilePath = relativeFilePath;
+        this.diffLineIndex = diffLineIndex;
     }
 
-    @Override
-    public String toString() {
-        return "GitHubComment{" +
-                "body='" + body + '\'' +
-                '}';
+    @NotNull
+    public String getRelativeFilePath() {
+        return relativeFilePath;
     }
+
+    public int getDiffLineIndex() {
+        return diffLineIndex;
+    }
+    
 }

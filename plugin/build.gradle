@@ -19,22 +19,21 @@ repositories {
 }
 
 dependencies {
-
-    testCompile group: 'junit', name: 'junit', version: '4.11'
-
     //Gradle specific classes for plugin creation
     compile gradleApi()
-
+    
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
-
     compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
+    compile 'com.github.stkent:githubdiffparser:1.0.0'
+    compile 'org.jetbrains:annotations:15.0'
 
-    //Built in checks
+    // Built in checks
     compile 'com.puppycrawl.tools:checkstyle:6.16.1'
     compile 'com.google.code.findbugs:findbugs:3.0.1'
     compile 'net.sourceforge.pmd:pmd-java:5.4.1'
 
-    compile 'org.jetbrains:annotations:15.0'
+    // Testing
+    testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
 task wrapper(type: Wrapper) {
