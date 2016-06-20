@@ -3,6 +3,8 @@ A Gradle plugin that helps facilitate GitHub PR checking and automatic commentin
 
 ## Usage
 
+**Requires JDK 8**
+
 Gnag is meant to be simple to use and easy to drop in to any Android project. Shown below is the simplest 
 Gnag setup that will report violations to GitHub. By default this config will report PMD, Findbugs, Checkstyle and 
 Android Lint to GitHub.
@@ -127,6 +129,8 @@ android:
   - tools
   - build-tools-23.0.2
   - android-23
+jdk:
+  - oraclejdk8
 branches:
   only:
   - master
