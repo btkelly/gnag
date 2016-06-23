@@ -36,12 +36,6 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
-task wrapper(type: Wrapper) {
-    group 'Build Setup'
-    description 'Initializes Gradle Wrapper.'
-    gradleVersion = '2.12'
-}
-
 license {
     header = file('../LICENSE.txt')
     strictCheck true
