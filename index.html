@@ -17,7 +17,7 @@
     <div class="wrapper">
       <header>
         <h1 class="header">Gnag</h1>
-        <p class="header">A Gradle plugin that helps facilitate Github PR checking and automatic commenting of violations.</p>
+        <p class="header">A Gradle plugin that helps facilitate GitHub PR checking and automatic commenting of violations.</p>
 
         <ul>
           <li class="download"><a class="buttons" href="https://github.com/btkelly/gnag/zipball/master">Download ZIP</a></li>
@@ -34,14 +34,14 @@
 <a id="gnag-----" class="anchor" href="#gnag-----" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Gnag <a href="https://travis-ci.org/btkelly/gnag"><img src="https://travis-ci.org/btkelly/gnag.svg"></a> <a href="https://coveralls.io/github/btkelly/gnag?branch=master"><img src="https://coveralls.io/repos/btkelly/gnag/badge.svg?branch=master&amp;service=github" alt="Coverage Status"></a> <a href="http://www.detroitlabs.com/"><img src="https://img.shields.io/badge/Sponsor-Detroit%20Labs-000000.svg"></a> <a href="https://bintray.com/btkelly/maven/gnag-gradle-plugin/_latestVersion"><img src="https://api.bintray.com/packages/btkelly/maven/gnag-gradle-plugin/images/download.svg"></a> <a href="https://android-arsenal.com/details/1/3128"><img src="https://img.shields.io/badge/Android%20Arsenal-gnag-green.svg?style=true" alt="Android Arsenal"></a>
 </h1>
 
-<p>A Gradle plugin that helps facilitate Github PR checking and automatic commenting of violations for Android projects.</p>
+<p>A Gradle plugin that helps facilitate GitHub PR checking and automatic commenting of violations for Android projects.</p>
 
 <h2>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
 
-<p>Gnag is meant to be simple to use and easy to drop in to any Android project. Shown below is the simplest 
-Gnag setup that will report violations to GitHub. By default this config will report PMD, Findbugs, Checkstyle and 
-Android Lint to Github.</p>
+<p>Gnag is meant to be simple to use and easy to drop in to any Android project. Shown below is the simplest
+Gnag setup that will report violations to GitHub. By default this config will report PMD, Findbugs, Checkstyle and
+Android Lint to GitHub.</p>
 
 <div class="highlight highlight-source-groovy"><pre>buildscript {
     repositories {
@@ -64,7 +64,7 @@ gnag {
     }
 }</pre></div>
 
-<p>This is the simplest way to add automatic PR checking and commenting to your project. The options defined in the Github closure can be overridden by passing command line parameters with the same name to your build. This is helpful when using in conjunction with a CI system to allow automated builds.</p>
+<p>This is the simplest way to add automatic PR checking and commenting to your project. The options defined in the GitHub closure can be overridden by passing command line parameters with the same name to your build. This is helpful when using in conjunction with a CI system to allow automated builds.</p>
 
 <h4>
 <a id="tasks" class="anchor" href="#tasks" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tasks</h4>
@@ -73,7 +73,7 @@ gnag {
 
 <div class="highlight highlight-source-groovy"><pre>.<span class="pl-k">/</span>gradlew clean gnagCheck</pre></div>
 
-<p>You can use the gnagReport task which will first run gnagCheck and then report this to the Github issue specified. 
+<p>You can use the gnagReport task which will first run gnagCheck and then report this to the GitHub issue specified.
 In this example the issue number and authtoken for the comment user are passed as commandline arguments.</p>
 
 <div class="highlight highlight-source-groovy"><pre>.<span class="pl-k">/</span>gradlew clean gnagReport <span class="pl-k">-</span><span class="pl-k">PissueNumber</span><span class="pl-k">=</span><span class="pl-c1">11</span> <span class="pl-k">-</span><span class="pl-k">PauthToken</span><span class="pl-k">=</span>iu2n3iu2nfjknfjk23nfkj23nk</pre></div>
@@ -156,13 +156,13 @@ In this example the issue number and authtoken for the comment user are passed a
 </ul>
 </li>
 <li>
-<strong><em>github</em></strong> - block to customize Github reporting (only used during the <code>gnagReport</code> task
+<strong><em>github</em></strong> - block to customize GitHub reporting (only used during the <code>gnagReport</code> task
 
 <ul>
 <li>
 <strong><em>repoName</em></strong> - account and repo name to report violations to</li>
 <li>
-<strong><em>authToken</em></strong> - a Github token for a user that has access to comment on issues to the specified repo</li>
+<strong><em>authToken</em></strong> - a GitHub token for a user that has access to comment on issues to the specified repo</li>
 <li>
 <strong><em>issueNumber</em></strong> - the issue or PR number currently being built</li>
 </ul>
@@ -182,7 +182,7 @@ In this example the issue number and authtoken for the comment user are passed a
 <p>Travis is a continuous integration service and is free for open source projects. Below is an example of
  how to configure Gnag to run on Travis.</p>
 
-<p>You must set an environment variable on your Travis instance for the <code>PR_BOT_AUTH_TOKEN</code> used to post comments back to Github.</p>
+<p>You must set an environment variable on your Travis instance for the <code>PR_BOT_AUTH_TOKEN</code> used to post comments back to GitHub.</p>
 
 <p><strong><em>.travis.yml</em></strong></p>
 
