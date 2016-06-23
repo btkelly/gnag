@@ -55,5 +55,5 @@ public interface GitHubApiClient {
     @POST("pulls/{issueNumber}/comments")
     @Headers("Accept: application/vnd.github.v3+json")
     Call<Void> postInlineComment(@Body GitHubInlineComment gitHubInlineComment, @Path("issueNumber") String issueNumber);
-    
+
 }

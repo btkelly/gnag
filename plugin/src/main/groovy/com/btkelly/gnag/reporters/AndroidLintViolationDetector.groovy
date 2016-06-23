@@ -56,11 +56,11 @@ class AndroidLintViolationDetector implements ViolationDetector {
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
 
         final List<Violation> result = new ArrayList<>()
-        
+
         xml.issue.findAll { severityEnabled((String) it.@severity.text()) }
                 .each { violation ->
                         final Integer lineNumber;
-            
+
                         try {
                             lineNumber = violation.location.@line.toInteger()
                         } catch (final NumberFormatException e) {
@@ -76,10 +76,10 @@ class AndroidLintViolationDetector implements ViolationDetector {
                                 sanitize((String) violation.@url.text()),
                                 sanitize((String) violation.location.@file.text())
                                         .replace(project.rootDir.absolutePath + "/", ""),
-                                
+
                                 lineNumber))
                 }
-        
+
         return result
     }
 

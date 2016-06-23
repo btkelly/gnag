@@ -29,7 +29,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public final class ViolationsUtil {
-    
+
     public static Set<Violation> hasViolationWithAllLocationInformation(@NotNull final Set<Violation> violations) {
         return violations.stream()
                 .filter(Violation::hasAllLocationInfo)
@@ -42,10 +42,10 @@ public final class ViolationsUtil {
             @NotNull final List<Diff> diffs) {
 
         final Map<Violation, PRLocation> result = new HashMap<>();
-        
+
         violations.stream()
                 .forEach(violation -> result.put(violation, getPRLocationForViolation(violation, diffs)));
-        
+
         return result;
     }
 
@@ -89,7 +89,7 @@ public final class ViolationsUtil {
         }
 
         final String violationRelativeFilePath = violation.getRelativeFilePath();
-        
+
         //noinspection ConstantConditions
         final Integer rawDiffLineNumberForToFileLocation =
                 diffMatchingViolationFilePath.getDiffLineNumberForToFileLocation(
@@ -101,15 +101,15 @@ public final class ViolationsUtil {
                             - Diff.NUMBER_OF_LINES_PER_DELIMITER
                             - diffMatchingViolationFilePath.getHeaderLines().size()
                             - Hunk.NUMBER_OF_LINES_PER_DELIMITER;
-            
+
             return new PRLocation(violationRelativeFilePath, offsetDiffLineNumberForToFileLocation);
         } else {
             return null;
         }
     }
-    
+
     private ViolationsUtil() {
         // This constructor intentionally left blank.
     }
-    
+
 }

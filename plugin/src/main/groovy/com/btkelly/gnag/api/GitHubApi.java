@@ -36,7 +36,7 @@ import java.util.List;
  * Created by bobbake4 on 12/1/15.
  */
 public class GitHubApi {
-    
+
     private final GitHubApiClient gitHubApiClient;
     private final GitHubExtension gitHubExtension;
 
@@ -89,7 +89,7 @@ public class GitHubApi {
         try {
             final Response<List<Diff>> gitHubPRDiffsResponse
                     = gitHubApiClient.getPRDiffs(gitHubExtension.getIssueNumber()).execute();
-            
+
             return gitHubPRDiffsResponse.body();
         } catch (final Exception e) {
             e.printStackTrace();
@@ -110,7 +110,7 @@ public class GitHubApi {
             e.printStackTrace();
         }
     }
-    
+
     private static final class DefaultCallback<T> implements Callback<T> {
 
         private DefaultCallback() {
@@ -119,14 +119,14 @@ public class GitHubApi {
 
         @Override
         public void onResponse(final Call<T> call, final Response<T> response) {
-            // This method intentionally left blank.            
+            // This method intentionally left blank.
         }
 
         @Override
         public void onFailure(final Call<T> call, final Throwable t) {
             t.printStackTrace();
         }
-        
+
     }
 
 }

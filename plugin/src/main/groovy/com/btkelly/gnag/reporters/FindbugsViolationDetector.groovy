@@ -92,7 +92,7 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
         xml.BugInstance.list()
                 .each { violation ->
                         final Integer lineNumber;
-        
+
                         try {
                             lineNumber = violation.SourceLine.@end.toInteger()
                         } catch (final NumberFormatException e) {
@@ -100,7 +100,7 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
                             e.printStackTrace();
                             lineNumber = null
                         }
-            
+
                         final String relativeFilePath = computeRelativeFilePathIfPossible(
                                 (GPathResult) violation, sourceFilePaths)
 
@@ -112,7 +112,7 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
                                 relativeFilePath,
                                 lineNumber))
                 }
-        
+
         return result
     }
 
@@ -125,21 +125,21 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
     File reportFile() {
         return new File(reportHelper.getReportsDir(), "findbugs.xml")
     }
-    
+
     private static List computeSourceFilePaths(final GPathResult xml) {
         final List<String> result = new ArrayList<>()
 
         xml.Project.SrcDir.list().each { sourceFile ->
             result.add((String) sourceFile.text())
         }
-        
+
         return result
     }
-    
+
     private String computeRelativeFilePathIfPossible(
-            final GPathResult violation, 
+            final GPathResult violation,
             final List<String> sourceFilePaths) {
-        
+
         final String shortFilePath =
                 sanitize((String) violation.SourceLine.@sourcepath)
 
@@ -156,5 +156,5 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
                     .replace(project.rootDir.absolutePath + "/", "")
         }
     }
-    
+
 }

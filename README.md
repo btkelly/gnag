@@ -5,8 +5,8 @@ A Gradle plugin that helps facilitate GitHub PR checking and automatic commentin
 
 **Requires JDK 8**
 
-Gnag is meant to be simple to use and easy to drop in to any Android project. Shown below is the simplest 
-Gnag setup that will report violations to GitHub. By default this config will report PMD, Findbugs, Checkstyle and 
+Gnag is meant to be simple to use and easy to drop in to any Android project. Shown below is the simplest
+Gnag setup that will report violations to GitHub. By default this config will report PMD, Findbugs, Checkstyle and
 Android Lint to GitHub.
 
 ```groovy
@@ -34,12 +34,12 @@ This is the simplest way to add automatic PR checking and commenting to your pro
 
 #### Tasks
 
-You can use the gnagCheck gradle task to run Gnag locally and generate an HTML report in the build directory. 
+You can use the gnagCheck gradle task to run Gnag locally and generate an HTML report in the build directory.
 ```groovy
 ./gradlew clean gnagCheck
 ```
 
-You can use the gnagReport task which will first run gnagCheck and then report detected violations to the GitHub issue specified. 
+You can use the gnagReport task which will first run gnagCheck and then report detected violations to the GitHub issue specified.
 In this example the issue number and authtoken for the comment user are passed as commandline arguments.
 ```groovy
 ./gradlew clean gnagReport -PissueNumber=11 -PauthToken=iu2n3iu2nfjknfjk23nfkj23nk
@@ -117,7 +117,7 @@ Violations that cannot be associated with a specific line in your PR will be agg
 
 Travis is a continuous integration service and is free for open source projects. Below is an example of
  how to configure Gnag to run on Travis.
- 
+
  You must set an environment variable on your Travis instance for the `PR_BOT_AUTH_TOKEN` used to post comments back to GitHub.
 
 ***.travis.yml***
@@ -152,13 +152,13 @@ fi
 ### License
 
     Copyright 2016 Bryan Kelly
-    
+
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
-    
+
        http://www.apache.org/licenses/LICENSE-2.0
-    
+
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.

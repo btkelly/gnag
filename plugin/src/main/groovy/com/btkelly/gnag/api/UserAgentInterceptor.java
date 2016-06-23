@@ -26,7 +26,7 @@ import java.io.IOException;
  * https://developer.github.com/v3/#user-agent-required
  */
 public class UserAgentInterceptor implements Interceptor {
-    
+
     @Override
     public Response intercept(final Chain chain) throws IOException {
         final Request request = chain.request()
@@ -36,5 +36,5 @@ public class UserAgentInterceptor implements Interceptor {
 
         return chain.proceed(request);
     }
-    
+
 }

@@ -74,12 +74,12 @@ public class GnagCheck extends DefaultTask {
 
     private void executeGnagCheck() {
         final Set<Violation> allDetectedViolations = new HashSet<>();
-        
+
         violationDetectors
                 .stream()
                 .filter(ViolationDetector::isEnabled)
                 .forEach(violationDetector -> {
-                    
+
                         if (violationDetector instanceof BaseExecutedViolationDetector) {
                             ((BaseExecutedViolationDetector) violationDetector).executeReporter();
                         }
@@ -119,12 +119,12 @@ public class GnagCheck extends DefaultTask {
             } else {
                 System.out.println(failedMessage);
                 throw new StopExecutionException(failedMessage);
-            } 
+            }
         }
     }
 
     private void setGnagPluginExtension(GnagPluginExtension gnagPluginExtension) {
         this.gnagPluginExtension = gnagPluginExtension;
     }
-    
+
 }

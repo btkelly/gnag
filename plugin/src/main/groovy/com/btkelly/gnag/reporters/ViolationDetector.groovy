@@ -28,7 +28,7 @@ interface ViolationDetector {
     String name()
 
     File reportFile()
-    
+
     List<Violation> getDetectedViolations()
-    
+
 }
