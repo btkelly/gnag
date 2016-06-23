@@ -49,7 +49,7 @@ public class GnagReportTask extends DefaultTask {
         taskOptions.put(Task.TASK_TYPE, GnagReportTask.class);
         taskOptions.put(Task.TASK_GROUP, "Verification");
         taskOptions.put(Task.TASK_DEPENDS_ON, "check");
-        taskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag and generates a report to publish to Github and set the status of a PR");
+        taskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag and generates a report to publish to GitHub and set the status of a PR");
 
         GnagReportTask gnagReportTask = (GnagReportTask) project.task(taskOptions, TASK_NAME);
         gnagReportTask.dependsOn(GnagCheck.TASK_NAME);
