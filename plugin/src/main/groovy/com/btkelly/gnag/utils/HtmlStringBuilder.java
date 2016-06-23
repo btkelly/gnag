@@ -24,7 +24,7 @@ public final class HtmlStringBuilder {
     private static final String LINE_BREAK_TAG = "<br />";
 
     private final StringBuilder stringBuilder;
-    
+
     public HtmlStringBuilder() {
         stringBuilder = new StringBuilder();
     }

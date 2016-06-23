@@ -43,10 +43,10 @@ public final class Violation {
             return v1RelativeFilePath.compareTo(v2RelativeFilePath);
         }
     };
-    
+
     @NotNull
     private final String name;
-    
+
     @NotNull
     private final String reporterName;
 
@@ -55,10 +55,10 @@ public final class Violation {
 
     @Nullable
     private final String url;
-    
+
     @Nullable
     private final String relativeFilePath;
-    
+
     @Nullable
     private final Integer fileLineNumber;
 
@@ -69,7 +69,7 @@ public final class Violation {
             @Nullable final String url,
             @Nullable final String relativeFilePath,
             @Nullable final Integer fileLineNumber) {
-        
+
         this.name = name;
         this.reporterName = reporterName;
         this.comment = comment;
@@ -113,13 +113,13 @@ public final class Violation {
     public Integer getFileLineNumber() {
         return fileLineNumber;
     }
-    
+
     public boolean hasAllLocationInfo() {
         return getRelativeFilePath() != null && getFileLineNumber() != null;
     }
 
     // Generated equals and hashcode
-    
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
@@ -147,5 +147,5 @@ public final class Violation {
         result = 31 * result + (fileLineNumber != null ? fileLineNumber.hashCode() : 0);
         return result;
     }
-    
+
 }

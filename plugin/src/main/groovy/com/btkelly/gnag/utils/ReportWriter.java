@@ -45,19 +45,19 @@ public final class ReportWriter {
     public static boolean writeReportToDirectory(
             @NotNull final Set<Violation> violations,
             @NotNull final File directory) {
-        
+
         //noinspection ResultOfMethodCallIgnored
         directory.mkdirs();
 
         final StringBuilder builder = new StringBuilder()
                 .append(HTML_REPORT_PREFIX);
-        
+
         if (violations.isEmpty()) {
             builder.append(LOCAL_SUCCESS_COMMENT);
         } else {
             builder.append(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
         }
-                
+
         builder.append(HTML_REPORT_SUFFIX);
 
         try {
@@ -87,7 +87,7 @@ public final class ReportWriter {
     }
 
     private ReportWriter() {
-        
+
     }
-    
+
 }

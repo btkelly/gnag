@@ -23,11 +23,11 @@ public final class GitHubInlineComment {
     @NotNull
     @SerializedName("body")
     private final String body;
-    
+
     @NotNull
     @SerializedName("commit_id")
     private final String prSha;
-    
+
     @NotNull
     @SerializedName("path")
     private final String relativeFilePath;
@@ -39,7 +39,7 @@ public final class GitHubInlineComment {
             @NotNull final String body,
             @NotNull final String prSha,
             @NotNull final PRLocation prLocation) {
-        
+
         this.body = body;
         this.prSha = prSha;
         this.relativeFilePath = prLocation.getRelativeFilePath();
@@ -55,5 +55,5 @@ public final class GitHubInlineComment {
                 "diffLineIndex='" + diffLineIndex + '\'' +
                 '}';
     }
-    
+
 }

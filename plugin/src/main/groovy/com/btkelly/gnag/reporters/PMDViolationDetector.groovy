@@ -95,5 +95,5 @@ class PMDViolationDetector extends BaseExecutedViolationDetector {
     File reportFile() {
         return new File(reportHelper.getReportsDir(), "pmd.xml")
     }
-    
+
 }

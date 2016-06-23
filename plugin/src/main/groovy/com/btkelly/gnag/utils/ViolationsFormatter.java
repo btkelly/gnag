@@ -27,20 +27,20 @@ import java.util.stream.Collectors;
  * Creates formatted HTML strings representing collections of violations.
  */
 public final class ViolationsFormatter {
-    
+
     public static String getHtmlStringForAggregatedComment(@NotNull final Set<Violation> violations) {
         final Map<String, List<Violation>> groupedViolations = violations
                 .stream()
                 .collect(Collectors.groupingBy(Violation::getReporterName));
 
         final HtmlStringBuilder builder = new HtmlStringBuilder();
-        
+
         for (final Map.Entry<String, List<Violation>> entry : groupedViolations.entrySet()) {
             builder
                     .append("<h2>")
                     .append(entry.getKey() + " Violations")
                     .append("</h2>");
-            
+
             for (final Violation violation : entry.getValue()) {
                 builder
                         .append(ViolationFormatter.getHtmlStringForAggregatedComment(violation))
@@ -48,12 +48,12 @@ public final class ViolationsFormatter {
                         .insertLineBreak();
             }
         }
-        
+
         return builder.toString();
     }
 
     private ViolationsFormatter() {
-        
+
     }
-    
+
 }

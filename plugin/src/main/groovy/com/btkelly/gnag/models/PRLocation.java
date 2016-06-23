@@ -18,10 +18,10 @@ package com.btkelly.gnag.models;
 import org.jetbrains.annotations.NotNull;
 
 public final class PRLocation {
-    
+
     @NotNull
     private final String relativeFilePath;
-    
+
     private final int diffLineIndex;
 
     public PRLocation(@NotNull final String relativeFilePath, final int diffLineIndex) {
@@ -37,5 +37,5 @@ public final class PRLocation {
     public int getDiffLineIndex() {
         return diffLineIndex;
     }
-    
+
 }

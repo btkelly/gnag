@@ -31,18 +31,18 @@ public final class ViolationFormatter {
     private static final String VIOLATION_REPORTER_LABEL = "Reporter: ";
 
     /**
-     * Use this method to create a formatted HTML string representing a violation that will be posted as an inline 
+     * Use this method to create a formatted HTML string representing a violation that will be posted as an inline
      * comment. Only intended for use when posting inline comments to GitHub.
      */
     public static String getHtmlStringForInlineComment(@NotNull final Violation violation) {
         final Integer violationFileLineNumber = violation.getFileLineNumber();
         final String violationRelativeFilePath = violation.getRelativeFilePath();
-        
+
         if (violationFileLineNumber == null || violationRelativeFilePath == null) {
             throw new IllegalStateException(
                     "Should only call getHtmlStringForInlineViolationComment when violation location is known");
         }
-        
+
         final HtmlStringBuilder builder = new HtmlStringBuilder();
 
         appendViolationReporterToBuilder(violation, builder);
@@ -79,9 +79,9 @@ public final class ViolationFormatter {
     private static void appendViolationNameToBuilder(
             @NotNull final Violation violation,
             @NotNull final HtmlStringBuilder builder) {
-        
+
         builder.appendBold(VIOLATION_NAME_LABEL);
-        
+
         final String violationName = violation.getName();
         final String violationUrl = violation.getUrl();
 
@@ -91,28 +91,28 @@ public final class ViolationFormatter {
             builder.append(violationName);
         }
     }
-    
+
     private static void appendLocationInformationToBuilderIfPresent(
             @NotNull final Violation violation,
             @NotNull final HtmlStringBuilder builder) {
 
         final String violationRelativeFilePath = violation.getRelativeFilePath();
-        
+
         if (violationRelativeFilePath != null) {
             appendRelativeFilePathToBuilder(violationRelativeFilePath, builder);
 
             final Integer violationFileLineNumber = violation.getFileLineNumber();
-            
+
             if (violationFileLineNumber != null) {
                 appendViolationLineNumberToBuilder(violationFileLineNumber, builder);
             }
         }
     }
-    
+
     private static void appendRelativeFilePathToBuilder(
             @NotNull final String violationRelativeFilePath,
             @NotNull final HtmlStringBuilder builder) {
-        
+
         builder
                 .insertLineBreak()
                 .appendBold(VIOLATION_FILE_LABEL)
@@ -122,7 +122,7 @@ public final class ViolationFormatter {
     private static void appendViolationLineNumberToBuilder(
             @NotNull final Integer violationFileLineNumber,
             @NotNull final HtmlStringBuilder builder) {
-        
+
         builder
                 .insertLineBreak()
                 .appendBold(VIOLATION_LINE_LABEL)
@@ -144,7 +144,7 @@ public final class ViolationFormatter {
     }
 
     private ViolationFormatter() {
-        
+
     }
-    
+
 }

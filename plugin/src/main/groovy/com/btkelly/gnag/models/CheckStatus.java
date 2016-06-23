@@ -26,7 +26,7 @@ import static com.btkelly.gnag.models.GitHubStatusType.SUCCESS;
  * Created by bobbake4 on 4/26/16.
  */
 public class CheckStatus {
-    
+
     public static CheckStatus getSuccessfulCheckStatus() {
         return new CheckStatus(SUCCESS, new HashSet<>());
     }
@@ -41,7 +41,7 @@ public class CheckStatus {
         if (gitHubStatusType == SUCCESS && !violations.isEmpty()) {
             throw new IllegalStateException("Status cannot be SUCCESS if violations are found.");
         }
-        
+
         this.violations = violations;
         this.gitHubStatusType = gitHubStatusType;
     }
@@ -60,5 +60,5 @@ public class CheckStatus {
     public String toString() {
         return gitHubStatusType.toString();
     }
-    
+
 }

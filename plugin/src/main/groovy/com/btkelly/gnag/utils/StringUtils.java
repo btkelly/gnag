@@ -31,9 +31,9 @@ public final class StringUtils {
                 .trim()
                 .replaceAll("^\\r|^\\n|\\r$\\n$", "");
     }
-    
+
     private StringUtils() {
         // This constructor intentionally left blank.
     }
-    
+
 }

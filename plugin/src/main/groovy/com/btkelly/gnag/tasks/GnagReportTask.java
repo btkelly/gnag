@@ -49,7 +49,7 @@ public class GnagReportTask extends DefaultTask {
         taskOptions.put(Task.TASK_TYPE, GnagReportTask.class);
         taskOptions.put(Task.TASK_GROUP, "Verification");
         taskOptions.put(Task.TASK_DEPENDS_ON, "check");
-        taskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag and generates a report to publish to Github and set the status of a PR");
+        taskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag and generates a report to publish to GitHub and set the status of a PR");
 
         GnagReportTask gnagReportTask = (GnagReportTask) project.task(taskOptions, TASK_NAME);
         gnagReportTask.dependsOn(GnagCheck.TASK_NAME);
@@ -72,7 +72,7 @@ public class GnagReportTask extends DefaultTask {
             System.out.println("Project status: " + checkStatus);
 
             fetchPRShaIfRequired();
-            
+
             if (checkStatus.getGitHubStatusType() == SUCCESS) {
                 gitHubApi.postGitHubPRCommentAsync(REMOTE_SUCCESS_COMMENT);
             } else {
@@ -114,9 +114,9 @@ public class GnagReportTask extends DefaultTask {
             gitHubApi.postGitHubPRCommentAsync(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
             return;
         }
-        
+
         final List<Diff> diffs = gitHubApi.getPRDiffsSync();
-        
+
         if (diffs.isEmpty()) {
             gitHubApi.postGitHubPRCommentAsync(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
             return;
@@ -127,7 +127,7 @@ public class GnagReportTask extends DefaultTask {
 
         final List<Violation> violationsWithValidLocationInfo = new ArrayList<>();
         final Set<Violation> violationsWithMissingOrInvalidLocationInfo = new HashSet<>();
-        
+
         for (final Map.Entry<Violation, PRLocation> entry : violationPRLocationMap.entrySet()) {
             final Violation violation = entry.getKey();
             final PRLocation prLocation = entry.getValue();
@@ -138,15 +138,15 @@ public class GnagReportTask extends DefaultTask {
                 violationsWithMissingOrInvalidLocationInfo.add(violation);
             }
         }
-        
+
         violationsWithValidLocationInfo.sort(Violation.COMMENT_POSTING_COMPARATOR);
-        
+
         violationsWithValidLocationInfo.stream()
                 .forEach(violation -> gitHubApi.postGitHubInlineCommentSync(
                         ViolationFormatter.getHtmlStringForInlineComment(violation),
                         prSha,
                         violationPRLocationMap.get(violation)));
-        
+
         if (!violationsWithMissingOrInvalidLocationInfo.isEmpty()) {
             try {
                 /*
@@ -163,5 +163,5 @@ public class GnagReportTask extends DefaultTask {
                             violationsWithMissingOrInvalidLocationInfo));
         }
     }
-    
+
 }
