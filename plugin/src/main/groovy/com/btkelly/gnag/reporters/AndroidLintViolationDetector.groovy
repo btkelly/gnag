@@ -66,7 +66,7 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
                 final Integer lineNumber = computeLineNumberFromString(lineNumberString, violationName)
             
                 result.add(new Violation(
-                        sanitizeToNonNull((String) violation.@id.text()),
+                        violationName,
                         sanitizeToNonNull((String) name()),
                         sanitizePreservingNulls((String) violation.@message.text()),
                         sanitizePreservingNulls((String) violation.@url.text()),
