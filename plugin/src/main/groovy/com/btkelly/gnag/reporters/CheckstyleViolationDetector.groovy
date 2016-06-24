@@ -60,28 +60,27 @@ class CheckstyleViolationDetector extends BaseExecutedViolationDetector implemen
         final List<Violation> result = new ArrayList<>()
 
         xml.file.each { file ->
-                file.error.each { violation ->
-                        final Integer lineNumber;
+            file.error.each { violation ->
+                final Integer lineNumber;
 
-                        try {
-                            lineNumber = violation.@line.toInteger()
-                        } catch (final NumberFormatException e) {
-                            System.out.println("Error reading line number from Checkstyle violations.");
-                            e.printStackTrace();
-                            lineNumber = null
-                        }
-
-                        final String violationName = violation.@source.text()
-
-                        result.add(new Violation(
-                                sanitize((String) violationName.substring(violationName.lastIndexOf(".") + 1)),
-                                sanitize((String) name()),
-                                sanitize((String) violation.@message.text()),
-                                null,
-                                computeFilePathRelativeToProjectRoot(
-                                        sanitize((String) file.@name.text()), project),
-                                lineNumber))
+                try {
+                    lineNumber = violation.@line.toInteger()
+                } catch (final NumberFormatException e) {
+                    System.out.println("Error reading line number from Checkstyle violations.");
+                    e.printStackTrace();
+                    lineNumber = null
                 }
+
+                final String violationName = violation.@source.text()
+
+                result.add(new Violation(
+                        sanitize((String) violationName.substring(violationName.lastIndexOf(".") + 1)),
+                        sanitize((String) name()),
+                        sanitize((String) violation.@message.text()),
+                        null,
+                        computeFilePathRelativeToProjectRoot(sanitize((String) file.@name.text()), project),
+                        lineNumber))
+            }
         }
 
         return result

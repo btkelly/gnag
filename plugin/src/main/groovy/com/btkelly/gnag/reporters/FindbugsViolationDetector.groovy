@@ -90,28 +90,28 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
         final List<Violation> result = new ArrayList<>()
 
         xml.BugInstance.list()
-                .each { violation ->
-                        final Integer lineNumber;
+            .each { violation ->
+                final Integer lineNumber;
 
-                        try {
-                            lineNumber = violation.SourceLine.@end.toInteger()
-                        } catch (final NumberFormatException e) {
-                            println("Error reading line number from Findbugs violations.")
-                            e.printStackTrace();
-                            lineNumber = null
-                        }
-
-                        final String relativeFilePath = computeRelativeFilePathIfPossible(
-                                (GPathResult) violation, sourceFilePaths)
-
-                        result.add(new Violation(
-                                sanitize((String) violation.@type.text()),
-                                sanitize((String) name()),
-                                sanitize((String) violation.ShortMessage.text()),
-                                null,
-                                relativeFilePath,
-                                lineNumber))
+                try {
+                    lineNumber = violation.SourceLine.@end.toInteger()
+                } catch (final NumberFormatException e) {
+                    println("Error reading line number from Findbugs violations.")
+                    e.printStackTrace();
+                    lineNumber = null
                 }
+
+                final String relativeFilePath =
+                        computeRelativeFilePathIfPossible((GPathResult) violation, sourceFilePaths)
+
+                result.add(new Violation(
+                        sanitize((String) violation.@type.text()),
+                        sanitize((String) name()),
+                        sanitize((String) violation.ShortMessage.text()),
+                        null,
+                        relativeFilePath,
+                        lineNumber))
+            }
 
         return result
     }

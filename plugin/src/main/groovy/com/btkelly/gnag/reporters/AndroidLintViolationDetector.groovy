@@ -59,26 +59,26 @@ class AndroidLintViolationDetector implements ViolationDetector, DefaultRelative
         final List<Violation> result = new ArrayList<>()
 
         xml.issue.findAll { severityEnabled((String) it.@severity.text()) }
-                .each { violation ->
-                        final Integer lineNumber;
+            .each { violation ->
+                final Integer lineNumber;
 
-                        try {
-                            lineNumber = violation.location.@line.toInteger()
-                        } catch (final NumberFormatException e) {
-                            System.out.println("Error reading line number from Android Lint violations.");
-                            e.printStackTrace();
-                            lineNumber = null
-                        }
-
-                        result.add(new Violation(
-                                sanitize((String) violation.@id.text()),
-                                sanitize((String) name()),
-                                sanitize((String) violation.@message.text()),
-                                sanitize((String) violation.@url.text()),
-                                computeFilePathRelativeToProjectRoot(
-                                        sanitize((String) violation.location.@file.text()), project),
-                                lineNumber))
+                try {
+                    lineNumber = violation.location.@line.toInteger()
+                } catch (final NumberFormatException e) {
+                    System.out.println("Error reading line number from Android Lint violations.");
+                    e.printStackTrace();
+                    lineNumber = null
                 }
+
+                result.add(new Violation(
+                        sanitize((String) violation.@id.text()),
+                        sanitize((String) name()),
+                        sanitize((String) violation.@message.text()),
+                        sanitize((String) violation.@url.text()),
+                        computeFilePathRelativeToProjectRoot(
+                                sanitize((String) violation.location.@file.text()), project),
+                        lineNumber))
+            }
 
         return result
     }
