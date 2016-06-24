@@ -64,18 +64,13 @@ class PMDViolationDetector extends BaseExecutedViolationDetector {
 
         xml.file.each { file ->
             file.violation.each { violation ->
-                final Integer lineNumber;
+                final String violationName = sanitizeToNonNull((String) violation.@rule.text())
 
-                try {
-                    lineNumber = violation.@endline.toInteger()
-                } catch (final NumberFormatException e) {
-                    System.out.println("Error reading line number from PMD violations.");
-                    e.printStackTrace();
-                    lineNumber = null
-                }
-
+                final String lineNumberString = sanitizeToNonNull((String) violation.@endline.text())
+                final Integer lineNumber = computeLineNumberFromString(lineNumberString, violationName)
+                
                 result.add(new Violation(
-                        sanitizeToNonNull((String) violation.@rule.text()),
+                        violationName,
                         sanitizeToNonNull((String) name()),
                         sanitizePreservingNulls((String) violation.text()),
                         sanitizePreservingNulls((String) violation.@externalInfoUrl.text()),
