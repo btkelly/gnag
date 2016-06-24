@@ -67,7 +67,7 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
             
                 result.add(new Violation(
                         violationName,
-                        sanitizeToNonNull((String) name()),
+                        name(),
                         sanitizePreservingNulls((String) violation.@message.text()),
                         sanitizePreservingNulls((String) violation.@url.text()),
                         computeFilePathRelativeToProjectRoot((String) violation.location.@file.text()),

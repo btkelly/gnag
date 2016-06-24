@@ -102,7 +102,7 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
 
                 result.add(new Violation(
                         violationName,
-                        sanitizeToNonNull((String) name()),
+                        name(),
                         sanitizePreservingNulls((String) violation.ShortMessage.text()),
                         null,
                         relativeFilePath,

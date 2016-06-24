@@ -70,7 +70,7 @@ class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
 
                 result.add(new Violation(
                         shortViolationName,
-                        sanitizeToNonNull((String) name()),
+                        name(),
                         sanitizePreservingNulls((String) violation.@message.text()),
                         null,
                         computeFilePathRelativeToProjectRoot((String) file.@name.text()),

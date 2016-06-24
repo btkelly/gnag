@@ -71,7 +71,7 @@ class PMDViolationDetector extends BaseExecutedViolationDetector {
                 
                 result.add(new Violation(
                         violationName,
-                        sanitizeToNonNull((String) name()),
+                        name(),
                         sanitizePreservingNulls((String) violation.text()),
                         sanitizePreservingNulls((String) violation.@externalInfoUrl.text()),
                         computeFilePathRelativeToProjectRoot((String) file.@name.text()),
