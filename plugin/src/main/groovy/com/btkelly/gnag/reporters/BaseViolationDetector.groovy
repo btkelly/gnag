@@ -1,8 +1,6 @@
 package com.btkelly.gnag.reporters
 
 import org.gradle.api.Project
-import org.jetbrains.annotations.NotNull
-import org.jetbrains.annotations.Nullable
 
 abstract class BaseViolationDetector implements ViolationDetector {
 
@@ -19,8 +17,7 @@ abstract class BaseViolationDetector implements ViolationDetector {
      * @return the path to the target file, relative to the root directory of the current project, iff the target file
      *         is contained within that directory; null otherwise
      */
-    @Nullable
-    protected String computeFilePathRelativeToProjectRoot(@NotNull final String absoluteFilePath) {
+    protected String computeFilePathRelativeToProjectRoot(final String absoluteFilePath) {
 
         final String expectedFilePathPrefix = project.getRootDir().getAbsolutePath() + "/";
 
