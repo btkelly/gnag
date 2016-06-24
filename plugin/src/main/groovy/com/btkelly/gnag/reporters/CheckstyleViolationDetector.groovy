@@ -17,6 +17,7 @@ package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
 import com.btkelly.gnag.models.Violation
+import com.btkelly.gnag.utils.DefaultRelativeFilePathComputer
 import com.puppycrawl.tools.checkstyle.ant.CheckstyleAntTask
 import groovy.util.slurpersupport.GPathResult
 import org.gradle.api.Project
@@ -25,7 +26,7 @@ import static com.btkelly.gnag.utils.StringUtils.sanitize
 /**
  * Created by bobbake4 on 4/1/16.
  */
-class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
+class CheckstyleViolationDetector extends BaseExecutedViolationDetector implements DefaultRelativeFilePathComputer {
 
     CheckstyleViolationDetector(ReporterExtension reporterExtension, Project project) {
         super(reporterExtension, project)
@@ -77,8 +78,8 @@ class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
                                 sanitize((String) name()),
                                 sanitize((String) violation.@message.text()),
                                 null,
-                                sanitize((String) file.@name.text())
-                                        .replace(project.rootDir.absolutePath + "/", ""),
+                                computeFilePathRelativeToProjectRoot(
+                                        sanitize((String) file.@name.text()), project),
                                 lineNumber))
                 }
         }

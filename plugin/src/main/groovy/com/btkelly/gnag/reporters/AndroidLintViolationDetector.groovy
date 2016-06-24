@@ -17,6 +17,7 @@ package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.AndroidLintExtension
 import com.btkelly.gnag.models.Violation
+import com.btkelly.gnag.utils.DefaultRelativeFilePathComputer
 import groovy.util.slurpersupport.GPathResult
 import org.gradle.api.Project
 
@@ -26,7 +27,7 @@ import static com.btkelly.gnag.utils.StringUtils.sanitize
 /**
  * Created by bobbake4 on 4/18/16.
  */
-class AndroidLintViolationDetector implements ViolationDetector {
+class AndroidLintViolationDetector implements ViolationDetector, DefaultRelativeFilePathComputer {
 
     private final Project project
     private final AndroidLintExtension androidLintExtension;
@@ -74,9 +75,8 @@ class AndroidLintViolationDetector implements ViolationDetector {
                                 sanitize((String) name()),
                                 sanitize((String) violation.@message.text()),
                                 sanitize((String) violation.@url.text()),
-                                sanitize((String) violation.location.@file.text())
-                                        .replace(project.rootDir.absolutePath + "/", ""),
-
+                                computeFilePathRelativeToProjectRoot(
+                                        sanitize((String) violation.location.@file.text()), project),
                                 lineNumber))
                 }
 
