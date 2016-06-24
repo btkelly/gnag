@@ -30,7 +30,7 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
 
     private final AndroidLintExtension androidLintExtension;
 
-    AndroidLintViolationDetector(AndroidLintExtension androidLintExtension, Project project) {
+    AndroidLintViolationDetector(final Project project, final AndroidLintExtension androidLintExtension) {
         super(project)
         this.androidLintExtension = androidLintExtension
     }

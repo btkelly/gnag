@@ -31,8 +31,8 @@ import static com.btkelly.gnag.utils.StringUtils.sanitize
  */
 class FindbugsViolationDetector extends BaseExecutedViolationDetector {
 
-    FindbugsViolationDetector(ReporterExtension reporterExtension, Project project) {
-        super(reporterExtension, project)
+    FindbugsViolationDetector(final Project project, final ReporterExtension reporterExtension) {
+        super(project, reporterExtension)
     }
 
     @Override

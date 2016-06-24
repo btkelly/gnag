@@ -27,8 +27,8 @@ import static com.btkelly.gnag.utils.StringUtils.sanitize
  */
 class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
 
-    CheckstyleViolationDetector(ReporterExtension reporterExtension, Project project) {
-        super(reporterExtension, project)
+    CheckstyleViolationDetector(final Project project, final ReporterExtension reporterExtension) {
+        super(project, reporterExtension)
     }
 
     @Override
