@@ -26,7 +26,7 @@ import static com.btkelly.gnag.utils.StringUtils.sanitize
 /**
  * Created by bobbake4 on 4/1/16.
  */
-class PMDViolationDetector extends BaseExecutedViolationDetector implements FilePathUtils {
+class PMDViolationDetector extends BaseExecutedViolationDetector {
 
     PMDViolationDetector(ReporterExtension reporterExtension, Project project) {
         super(reporterExtension, project)
