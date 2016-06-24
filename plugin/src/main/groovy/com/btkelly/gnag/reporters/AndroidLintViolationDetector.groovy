@@ -93,7 +93,7 @@ class AndroidLintViolationDetector implements ViolationDetector {
         return new File(new FileNameByRegexFinder().getFileNames(project.buildDir.path + "/outputs/", "lint-results.+\\.xml").first())
     }
 
-    private boolean severityEnabled(String severity) {
+    private boolean severityEnabled(final String severity) {
         if (androidLintExtension.severity.equals(SEVERITY_WARNING)) {
             return true
         } else {
