@@ -63,22 +63,8 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
                 final String violationName = sanitizeToNonNull((String) violation.@id.text())
             
                 final String lineNumberString = sanitizeToNonNull((String) violation.location.@line.text())
-                final Integer lineNumber
+                final Integer lineNumber = computeLineNumberFromString(lineNumberString, violationName)
             
-                if (lineNumberString.isEmpty()) {
-                    lineNumber = null
-                } else {
-                    try {
-                        lineNumber = lineNumberString.toInteger()
-                    } catch (final NumberFormatException ignored) {
-                        System.out.println(
-                                "Error parsing line number string: \"" + lineNumberString +
-                                "\" for " + name() + " violation: " + violationName)
-                        
-                        lineNumber = null
-                    }
-                }
-
                 result.add(new Violation(
                         sanitizeToNonNull((String) violation.@id.text()),
                         sanitizeToNonNull((String) name()),
