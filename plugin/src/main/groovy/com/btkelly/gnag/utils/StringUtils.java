@@ -15,6 +15,7 @@
  */
 package com.btkelly.gnag.utils;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public final class StringUtils {
@@ -22,9 +23,10 @@ public final class StringUtils {
     /**
      * Removes leading/trailing whitespace and newlines.
      */
+    @NotNull
     public static String sanitize(@Nullable final String string) {
         if (string == null) {
-            return null;
+            return "";
         }
 
         return string
