@@ -17,7 +17,7 @@ package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
 import com.btkelly.gnag.models.Violation
-import com.btkelly.gnag.utils.DefaultRelativeFilePathComputer
+
 import groovy.util.slurpersupport.GPathResult
 import net.sourceforge.pmd.ant.PMDTask
 import org.gradle.api.Project
@@ -26,7 +26,7 @@ import static com.btkelly.gnag.utils.StringUtils.sanitize
 /**
  * Created by bobbake4 on 4/1/16.
  */
-class PMDViolationDetector extends BaseExecutedViolationDetector implements DefaultRelativeFilePathComputer {
+class PMDViolationDetector extends BaseExecutedViolationDetector implements FilePathUtils {
 
     PMDViolationDetector(ReporterExtension reporterExtension, Project project) {
         super(reporterExtension, project)
@@ -78,8 +78,7 @@ class PMDViolationDetector extends BaseExecutedViolationDetector implements Defa
                         sanitize((String) name()),
                         sanitize((String) violation.text()),
                         sanitize((String) violation.@externalInfoUrl.text()),
-                        computeFilePathRelativeToProjectRoot(
-                                sanitize((String) file.@name.text()), project),
+                        computeFilePathRelativeToProjectRoot(sanitize((String) file.@name.text())),
                         lineNumber))
             }
         }

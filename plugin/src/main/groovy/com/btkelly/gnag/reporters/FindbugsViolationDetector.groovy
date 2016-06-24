@@ -152,8 +152,7 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
         if (longFilePaths.isEmpty() || longFilePaths.size() > 1) {
             return null
         } else {
-            return longFilePaths.get(0)
-                    .replace(project.rootDir.absolutePath + "/", "")
+            return computeFilePathRelativeToProjectRoot(longFilePaths.get(0))
         }
     }
 

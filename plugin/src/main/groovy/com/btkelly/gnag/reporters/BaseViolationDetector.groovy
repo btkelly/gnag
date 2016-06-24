@@ -1,10 +1,16 @@
-package com.btkelly.gnag.utils;
+package com.btkelly.gnag.reporters
 
-import org.gradle.api.Project;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.gradle.api.Project
+import org.jetbrains.annotations.NotNull
+import org.jetbrains.annotations.Nullable
 
-public interface DefaultRelativeFilePathComputer {
+abstract class BaseViolationDetector implements ViolationDetector {
+
+    protected final Project project
+
+    BaseViolationDetector(final Project project) {
+        this.project = project
+    }
 
     /**
      * @param absoluteFilePath the absolute path to a target file. Should be trimmed of all excess whitespace and
@@ -14,11 +20,10 @@ public interface DefaultRelativeFilePathComputer {
      *         is contained within that directory; null otherwise
      */
     @Nullable
-    default String computeFilePathRelativeToProjectRoot(
-            @NotNull final String absoluteFilePath, @NotNull final Project project) {
-        
+    protected String computeFilePathRelativeToProjectRoot(@NotNull final String absoluteFilePath) {
+
         final String expectedFilePathPrefix = project.getRootDir().getAbsolutePath() + "/";
-        
+
         if (!absoluteFilePath.startsWith(expectedFilePathPrefix)) {
             // The target file _is not_ contained within the root directory of the current project. Return null.
             return null;
