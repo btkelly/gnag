@@ -22,7 +22,8 @@ import groovy.util.slurpersupport.GPathResult
 import net.sourceforge.pmd.ant.PMDTask
 import org.gradle.api.Project
 
-import static com.btkelly.gnag.utils.StringUtils.sanitize
+import static com.btkelly.gnag.utils.StringUtils.sanitizePreservingNulls
+import static com.btkelly.gnag.utils.StringUtils.sanitizeToNonNull
 /**
  * Created by bobbake4 on 4/1/16.
  */
@@ -74,11 +75,11 @@ class PMDViolationDetector extends BaseExecutedViolationDetector {
                 }
 
                 result.add(new Violation(
-                        sanitize((String) violation.@rule.text()),
-                        sanitize((String) name()),
-                        sanitize((String) violation.text()),
-                        sanitize((String) violation.@externalInfoUrl.text()),
-                        computeFilePathRelativeToProjectRoot(sanitize((String) file.@name.text())),
+                        sanitizeToNonNull((String) violation.@rule.text()),
+                        sanitizeToNonNull((String) name()),
+                        sanitizePreservingNulls((String) violation.text()),
+                        sanitizePreservingNulls((String) violation.@externalInfoUrl.text()),
+                        computeFilePathRelativeToProjectRoot((String) file.@name.text()),
                         lineNumber))
             }
         }

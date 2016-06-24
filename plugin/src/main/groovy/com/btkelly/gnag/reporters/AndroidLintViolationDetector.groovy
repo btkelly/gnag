@@ -22,7 +22,9 @@ import org.gradle.api.Project
 
 import static com.btkelly.gnag.extensions.AndroidLintExtension.SEVERITY_ERROR
 import static com.btkelly.gnag.extensions.AndroidLintExtension.SEVERITY_WARNING
-import static com.btkelly.gnag.utils.StringUtils.sanitize
+import static com.btkelly.gnag.utils.StringUtils.sanitizeToNonNull
+import static com.btkelly.gnag.utils.StringUtils.sanitizePreservingNulls
+
 /**
  * Created by bobbake4 on 4/18/16.
  */
@@ -69,11 +71,11 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
                 }
 
                 result.add(new Violation(
-                        sanitize((String) violation.@id.text()),
-                        sanitize((String) name()),
-                        sanitize((String) violation.@message.text()),
-                        sanitize((String) violation.@url.text()),
-                        computeFilePathRelativeToProjectRoot(sanitize((String) violation.location.@file.text())),
+                        sanitizeToNonNull((String) violation.@id.text()),
+                        sanitizeToNonNull((String) name()),
+                        sanitizePreservingNulls((String) violation.@message.text()),
+                        sanitizePreservingNulls((String) violation.@url.text()),
+                        computeFilePathRelativeToProjectRoot((String) violation.location.@file.text()),
                         lineNumber))
             }
 

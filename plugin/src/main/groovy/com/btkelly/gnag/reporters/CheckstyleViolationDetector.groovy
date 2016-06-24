@@ -21,7 +21,8 @@ import com.puppycrawl.tools.checkstyle.ant.CheckstyleAntTask
 import groovy.util.slurpersupport.GPathResult
 import org.gradle.api.Project
 
-import static com.btkelly.gnag.utils.StringUtils.sanitize
+import static com.btkelly.gnag.utils.StringUtils.sanitizePreservingNulls
+import static com.btkelly.gnag.utils.StringUtils.sanitizeToNonNull
 /**
  * Created by bobbake4 on 4/1/16.
  */
@@ -73,11 +74,11 @@ class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
                 final String violationName = violation.@source.text()
 
                 result.add(new Violation(
-                        sanitize((String) violationName.substring(violationName.lastIndexOf(".") + 1)),
-                        sanitize((String) name()),
-                        sanitize((String) violation.@message.text()),
+                        sanitizeToNonNull((String) violationName.substring(violationName.lastIndexOf(".") + 1)),
+                        sanitizeToNonNull((String) name()),
+                        sanitizePreservingNulls((String) violation.@message.text()),
                         null,
-                        computeFilePathRelativeToProjectRoot(sanitize((String) file.@name.text())),
+                        computeFilePathRelativeToProjectRoot((String) file.@name.text()),
                         lineNumber))
             }
         }
