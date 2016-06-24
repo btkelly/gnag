@@ -22,17 +22,16 @@ import org.gradle.api.Project
 /**
  * Created by bobbake4 on 4/1/16.
  */
-abstract class BaseExecutedViolationDetector implements ViolationDetector {
+abstract class BaseExecutedViolationDetector extends BaseViolationDetector {
 
     abstract void executeReporter()
 
     protected final ReporterExtension reporterExtension
-    protected final Project project
     protected final ReportHelper reportHelper;
 
-    BaseExecutedViolationDetector(ReporterExtension reporterExtension, Project project) {
+    BaseExecutedViolationDetector(final Project project, final ReporterExtension reporterExtension) {
+        super(project)
         this.reporterExtension = reporterExtension
-        this.project = project
         this.reportHelper = new ReportHelper(project)
     }
 

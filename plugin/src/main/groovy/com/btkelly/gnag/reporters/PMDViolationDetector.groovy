@@ -17,18 +17,20 @@ package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
 import com.btkelly.gnag.models.Violation
+
 import groovy.util.slurpersupport.GPathResult
 import net.sourceforge.pmd.ant.PMDTask
 import org.gradle.api.Project
 
-import static com.btkelly.gnag.utils.StringUtils.sanitize
+import static com.btkelly.gnag.utils.StringUtils.sanitizePreservingNulls
+import static com.btkelly.gnag.utils.StringUtils.sanitizeToNonNull
 /**
  * Created by bobbake4 on 4/1/16.
  */
 class PMDViolationDetector extends BaseExecutedViolationDetector {
 
-    PMDViolationDetector(ReporterExtension reporterExtension, Project project) {
-        super(reporterExtension, project)
+    PMDViolationDetector(final Project project, final ReporterExtension reporterExtension) {
+        super(project, reporterExtension)
     }
 
     @Override
@@ -73,12 +75,11 @@ class PMDViolationDetector extends BaseExecutedViolationDetector {
                 }
 
                 result.add(new Violation(
-                        sanitize((String) violation.@rule.text()),
-                        sanitize((String) name()),
-                        sanitize((String) violation.text()),
-                        sanitize((String) violation.@externalInfoUrl.text()),
-                        sanitize((String) file.@name.text())
-                                .replace(project.rootDir.absolutePath + "/", ""),
+                        sanitizeToNonNull((String) violation.@rule.text()),
+                        sanitizeToNonNull((String) name()),
+                        sanitizePreservingNulls((String) violation.text()),
+                        sanitizePreservingNulls((String) violation.@externalInfoUrl.text()),
+                        computeFilePathRelativeToProjectRoot((String) file.@name.text()),
                         lineNumber))
             }
         }

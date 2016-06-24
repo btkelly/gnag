@@ -25,14 +25,15 @@ import org.gradle.api.Project
 
 import java.util.stream.Collectors
 
-import static com.btkelly.gnag.utils.StringUtils.sanitize
+import static com.btkelly.gnag.utils.StringUtils.sanitizePreservingNulls
+import static com.btkelly.gnag.utils.StringUtils.sanitizeToNonNull
 /**
  * Created by bobbake4 on 4/1/16.
  */
 class FindbugsViolationDetector extends BaseExecutedViolationDetector {
 
-    FindbugsViolationDetector(ReporterExtension reporterExtension, Project project) {
-        super(reporterExtension, project)
+    FindbugsViolationDetector(final Project project, final ReporterExtension reporterExtension) {
+        super(project, reporterExtension)
     }
 
     @Override
@@ -90,28 +91,28 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
         final List<Violation> result = new ArrayList<>()
 
         xml.BugInstance.list()
-                .each { violation ->
-                        final Integer lineNumber;
+            .each { violation ->
+                final Integer lineNumber;
 
-                        try {
-                            lineNumber = violation.SourceLine.@end.toInteger()
-                        } catch (final NumberFormatException e) {
-                            println("Error reading line number from Findbugs violations.")
-                            e.printStackTrace();
-                            lineNumber = null
-                        }
-
-                        final String relativeFilePath = computeRelativeFilePathIfPossible(
-                                (GPathResult) violation, sourceFilePaths)
-
-                        result.add(new Violation(
-                                sanitize((String) violation.@type.text()),
-                                sanitize((String) name()),
-                                sanitize((String) violation.ShortMessage.text()),
-                                null,
-                                relativeFilePath,
-                                lineNumber))
+                try {
+                    lineNumber = violation.SourceLine.@end.toInteger()
+                } catch (final NumberFormatException e) {
+                    println("Error reading line number from Findbugs violations.")
+                    e.printStackTrace();
+                    lineNumber = null
                 }
+
+                final String relativeFilePath =
+                        computeRelativeFilePathIfPossible((GPathResult) violation, sourceFilePaths)
+
+                result.add(new Violation(
+                        sanitizeToNonNull((String) violation.@type.text()),
+                        sanitizeToNonNull((String) name()),
+                        sanitizePreservingNulls((String) violation.ShortMessage.text()),
+                        null,
+                        relativeFilePath,
+                        lineNumber))
+            }
 
         return result
     }
@@ -130,30 +131,25 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
         final List<String> result = new ArrayList<>()
 
         xml.Project.SrcDir.list().each { sourceFile ->
-            result.add((String) sourceFile.text())
+            result.add((String) sanitizePreservingNulls((String) sourceFile.text()))
         }
 
         return result
     }
 
-    private String computeRelativeFilePathIfPossible(
-            final GPathResult violation,
-            final List<String> sourceFilePaths) {
-
-        final String shortFilePath =
-                sanitize((String) violation.SourceLine.@sourcepath)
+    private String computeRelativeFilePathIfPossible(final GPathResult violation, final List<String> sourceFilePaths) {
+        final String shortFilePath = sanitizeToNonNull((String) violation.SourceLine.@sourcepath)
 
         final List<String> longFilePaths =
                 sourceFilePaths
                         .stream()
-                        .filter { it.endsWith(shortFilePath) }
+                        .filter { it != null && it.endsWith(shortFilePath) }
                         .collect(Collectors.toList())
 
         if (longFilePaths.isEmpty() || longFilePaths.size() > 1) {
             return null
         } else {
-            return longFilePaths.get(0)
-                    .replace(project.rootDir.absolutePath + "/", "")
+            return computeFilePathRelativeToProjectRoot(longFilePaths.get(0))
         }
     }
 

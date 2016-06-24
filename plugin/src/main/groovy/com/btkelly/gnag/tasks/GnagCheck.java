@@ -53,10 +53,10 @@ public class GnagCheck extends DefaultTask {
 
         GnagCheck gnagCheckTask = (GnagCheck) project.task(taskOptions, TASK_NAME);
         gnagCheckTask.setGnagPluginExtension(gnagPluginExtension);
-        gnagCheckTask.violationDetectors.add(new CheckstyleViolationDetector(gnagPluginExtension.checkstyle, project));
-        gnagCheckTask.violationDetectors.add(new PMDViolationDetector(gnagPluginExtension.pmd, project));
-        gnagCheckTask.violationDetectors.add(new FindbugsViolationDetector(gnagPluginExtension.findbugs, project));
-        gnagCheckTask.violationDetectors.add(new AndroidLintViolationDetector(gnagPluginExtension.androidLint, project));
+        gnagCheckTask.violationDetectors.add(new CheckstyleViolationDetector(project, gnagPluginExtension.checkstyle));
+        gnagCheckTask.violationDetectors.add(new PMDViolationDetector(project, gnagPluginExtension.pmd));
+        gnagCheckTask.violationDetectors.add(new FindbugsViolationDetector(project, gnagPluginExtension.findbugs));
+        gnagCheckTask.violationDetectors.add(new AndroidLintViolationDetector(project, gnagPluginExtension.androidLint));
     }
 
     private final List<ViolationDetector> violationDetectors = new ArrayList<>();

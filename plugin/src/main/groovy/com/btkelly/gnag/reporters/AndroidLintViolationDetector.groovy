@@ -22,17 +22,18 @@ import org.gradle.api.Project
 
 import static com.btkelly.gnag.extensions.AndroidLintExtension.SEVERITY_ERROR
 import static com.btkelly.gnag.extensions.AndroidLintExtension.SEVERITY_WARNING
-import static com.btkelly.gnag.utils.StringUtils.sanitize
+import static com.btkelly.gnag.utils.StringUtils.sanitizeToNonNull
+import static com.btkelly.gnag.utils.StringUtils.sanitizePreservingNulls
+
 /**
  * Created by bobbake4 on 4/18/16.
  */
-class AndroidLintViolationDetector implements ViolationDetector {
+class AndroidLintViolationDetector extends BaseViolationDetector {
 
-    private final Project project
     private final AndroidLintExtension androidLintExtension;
 
-    AndroidLintViolationDetector(AndroidLintExtension androidLintExtension, Project project) {
-        this.project = project
+    AndroidLintViolationDetector(final Project project, final AndroidLintExtension androidLintExtension) {
+        super(project)
         this.androidLintExtension = androidLintExtension
     }
 
@@ -58,27 +59,25 @@ class AndroidLintViolationDetector implements ViolationDetector {
         final List<Violation> result = new ArrayList<>()
 
         xml.issue.findAll { severityEnabled((String) it.@severity.text()) }
-                .each { violation ->
-                        final Integer lineNumber;
+            .each { violation ->
+                final Integer lineNumber;
 
-                        try {
-                            lineNumber = violation.location.@line.toInteger()
-                        } catch (final NumberFormatException e) {
-                            System.out.println("Error reading line number from Android Lint violations.");
-                            e.printStackTrace();
-                            lineNumber = null
-                        }
-
-                        result.add(new Violation(
-                                sanitize((String) violation.@id.text()),
-                                sanitize((String) name()),
-                                sanitize((String) violation.@message.text()),
-                                sanitize((String) violation.@url.text()),
-                                sanitize((String) violation.location.@file.text())
-                                        .replace(project.rootDir.absolutePath + "/", ""),
-
-                                lineNumber))
+                try {
+                    lineNumber = violation.location.@line.toInteger()
+                } catch (final NumberFormatException e) {
+                    System.out.println("Error reading line number from Android Lint violations.");
+                    e.printStackTrace();
+                    lineNumber = null
                 }
+
+                result.add(new Violation(
+                        sanitizeToNonNull((String) violation.@id.text()),
+                        sanitizeToNonNull((String) name()),
+                        sanitizePreservingNulls((String) violation.@message.text()),
+                        sanitizePreservingNulls((String) violation.@url.text()),
+                        computeFilePathRelativeToProjectRoot((String) violation.location.@file.text()),
+                        lineNumber))
+            }
 
         return result
     }
@@ -93,7 +92,7 @@ class AndroidLintViolationDetector implements ViolationDetector {
         return new File(new FileNameByRegexFinder().getFileNames(project.buildDir.path + "/outputs/", "lint-results.+\\.xml").first())
     }
 
-    private boolean severityEnabled(String severity) {
+    private boolean severityEnabled(final String severity) {
         if (androidLintExtension.severity.equals(SEVERITY_WARNING)) {
             return true
         } else {

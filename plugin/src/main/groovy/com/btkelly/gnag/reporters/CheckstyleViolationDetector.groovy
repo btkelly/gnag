@@ -21,14 +21,15 @@ import com.puppycrawl.tools.checkstyle.ant.CheckstyleAntTask
 import groovy.util.slurpersupport.GPathResult
 import org.gradle.api.Project
 
-import static com.btkelly.gnag.utils.StringUtils.sanitize
+import static com.btkelly.gnag.utils.StringUtils.sanitizePreservingNulls
+import static com.btkelly.gnag.utils.StringUtils.sanitizeToNonNull
 /**
  * Created by bobbake4 on 4/1/16.
  */
 class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
 
-    CheckstyleViolationDetector(ReporterExtension reporterExtension, Project project) {
-        super(reporterExtension, project)
+    CheckstyleViolationDetector(final Project project, final ReporterExtension reporterExtension) {
+        super(project, reporterExtension)
     }
 
     @Override
@@ -59,28 +60,27 @@ class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
         final List<Violation> result = new ArrayList<>()
 
         xml.file.each { file ->
-                file.error.each { violation ->
-                        final Integer lineNumber;
+            file.error.each { violation ->
+                final Integer lineNumber;
 
-                        try {
-                            lineNumber = violation.@line.toInteger()
-                        } catch (final NumberFormatException e) {
-                            System.out.println("Error reading line number from Checkstyle violations.");
-                            e.printStackTrace();
-                            lineNumber = null
-                        }
-
-                        final String violationName = violation.@source.text()
-
-                        result.add(new Violation(
-                                sanitize((String) violationName.substring(violationName.lastIndexOf(".") + 1)),
-                                sanitize((String) name()),
-                                sanitize((String) violation.@message.text()),
-                                null,
-                                sanitize((String) file.@name.text())
-                                        .replace(project.rootDir.absolutePath + "/", ""),
-                                lineNumber))
+                try {
+                    lineNumber = violation.@line.toInteger()
+                } catch (final NumberFormatException e) {
+                    System.out.println("Error reading line number from Checkstyle violations.");
+                    e.printStackTrace();
+                    lineNumber = null
                 }
+
+                final String violationName = violation.@source.text()
+
+                result.add(new Violation(
+                        sanitizeToNonNull((String) violationName.substring(violationName.lastIndexOf(".") + 1)),
+                        sanitizeToNonNull((String) name()),
+                        sanitizePreservingNulls((String) violation.@message.text()),
+                        null,
+                        computeFilePathRelativeToProjectRoot((String) file.@name.text()),
+                        lineNumber))
+            }
         }
 
         return result
