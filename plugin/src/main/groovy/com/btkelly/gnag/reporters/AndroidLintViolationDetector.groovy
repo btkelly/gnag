@@ -60,19 +60,14 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
 
         xml.issue.findAll { severityEnabled((String) it.@severity.text()) }
             .each { violation ->
-                final Integer lineNumber;
-
-                try {
-                    lineNumber = violation.location.@line.toInteger()
-                } catch (final NumberFormatException e) {
-                    System.out.println("Error reading line number from Android Lint violations.");
-                    e.printStackTrace();
-                    lineNumber = null
-                }
-
+                final String violationName = sanitizeToNonNull((String) violation.@id.text())
+            
+                final String lineNumberString = sanitizeToNonNull((String) violation.location.@line.text())
+                final Integer lineNumber = computeLineNumberFromString(lineNumberString, violationName)
+            
                 result.add(new Violation(
-                        sanitizeToNonNull((String) violation.@id.text()),
-                        sanitizeToNonNull((String) name()),
+                        violationName,
+                        name(),
                         sanitizePreservingNulls((String) violation.@message.text()),
                         sanitizePreservingNulls((String) violation.@url.text()),
                         computeFilePathRelativeToProjectRoot((String) violation.location.@file.text()),

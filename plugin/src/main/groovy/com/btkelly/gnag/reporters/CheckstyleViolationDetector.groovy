@@ -61,21 +61,16 @@ class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
 
         xml.file.each { file ->
             file.error.each { violation ->
-                final Integer lineNumber;
+                final String fullViolationName = sanitizeToNonNull((String) violation.@source.text())
+                final String shortViolationName = sanitizeToNonNull(
+                        (String) fullViolationName.substring(fullViolationName.lastIndexOf(".") + 1))
 
-                try {
-                    lineNumber = violation.@line.toInteger()
-                } catch (final NumberFormatException e) {
-                    System.out.println("Error reading line number from Checkstyle violations.");
-                    e.printStackTrace();
-                    lineNumber = null
-                }
-
-                final String violationName = violation.@source.text()
+                final String lineNumberString = sanitizeToNonNull((String) violation.@line.text())
+                final Integer lineNumber = computeLineNumberFromString(lineNumberString, shortViolationName)
 
                 result.add(new Violation(
-                        sanitizeToNonNull((String) violationName.substring(violationName.lastIndexOf(".") + 1)),
-                        sanitizeToNonNull((String) name()),
+                        shortViolationName,
+                        name(),
                         sanitizePreservingNulls((String) violation.@message.text()),
                         null,
                         computeFilePathRelativeToProjectRoot((String) file.@name.text()),

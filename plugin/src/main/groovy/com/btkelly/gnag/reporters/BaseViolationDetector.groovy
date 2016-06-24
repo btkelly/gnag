@@ -36,17 +36,48 @@ abstract class BaseViolationDetector implements ViolationDetector {
     protected String computeFilePathRelativeToProjectRoot(final String absoluteFilePath) {
         final String sanitizedAbsoluteFilePath = sanitizeToNonNull(absoluteFilePath)
 
-        final String expectedFilePathPrefix = project.getRootDir().getAbsolutePath() + "/";
+        final String expectedFilePathPrefix = project.getRootDir().getAbsolutePath() + "/"
 
         if (!sanitizedAbsoluteFilePath.startsWith(expectedFilePathPrefix)) {
             // The target file _is not_ contained within the root directory of the current project. Return null.
-            return null;
+            return null
         } else {
             /*
              * The target file _is_ contained within the root directory of the current project. Return the path to the
              * target file relative to the root directory.
              */
-            return sanitizedAbsoluteFilePath.replace(expectedFilePathPrefix, "");
+            return sanitizedAbsoluteFilePath.replace(expectedFilePathPrefix, "")
+        }
+    }
+
+    /**
+     * @param lineNumberString a String we would like to parse into an integer value.
+     * @param violationName the name of the violation currently being parsed. Used for logging only.
+     * @return a positive integer, if lineNumberString can be parsed into such a value; null in any other case.
+     */
+    protected Integer computeLineNumberFromString(final String lineNumberString, final String violationName) {
+        if (lineNumberString.isEmpty()) {
+            return null
+        } else {
+            try {
+                final int result = lineNumberString.toInteger()
+
+                if (result >= 0) {
+                    return result
+                } else {
+                    System.out.println(
+                            "Invalid line number: + " + result +
+                            " for " + name() + " violation: " + violationName)
+                    
+                    return null
+                }
+            } catch (final NumberFormatException ignored) {
+                System.out.println(
+                        "Error parsing line number string: \"" + lineNumberString +
+                        "\" for " + name() + " violation: " + violationName)
+
+                return null
+            }
         }
     }
     
