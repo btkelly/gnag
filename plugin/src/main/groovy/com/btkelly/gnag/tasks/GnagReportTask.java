@@ -33,6 +33,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static com.btkelly.gnag.models.GitHubStatusType.*;
+import static java.lang.Math.min;
 
 /**
  * Created by bobbake4 on 4/1/16.
@@ -40,7 +41,7 @@ import static com.btkelly.gnag.models.GitHubStatusType.*;
 public class GnagReportTask extends DefaultTask {
 
     public static final String TASK_NAME = "gnagReport";
-    private static final String REMOTE_SUCCESS_COMMENT = "Congrats, no :poop: code found! This PR is safe to merge.";
+    private static final String REMOTE_SUCCESS_COMMENT_FORMAT_STRING = "Congrats, no :poop: code found%s!";
 
     public static void addTask(Project project, GitHubExtension gitHubExtension) {
         Map<String, Object> taskOptions = new HashMap<>();
@@ -74,7 +75,11 @@ public class GnagReportTask extends DefaultTask {
             fetchPRShaIfRequired();
 
             if (checkStatus.getGitHubStatusType() == SUCCESS) {
-                gitHubApi.postGitHubPRCommentAsync(REMOTE_SUCCESS_COMMENT);
+                final String commitString = prSha != null
+                        ? " in commit " + prSha.substring(0, min(7, prSha.length()))
+                        : "";
+
+                gitHubApi.postGitHubPRCommentAsync(String.format(REMOTE_SUCCESS_COMMENT_FORMAT_STRING, commitString));
             } else {
                 postViolationComments(checkStatus.getViolations());
             }
