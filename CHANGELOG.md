@@ -1,5 +1,17 @@
 # Change Log
 
+## v1.2.1
+
+_06-30-2016_
+
+- Updated GitHubDiffParser to latest version which includes a critical bugfix.
+
+## v1.2
+
+_06-29-2016_
+
+- TODO @btkelly
+
 ## v1.1
 
 _06-10-2016_
