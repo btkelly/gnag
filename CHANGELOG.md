@@ -10,7 +10,8 @@ _06-30-2016_
 
 _06-29-2016_
 
-- TODO @btkelly
+- Added commit sha1 to successful GitHub comment
+- Random code cleanup
 
 ## v1.1
 
