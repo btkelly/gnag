@@ -31,7 +31,7 @@ import static org.pegdown.Extensions.*
  */
 class AndroidLintViolationDetector extends BaseViolationDetector {
     
-    private static final int GFM_PEGDOWN_PROCESSOR_EXTENSIONS = HARDWRAPS & AUTOLINKS & FENCED_CODE_BLOCKS
+    private static final int GFM_PEGDOWN_PROCESSOR_EXTENSIONS = HARDWRAPS | AUTOLINKS | FENCED_CODE_BLOCKS
 
     private final AndroidLintExtension androidLintExtension;
 
@@ -70,6 +70,8 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
                 final String notNullMessageInHtml =
                         sanitizeToNonNull(markdownProcessor.markdownToHtml(messageInMarkdown))
                         .replaceAll("</?p>", "")
+
+            println markdownProcessor.markdownToHtml("https://developer.android.com/preview/backup/index.html")
             
                 final String nullableMessageInHtml = notNullMessageInHtml.isEmpty() ? null : notNullMessageInHtml
             
