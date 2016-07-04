@@ -41,7 +41,10 @@ public final class ReportWriter {
     private static final String HTML_REPORT_SUFFIX =
             "</article></html>";
 
-    public static boolean writeReport(@NotNull final Set<Violation> violations, @NotNull final File directory) {
+    public static boolean writeLocalReportFiles(
+            @NotNull final Set<Violation> violations,
+            @NotNull final File directory) {
+        
         if (violations.isEmpty()) {
             throw new IllegalStateException("This method should only be called when violations were detected.");
         }
@@ -58,7 +61,7 @@ public final class ReportWriter {
             final File htmlReportFile = new File(directory, REPORT_FILE_NAME);
             FileUtils.write(htmlReportFile, builder.toString());
         } catch (final IOException e) {
-            System.out.println("Error writing Gnag local report.");
+            System.out.println("Error writing local Gnag report.");
             e.printStackTrace();
             return false;
         }
@@ -68,10 +71,19 @@ public final class ReportWriter {
         return true;
     }
     
-    public static boolean deleteReport(@NotNull final File directory) {
-        // TODO: make this happen
+    public static void deleteLocalReportFiles(@NotNull final File directory) {
+        final File htmlReportFile = new File(directory, REPORT_FILE_NAME);
         
-        return false;
+        if (htmlReportFile.exists()) {
+            try {
+                FileUtils.forceDelete(htmlReportFile);
+            } catch (final IOException e) {
+                System.out.println("Error deleting local Gnag report.");
+                e.printStackTrace();
+            }
+        }
+        
+        deleteCssFileFromDirectory(directory);
     }
 
     private static void copyCssFileToDirectory(@NotNull final File directory) {
@@ -82,12 +94,22 @@ public final class ReportWriter {
             FileUtils.copyInputStreamToFile(resourceAsStream, gnagCssOutputFile);
 
         } catch (final Exception e) {
-            System.out.println("Error copying CSS file for local report.");
+            System.out.println("Error copying CSS file for local Gnag report.");
+            e.printStackTrace();
         }
     }
 
     private static void deleteCssFileFromDirectory(@NotNull final File directory) {
-        // TODO: make this happen
+        final File gnagCssOutputFile = new File(directory, CSS_FILE_NAME);
+
+        if (gnagCssOutputFile.exists()) {
+            try {
+                FileUtils.forceDelete(gnagCssOutputFile);
+            } catch (final IOException e) {
+                System.out.println("Error deleting CSS file for local Gnag report.");
+                e.printStackTrace();
+            }
+        }
     }
 
     private ReportWriter() {

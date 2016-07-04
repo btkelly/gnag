@@ -93,13 +93,13 @@ public class GnagCheck extends DefaultTask {
         final File reportsDir = reportHelper.getReportsDir();
 
         if (allDetectedViolations.isEmpty()) {
-            ReportWriter.deleteReport(reportsDir);
+            ReportWriter.deleteLocalReportFiles(reportsDir);
             
             getProject().setStatus(CheckStatus.getSuccessfulCheckStatus());
 
             System.out.println("Congrats, no poop code found!");
         } else {
-            ReportWriter.writeReport(allDetectedViolations, reportsDir);
+            ReportWriter.writeLocalReportFiles(allDetectedViolations, reportsDir);
             
             getProject().setStatus(new CheckStatus(FAILURE, allDetectedViolations));
 
