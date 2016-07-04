@@ -31,7 +31,6 @@ public final class ReportWriter {
 
     public static final String REPORT_FILE_NAME = "gnag.html";
     private static final String CSS_FILE_NAME = "github-markdown.css";
-    private static final String LOCAL_SUCCESS_COMMENT = "Congrats, no poop code found!";
 
     private static final String HTML_REPORT_PREFIX =
             "<!DOCTYPE html>"
@@ -42,23 +41,18 @@ public final class ReportWriter {
     private static final String HTML_REPORT_SUFFIX =
             "</article></html>";
 
-    public static boolean writeReportToDirectory(
-            @NotNull final Set<Violation> violations,
-            @NotNull final File directory) {
+    public static boolean writeReport(@NotNull final Set<Violation> violations, @NotNull final File directory) {
+        if (violations.isEmpty()) {
+            throw new IllegalStateException("This method should only be called when violations were detected.");
+        }
 
         //noinspection ResultOfMethodCallIgnored
         directory.mkdirs();
 
         final StringBuilder builder = new StringBuilder()
-                .append(HTML_REPORT_PREFIX);
-
-        if (violations.isEmpty()) {
-            builder.append(LOCAL_SUCCESS_COMMENT);
-        } else {
-            builder.append(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
-        }
-
-        builder.append(HTML_REPORT_SUFFIX);
+                .append(HTML_REPORT_PREFIX)
+                .append(ViolationsFormatter.getHtmlStringForAggregatedComment(violations))
+                .append(HTML_REPORT_SUFFIX);
 
         try {
             final File htmlReportFile = new File(directory, REPORT_FILE_NAME);
@@ -73,6 +67,12 @@ public final class ReportWriter {
 
         return true;
     }
+    
+    public static boolean deleteReport(@NotNull final File directory) {
+        // TODO: make this happen
+        
+        return false;
+    }
 
     private static void copyCssFileToDirectory(@NotNull final File directory) {
         try {
@@ -86,8 +86,12 @@ public final class ReportWriter {
         }
     }
 
-    private ReportWriter() {
+    private static void deleteCssFileFromDirectory(@NotNull final File directory) {
+        // TODO: make this happen
+    }
 
+    private ReportWriter() {
+        // This constructor intentionally left blank.
     }
 
 }
