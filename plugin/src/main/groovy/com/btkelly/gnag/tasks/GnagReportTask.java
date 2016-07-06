@@ -76,7 +76,7 @@ public class GnagReportTask extends DefaultTask {
 
             if (checkStatus.getGitHubStatusType() == SUCCESS) {
                 final String commitString = prSha != null
-                        ? " in commit " + prSha.substring(0, min(7, prSha.length()))
+                        ? " as of commit " + prSha.substring(0, min(7, prSha.length()))
                         : "";
 
                 gitHubApi.postGitHubPRCommentAsync(String.format(REMOTE_SUCCESS_COMMENT_FORMAT_STRING, commitString));
