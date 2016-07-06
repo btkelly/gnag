@@ -25,7 +25,6 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
-import org.gradle.api.execution.TaskExecutionGraph;
 import org.gradle.api.tasks.StopExecutionException;
 import org.gradle.api.tasks.TaskAction;
 
@@ -91,30 +90,26 @@ public class GnagCheck extends DefaultTask {
                                 violationDetector.name() + " detected " + detectedViolations.size() + " violations.");
                 });
 
-        ReportWriter.writeReportToDirectory(allDetectedViolations, reportHelper.getReportsDir());
+        final File reportsDir = reportHelper.getReportsDir();
 
         if (allDetectedViolations.isEmpty()) {
+            ReportWriter.deleteLocalReportFiles(reportsDir);
+            
             getProject().setStatus(CheckStatus.getSuccessfulCheckStatus());
+
+            System.out.println("Congrats, no poop code found!");
         } else {
+            ReportWriter.writeLocalReportFiles(allDetectedViolations, reportsDir);
+            
             getProject().setStatus(new CheckStatus(FAILURE, allDetectedViolations));
 
-            final TaskExecutionGraph taskGraph = getProject().getGradle().getTaskGraph();
-
-            boolean hasReportTask = false;
-
-            for (final Task task : taskGraph.getAllTasks()) {
-                if (task.getName().equals(GnagReportTask.TASK_NAME)) {
-                    hasReportTask = true;
-                }
-            }
-
             final String failedMessage
-                    = "One or more violation detectors has found violations. Check the report at "
-                      + reportHelper.getReportsDir()
-                      + File.separatorChar
-                      + REPORT_FILE_NAME + " for details.";
-
-            if (gnagPluginExtension.shouldFailOnError() && !hasReportTask) {
+                    = "One or more violation detectors has found violations. Check the report at " 
+                    + reportsDir
+                    + File.separatorChar
+                    + REPORT_FILE_NAME + " for details.";
+            
+            if (gnagPluginExtension.shouldFailOnError() && !taskExecutionGraphIncludesGnagReport()) {
                 throw new GradleException(failedMessage);
             } else {
                 System.out.println(failedMessage);
@@ -125,6 +120,16 @@ public class GnagCheck extends DefaultTask {
 
     private void setGnagPluginExtension(GnagPluginExtension gnagPluginExtension) {
         this.gnagPluginExtension = gnagPluginExtension;
+    }
+    
+    private boolean taskExecutionGraphIncludesGnagReport() {
+        for (final Task task : getProject().getGradle().getTaskGraph().getAllTasks()) {
+            if (task.getName().equals(GnagReportTask.TASK_NAME)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
