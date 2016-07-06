@@ -19,16 +19,19 @@ import com.btkelly.gnag.extensions.AndroidLintExtension
 import com.btkelly.gnag.models.Violation
 import groovy.util.slurpersupport.GPathResult
 import org.gradle.api.Project
+import org.pegdown.PegDownProcessor
 
 import static com.btkelly.gnag.extensions.AndroidLintExtension.SEVERITY_ERROR
 import static com.btkelly.gnag.extensions.AndroidLintExtension.SEVERITY_WARNING
-import static com.btkelly.gnag.utils.StringUtils.sanitizeToNonNull
 import static com.btkelly.gnag.utils.StringUtils.sanitizePreservingNulls
-
+import static com.btkelly.gnag.utils.StringUtils.sanitizeToNonNull
+import static org.pegdown.Extensions.*
 /**
  * Created by bobbake4 on 4/18/16.
  */
 class AndroidLintViolationDetector extends BaseViolationDetector {
+    
+    private static final int GFM_PEGDOWN_PROCESSOR_EXTENSIONS = HARDWRAPS | AUTOLINKS | FENCED_CODE_BLOCKS
 
     private final AndroidLintExtension androidLintExtension;
 
@@ -62,13 +65,21 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
             .each { violation ->
                 final String violationName = sanitizeToNonNull((String) violation.@id.text())
             
+                final String messageInMarkdown = sanitizeToNonNull((String) violation.@message.text())
+                final PegDownProcessor markdownProcessor = new PegDownProcessor(GFM_PEGDOWN_PROCESSOR_EXTENSIONS)
+                final String notNullMessageInHtml =
+                        sanitizeToNonNull(markdownProcessor.markdownToHtml(messageInMarkdown))
+                        .replaceAll("</?p>", "")
+            
+                final String nullableMessageInHtml = notNullMessageInHtml.isEmpty() ? null : notNullMessageInHtml
+            
                 final String lineNumberString = sanitizeToNonNull((String) violation.location.@line.text())
                 final Integer lineNumber = computeLineNumberFromString(lineNumberString, violationName)
             
                 result.add(new Violation(
                         violationName,
                         name(),
-                        sanitizePreservingNulls((String) violation.@message.text()),
+                        nullableMessageInHtml,
                         sanitizePreservingNulls((String) violation.@url.text()),
                         computeFilePathRelativeToProjectRoot((String) violation.location.@file.text()),
                         lineNumber))
