@@ -41,12 +41,13 @@ public final class ReportWriter {
     private static final String HTML_REPORT_SUFFIX =
             "</article></html>";
 
-    public static boolean writeLocalReportFiles(
+    public static void writeLocalReportFiles(
             @NotNull final Set<Violation> violations,
             @NotNull final File directory) {
         
         if (violations.isEmpty()) {
-            throw new IllegalStateException("This method should only be called when violations were detected.");
+            System.err.println("writeLocalReportFiles should only be called when violations were detected!");
+            return;
         }
 
         //noinspection ResultOfMethodCallIgnored
@@ -63,12 +64,12 @@ public final class ReportWriter {
         } catch (final IOException e) {
             System.out.println("Error writing local Gnag report.");
             e.printStackTrace();
-            return false;
+            return;
         }
 
         copyCssFileToDirectory(directory);
 
-        return true;
+        return;
     }
     
     public static void deleteLocalReportFiles(@NotNull final File directory) {
