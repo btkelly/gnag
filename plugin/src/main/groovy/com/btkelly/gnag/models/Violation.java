@@ -78,7 +78,8 @@ public final class Violation {
     }
 
     /**
-     * @param typeUrl a URL identifying a resource that provides more information on this violation's type
+     * @param typeUrl a URL identifying a resource that provides more information on this violation's type; null if no
+     *                such resource is known
      */
     public Violation(
             @NotNull final String type,
@@ -92,7 +93,8 @@ public final class Violation {
     }
 
     /**
-     * @param typeUrl a URL identifying a resource that provides more information on this violation's type
+     * @param typeUrl a URL identifying a resource that provides more information on this violation's type; null if no
+     *                such resource is known
      */
     public Violation(
             @NotNull final String type,
