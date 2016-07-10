@@ -18,6 +18,7 @@ package com.btkelly.gnag.models;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -74,7 +75,7 @@ public final class Violation {
             @Nullable final Integer fileLineNumber,
             @Nullable final String primaryUrl) {
 
-        this(type, reporterName, comment, relativeFilePath, fileLineNumber, primaryUrl, new String[]{});
+        this(type, reporterName, comment, relativeFilePath, fileLineNumber, typeUrl, new ArrayList<>());
     }
 
     public Violation(
