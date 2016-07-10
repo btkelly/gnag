@@ -63,12 +63,12 @@ public final class Violation {
     private final Integer fileLineNumber;
 
     public Violation(
-            @NotNull  final String name,
-            @NotNull  final String reporterName,
+            @NotNull final String name,
+            @NotNull final String reporterName,
             @Nullable final String comment,
-            @Nullable final String primaryUrl,
             @Nullable final String relativeFilePath,
-            @Nullable final Integer fileLineNumber) {
+            @Nullable final Integer fileLineNumber,
+            @Nullable final String primaryUrl) {
 
         this.name = name;
         this.reporterName = reporterName;

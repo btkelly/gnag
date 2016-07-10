@@ -72,9 +72,9 @@ class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
                         shortViolationName,
                         name(),
                         sanitizePreservingNulls((String) violation.@message.text()),
-                        null,
                         computeFilePathRelativeToProjectRoot((String) file.@name.text()),
-                        lineNumber))
+                        lineNumber,
+                        null))
             }
         }
 

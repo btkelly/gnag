@@ -80,9 +80,9 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
                         violationName,
                         name(),
                         nullableMessageInHtml,
-                        sanitizePreservingNulls((String) violation.@url.text()),
                         computeFilePathRelativeToProjectRoot((String) violation.location.@file.text()),
-                        lineNumber))
+                        lineNumber,
+                        sanitizePreservingNulls((String) violation.@url.text())))
             }
 
         return result
