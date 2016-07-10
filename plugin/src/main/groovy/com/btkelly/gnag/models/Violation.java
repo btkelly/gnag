@@ -62,29 +62,35 @@ public final class Violation {
     private final Integer fileLineNumber;
 
     @Nullable
-    private final String primaryUrl;
+    private final String typeUrl;
     
     @NotNull
     private final List<String> secondaryUrls;
 
+    /**
+     * @param typeUrl a URL identifying a resource that provides more information on this violation's type
+     */
     public Violation(
             @NotNull final String type,
             @NotNull final String reporterName,
             @Nullable final String comment,
             @Nullable final String relativeFilePath,
             @Nullable final Integer fileLineNumber,
-            @Nullable final String primaryUrl) {
+            @Nullable final String typeUrl) {
 
         this(type, reporterName, comment, relativeFilePath, fileLineNumber, typeUrl, new ArrayList<>());
     }
 
+    /**
+     * @param typeUrl a URL identifying a resource that provides more information on this violation's type
+     */
     public Violation(
             @NotNull final String type,
             @NotNull final String reporterName,
             @Nullable final String comment,
             @Nullable final String relativeFilePath,
             @Nullable final Integer fileLineNumber,
-            @Nullable final String primaryUrl,
+            @Nullable final String typeUrl,
             @NotNull final List<String> secondaryUrls) {
 
         this.type = type;
@@ -99,7 +105,7 @@ public final class Violation {
             this.fileLineNumber = fileLineNumber;
         }
 
-        this.primaryUrl = primaryUrl;
+        this.typeUrl = typeUrl;
         this.secondaryUrls = secondaryUrls;
     }
 
@@ -129,8 +135,8 @@ public final class Violation {
     }
 
     @Nullable
-    public String getPrimaryUrl() {
-        return primaryUrl;
+    public String getTypeUrl() {
+        return typeUrl;
     }
 
     @NotNull
@@ -159,7 +165,7 @@ public final class Violation {
             return false;
         if (fileLineNumber != null ? !fileLineNumber.equals(violation.fileLineNumber) : violation.fileLineNumber != null)
             return false;
-        if (primaryUrl != null ? !primaryUrl.equals(violation.primaryUrl) : violation.primaryUrl != null) return false;
+        if (typeUrl != null ? !typeUrl.equals(violation.typeUrl) : violation.typeUrl != null) return false;
         return secondaryUrls.equals(violation.secondaryUrls);
 
     }
@@ -171,7 +177,7 @@ public final class Violation {
         result = 31 * result + (comment != null ? comment.hashCode() : 0);
         result = 31 * result + (relativeFilePath != null ? relativeFilePath.hashCode() : 0);
         result = 31 * result + (fileLineNumber != null ? fileLineNumber.hashCode() : 0);
-        result = 31 * result + (primaryUrl != null ? primaryUrl.hashCode() : 0);
+        result = 31 * result + (typeUrl != null ? typeUrl.hashCode() : 0);
         result = 31 * result + secondaryUrls.hashCode();
         return result;
     }
