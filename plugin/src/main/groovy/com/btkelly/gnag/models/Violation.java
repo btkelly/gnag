@@ -67,6 +67,16 @@ public final class Violation {
     @NotNull
     private final List<String> secondaryUrls;
 
+    public Violation(
+            @NotNull final String type,
+            @NotNull final String reporterName,
+            @Nullable final String comment,
+            @Nullable final String relativeFilePath,
+            @Nullable final Integer fileLineNumber) {
+
+        this(type, reporterName, comment, relativeFilePath, fileLineNumber, null);
+    }
+
     /**
      * @param typeUrl a URL identifying a resource that provides more information on this violation's type
      */

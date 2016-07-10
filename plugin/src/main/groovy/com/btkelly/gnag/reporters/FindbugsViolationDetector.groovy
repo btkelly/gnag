@@ -105,8 +105,7 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
                         name(),
                         sanitizePreservingNulls((String) violation.ShortMessage.text()),
                         relativeFilePath,
-                        lineNumber,
-                        null))
+                        lineNumber))
             }
 
         return result
