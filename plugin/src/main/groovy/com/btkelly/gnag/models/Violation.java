@@ -54,7 +54,7 @@ public final class Violation {
     private final String comment;
 
     @Nullable
-    private final String url;
+    private final String primaryUrl;
 
     @Nullable
     private final String relativeFilePath;
@@ -66,14 +66,14 @@ public final class Violation {
             @NotNull  final String name,
             @NotNull  final String reporterName,
             @Nullable final String comment,
-            @Nullable final String url,
+            @Nullable final String primaryUrl,
             @Nullable final String relativeFilePath,
             @Nullable final Integer fileLineNumber) {
 
         this.name = name;
         this.reporterName = reporterName;
         this.comment = comment;
-        this.url = url;
+        this.primaryUrl = primaryUrl;
         this.relativeFilePath = relativeFilePath;
 
         // Treat a line number of 0 as equivalent to a missing line number.
@@ -100,8 +100,8 @@ public final class Violation {
     }
 
     @Nullable
-    public String getUrl() {
-        return url;
+    public String getPrimaryUrl() {
+        return primaryUrl;
     }
 
     @Nullable
@@ -130,7 +130,7 @@ public final class Violation {
         if (!name.equals(violation.name)) return false;
         if (!reporterName.equals(violation.reporterName)) return false;
         if (comment != null ? !comment.equals(violation.comment) : violation.comment != null) return false;
-        if (url != null ? !url.equals(violation.url) : violation.url != null) return false;
+        if (primaryUrl != null ? !primaryUrl.equals(violation.primaryUrl) : violation.primaryUrl != null) return false;
         if (relativeFilePath != null ? !relativeFilePath.equals(violation.relativeFilePath) : violation.relativeFilePath != null)
             return false;
         return fileLineNumber != null ? fileLineNumber.equals(violation.fileLineNumber) : violation.fileLineNumber == null;
@@ -142,7 +142,7 @@ public final class Violation {
         int result = name.hashCode();
         result = 31 * result + reporterName.hashCode();
         result = 31 * result + (comment != null ? comment.hashCode() : 0);
-        result = 31 * result + (url != null ? url.hashCode() : 0);
+        result = 31 * result + (primaryUrl != null ? primaryUrl.hashCode() : 0);
         result = 31 * result + (relativeFilePath != null ? relativeFilePath.hashCode() : 0);
         result = 31 * result + (fileLineNumber != null ? fileLineNumber.hashCode() : 0);
         return result;

@@ -83,10 +83,10 @@ public final class ViolationFormatter {
         builder.appendBold(VIOLATION_NAME_LABEL);
 
         final String violationName = violation.getName();
-        final String violationUrl = violation.getUrl();
+        final String primaryViolationUrl = violation.getPrimaryUrl();
 
-        if (StringUtils.isNotBlank(violationUrl)) {
-            builder.appendLink(violationName, violationUrl);
+        if (StringUtils.isNotBlank(primaryViolationUrl)) {
+            builder.appendLink(violationName, primaryViolationUrl);
         } else {
             builder.append(violationName);
         }
