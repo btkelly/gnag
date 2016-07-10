@@ -18,9 +18,7 @@ package com.btkelly.gnag.models;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 
 public final class Violation {
 
@@ -65,7 +63,7 @@ public final class Violation {
     private final String typeUrl;
     
     @NotNull
-    private final List<String> secondaryUrls;
+    private final String[] secondaryUrls;
 
     public Violation(
             @NotNull final String type,
@@ -89,7 +87,7 @@ public final class Violation {
             @Nullable final Integer fileLineNumber,
             @Nullable final String typeUrl) {
 
-        this(type, reporterName, comment, relativeFilePath, fileLineNumber, typeUrl, new ArrayList<>());
+        this(type, reporterName, comment, relativeFilePath, fileLineNumber, typeUrl, new String[]{});
     }
 
     /**
@@ -103,7 +101,7 @@ public final class Violation {
             @Nullable final String relativeFilePath,
             @Nullable final Integer fileLineNumber,
             @Nullable final String typeUrl,
-            @NotNull final List<String> secondaryUrls) {
+            @NotNull final String[] secondaryUrls) {
 
         this.type = type;
         this.reporterName = reporterName;
@@ -152,7 +150,7 @@ public final class Violation {
     }
 
     @NotNull
-    public List<String> getSecondaryUrls() {
+    public String[] getSecondaryUrls() {
         return secondaryUrls;
     }
 
