@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 public final class Violation {
 
@@ -64,7 +65,7 @@ public final class Violation {
     private final String primaryUrl;
     
     @NotNull
-    private final String[] secondaryUrls;
+    private final List<String> secondaryUrls;
 
     public Violation(
             @NotNull final String name,
@@ -84,7 +85,7 @@ public final class Violation {
             @Nullable final String relativeFilePath,
             @Nullable final Integer fileLineNumber,
             @Nullable final String primaryUrl,
-            @NotNull final String[] secondaryUrls) {
+            @NotNull final List<String> secondaryUrls) {
 
         this.name = name;
         this.reporterName = reporterName;
@@ -133,7 +134,7 @@ public final class Violation {
     }
 
     @NotNull
-    public String[] getSecondaryUrls() {
+    public List<String> getSecondaryUrls() {
         return secondaryUrls;
     }
 
@@ -142,6 +143,7 @@ public final class Violation {
     }
 
     // Generated equals and hashcode
+
 
     @Override
     public boolean equals(final Object o) {
@@ -158,8 +160,7 @@ public final class Violation {
         if (fileLineNumber != null ? !fileLineNumber.equals(violation.fileLineNumber) : violation.fileLineNumber != null)
             return false;
         if (primaryUrl != null ? !primaryUrl.equals(violation.primaryUrl) : violation.primaryUrl != null) return false;
-        // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        return Arrays.equals(secondaryUrls, violation.secondaryUrls);
+        return secondaryUrls.equals(violation.secondaryUrls);
 
     }
 
@@ -171,7 +172,7 @@ public final class Violation {
         result = 31 * result + (relativeFilePath != null ? relativeFilePath.hashCode() : 0);
         result = 31 * result + (fileLineNumber != null ? fileLineNumber.hashCode() : 0);
         result = 31 * result + (primaryUrl != null ? primaryUrl.hashCode() : 0);
-        result = 31 * result + Arrays.hashCode(secondaryUrls);
+        result = 31 * result + secondaryUrls.hashCode();
         return result;
     }
     
