@@ -18,6 +18,7 @@ package com.btkelly.gnag.models;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.Comparator;
 
 public final class Violation {
@@ -54,13 +55,16 @@ public final class Violation {
     private final String comment;
 
     @Nullable
-    private final String primaryUrl;
-
-    @Nullable
     private final String relativeFilePath;
 
     @Nullable
     private final Integer fileLineNumber;
+
+    @Nullable
+    private final String primaryUrl;
+    
+    @NotNull
+    private final String[] secondaryUrls;
 
     public Violation(
             @NotNull final String name,
@@ -70,10 +74,21 @@ public final class Violation {
             @Nullable final Integer fileLineNumber,
             @Nullable final String primaryUrl) {
 
+        this(name, reporterName, comment, relativeFilePath, fileLineNumber, primaryUrl, new String[]{});
+    }
+
+    public Violation(
+            @NotNull final String name,
+            @NotNull final String reporterName,
+            @Nullable final String comment,
+            @Nullable final String relativeFilePath,
+            @Nullable final Integer fileLineNumber,
+            @Nullable final String primaryUrl,
+            @NotNull final String[] secondaryUrls) {
+
         this.name = name;
         this.reporterName = reporterName;
         this.comment = comment;
-        this.primaryUrl = primaryUrl;
         this.relativeFilePath = relativeFilePath;
 
         // Treat a line number of 0 as equivalent to a missing line number.
@@ -82,6 +97,9 @@ public final class Violation {
         } else {
             this.fileLineNumber = fileLineNumber;
         }
+
+        this.primaryUrl = primaryUrl;
+        this.secondaryUrls = secondaryUrls;
     }
 
     @NotNull
@@ -100,11 +118,6 @@ public final class Violation {
     }
 
     @Nullable
-    public String getPrimaryUrl() {
-        return primaryUrl;
-    }
-
-    @Nullable
     public String getRelativeFilePath() {
         return relativeFilePath;
     }
@@ -112,6 +125,16 @@ public final class Violation {
     @Nullable
     public Integer getFileLineNumber() {
         return fileLineNumber;
+    }
+
+    @Nullable
+    public String getPrimaryUrl() {
+        return primaryUrl;
+    }
+
+    @NotNull
+    public String[] getSecondaryUrls() {
+        return secondaryUrls;
     }
 
     public boolean hasAllLocationInfo() {
@@ -130,10 +153,13 @@ public final class Violation {
         if (!name.equals(violation.name)) return false;
         if (!reporterName.equals(violation.reporterName)) return false;
         if (comment != null ? !comment.equals(violation.comment) : violation.comment != null) return false;
-        if (primaryUrl != null ? !primaryUrl.equals(violation.primaryUrl) : violation.primaryUrl != null) return false;
         if (relativeFilePath != null ? !relativeFilePath.equals(violation.relativeFilePath) : violation.relativeFilePath != null)
             return false;
-        return fileLineNumber != null ? fileLineNumber.equals(violation.fileLineNumber) : violation.fileLineNumber == null;
+        if (fileLineNumber != null ? !fileLineNumber.equals(violation.fileLineNumber) : violation.fileLineNumber != null)
+            return false;
+        if (primaryUrl != null ? !primaryUrl.equals(violation.primaryUrl) : violation.primaryUrl != null) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        return Arrays.equals(secondaryUrls, violation.secondaryUrls);
 
     }
 
@@ -142,10 +168,11 @@ public final class Violation {
         int result = name.hashCode();
         result = 31 * result + reporterName.hashCode();
         result = 31 * result + (comment != null ? comment.hashCode() : 0);
-        result = 31 * result + (primaryUrl != null ? primaryUrl.hashCode() : 0);
         result = 31 * result + (relativeFilePath != null ? relativeFilePath.hashCode() : 0);
         result = 31 * result + (fileLineNumber != null ? fileLineNumber.hashCode() : 0);
+        result = 31 * result + (primaryUrl != null ? primaryUrl.hashCode() : 0);
+        result = 31 * result + Arrays.hashCode(secondaryUrls);
         return result;
     }
-
+    
 }
