@@ -18,7 +18,6 @@ package com.btkelly.gnag.models;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -47,7 +46,7 @@ public final class Violation {
     };
 
     @NotNull
-    private final String name;
+    private final String type;
 
     @NotNull
     private final String reporterName;
@@ -68,18 +67,18 @@ public final class Violation {
     private final List<String> secondaryUrls;
 
     public Violation(
-            @NotNull final String name,
+            @NotNull final String type,
             @NotNull final String reporterName,
             @Nullable final String comment,
             @Nullable final String relativeFilePath,
             @Nullable final Integer fileLineNumber,
             @Nullable final String primaryUrl) {
 
-        this(name, reporterName, comment, relativeFilePath, fileLineNumber, primaryUrl, new String[]{});
+        this(type, reporterName, comment, relativeFilePath, fileLineNumber, primaryUrl, new String[]{});
     }
 
     public Violation(
-            @NotNull final String name,
+            @NotNull final String type,
             @NotNull final String reporterName,
             @Nullable final String comment,
             @Nullable final String relativeFilePath,
@@ -87,7 +86,7 @@ public final class Violation {
             @Nullable final String primaryUrl,
             @NotNull final List<String> secondaryUrls) {
 
-        this.name = name;
+        this.type = type;
         this.reporterName = reporterName;
         this.comment = comment;
         this.relativeFilePath = relativeFilePath;
@@ -104,8 +103,8 @@ public final class Violation {
     }
 
     @NotNull
-    public String getName() {
-        return name;
+    public String getType() {
+        return type;
     }
 
     @NotNull
@@ -152,7 +151,7 @@ public final class Violation {
 
         final Violation violation = (Violation) o;
 
-        if (!name.equals(violation.name)) return false;
+        if (!type.equals(violation.type)) return false;
         if (!reporterName.equals(violation.reporterName)) return false;
         if (comment != null ? !comment.equals(violation.comment) : violation.comment != null) return false;
         if (relativeFilePath != null ? !relativeFilePath.equals(violation.relativeFilePath) : violation.relativeFilePath != null)
@@ -166,7 +165,7 @@ public final class Violation {
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
+        int result = type.hashCode();
         result = 31 * result + reporterName.hashCode();
         result = 31 * result + (comment != null ? comment.hashCode() : 0);
         result = 31 * result + (relativeFilePath != null ? relativeFilePath.hashCode() : 0);

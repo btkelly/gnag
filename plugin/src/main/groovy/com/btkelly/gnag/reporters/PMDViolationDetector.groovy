@@ -64,13 +64,13 @@ class PMDViolationDetector extends BaseExecutedViolationDetector {
 
         xml.file.each { file ->
             file.violation.each { violation ->
-                final String violationName = sanitizeToNonNull((String) violation.@rule.text())
+                final String violationType = sanitizeToNonNull((String) violation.@rule.text())
 
                 final String lineNumberString = sanitizeToNonNull((String) violation.@endline.text())
-                final Integer lineNumber = computeLineNumberFromString(lineNumberString, violationName)
+                final Integer lineNumber = computeLineNumberFromString(lineNumberString, violationType)
                 
                 result.add(new Violation(
-                        violationName,
+                        violationType,
                         name(),
                         sanitizePreservingNulls((String) violation.text()),
                         computeFilePathRelativeToProjectRoot((String) file.@name.text()),

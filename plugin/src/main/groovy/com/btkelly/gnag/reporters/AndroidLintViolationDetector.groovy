@@ -63,7 +63,7 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
 
         xml.issue.findAll { severityEnabled((String) it.@severity.text()) }
             .each { violation ->
-                final String violationName = sanitizeToNonNull((String) violation.@id.text())
+                final String violationType = sanitizeToNonNull((String) violation.@id.text())
             
                 final String messageInMarkdown = sanitizeToNonNull((String) violation.@message.text())
                 final PegDownProcessor markdownProcessor = new PegDownProcessor(GFM_PEGDOWN_PROCESSOR_EXTENSIONS)
@@ -74,10 +74,10 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
                 final String nullableMessageInHtml = notNullMessageInHtml.isEmpty() ? null : notNullMessageInHtml
             
                 final String lineNumberString = sanitizeToNonNull((String) violation.location.@line.text())
-                final Integer lineNumber = computeLineNumberFromString(lineNumberString, violationName)
+                final Integer lineNumber = computeLineNumberFromString(lineNumberString, violationType)
             
                 result.add(new Violation(
-                        violationName,
+                        violationType,
                         name(),
                         nullableMessageInHtml,
                         computeFilePathRelativeToProjectRoot((String) violation.location.@file.text()),
