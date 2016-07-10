@@ -26,9 +26,7 @@ import static com.btkelly.gnag.extensions.AndroidLintExtension.SEVERITY_WARNING
 import static com.btkelly.gnag.utils.StringUtils.sanitizePreservingNulls
 import static com.btkelly.gnag.utils.StringUtils.sanitizeToNonNull
 import static org.pegdown.Extensions.*
-/**
- * Created by bobbake4 on 4/18/16.
- */
+
 class AndroidLintViolationDetector extends BaseViolationDetector {
     
     private static final int GFM_PEGDOWN_PROCESSOR_EXTENSIONS = HARDWRAPS | AUTOLINKS | FENCED_CODE_BLOCKS
