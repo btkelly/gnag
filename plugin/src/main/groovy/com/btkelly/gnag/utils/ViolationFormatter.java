@@ -144,7 +144,7 @@ public final class ViolationFormatter {
     }
 
     private ViolationFormatter() {
-
+        // This constructor intentionally left blank.
     }
 
 }
