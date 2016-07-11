@@ -19,10 +19,6 @@ import org.jetbrains.annotations.NotNull;
 
 public final class HtmlStringBuilder {
 
-    private static final String BOLD_OPEN_TAG  = "<b>";
-    private static final String BOLD_CLOSE_TAG = "</b>";
-    private static final String LINE_BREAK_TAG = "<br />";
-
     private final StringBuilder stringBuilder;
 
     public HtmlStringBuilder() {
@@ -51,14 +47,22 @@ public final class HtmlStringBuilder {
 
     public HtmlStringBuilder appendBold(@NotNull final CharSequence string) {
         stringBuilder
-                .append(BOLD_OPEN_TAG)
+                .append("<b>")
                 .append(string)
-                .append(BOLD_CLOSE_TAG);
+                .append("</b>");
+        return this;
+    }
+
+    public HtmlStringBuilder appendCode(@NotNull final CharSequence string) {
+        stringBuilder
+                .append("<code>")
+                .append(string)
+                .append("</code>");
         return this;
     }
 
     public HtmlStringBuilder insertLineBreak() {
-        stringBuilder.append(LINE_BREAK_TAG);
+        stringBuilder.append("<br />");
         return this;
     }
 
