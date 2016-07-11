@@ -90,41 +90,22 @@ public final class ViolationFormatter {
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     private static void appendLocationInformationToBuilderIfPresent(
             @NotNull final Violation violation,
             @NotNull final HtmlStringBuilder builder) {
-
-        final String violationRelativeFilePath = violation.getRelativeFilePath();
-
-        if (violationRelativeFilePath != null) {
-            appendRelativeFilePathToBuilder(violationRelativeFilePath, builder);
-
-            final Integer violationFileLineNumber = violation.getFileLineNumber();
-
-            if (violationFileLineNumber != null) {
-                appendViolationLineNumberToBuilder(violationFileLineNumber, builder);
-            }
+        
+        if (violation.hasAllLocationInfo()) {
+            builder
+                    .insertLineBreak()
+                    .appendBold("Location: ")
+                    .appendCode(String.format("%s:%s", violation.getRelativeFilePath(), violation.getFileLineNumber()));
+        } else if (violation.hasRelativeFilePath()) {
+            builder
+                    .insertLineBreak()
+                    .appendBold("File: ")
+                    .appendCode(violation.getRelativeFilePath());
         }
-    }
-
-    private static void appendRelativeFilePathToBuilder(
-            @NotNull final String violationRelativeFilePath,
-            @NotNull final HtmlStringBuilder builder) {
-
-        builder
-                .insertLineBreak()
-                .appendBold("File: ")
-                .append(violationRelativeFilePath);
-    }
-
-    private static void appendViolationLineNumberToBuilder(
-            @NotNull final Integer violationFileLineNumber,
-            @NotNull final HtmlStringBuilder builder) {
-
-        builder
-                .insertLineBreak()
-                .appendBold("Line: ")
-                .append(Integer.toString(violationFileLineNumber));
     }
 
     private static void appendViolationCommentToBuilderIfPresent(

@@ -155,9 +155,13 @@ public final class Violation {
     public List<String> getSecondaryUrls() {
         return secondaryUrls;
     }
+    
+    public boolean hasRelativeFilePath() {
+        return getRelativeFilePath() != null;
+    }
 
     public boolean hasAllLocationInfo() {
-        return getRelativeFilePath() != null && getFileLineNumber() != null;
+        return hasRelativeFilePath() && getFileLineNumber() != null;
     }
 
     // Generated equals and hashcode
