@@ -151,13 +151,10 @@ public final class ViolationFormatter {
         if (numberOfSecondaryViolationUrls > 0) {
             builder
                     .insertLineBreak()
-                    .appendBold("Related Links: ");
+                    .appendBold("Related: ");
             
             for (int urlNumber = 0; urlNumber < numberOfSecondaryViolationUrls; urlNumber++) {
-                builder
-                        .append("[")
-                        .appendLink(Integer.toString(urlNumber), secondaryViolationUrls.get(urlNumber))
-                        .append("]");
+                builder.appendLink(secondaryViolationUrls.get(urlNumber), secondaryViolationUrls.get(urlNumber));
                 
                 if (urlNumber != numberOfSecondaryViolationUrls - 1) {
                     builder.append(", ");
