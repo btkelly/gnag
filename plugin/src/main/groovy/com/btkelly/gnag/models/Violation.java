@@ -18,7 +18,9 @@ package com.btkelly.gnag.models;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 public final class Violation {
 
@@ -63,7 +65,7 @@ public final class Violation {
     private final String typeUrl;
     
     @NotNull
-    private final String[] secondaryUrls;
+    private final List<String> secondaryUrls;
 
     public Violation(
             @NotNull final String type,
@@ -87,7 +89,7 @@ public final class Violation {
             @Nullable final Integer fileLineNumber,
             @Nullable final String typeUrl) {
 
-        this(type, reporterName, comment, relativeFilePath, fileLineNumber, typeUrl, new String[]{});
+        this(type, reporterName, comment, relativeFilePath, fileLineNumber, typeUrl, new ArrayList<>());
     }
 
     /**
@@ -101,7 +103,7 @@ public final class Violation {
             @Nullable final String relativeFilePath,
             @Nullable final Integer fileLineNumber,
             @Nullable final String typeUrl,
-            @NotNull final String[] secondaryUrls) {
+            @NotNull final List<String> secondaryUrls) {
 
         this.type = type;
         this.reporterName = reporterName;
@@ -150,7 +152,7 @@ public final class Violation {
     }
 
     @NotNull
-    public String[] getSecondaryUrls() {
+    public List<String> getSecondaryUrls() {
         return secondaryUrls;
     }
 
@@ -159,8 +161,7 @@ public final class Violation {
     }
 
     // Generated equals and hashcode
-
-
+    
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
@@ -177,7 +178,6 @@ public final class Violation {
             return false;
         if (typeUrl != null ? !typeUrl.equals(violation.typeUrl) : violation.typeUrl != null) return false;
         return secondaryUrls.equals(violation.secondaryUrls);
-
     }
 
     @Override

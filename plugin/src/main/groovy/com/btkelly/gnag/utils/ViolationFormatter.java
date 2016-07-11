@@ -19,6 +19,8 @@ import com.btkelly.gnag.models.Violation;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 /**
  * Creates formatted HTML strings representing individual violations.
  */
@@ -143,8 +145,8 @@ public final class ViolationFormatter {
             @NotNull final Violation violation,
             @NotNull final HtmlStringBuilder builder) {
 
-        final String[] secondaryViolationUrls = violation.getSecondaryUrls();
-        final int numberOfSecondaryViolationUrls = secondaryViolationUrls.length;
+        final List<String> secondaryViolationUrls = violation.getSecondaryUrls();
+        final int numberOfSecondaryViolationUrls = secondaryViolationUrls.size();
 
         if (numberOfSecondaryViolationUrls > 0) {
             builder
@@ -154,7 +156,7 @@ public final class ViolationFormatter {
             for (int urlNumber = 0; urlNumber < numberOfSecondaryViolationUrls; urlNumber++) {
                 builder
                         .append("[")
-                        .appendLink(Integer.toString(urlNumber), secondaryViolationUrls[urlNumber])
+                        .appendLink(Integer.toString(urlNumber), secondaryViolationUrls.get(urlNumber))
                         .append("]");
                 
                 if (urlNumber != numberOfSecondaryViolationUrls - 1) {

@@ -31,7 +31,7 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
     
     private static final int GFM_PEGDOWN_PROCESSOR_EXTENSIONS = HARDWRAPS | AUTOLINKS | FENCED_CODE_BLOCKS
 
-    private final AndroidLintExtension androidLintExtension;
+    private final AndroidLintExtension androidLintExtension
 
     AndroidLintViolationDetector(final Project project, final AndroidLintExtension androidLintExtension) {
         super(project)
@@ -63,29 +63,29 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
             .each { violation ->
                 final String violationType = sanitizeToNonNull((String) violation.@id.text())
             
-                final String messageInMarkdown = sanitizeToNonNull((String) violation.@message.text())
+                final String commentInMarkdown = sanitizeToNonNull((String) violation.@message.text())
                 final PegDownProcessor markdownProcessor = new PegDownProcessor(GFM_PEGDOWN_PROCESSOR_EXTENSIONS)
-                final String notNullMessageInHtml =
-                        sanitizeToNonNull(markdownProcessor.markdownToHtml(messageInMarkdown))
+                final String notNullCommentInHtml =
+                        sanitizeToNonNull(markdownProcessor.markdownToHtml(commentInMarkdown))
                         .replaceAll("</?p>", "")
             
-                final String nullableMessageInHtml = notNullMessageInHtml.isEmpty() ? null : notNullMessageInHtml
+                final String nullableCommentInHtml = notNullCommentInHtml.isEmpty() ? null : notNullCommentInHtml
             
                 final String lineNumberString = sanitizeToNonNull((String) violation.location.@line.text())
                 final Integer lineNumber = computeLineNumberFromString(lineNumberString, violationType)
             
-                final String[] secondaryUrls = computeSecondaryUrls(
+                final List<String> secondaryUrls = computeSecondaryUrls(
                         sanitizePreservingNulls((String) violation.@urls.text()),
-                        nullableMessageInHtml)
+                        nullableCommentInHtml)
             
                 result.add(new Violation(
                         violationType,
                         name(),
-                        nullableMessageInHtml,
+                        nullableCommentInHtml,
                         computeFilePathRelativeToProjectRoot((String) violation.location.@file.text()),
                         lineNumber,
                         null,
-                        secondaryUrls));
+                        secondaryUrls))
             }
 
         return result
@@ -109,25 +109,23 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
         }
     }
     
-    static List<String> computeSecondaryUrls(
-            final String secondaryUrlsString,
-            final String nullableMessageInHtml) {
-        
+    static List<String> computeSecondaryUrls(final String secondaryUrlsString, final String nullableCommentInHtml) {
         if (secondaryUrlsString == null) {
             return new ArrayList<>()
         }
         
         // Uses positive lookaround to avoiding splitting at comma characters _within_ URLs.
-        final String[] parsedUrls = Arrays.asList(secondaryUrlsString.split(",(?=https?)"))
+        final List<String> parsedUrls = Arrays.asList(secondaryUrlsString.split(",(?=\\s*https?)"))
         
-        if (nullableMessageInHtml == null) {
+        if (nullableCommentInHtml == null) {
             return parsedUrls
         }
-
+        
         final List<String> result = new ArrayList<>()
         
+        // Remove any URLs already present in the violation comment; no need to duplicate these.
         for (final String parsedUrl: parsedUrls) {
-            if (!nullableMessageInHtml.contains(parsedUrl)) {
+            if (!nullableCommentInHtml.contains(parsedUrl)) {
                 result.add(parsedUrl)
             }
         }
