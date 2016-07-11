@@ -18,7 +18,9 @@ package com.btkelly.gnag.models;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 public final class Violation {
 
@@ -45,7 +47,7 @@ public final class Violation {
     };
 
     @NotNull
-    private final String name;
+    private final String type;
 
     @NotNull
     private final String reporterName;
@@ -54,26 +56,58 @@ public final class Violation {
     private final String comment;
 
     @Nullable
-    private final String url;
-
-    @Nullable
     private final String relativeFilePath;
 
     @Nullable
     private final Integer fileLineNumber;
 
+    @Nullable
+    private final String typeUrl;
+    
+    @NotNull
+    private final List<String> secondaryUrls;
+
     public Violation(
-            @NotNull  final String name,
-            @NotNull  final String reporterName,
+            @NotNull final String type,
+            @NotNull final String reporterName,
             @Nullable final String comment,
-            @Nullable final String url,
             @Nullable final String relativeFilePath,
             @Nullable final Integer fileLineNumber) {
 
-        this.name = name;
+        this(type, reporterName, comment, relativeFilePath, fileLineNumber, null);
+    }
+
+    /**
+     * @param typeUrl a URL identifying a resource that provides more information on this violation's type; null if no
+     *                such resource is known
+     */
+    public Violation(
+            @NotNull final String type,
+            @NotNull final String reporterName,
+            @Nullable final String comment,
+            @Nullable final String relativeFilePath,
+            @Nullable final Integer fileLineNumber,
+            @Nullable final String typeUrl) {
+
+        this(type, reporterName, comment, relativeFilePath, fileLineNumber, typeUrl, new ArrayList<>());
+    }
+
+    /**
+     * @param typeUrl a URL identifying a resource that provides more information on this violation's type; null if no
+     *                such resource is known
+     */
+    public Violation(
+            @NotNull final String type,
+            @NotNull final String reporterName,
+            @Nullable final String comment,
+            @Nullable final String relativeFilePath,
+            @Nullable final Integer fileLineNumber,
+            @Nullable final String typeUrl,
+            @NotNull final List<String> secondaryUrls) {
+
+        this.type = type;
         this.reporterName = reporterName;
         this.comment = comment;
-        this.url = url;
         this.relativeFilePath = relativeFilePath;
 
         // Treat a line number of 0 as equivalent to a missing line number.
@@ -82,11 +116,14 @@ public final class Violation {
         } else {
             this.fileLineNumber = fileLineNumber;
         }
+
+        this.typeUrl = typeUrl;
+        this.secondaryUrls = secondaryUrls;
     }
 
     @NotNull
-    public String getName() {
-        return name;
+    public String getType() {
+        return type;
     }
 
     @NotNull
@@ -100,11 +137,6 @@ public final class Violation {
     }
 
     @Nullable
-    public String getUrl() {
-        return url;
-    }
-
-    @Nullable
     public String getRelativeFilePath() {
         return relativeFilePath;
     }
@@ -114,12 +146,22 @@ public final class Violation {
         return fileLineNumber;
     }
 
+    @Nullable
+    public String getTypeUrl() {
+        return typeUrl;
+    }
+
+    @NotNull
+    public List<String> getSecondaryUrls() {
+        return secondaryUrls;
+    }
+
     public boolean hasAllLocationInfo() {
         return getRelativeFilePath() != null && getFileLineNumber() != null;
     }
 
     // Generated equals and hashcode
-
+    
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
@@ -127,25 +169,27 @@ public final class Violation {
 
         final Violation violation = (Violation) o;
 
-        if (!name.equals(violation.name)) return false;
+        if (!type.equals(violation.type)) return false;
         if (!reporterName.equals(violation.reporterName)) return false;
         if (comment != null ? !comment.equals(violation.comment) : violation.comment != null) return false;
-        if (url != null ? !url.equals(violation.url) : violation.url != null) return false;
         if (relativeFilePath != null ? !relativeFilePath.equals(violation.relativeFilePath) : violation.relativeFilePath != null)
             return false;
-        return fileLineNumber != null ? fileLineNumber.equals(violation.fileLineNumber) : violation.fileLineNumber == null;
-
+        if (fileLineNumber != null ? !fileLineNumber.equals(violation.fileLineNumber) : violation.fileLineNumber != null)
+            return false;
+        if (typeUrl != null ? !typeUrl.equals(violation.typeUrl) : violation.typeUrl != null) return false;
+        return secondaryUrls.equals(violation.secondaryUrls);
     }
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
+        int result = type.hashCode();
         result = 31 * result + reporterName.hashCode();
         result = 31 * result + (comment != null ? comment.hashCode() : 0);
-        result = 31 * result + (url != null ? url.hashCode() : 0);
         result = 31 * result + (relativeFilePath != null ? relativeFilePath.hashCode() : 0);
         result = 31 * result + (fileLineNumber != null ? fileLineNumber.hashCode() : 0);
+        result = 31 * result + (typeUrl != null ? typeUrl.hashCode() : 0);
+        result = 31 * result + secondaryUrls.hashCode();
         return result;
     }
-
+    
 }

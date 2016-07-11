@@ -52,10 +52,10 @@ abstract class BaseViolationDetector implements ViolationDetector {
 
     /**
      * @param lineNumberString a String we would like to parse into an integer value.
-     * @param violationName the name of the violation currently being parsed. Used for logging only.
+     * @param violationType the name of the violation currently being parsed. Used for logging only.
      * @return a positive integer, if lineNumberString can be parsed into such a value; null in any other case.
      */
-    protected Integer computeLineNumberFromString(final String lineNumberString, final String violationName) {
+    protected Integer computeLineNumberFromString(final String lineNumberString, final String violationType) {
         if (lineNumberString.isEmpty()) {
             return null
         } else {
@@ -67,14 +67,14 @@ abstract class BaseViolationDetector implements ViolationDetector {
                 } else {
                     System.out.println(
                             "Invalid line number: + " + result +
-                            " for " + name() + " violation: " + violationName)
+                            " for " + name() + " violation: " + violationType)
                     
                     return null
                 }
             } catch (final NumberFormatException ignored) {
                 System.out.println(
                         "Error parsing line number string: \"" + lineNumberString +
-                        "\" for " + name() + " violation: " + violationName)
+                        "\" for " + name() + " violation: " + violationType)
 
                 return null
             }

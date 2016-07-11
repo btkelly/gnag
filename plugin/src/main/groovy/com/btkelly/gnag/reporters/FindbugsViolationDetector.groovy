@@ -92,19 +92,18 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
 
         xml.BugInstance.list()
             .each { violation ->
-                final String violationName = sanitizeToNonNull((String) violation.@type.text())
+                final String violationType = sanitizeToNonNull((String) violation.@type.text())
 
                 final String relativeFilePath =
                         computeRelativeFilePathIfPossible((GPathResult) violation, sourceFilePaths)
             
                 final String lineNumberString = sanitizeToNonNull((String) violation.SourceLine.@end.text())
-                final Integer lineNumber = computeLineNumberFromString(lineNumberString, violationName)
+                final Integer lineNumber = computeLineNumberFromString(lineNumberString, violationType)
 
                 result.add(new Violation(
-                        violationName,
+                        violationType,
                         name(),
                         sanitizePreservingNulls((String) violation.ShortMessage.text()),
-                        null,
                         relativeFilePath,
                         lineNumber))
             }

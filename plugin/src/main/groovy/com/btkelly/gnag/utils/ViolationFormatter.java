@@ -19,16 +19,12 @@ import com.btkelly.gnag.models.Violation;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 /**
  * Creates formatted HTML strings representing individual violations.
  */
 public final class ViolationFormatter {
-
-    private static final String VIOLATION_FILE_LABEL  = "File: ";
-    private static final String VIOLATION_LINE_LABEL  = "Line: ";
-    private static final String VIOLATION_NAME_LABEL  = "Violation: ";
-    private static final String VIOLATION_NOTES_LABEL = "Notes: ";
-    private static final String VIOLATION_REPORTER_LABEL = "Reporter: ";
 
     /**
      * Use this method to create a formatted HTML string representing a violation that will be posted as an inline
@@ -48,6 +44,7 @@ public final class ViolationFormatter {
         appendViolationReporterToBuilder(violation, builder);
         appendViolationNameToBuilder(violation, builder);
         appendViolationCommentToBuilderIfPresent(violation, builder);
+        appendSecondaryUrlsToBuilderIfPresent(violation, builder);
 
         return builder.toString();
     }
@@ -63,6 +60,7 @@ public final class ViolationFormatter {
         appendViolationNameToBuilder(violation, builder);
         appendLocationInformationToBuilderIfPresent(violation, builder);
         appendViolationCommentToBuilderIfPresent(violation, builder);
+        appendSecondaryUrlsToBuilderIfPresent(violation, builder);
 
         return builder.toString();
     }
@@ -71,7 +69,7 @@ public final class ViolationFormatter {
             @NotNull final Violation violation,
             @NotNull final HtmlStringBuilder builder) {
 
-        builder.appendBold(VIOLATION_REPORTER_LABEL);
+        builder.appendBold("Reporter: ");
         builder.append(violation.getReporterName());
         builder.insertLineBreak();
     }
@@ -80,15 +78,15 @@ public final class ViolationFormatter {
             @NotNull final Violation violation,
             @NotNull final HtmlStringBuilder builder) {
 
-        builder.appendBold(VIOLATION_NAME_LABEL);
+        builder.appendBold("Violation: ");
 
-        final String violationName = violation.getName();
-        final String violationUrl = violation.getUrl();
+        final String violationType = violation.getType();
+        final String violationTypeUrl = violation.getTypeUrl();
 
-        if (StringUtils.isNotBlank(violationUrl)) {
-            builder.appendLink(violationName, violationUrl);
+        if (StringUtils.isNotBlank(violationTypeUrl)) {
+            builder.appendLink(violationType, violationTypeUrl);
         } else {
-            builder.append(violationName);
+            builder.append(violationType);
         }
     }
 
@@ -115,7 +113,7 @@ public final class ViolationFormatter {
 
         builder
                 .insertLineBreak()
-                .appendBold(VIOLATION_FILE_LABEL)
+                .appendBold("File: ")
                 .append(violationRelativeFilePath);
     }
 
@@ -125,7 +123,7 @@ public final class ViolationFormatter {
 
         builder
                 .insertLineBreak()
-                .appendBold(VIOLATION_LINE_LABEL)
+                .appendBold("Line: ")
                 .append(Integer.toString(violationFileLineNumber));
     }
 
@@ -138,13 +136,35 @@ public final class ViolationFormatter {
         if (violationComment != null) {
             builder
                     .insertLineBreak()
-                    .appendBold(VIOLATION_NOTES_LABEL)
+                    .appendBold("Notes: ")
                     .append(violationComment);
         }
     }
 
-    private ViolationFormatter() {
+    private static void appendSecondaryUrlsToBuilderIfPresent(
+            @NotNull final Violation violation,
+            @NotNull final HtmlStringBuilder builder) {
 
+        final List<String> secondaryViolationUrls = violation.getSecondaryUrls();
+        final int numberOfSecondaryViolationUrls = secondaryViolationUrls.size();
+
+        if (numberOfSecondaryViolationUrls > 0) {
+            builder
+                    .insertLineBreak()
+                    .appendBold("Related: ");
+            
+            for (int urlNumber = 0; urlNumber < numberOfSecondaryViolationUrls; urlNumber++) {
+                builder.appendLink(secondaryViolationUrls.get(urlNumber), secondaryViolationUrls.get(urlNumber));
+                
+                if (urlNumber != numberOfSecondaryViolationUrls - 1) {
+                    builder.append(", ");
+                }
+            }
+        }
+    }
+
+    private ViolationFormatter() {
+        // This constructor intentionally left blank.
     }
 
 }
