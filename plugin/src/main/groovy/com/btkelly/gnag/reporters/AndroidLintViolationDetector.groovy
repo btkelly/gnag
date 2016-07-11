@@ -74,8 +74,9 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
                 final String lineNumberString = sanitizeToNonNull((String) violation.location.@line.text())
                 final Integer lineNumber = computeLineNumberFromString(lineNumberString, violationType)
             
-                final String[] secondaryUrls =
-                        computeSecondaryUrls(sanitizePreservingNulls((String) violation.@urls.text()))
+                final String[] secondaryUrls = computeSecondaryUrls(
+                        sanitizePreservingNulls((String) violation.@urls.text()),
+                        nullableMessageInHtml)
             
                 result.add(new Violation(
                         violationType,
@@ -108,9 +109,30 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
         }
     }
     
-    private static String[] computeSecondaryUrls(final String secondaryUrlsString) {
+    static List<String> computeSecondaryUrls(
+            final String secondaryUrlsString,
+            final String nullableMessageInHtml) {
+        
+        if (secondaryUrlsString == null) {
+            return new ArrayList<>()
+        }
+        
         // Uses positive lookaround to avoiding splitting at comma characters _within_ URLs.
-        return secondaryUrlsString.split(",(?=https?)")
+        final String[] parsedUrls = Arrays.asList(secondaryUrlsString.split(",(?=https?)"))
+        
+        if (nullableMessageInHtml == null) {
+            return parsedUrls
+        }
+
+        final List<String> result = new ArrayList<>()
+        
+        for (final String parsedUrl: parsedUrls) {
+            if (!nullableMessageInHtml.contains(parsedUrl)) {
+                result.add(parsedUrl)
+            }
+        }
+        
+        return result
     }
     
 }
