@@ -94,6 +94,52 @@ gnag {
   - ***authToken*** - a GitHub token for a user that has access to comment on issues to the specified repo
   - ***issueNumber*** - the issue or PR number currently being built
 
+You can customize which Android lint issues are enabled and the severity assigned to each issue type using the standard `lintOptions` configuration closure exposed as part of the Android Gradle plugin:
+
+*build.gradle*
+
+```groovy
+android {
+    lintOptions {
+        // turn off checking the given issue id's
+        disable 'TypographyFractions','TypographyQuotes'
+
+        // turn on the given issue id's
+        enable 'RtlHardcoded','RtlCompat', 'RtlEnabled'
+
+        // check *only* the given issue id's
+        check 'NewApi', 'InlinedApi'
+    }
+}
+```
+
+These customizations may also be specified in a linked configuration file:
+
+*build.gradle*
+
+```groovy
+android {
+    lintOptions {
+        lintConfig = file("config/lint.xml")
+    }
+}
+```
+
+*lint.xml*
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <!-- Instruct Gnag to flag hardcoded strings. -->
+    <issue id="HardcodedText" severity="error" />
+
+    <!-- Instruct Gnag to flag images without accessibility labels. -->
+    <issue id="ContentDescription" severity="error" />
+</lint>
+```
+
+See [the official documentation](https://developer.android.com/studio/write/lint.html) for more information on Android lint configuration.
+
 ## Example Output
 
 Below are examples of output posted to a GitHub PR on a project using Gnag to enforce quality checks.
