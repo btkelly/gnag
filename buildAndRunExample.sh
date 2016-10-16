@@ -5,7 +5,7 @@
 if [ $? -eq 0 ]; then
 	cd example/
 
-	./gradlew clean gnagCheck
+	./gradlew clean gnagCheckDebug
 
 	cd ..
 fi
