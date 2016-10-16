@@ -44,7 +44,7 @@ public class GnagReportTask extends DefaultTask {
     public static final String TASK_NAME_PREFIX = "gnagReport";
     private static final String REMOTE_SUCCESS_COMMENT_FORMAT_STRING = "Congrats, no :poop: code found%s!";
 
-    public static void addToProject(
+    public static Task addToProject(
             @NotNull final Project project,
             @NotNull final GitHubExtension gitHubExtension,
             @NotNull final BaseVariant variant) {
@@ -61,6 +61,8 @@ public class GnagReportTask extends DefaultTask {
         GnagReportTask gnagReportTask = (GnagReportTask) project.task(taskOptions, getTaskNameForBuildVariant(variant));
         gnagReportTask.dependsOn(GnagCheckTask.getTaskNameForBuildVariant(variant));
         gnagReportTask.setGitHubExtension(gitHubExtension);
+        
+        return gnagReportTask;
     }
 
     @NotNull

@@ -44,7 +44,7 @@ public class GnagCheckTask extends DefaultTask {
 
     public static final String TASK_NAME_PREFIX = "gnagCheck";
 
-    public static void addToProject(
+    public static Task addToProject(
             @NotNull final Project project,
             @NotNull final GnagPluginExtension gnagPluginExtension,
             @NotNull final BaseVariant variant) {
@@ -65,6 +65,8 @@ public class GnagCheckTask extends DefaultTask {
         gnagCheckTask.violationDetectors.add(new PMDViolationDetector(project, gnagPluginExtension.pmd));
         gnagCheckTask.violationDetectors.add(new FindbugsViolationDetector(project, gnagPluginExtension.findbugs));
         gnagCheckTask.violationDetectors.add(new AndroidLintViolationDetector(project, gnagPluginExtension.androidLint));
+
+        return gnagCheckTask;
     }
     
     @NotNull
