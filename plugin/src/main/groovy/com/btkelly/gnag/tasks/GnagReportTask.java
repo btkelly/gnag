@@ -15,14 +15,15 @@
  */
 package com.btkelly.gnag.tasks;
 
+import com.android.build.gradle.api.BaseVariant;
 import com.btkelly.gnag.api.GitHubApi;
 import com.btkelly.gnag.extensions.GitHubExtension;
 import com.btkelly.gnag.models.*;
+import com.btkelly.gnag.utils.StringUtils;
 import com.btkelly.gnag.utils.ViolationFormatter;
 import com.btkelly.gnag.utils.ViolationsFormatter;
 import com.btkelly.gnag.utils.ViolationsUtil;
 import com.github.stkent.githubdiffparser.models.Diff;
-import org.apache.commons.lang.StringUtils;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
@@ -40,21 +41,32 @@ import static java.lang.Math.min;
  */
 public class GnagReportTask extends DefaultTask {
 
-    public static final String TASK_NAME = "gnagReport";
+    public static final String TASK_NAME_PREFIX = "gnagReport";
     private static final String REMOTE_SUCCESS_COMMENT_FORMAT_STRING = "Congrats, no :poop: code found%s!";
 
-    public static void addTask(Project project, GitHubExtension gitHubExtension) {
+    public static void addToProject(
+            @NotNull final Project project,
+            @NotNull final GitHubExtension gitHubExtension,
+            @NotNull final BaseVariant variant) {
+
+        String variantName = variant.getName();
+
         Map<String, Object> taskOptions = new HashMap<>();
 
-        taskOptions.put(Task.TASK_NAME, TASK_NAME);
         taskOptions.put(Task.TASK_TYPE, GnagReportTask.class);
         taskOptions.put(Task.TASK_GROUP, "Verification");
         taskOptions.put(Task.TASK_DEPENDS_ON, "check");
-        taskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag and generates a report to publish to GitHub and set the status of a PR");
+        taskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag on the " + variantName + " variant, reports results to GitHub, and sets the status of a PR");
 
-        GnagReportTask gnagReportTask = (GnagReportTask) project.task(taskOptions, TASK_NAME);
-        gnagReportTask.dependsOn(GnagCheck.TASK_NAME);
+        GnagReportTask gnagReportTask = (GnagReportTask) project.task(taskOptions, getTaskNameForBuildVariant(variant));
+        gnagReportTask.dependsOn(GnagCheckTask.getTaskNameForBuildVariant(variant));
         gnagReportTask.setGitHubExtension(gitHubExtension);
+    }
+
+    @NotNull
+    private static String getTaskNameForBuildVariant(@NotNull final BaseVariant variant) {
+        String variantName = variant.getName();
+        return TASK_NAME_PREFIX + StringUtils.capitalizeFirstChar(variantName);
     }
 
     private GitHubApi gitHubApi;

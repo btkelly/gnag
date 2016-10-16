@@ -15,18 +15,21 @@
  */
 package com.btkelly.gnag.tasks;
 
+import com.android.build.gradle.api.BaseVariant;
 import com.btkelly.gnag.extensions.GnagPluginExtension;
 import com.btkelly.gnag.models.CheckStatus;
 import com.btkelly.gnag.models.Violation;
 import com.btkelly.gnag.reporters.*;
 import com.btkelly.gnag.utils.ReportHelper;
 import com.btkelly.gnag.utils.ReportWriter;
+import com.btkelly.gnag.utils.StringUtils;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.tasks.StopExecutionException;
 import org.gradle.api.tasks.TaskAction;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.*;
@@ -37,25 +40,37 @@ import static com.btkelly.gnag.utils.ReportWriter.REPORT_FILE_NAME;
 /**
  * Created by bobbake4 on 4/1/16.
  */
-public class GnagCheck extends DefaultTask {
+public class GnagCheckTask extends DefaultTask {
 
-    public static final String TASK_NAME = "gnagCheck";
+    public static final String TASK_NAME_PREFIX = "gnagCheck";
 
-    public static void addTask(Project project, GnagPluginExtension gnagPluginExtension) {
+    public static void addToProject(
+            @NotNull final Project project,
+            @NotNull final GnagPluginExtension gnagPluginExtension,
+            @NotNull final BaseVariant variant) {
+        
+        String variantName = variant.getName();
+        String capitalizedVariantName = StringUtils.capitalizeFirstChar(variantName);
+
         Map<String, Object> taskOptions = new HashMap<>();
 
-        taskOptions.put(Task.TASK_NAME, TASK_NAME);
-        taskOptions.put(Task.TASK_TYPE, GnagCheck.class);
+        taskOptions.put(Task.TASK_TYPE, GnagCheckTask.class);
         taskOptions.put(Task.TASK_GROUP, "Verification");
-        taskOptions.put(Task.TASK_DEPENDS_ON, "check");
-        taskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag checks and generates an HTML report");
+        taskOptions.put(Task.TASK_DEPENDS_ON, "lint" + capitalizedVariantName);
+        taskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag checks and generates an HTML report for the " + variantName + " build variant.");
 
-        GnagCheck gnagCheckTask = (GnagCheck) project.task(taskOptions, TASK_NAME);
+        GnagCheckTask gnagCheckTask = (GnagCheckTask) project.task(taskOptions, getTaskNameForBuildVariant(variant));
         gnagCheckTask.setGnagPluginExtension(gnagPluginExtension);
         gnagCheckTask.violationDetectors.add(new CheckstyleViolationDetector(project, gnagPluginExtension.checkstyle));
         gnagCheckTask.violationDetectors.add(new PMDViolationDetector(project, gnagPluginExtension.pmd));
         gnagCheckTask.violationDetectors.add(new FindbugsViolationDetector(project, gnagPluginExtension.findbugs));
         gnagCheckTask.violationDetectors.add(new AndroidLintViolationDetector(project, gnagPluginExtension.androidLint));
+    }
+    
+    @NotNull
+    public static String getTaskNameForBuildVariant(@NotNull final BaseVariant variant) {
+        String variantName = variant.getName();
+        return TASK_NAME_PREFIX + StringUtils.capitalizeFirstChar(variantName);
     }
 
     private final List<ViolationDetector> violationDetectors = new ArrayList<>();

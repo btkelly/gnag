@@ -46,9 +46,22 @@ public final class StringUtils {
 
         return nullableSanitizedString != null ? nullableSanitizedString : "";
     }
+    
+    @NotNull
+    public static String capitalizeFirstChar(@NotNull final String string) {
+        return string.substring(0, 1).toUpperCase() + string.substring(1);
+    }
+
+    public static boolean isBlank(@Nullable final String string) {
+        return string == null || string.trim().isEmpty();
+    }
+
+    public static boolean isNotBlank(@Nullable final String string) {
+        return !isBlank(string);
+    }
 
     private StringUtils() {
         // This constructor intentionally left blank.
     }
-
+    
 }
