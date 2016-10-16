@@ -41,34 +41,46 @@ import static java.lang.Math.min;
  */
 public class GnagReportTask extends DefaultTask {
 
-    public static final String TASK_NAME_PREFIX = "gnagReport";
+    private static final String GLOBAL_TASK_NAME = "gnagReport";
     private static final String REMOTE_SUCCESS_COMMENT_FORMAT_STRING = "Congrats, no :poop: code found%s!";
 
-    public static Task addToProject(
+    public static void addTasksToProject(
             @NotNull final Project project,
             @NotNull final GitHubExtension gitHubExtension,
-            @NotNull final BaseVariant variant) {
+            @NotNull final Collection<? extends BaseVariant> variants) {
 
-        String variantName = variant.getName();
-
-        Map<String, Object> taskOptions = new HashMap<>();
-
-        taskOptions.put(Task.TASK_TYPE, GnagReportTask.class);
-        taskOptions.put(Task.TASK_GROUP, "Verification");
-        taskOptions.put(Task.TASK_DEPENDS_ON, "check");
-        taskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag on the " + variantName + " variant, reports results to GitHub, and sets the status of a PR");
-
-        GnagReportTask gnagReportTask = (GnagReportTask) project.task(taskOptions, getTaskNameForBuildVariant(variant));
-        gnagReportTask.dependsOn(GnagCheckTask.getTaskNameForBuildVariant(variant));
-        gnagReportTask.setGitHubExtension(gitHubExtension);
+        final List<String> variantGnagReportTaskNames = new ArrayList<>();
         
-        return gnagReportTask;
+        variants.forEach(variant -> {
+            String variantName = variant.getName();
+
+            Map<String, Object> variantTaskOptions = new HashMap<>();
+
+            variantTaskOptions.put(Task.TASK_TYPE, GnagReportTask.class);
+            variantTaskOptions.put(Task.TASK_GROUP, "Verification");
+            variantTaskOptions.put(Task.TASK_DEPENDS_ON, GnagCheckTask.getTaskNameForBuildVariant(variant));
+            variantTaskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag on the " + variantName + " build variant, reports results to GitHub, and sets the status of a PR");
+
+            GnagReportTask variantGnagReportTask = (GnagReportTask) project.task(variantTaskOptions, getTaskNameForBuildVariant(variant));
+            variantGnagReportTask.dependsOn(GnagCheckTask.getTaskNameForBuildVariant(variant));
+            variantGnagReportTask.setGitHubExtension(gitHubExtension);
+            
+            variantGnagReportTaskNames.add(variantGnagReportTask.getName());
+        });
+
+        final Map<String, Object> globalTaskOptions = new HashMap<>();
+
+        globalTaskOptions.put(Task.TASK_GROUP, "Verification");
+        globalTaskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag on all build variant, reports results to GitHub, and sets the status of a PR");
+        globalTaskOptions.put(Task.TASK_DEPENDS_ON, variantGnagReportTaskNames);
+
+        project.task(globalTaskOptions, GLOBAL_TASK_NAME);
     }
 
     @NotNull
     private static String getTaskNameForBuildVariant(@NotNull final BaseVariant variant) {
         String variantName = variant.getName();
-        return TASK_NAME_PREFIX + StringUtils.capitalizeFirstChar(variantName);
+        return GLOBAL_TASK_NAME + StringUtils.capitalizeFirstChar(variantName);
     }
 
     private GitHubApi gitHubApi;
@@ -182,5 +194,5 @@ public class GnagReportTask extends DefaultTask {
                             violationsWithMissingOrInvalidLocationInfo));
         }
     }
-
+    
 }

@@ -27,39 +27,39 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
+
 /**
  * Created by bobbake4 on 4/1/16.
  */
 public class GnagPlugin implements Plugin<Project> {
 
     @Override
-    public void apply(final Project project) {
+    public void apply(@NotNull final Project project) {
         GnagPluginExtension gnagPluginExtension = GnagPluginExtension.loadExtension(project);
 
         project.afterEvaluate(evaluatedProject -> {
             if (evaluatedProject.getPlugins().hasPlugin(AppPlugin.class)) {
                 AppExtension android = (AppExtension) evaluatedProject.getExtensions().getByName("android");
 
-                android.getApplicationVariants().forEach(
-                        variant -> configureTasks(evaluatedProject, gnagPluginExtension, variant));
+                addAllTasksToProject(project, gnagPluginExtension, android.getApplicationVariants());
             } else if (evaluatedProject.getPlugins().hasPlugin(LibraryPlugin.class)) {
                 LibraryExtension android = (LibraryExtension) evaluatedProject.getExtensions().getByName("android");
 
-                android.getLibraryVariants().forEach(
-                        variant -> configureTasks(evaluatedProject, gnagPluginExtension, variant));
+                addAllTasksToProject(project, gnagPluginExtension, android.getLibraryVariants());
             } else {
                 // fixme: throw a loud exception here
             }
         });
     }
-
-    private void configureTasks(
+    
+    private static void addAllTasksToProject(
             @NotNull final Project project,
             @NotNull final GnagPluginExtension gnagPluginExtension,
-            @NotNull final BaseVariant variant) {
-        
-        GnagCheckTask.addToProject(project, gnagPluginExtension, variant);
-        GnagReportTask.addToProject(project, gnagPluginExtension.github, variant);
+            @NotNull final Collection<? extends BaseVariant> variants) {
+
+        GnagCheckTask.addTasksToProject(project, gnagPluginExtension, variants);
+        GnagReportTask.addTasksToProject(project, gnagPluginExtension.github, variants);
     }
-    
+        
 }

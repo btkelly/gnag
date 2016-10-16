@@ -42,37 +42,49 @@ import static com.btkelly.gnag.utils.ReportWriter.REPORT_FILE_NAME;
  */
 public class GnagCheckTask extends DefaultTask {
 
-    public static final String TASK_NAME_PREFIX = "gnagCheck";
+    private static final String GLOBAL_TASK_NAME = "gnagCheck";
 
-    public static Task addToProject(
+    public static void addTasksToProject(
             @NotNull final Project project,
             @NotNull final GnagPluginExtension gnagPluginExtension,
-            @NotNull final BaseVariant variant) {
-        
-        String variantName = variant.getName();
-        String capitalizedVariantName = StringUtils.capitalizeFirstChar(variantName);
+            @NotNull final Collection<? extends BaseVariant> variants) {
 
-        Map<String, Object> taskOptions = new HashMap<>();
+        final List<String> variantGnagCheckTaskNames = new ArrayList<>();
 
-        taskOptions.put(Task.TASK_TYPE, GnagCheckTask.class);
-        taskOptions.put(Task.TASK_GROUP, "Verification");
-        taskOptions.put(Task.TASK_DEPENDS_ON, "lint" + capitalizedVariantName);
-        taskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag checks and generates an HTML report for the " + variantName + " build variant.");
+        variants.forEach(variant -> {
+            String variantName = variant.getName();
+            String capitalizedVariantName = StringUtils.capitalizeFirstChar(variantName);
 
-        GnagCheckTask gnagCheckTask = (GnagCheckTask) project.task(taskOptions, getTaskNameForBuildVariant(variant));
-        gnagCheckTask.setGnagPluginExtension(gnagPluginExtension);
-        gnagCheckTask.violationDetectors.add(new CheckstyleViolationDetector(project, gnagPluginExtension.checkstyle));
-        gnagCheckTask.violationDetectors.add(new PMDViolationDetector(project, gnagPluginExtension.pmd));
-        gnagCheckTask.violationDetectors.add(new FindbugsViolationDetector(project, gnagPluginExtension.findbugs));
-        gnagCheckTask.violationDetectors.add(new AndroidLintViolationDetector(project, gnagPluginExtension.androidLint));
+            Map<String, Object> variantTaskOptions = new HashMap<>();
 
-        return gnagCheckTask;
+            variantTaskOptions.put(Task.TASK_TYPE, GnagCheckTask.class);
+            variantTaskOptions.put(Task.TASK_GROUP, "Verification");
+            variantTaskOptions.put(Task.TASK_DEPENDS_ON, "lint" + capitalizedVariantName);
+            variantTaskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag checks and generates an HTML report for the " + variantName + " build variant.");
+
+            GnagCheckTask variantGnagCheckTask = (GnagCheckTask) project.task(variantTaskOptions, getTaskNameForBuildVariant(variant));
+            variantGnagCheckTask.setGnagPluginExtension(gnagPluginExtension);
+            variantGnagCheckTask.violationDetectors.add(new CheckstyleViolationDetector(project, gnagPluginExtension.checkstyle));
+            variantGnagCheckTask.violationDetectors.add(new PMDViolationDetector(project, gnagPluginExtension.pmd));
+            variantGnagCheckTask.violationDetectors.add(new FindbugsViolationDetector(project, gnagPluginExtension.findbugs));
+            variantGnagCheckTask.violationDetectors.add(new AndroidLintViolationDetector(project, gnagPluginExtension.androidLint));
+
+            variantGnagCheckTaskNames.add(variantGnagCheckTask.getName());
+        });
+
+        final Map<String, Object> globalTaskOptions = new HashMap<>();
+
+        globalTaskOptions.put(Task.TASK_GROUP, "Verification");
+        globalTaskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag checks and generates an HTML report for all build variants.");
+        globalTaskOptions.put(Task.TASK_DEPENDS_ON, variantGnagCheckTaskNames);
+
+        project.task(globalTaskOptions, GLOBAL_TASK_NAME);
     }
     
     @NotNull
     public static String getTaskNameForBuildVariant(@NotNull final BaseVariant variant) {
         String variantName = variant.getName();
-        return TASK_NAME_PREFIX + StringUtils.capitalizeFirstChar(variantName);
+        return GLOBAL_TASK_NAME + StringUtils.capitalizeFirstChar(variantName);
     }
 
     private final List<ViolationDetector> violationDetectors = new ArrayList<>();
@@ -148,5 +160,5 @@ public class GnagCheckTask extends DefaultTask {
 
         return false;
     }
-
+    
 }
