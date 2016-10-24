@@ -38,7 +38,7 @@ dependencies {
 }
 
 license {
-    header = file('../LICENSE.txt')
+    header = file('../LICENSE_HEADER.txt')
     strictCheck true
 }
 
