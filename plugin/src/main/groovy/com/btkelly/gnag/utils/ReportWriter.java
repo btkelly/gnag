@@ -38,8 +38,7 @@ public final class ReportWriter {
                     + "<link rel=\"stylesheet\" href=\"github-markdown.css\">"
                     + "<article class=\"markdown-body\">";
 
-    private static final String HTML_REPORT_SUFFIX =
-            "</article></html>";
+    private static final String HTML_REPORT_SUFFIX = "</article></html>";
 
     public static void writeLocalReportFiles(
             @NotNull final Set<Violation> violations,
@@ -68,8 +67,6 @@ public final class ReportWriter {
         }
 
         copyCssFileToDirectory(directory);
-
-        return;
     }
     
     public static void deleteLocalReportFiles(@NotNull final File directory) {
