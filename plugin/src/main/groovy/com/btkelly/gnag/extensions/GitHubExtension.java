@@ -38,7 +38,7 @@ public class GitHubExtension {
     }
 
     public String getRootUrl() {
-        return project.hasProperty("rootUrl") ? (String) project.property("rootUrl") : repoName != null ? repoName : "https://api.github.com/repos/";
+        return project.hasProperty("rootUrl") ? (String) project.property("rootUrl") : rootUrl != null ? rootUrl : "https://api.github.com/repos/";
     }
 
     public void repoName(String repoName) {
