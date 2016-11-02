@@ -68,6 +68,7 @@ gnag {
         severity 'Error'
     }
     github {
+        rootUrl 'https://my.githubinstall.com/repos/'
         repoName 'btkelly/repo'
         authToken '0000000000000'
         issueNumber '1'
@@ -90,6 +91,7 @@ gnag {
   - ***enabled*** - set if the android lint reporter should look for a lint report
   - ***severity*** - can be 'Error' or 'Warning' depending on which severity you want Gnag to check
 - ***github*** - block to customize GitHub reporting (only used during the `gnagReport` task
+  - ***rootUrl*** - root URL to use when communicating with the GitHub api, if not provided will default to "https://api.github.com/repos/"
   - ***repoName*** - account and repo name to report violations to
   - ***authToken*** - a GitHub token for a user that has access to comment on issues to the specified repo
   - ***issueNumber*** - the issue or PR number currently being built
