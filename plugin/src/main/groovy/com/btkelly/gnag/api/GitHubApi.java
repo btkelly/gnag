@@ -51,7 +51,7 @@ public class GitHubApi {
                 .addInterceptor(new HttpLoggingInterceptor(logger).setLevel(HttpLoggingInterceptor.Level.NONE))
                 .build();
 
-        String baseUrl = "https://api.github.com/repos/" + gitHubExtension.getRepoName() + "/";
+        String baseUrl = gitHubExtension.getRootUrl() + gitHubExtension.getRepoName() + "/";
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
