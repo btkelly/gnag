@@ -23,25 +23,30 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static com.btkelly.gnag.models.Violation.COMPARATOR;
+
 /**
  * Creates formatted HTML strings representing collections of violations.
  */
 public final class ViolationsFormatter {
 
     public static String getHtmlStringForAggregatedComment(@NotNull final Set<Violation> violations) {
-        final Map<String, List<Violation>> groupedViolations = violations
+        final Map<String, List<Violation>> reporterViolationsMap = violations
                 .stream()
                 .collect(Collectors.groupingBy(Violation::getReporterName));
 
         final HtmlStringBuilder builder = new HtmlStringBuilder();
 
-        for (final Map.Entry<String, List<Violation>> entry : groupedViolations.entrySet()) {
+        for (final Map.Entry<String, List<Violation>> entry : reporterViolationsMap.entrySet()) {
             builder
                     .append("<h2>")
                     .append(entry.getKey() + " Violations")
                     .append("</h2>");
 
-            for (final Violation violation : entry.getValue()) {
+            final List<Violation> reporterViolations = entry.getValue();
+            reporterViolations.sort(COMPARATOR);
+
+            for (final Violation violation : reporterViolations) {
                 builder
                         .append(ViolationFormatter.getHtmlStringForAggregatedComment(violation))
                         .insertLineBreak()

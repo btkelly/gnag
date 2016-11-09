@@ -24,25 +24,38 @@ import java.util.List;
 
 public final class Violation {
 
-    /**
-     * WARNING: do not use this comparator to sort Violations with missing or partial location information only!
-     *
-     * Violations that will be reported as inline comments should be reported in the order specified by this Comparator.
-     * Comments will be sorted first by relative file path, then within each file by line number.
-     */
-    @SuppressWarnings("ConstantConditions")
-    public static final Comparator<Violation> COMMENT_POSTING_COMPARATOR = (v1, v2) -> {
-        if (!v1.hasAllLocationInfo() || !v2.hasAllLocationInfo()) {
-            return 0;
-        }
-
+    @NotNull
+    public static final Comparator<Violation> COMPARATOR = (v1, v2) -> {
+        // Primary grouping is based on file paths:
+        
         final String v1RelativeFilePath = v1.getRelativeFilePath();
         final String v2RelativeFilePath = v2.getRelativeFilePath();
 
-        if (v1RelativeFilePath.equals(v2RelativeFilePath)) {
-            return v1.getFileLineNumber().compareTo(v2.getFileLineNumber());
-        } else {
+        if (v1RelativeFilePath == null && v2RelativeFilePath == null) {
+            return 0;
+        } else if (v1RelativeFilePath == null) {
+            return -1;
+        } else if (v2RelativeFilePath == null) {
+            return 1;
+        }
+        
+        if (!v1RelativeFilePath.equals(v2RelativeFilePath)) {
             return v1RelativeFilePath.compareTo(v2RelativeFilePath);
+        }
+
+        // Secondary grouping is based on line numbers:
+
+        final Integer v1FileLineNumber = v1.getFileLineNumber();
+        final Integer v2FileLineNumber = v2.getFileLineNumber();
+
+        if (v1FileLineNumber == null && v2FileLineNumber == null) {
+            return 0;
+        } else if (v1FileLineNumber == null) {
+            return -1;
+        } else if (v2FileLineNumber == null) {
+            return 1;
+        } else {
+            return v1FileLineNumber.compareTo(v2FileLineNumber);
         }
     };
 
