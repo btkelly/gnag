@@ -26,6 +26,7 @@ public final class Violation {
 
     @NotNull
     public static final Comparator<Violation> COMPARATOR = (v1, v2) -> {
+
         // Primary grouping is based on file paths:
         
         final String v1RelativeFilePath = v1.getRelativeFilePath();
@@ -34,9 +35,9 @@ public final class Violation {
         if (v1RelativeFilePath == null && v2RelativeFilePath == null) {
             return 0;
         } else if (v1RelativeFilePath == null) {
-            return -1;
-        } else if (v2RelativeFilePath == null) {
             return 1;
+        } else if (v2RelativeFilePath == null) {
+            return -1;
         }
         
         if (!v1RelativeFilePath.equals(v2RelativeFilePath)) {
@@ -51,9 +52,9 @@ public final class Violation {
         if (v1FileLineNumber == null && v2FileLineNumber == null) {
             return 0;
         } else if (v1FileLineNumber == null) {
-            return -1;
-        } else if (v2FileLineNumber == null) {
             return 1;
+        } else if (v2FileLineNumber == null) {
+            return -1;
         } else {
             return v1FileLineNumber.compareTo(v2FileLineNumber);
         }
