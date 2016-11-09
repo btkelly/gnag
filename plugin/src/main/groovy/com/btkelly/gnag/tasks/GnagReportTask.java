@@ -30,10 +30,11 @@ import org.gradle.api.tasks.TaskAction;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 import static com.btkelly.gnag.models.GitHubStatusType.*;
+import static com.btkelly.gnag.models.Violation.COMPARATOR;
 import static java.lang.Math.min;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Created by bobbake4 on 4/1/16.
@@ -47,10 +48,10 @@ public class GnagReportTask extends DefaultTask {
         Map<String, Object> taskOptions = new HashMap<>();
 
         taskOptions.put(Task.TASK_NAME, TASK_NAME);
-        taskOptions.put(Task.TASK_TYPE, GnagReportTask.class);
-        taskOptions.put(Task.TASK_GROUP, "Verification");
-        taskOptions.put(Task.TASK_DEPENDS_ON, "check");
-        taskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag and generates a report to publish to GitHub and set the status of a PR");
+        taskOptions.put(TASK_TYPE, GnagReportTask.class);
+        taskOptions.put(TASK_GROUP, "Verification");
+        taskOptions.put(TASK_DEPENDS_ON, "check");
+        taskOptions.put(TASK_DESCRIPTION, "Runs Gnag and generates a report to publish to GitHub and set the status of a PR");
 
         GnagReportTask gnagReportTask = (GnagReportTask) project.task(taskOptions, TASK_NAME);
         gnagReportTask.dependsOn(GnagCheck.TASK_NAME);
@@ -144,7 +145,7 @@ public class GnagReportTask extends DefaultTask {
             }
         }
 
-        violationsWithValidLocationInfo.sort(Violation.COMMENT_POSTING_COMPARATOR);
+        violationsWithValidLocationInfo.sort(COMPARATOR);
 
         violationsWithValidLocationInfo.stream()
                 .forEach(violation -> gitHubApi.postGitHubInlineCommentSync(
@@ -158,7 +159,7 @@ public class GnagReportTask extends DefaultTask {
                  * Try to post the aggregate comment _strictly after_ all individual comments. GitHub seems to round
                  * post times to the nearest second, so delaying by one whole second should be sufficient here.
                  */
-                Thread.sleep(TimeUnit.SECONDS.toMillis(1));
+                Thread.sleep(SECONDS.toMillis(1));
             } catch (final InterruptedException e) {
                 e.printStackTrace();
             }
