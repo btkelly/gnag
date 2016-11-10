@@ -26,15 +26,15 @@ import com.btkelly.gnag.utils.ViolationsUtil;
 import com.github.stkent.githubdiffparser.models.Diff;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
-import org.gradle.api.Task;
 import org.gradle.api.tasks.TaskAction;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 import static com.btkelly.gnag.models.GitHubStatusType.*;
+import static com.btkelly.gnag.models.Violation.COMPARATOR;
 import static java.lang.Math.min;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Created by bobbake4 on 4/1/16.
@@ -42,6 +42,7 @@ import static java.lang.Math.min;
 public class GnagReportTask extends DefaultTask {
 
     private static final String GLOBAL_TASK_NAME = "gnagReport";
+
     private static final String REMOTE_SUCCESS_COMMENT_FORMAT_STRING = "Congrats, no :poop: code found%s!";
 
     public static void addTasksToProject(
@@ -56,10 +57,10 @@ public class GnagReportTask extends DefaultTask {
 
             Map<String, Object> variantTaskOptions = new HashMap<>();
 
-            variantTaskOptions.put(Task.TASK_TYPE, GnagReportTask.class);
-            variantTaskOptions.put(Task.TASK_GROUP, "Verification");
-            variantTaskOptions.put(Task.TASK_DEPENDS_ON, GnagCheckTask.getTaskNameForBuildVariant(variant));
-            variantTaskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag on the " + variantName + " build variant, reports results to GitHub, and sets the status of a PR");
+            variantTaskOptions.put(TASK_TYPE, GnagReportTask.class);
+            variantTaskOptions.put(TASK_GROUP, "Verification");
+            variantTaskOptions.put(TASK_DEPENDS_ON, GnagCheckTask.getTaskNameForBuildVariant(variant));
+            variantTaskOptions.put(TASK_DESCRIPTION, "Runs Gnag on the " + variantName + " build variant, reports results to GitHub, and sets the status of a PR");
 
             GnagReportTask variantGnagReportTask = (GnagReportTask) project.task(variantTaskOptions, getTaskNameForBuildVariant(variant));
             variantGnagReportTask.dependsOn(GnagCheckTask.getTaskNameForBuildVariant(variant));
@@ -70,9 +71,9 @@ public class GnagReportTask extends DefaultTask {
 
         final Map<String, Object> globalTaskOptions = new HashMap<>();
 
-        globalTaskOptions.put(Task.TASK_GROUP, "Verification");
-        globalTaskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag on all build variant, reports results to GitHub, and sets the status of a PR");
-        globalTaskOptions.put(Task.TASK_DEPENDS_ON, variantGnagReportTaskNames);
+        globalTaskOptions.put(TASK_GROUP, "Verification");
+        globalTaskOptions.put(TASK_DESCRIPTION, "Runs Gnag on all build variants, reports results to GitHub, and sets the status of a PR");
+        globalTaskOptions.put(TASK_DEPENDS_ON, variantGnagReportTaskNames);
 
         project.task(globalTaskOptions, GLOBAL_TASK_NAME);
     }
@@ -170,12 +171,12 @@ public class GnagReportTask extends DefaultTask {
             }
         }
 
-        violationsWithValidLocationInfo.sort(Violation.COMMENT_POSTING_COMPARATOR);
+        violationsWithValidLocationInfo.sort(COMPARATOR);
 
-        violationsWithValidLocationInfo.stream()
-                .forEach(violation -> gitHubApi.postGitHubInlineCommentSync(
-                        ViolationFormatter.getHtmlStringForInlineComment(violation),
-                        prSha,
+        violationsWithValidLocationInfo.forEach(violation ->
+                gitHubApi.postGitHubInlineCommentSync(
+                        ViolationFormatter.getHtmlStringForInlineComment(violation), 
+                        prSha, 
                         violationPRLocationMap.get(violation)));
 
         if (!violationsWithMissingOrInvalidLocationInfo.isEmpty()) {
@@ -184,7 +185,7 @@ public class GnagReportTask extends DefaultTask {
                  * Try to post the aggregate comment _strictly after_ all individual comments. GitHub seems to round
                  * post times to the nearest second, so delaying by one whole second should be sufficient here.
                  */
-                Thread.sleep(TimeUnit.SECONDS.toMillis(1));
+                Thread.sleep(SECONDS.toMillis(1));
             } catch (final InterruptedException e) {
                 e.printStackTrace();
             }

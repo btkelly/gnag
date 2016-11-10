@@ -24,12 +24,21 @@ public class GitHubExtension {
 
     private final Project project;
 
+    private String rootUrl;
     private String repoName;
     private String authToken;
     private String issueNumber;
 
     public GitHubExtension(Project project) {
         this.project = project;
+    }
+
+    public void rootUrl(String rootUrl) {
+        this.rootUrl = rootUrl;
+    }
+
+    public String getRootUrl() {
+        return project.hasProperty("rootUrl") ? (String) project.property("rootUrl") : rootUrl != null ? rootUrl : "https://api.github.com/repos/";
     }
 
     public void repoName(String repoName) {
@@ -60,6 +69,7 @@ public class GitHubExtension {
     public String toString() {
         return "GitHubExtension{" +
                 "project=" + project +
+                ", rootUrl='" + rootUrl + '\'' +
                 ", repoName='" + repoName + '\'' +
                 ", authToken='" + authToken + '\'' +
                 ", issueNumber='" + issueNumber + '\'' +

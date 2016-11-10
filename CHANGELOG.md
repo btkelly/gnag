@@ -1,5 +1,11 @@
 # Change Log
 
+## v1.2.2
+
+_11-02-2016_
+
+- Added the ability to provide a custom GitHub root url to support enterprise installs
+
 ## v1.2.1
 
 _06-30-2016_
