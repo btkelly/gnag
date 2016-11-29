@@ -1,5 +1,11 @@
 # Change Log
 
+## v1.2.3
+
+_11-29-2016_
+
+- Added current project name to the GitHub status call allowing different status checks for multi module projects
+
 ## v1.2.2
 
 _11-02-2016_
