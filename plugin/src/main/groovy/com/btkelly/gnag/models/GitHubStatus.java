@@ -24,10 +24,10 @@ public class GitHubStatus {
     private String description;
     private String context;
 
-    public GitHubStatus(GitHubStatusType state) {
+    public GitHubStatus(GitHubStatusType state, String moduleName) {
         this.state = state.toString();
         this.description = state.getDescription();
-        this.context = "continuous-integration/gnag";
+        this.context = String.format("continuous-integration/gnag-%s", moduleName);
     }
 
     @Override

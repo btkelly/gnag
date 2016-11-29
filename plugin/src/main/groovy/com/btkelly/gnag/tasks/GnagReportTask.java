@@ -42,7 +42,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class GnagReportTask extends DefaultTask {
 
     public static final String TASK_NAME = "gnagReport";
-    private static final String REMOTE_SUCCESS_COMMENT_FORMAT_STRING = "Congrats, no :poop: code found%s!";
+    private static final String REMOTE_SUCCESS_COMMENT_FORMAT_STRING = "Congrats, no :poop: code found in module: %s%s!";
 
     public static void addTask(Project project, GitHubExtension gitHubExtension) {
         Map<String, Object> taskOptions = new HashMap<>();
@@ -80,7 +80,8 @@ public class GnagReportTask extends DefaultTask {
                         ? " as of commit " + prSha.substring(0, min(7, prSha.length()))
                         : "";
 
-                gitHubApi.postGitHubPRCommentAsync(String.format(REMOTE_SUCCESS_COMMENT_FORMAT_STRING, commitString));
+                gitHubApi.postGitHubPRCommentAsync(
+                        String.format(REMOTE_SUCCESS_COMMENT_FORMAT_STRING, getProject().getName(), commitString));
             } else {
                 postViolationComments(checkStatus.getViolations());
             }
@@ -108,7 +109,7 @@ public class GnagReportTask extends DefaultTask {
 
     private void updatePRStatus(GitHubStatusType gitHubStatusType) {
         if (StringUtils.isNotBlank(prSha)) {
-            gitHubApi.postUpdatedGitHubStatusAsync(gitHubStatusType, prSha);
+            gitHubApi.postUpdatedGitHubStatusAsync(gitHubStatusType, getProject().getName(), prSha);
         }
     }
 
