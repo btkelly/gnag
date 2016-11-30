@@ -42,7 +42,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class GnagReportTask extends DefaultTask {
 
     public static final String TASK_NAME = "gnagReport";
-    private static final String REMOTE_SUCCESS_COMMENT_FORMAT_STRING = "Congrats, no :poop: code found in module: %s%s!";
+    private static final String REMOTE_SUCCESS_COMMENT_FORMAT_STRING = "Congrats, no :poop: code found in the **%s** module%s!";
 
     public static void addTask(Project project, GitHubExtension gitHubExtension) {
         Map<String, Object> taskOptions = new HashMap<>();
