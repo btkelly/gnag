@@ -27,7 +27,7 @@ public class GitHubStatus {
     public GitHubStatus(GitHubStatusType state, String moduleName) {
         this.state = state.toString();
         this.description = state.getDescription();
-        this.context = String.format("continuous-integration/gnag-%s", moduleName);
+        this.context = String.format("gnag/%s", moduleName);
     }
 
     @Override

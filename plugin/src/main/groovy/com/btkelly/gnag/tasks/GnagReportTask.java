@@ -18,6 +18,7 @@ package com.btkelly.gnag.tasks;
 import com.btkelly.gnag.api.GitHubApi;
 import com.btkelly.gnag.extensions.GitHubExtension;
 import com.btkelly.gnag.models.*;
+import com.btkelly.gnag.models.GitHubStatusType;
 import com.btkelly.gnag.utils.ViolationFormatter;
 import com.btkelly.gnag.utils.ViolationsFormatter;
 import com.btkelly.gnag.utils.ViolationsUtil;
@@ -33,7 +34,6 @@ import java.util.*;
 
 import static com.btkelly.gnag.models.GitHubStatusType.*;
 import static com.btkelly.gnag.models.Violation.COMPARATOR;
-import static java.lang.Math.min;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
@@ -42,7 +42,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class GnagReportTask extends DefaultTask {
 
     public static final String TASK_NAME = "gnagReport";
-    private static final String REMOTE_SUCCESS_COMMENT_FORMAT_STRING = "Congrats, no :poop: code found in module: %s%s!";
+    private static final String REMOTE_SUCCESS_COMMENT_FORMAT_STRING = "Congrats, no :poop: code found in the **%s** module%s!";
 
     public static void addTask(Project project, GitHubExtension gitHubExtension) {
         Map<String, Object> taskOptions = new HashMap<>();
@@ -76,9 +76,7 @@ public class GnagReportTask extends DefaultTask {
             fetchPRShaIfRequired();
 
             if (checkStatus.getGitHubStatusType() == SUCCESS) {
-                final String commitString = prSha != null
-                        ? " as of commit " + prSha.substring(0, min(7, prSha.length()))
-                        : "";
+                final String commitString = prSha != null ? " as of commit " + prSha : "";
 
                 gitHubApi.postGitHubPRCommentAsync(
                         String.format(REMOTE_SUCCESS_COMMENT_FORMAT_STRING, getProject().getName(), commitString));
