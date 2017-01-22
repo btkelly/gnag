@@ -26,18 +26,16 @@ import com.btkelly.gnag.utils.diffparser.DiffParserConverterFactory;
 import com.btkelly.gnag.utils.gson.GsonConverterFactory;
 import com.github.stkent.githubdiffparser.models.Diff;
 
+import org.gradle.api.GradleException;
 import org.gradle.api.logging.Logger;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
@@ -73,74 +71,89 @@ public class GitHubApi {
         gitHubApiClient = retrofit.create(GitHubApiClient.class);
     }
 
-    public void postGitHubPRCommentAsync(final String comment) {
-        gitHubApiClient.postPRComment(new GitHubPRComment(comment), gitHubExtension.getIssueNumber())
-                .enqueue(new DefaultCallback<>());
-    }
+    public void postGitHubPRCommentSync(final String comment) {
+      try {
+        Response<GitHubPRComment> response = gitHubApiClient.postPRComment(new GitHubPRComment(comment), gitHubExtension.getIssueNumber())
+            .execute();
 
-    public void postUpdatedGitHubStatusAsync(
-            final GitHubStatusType gitHubStatusType,
-            final String moduleName,
-            final String prSha) {
-
-        gitHubApiClient.postUpdatedStatus(new GitHubStatus(gitHubStatusType, moduleName), prSha)
-                .enqueue(new DefaultCallback<>());
-    }
-
-    @Nullable
-    public GitHubPRDetails getPRDetailsSync() {
-        try {
-            Response<GitHubPRDetails> gitHubPRDetailsResponse = gitHubApiClient.getPRDetails(gitHubExtension.getIssueNumber()).execute();
-            return gitHubPRDetailsResponse.body();
-        } catch (final Exception e) {
-            e.printStackTrace();
-            return null;
+        if (!response.isSuccessful()) {
+          throw new GradleException("Failed to post Github PR comment. Reason: " + response.code()
+              + " " + response.message());
         }
+      } catch (IOException e) {
+        throw new GradleException("Failed to post Github PR comment.", e);
+      }
+    }
+
+    public void postUpdatedGitHubStatusSync(
+        final GitHubStatusType gitHubStatusType,
+        final String moduleName,
+        final String prSha) {
+
+      GitHubStatus gitHubStatus = new GitHubStatus(gitHubStatusType, moduleName);
+
+      try {
+        Response<GitHubStatus> response = gitHubApiClient.postUpdatedStatus(gitHubStatus, prSha)
+            .execute();
+
+        if (!response.isSuccessful()) {
+          throw new GradleException("Failed to update Github status for commit. Reason: " + response.code()
+              + " " + response.message());
+        }
+      } catch (IOException e) {
+        throw new GradleException("Failed to post Github PR comment.", e);
+      }
+    }
+
+    @NotNull
+    public GitHubPRDetails getPRDetailsSync() {
+      try {
+        Response<GitHubPRDetails> gitHubPRDetailsResponse = gitHubApiClient.getPRDetails(gitHubExtension.getIssueNumber()).execute();
+
+        if (!gitHubPRDetailsResponse.isSuccessful()) {
+          throw new GradleException("Failed to fetch PR details. Reason: "
+              + gitHubPRDetailsResponse.code() + " " + gitHubPRDetailsResponse.message());
+        }
+
+        return gitHubPRDetailsResponse.body();
+      } catch (IOException e) {
+        throw new GradleException("Failed to fetch PR details.", e);
+      }
     }
 
     @NotNull
     public List<Diff> getPRDiffsSync() {
-        try {
-            final Response<List<Diff>> gitHubPRDiffsResponse
-                    = gitHubApiClient.getPRDiffs(gitHubExtension.getIssueNumber()).execute();
+      try {
+        final Response<List<Diff>> gitHubPRDiffsResponse
+            = gitHubApiClient.getPRDiffs(gitHubExtension.getIssueNumber()).execute();
 
-            return gitHubPRDiffsResponse.body();
-        } catch (final Exception e) {
-            e.printStackTrace();
-            return new ArrayList<>();
+        if (!gitHubPRDiffsResponse.isSuccessful()) {
+          throw new GradleException("Failed to fetch PR diffs. Reason: "
+              + gitHubPRDiffsResponse.code() + " " + gitHubPRDiffsResponse.message());
         }
+
+        return gitHubPRDiffsResponse.body();
+      } catch (Exception e) {
+        throw new GradleException("Failed to fetch PR diffs.", e);
+      }
     }
 
     public void postGitHubInlineCommentSync(
-            @NotNull final String body,
-            @NotNull final String prSha,
-            @NotNull final PRLocation prLocation) {
+        @NotNull final String body,
+        @NotNull final String prSha,
+        @NotNull final PRLocation prLocation) {
 
-        try {
-            gitHubApiClient.postInlineComment(
-                    new GitHubInlineComment(body, prSha, prLocation), gitHubExtension.getIssueNumber())
-                            .execute();
-        } catch (final Exception e) {
-            e.printStackTrace();
+      try {
+        Response<Void> githubInlineCommentResponse = gitHubApiClient.postInlineComment(
+            new GitHubInlineComment(body, prSha, prLocation), gitHubExtension.getIssueNumber())
+            .execute();
+
+        if (!githubInlineCommentResponse.isSuccessful()) {
+          throw new GradleException("Failed to post Github inline comment. Reason: "
+              + githubInlineCommentResponse.code() + " " + githubInlineCommentResponse.message());
         }
+      } catch (final Exception e) {
+        throw new GradleException("Failed to post Github inline comment.", e);
+      }
     }
-
-    private static final class DefaultCallback<T> implements Callback<T> {
-
-        private DefaultCallback() {
-            // This constructor intentionally left blank.
-        }
-
-        @Override
-        public void onResponse(final Call<T> call, final Response<T> response) {
-            // This method intentionally left blank.
-        }
-
-        @Override
-        public void onFailure(final Call<T> call, final Throwable t) {
-            t.printStackTrace();
-        }
-
-    }
-
 }

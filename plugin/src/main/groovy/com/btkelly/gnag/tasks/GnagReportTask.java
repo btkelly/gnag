@@ -17,12 +17,16 @@ package com.btkelly.gnag.tasks;
 
 import com.btkelly.gnag.api.GitHubApi;
 import com.btkelly.gnag.extensions.GitHubExtension;
-import com.btkelly.gnag.models.*;
+import com.btkelly.gnag.models.CheckStatus;
+import com.btkelly.gnag.models.GitHubPRDetails;
 import com.btkelly.gnag.models.GitHubStatusType;
+import com.btkelly.gnag.models.PRLocation;
+import com.btkelly.gnag.models.Violation;
 import com.btkelly.gnag.utils.ViolationFormatter;
 import com.btkelly.gnag.utils.ViolationsFormatter;
 import com.btkelly.gnag.utils.ViolationsUtil;
 import com.github.stkent.githubdiffparser.models.Diff;
+
 import org.apache.commons.lang.StringUtils;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
@@ -30,9 +34,16 @@ import org.gradle.api.Task;
 import org.gradle.api.tasks.TaskAction;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import static com.btkelly.gnag.models.GitHubStatusType.*;
+import static com.btkelly.gnag.models.GitHubStatusType.ERROR;
+import static com.btkelly.gnag.models.GitHubStatusType.PENDING;
+import static com.btkelly.gnag.models.GitHubStatusType.SUCCESS;
 import static com.btkelly.gnag.models.Violation.COMPARATOR;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -78,7 +89,7 @@ public class GnagReportTask extends DefaultTask {
             if (checkStatus.getGitHubStatusType() == SUCCESS) {
                 final String commitString = prSha != null ? " as of commit " + prSha : "";
 
-                gitHubApi.postGitHubPRCommentAsync(
+                gitHubApi.postGitHubPRCommentSync(
                         String.format(REMOTE_SUCCESS_COMMENT_FORMAT_STRING, getProject().getName(), commitString));
             } else {
                 postViolationComments(checkStatus.getViolations());
@@ -99,7 +110,7 @@ public class GnagReportTask extends DefaultTask {
         if (StringUtils.isBlank(prSha)) {
             GitHubPRDetails pullRequestDetails = gitHubApi.getPRDetailsSync();
 
-            if (pullRequestDetails != null && pullRequestDetails.getHead() != null) {
+            if (pullRequestDetails.getHead() != null) {
                 prSha = pullRequestDetails.getHead().getSha();
             }
         }
@@ -107,7 +118,7 @@ public class GnagReportTask extends DefaultTask {
 
     private void updatePRStatus(GitHubStatusType gitHubStatusType) {
         if (StringUtils.isNotBlank(prSha)) {
-            gitHubApi.postUpdatedGitHubStatusAsync(gitHubStatusType, getProject().getName(), prSha);
+            gitHubApi.postUpdatedGitHubStatusSync(gitHubStatusType, getProject().getName(), prSha);
         }
     }
 
@@ -116,14 +127,14 @@ public class GnagReportTask extends DefaultTask {
                 = ViolationsUtil.hasViolationWithAllLocationInformation(violations);
 
         if (StringUtils.isBlank(prSha) || violationsWithAllLocationInformation.isEmpty()) {
-            gitHubApi.postGitHubPRCommentAsync(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
+            gitHubApi.postGitHubPRCommentSync(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
             return;
         }
 
         final List<Diff> diffs = gitHubApi.getPRDiffsSync();
 
         if (diffs.isEmpty()) {
-            gitHubApi.postGitHubPRCommentAsync(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
+            gitHubApi.postGitHubPRCommentSync(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
             return;
         }
 
@@ -163,7 +174,7 @@ public class GnagReportTask extends DefaultTask {
                 e.printStackTrace();
             }
 
-            gitHubApi.postGitHubPRCommentAsync(
+            gitHubApi.postGitHubPRCommentSync(
                     ViolationsFormatter.getHtmlStringForAggregatedComment(
                             violationsWithMissingOrInvalidLocationInfo));
         }
