@@ -68,8 +68,12 @@ public class GitHubApi {
                 .enqueue(new DefaultCallback<>());
     }
 
-    public void postUpdatedGitHubStatusAsync(final GitHubStatusType gitHubStatusType, final String prSha) {
-        gitHubApiClient.postUpdatedStatus(new GitHubStatus(gitHubStatusType), prSha)
+    public void postUpdatedGitHubStatusAsync(
+            final GitHubStatusType gitHubStatusType,
+            final String moduleName,
+            final String prSha) {
+
+        gitHubApiClient.postUpdatedStatus(new GitHubStatus(gitHubStatusType, moduleName), prSha)
                 .enqueue(new DefaultCallback<>());
     }
 

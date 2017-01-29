@@ -20,6 +20,7 @@ import com.btkelly.gnag.api.GitHubApi;
 import com.btkelly.gnag.extensions.GitHubExtension;
 import com.btkelly.gnag.models.*;
 import com.btkelly.gnag.utils.StringUtils;
+import com.btkelly.gnag.models.GitHubStatusType;
 import com.btkelly.gnag.utils.ViolationFormatter;
 import com.btkelly.gnag.utils.ViolationsFormatter;
 import com.btkelly.gnag.utils.ViolationsUtil;
@@ -33,7 +34,6 @@ import java.util.*;
 
 import static com.btkelly.gnag.models.GitHubStatusType.*;
 import static com.btkelly.gnag.models.Violation.COMPARATOR;
-import static java.lang.Math.min;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
@@ -43,7 +43,7 @@ public class GnagReportTask extends DefaultTask {
 
     private static final String GLOBAL_TASK_NAME = "gnagReport";
 
-    private static final String REMOTE_SUCCESS_COMMENT_FORMAT_STRING = "Congrats, no :poop: code found%s!";
+    private static final String REMOTE_SUCCESS_COMMENT_FORMAT_STRING = "Congrats, no :poop: code found in the **%s** module%s!";
 
     public static void addTasksToProject(
             @NotNull final Project project,
@@ -51,7 +51,7 @@ public class GnagReportTask extends DefaultTask {
             @NotNull final Collection<? extends BaseVariant> variants) {
 
         final List<String> variantGnagReportTaskNames = new ArrayList<>();
-        
+
         variants.forEach(variant -> {
             String variantName = variant.getName();
 
@@ -65,7 +65,7 @@ public class GnagReportTask extends DefaultTask {
             GnagReportTask variantGnagReportTask = (GnagReportTask) project.task(variantTaskOptions, getTaskNameForBuildVariant(variant));
             variantGnagReportTask.dependsOn(GnagCheckTask.getTaskNameForBuildVariant(variant));
             variantGnagReportTask.setGitHubExtension(gitHubExtension);
-            
+
             variantGnagReportTaskNames.add(variantGnagReportTask.getName());
         });
 
@@ -102,11 +102,10 @@ public class GnagReportTask extends DefaultTask {
             fetchPRShaIfRequired();
 
             if (checkStatus.getGitHubStatusType() == SUCCESS) {
-                final String commitString = prSha != null
-                        ? " as of commit " + prSha.substring(0, min(7, prSha.length()))
-                        : "";
+                final String commitString = prSha != null ? " as of commit " + prSha : "";
 
-                gitHubApi.postGitHubPRCommentAsync(String.format(REMOTE_SUCCESS_COMMENT_FORMAT_STRING, commitString));
+                gitHubApi.postGitHubPRCommentAsync(
+                        String.format(REMOTE_SUCCESS_COMMENT_FORMAT_STRING, getProject().getName(), commitString));
             } else {
                 postViolationComments(checkStatus.getViolations());
             }
@@ -134,7 +133,7 @@ public class GnagReportTask extends DefaultTask {
 
     private void updatePRStatus(GitHubStatusType gitHubStatusType) {
         if (StringUtils.isNotBlank(prSha)) {
-            gitHubApi.postUpdatedGitHubStatusAsync(gitHubStatusType, prSha);
+            gitHubApi.postUpdatedGitHubStatusAsync(gitHubStatusType, getProject().getName(), prSha);
         }
     }
 
@@ -175,8 +174,8 @@ public class GnagReportTask extends DefaultTask {
 
         violationsWithValidLocationInfo.forEach(violation ->
                 gitHubApi.postGitHubInlineCommentSync(
-                        ViolationFormatter.getHtmlStringForInlineComment(violation), 
-                        prSha, 
+                        ViolationFormatter.getHtmlStringForInlineComment(violation),
+                        prSha,
                         violationPRLocationMap.get(violation)));
 
         if (!violationsWithMissingOrInvalidLocationInfo.isEmpty()) {
@@ -195,5 +194,5 @@ public class GnagReportTask extends DefaultTask {
                             violationsWithMissingOrInvalidLocationInfo));
         }
     }
-    
+
 }
