@@ -20,6 +20,7 @@ import com.btkelly.gnag.models.Violation
 
 import groovy.util.slurpersupport.GPathResult
 import net.sourceforge.pmd.ant.PMDTask
+import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
 
 import static com.btkelly.gnag.utils.StringUtils.sanitizePreservingNulls
@@ -46,7 +47,11 @@ class PMDViolationDetector extends BaseExecutedViolationDetector {
         if (reporterExtension.hasReporterConfig()) {
             pmdTask.ruleSetFiles = reporterExtension.getReporterConfig().toString()
         } else {
-            pmdTask.ruleSetFiles = getClass().getClassLoader().getResource("pmd.xml").toString()
+            final InputStream defaultPmdRulesInputStream = getClass().getClassLoader().getResourceAsStream("pmd.xml")
+            final File tempPmdRuleSetFile = File.createTempFile("pmdRuleSetFile", null)
+            tempPmdRuleSetFile.deleteOnExit()
+            FileUtils.copyInputStreamToFile(defaultPmdRulesInputStream, tempPmdRuleSetFile)
+            pmdTask.ruleSetFiles = tempPmdRuleSetFile
         }
 
         reportHelper.getAndroidSources().findAll { it.exists() }.each {
