@@ -64,6 +64,7 @@ public class GnagReportTask extends DefaultTask {
     @SuppressWarnings("unused")
     @TaskAction
     public void taskAction() {
+        fetchPRShaIfRequired();
 
         updatePRStatus(PENDING);
 
@@ -72,8 +73,6 @@ public class GnagReportTask extends DefaultTask {
         if (projectStatus instanceof CheckStatus) {
             final CheckStatus checkStatus = (CheckStatus) projectStatus;
             System.out.println("Project status: " + checkStatus);
-
-            fetchPRShaIfRequired();
 
             if (checkStatus.getGitHubStatusType() == SUCCESS) {
                 final String commitString = prSha != null ? " as of commit " + prSha : "";
@@ -99,7 +98,7 @@ public class GnagReportTask extends DefaultTask {
         if (StringUtils.isBlank(prSha)) {
             GitHubPRDetails pullRequestDetails = gitHubApi.getPRDetailsSync();
 
-            if (pullRequestDetails != null && pullRequestDetails.getHead() != null) {
+            if (pullRequestDetails.getHead() != null) {
                 prSha = pullRequestDetails.getHead().getSha();
             }
         }

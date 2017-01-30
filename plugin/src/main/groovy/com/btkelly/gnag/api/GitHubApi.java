@@ -16,21 +16,31 @@
 package com.btkelly.gnag.api;
 
 import com.btkelly.gnag.extensions.GitHubExtension;
-import com.btkelly.gnag.models.*;
+import com.btkelly.gnag.models.GitHubInlineComment;
+import com.btkelly.gnag.models.GitHubPRComment;
+import com.btkelly.gnag.models.GitHubPRDetails;
+import com.btkelly.gnag.models.GitHubStatus;
+import com.btkelly.gnag.models.GitHubStatusType;
+import com.btkelly.gnag.models.PRLocation;
 import com.btkelly.gnag.utils.diffparser.DiffParserConverterFactory;
 import com.btkelly.gnag.utils.gson.GsonConverterFactory;
 import com.github.stkent.githubdiffparser.models.Diff;
+
+import org.gradle.api.GradleException;
+import org.gradle.api.logging.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by bobbake4 on 12/1/15.
@@ -43,12 +53,13 @@ public class GitHubApi {
     public GitHubApi(final GitHubExtension gitHubExtension) {
         this.gitHubExtension = gitHubExtension;
 
-        HttpLoggingInterceptor.Logger logger = System.out::println;
+        org.slf4j.Logger gradleLogger = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+        HttpLoggingInterceptor.Logger logger = gradleLogger::info;
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(new UserAgentInterceptor())
                 .addInterceptor(new AuthInterceptor(gitHubExtension.getAuthToken()))
-                .addInterceptor(new HttpLoggingInterceptor(logger).setLevel(HttpLoggingInterceptor.Level.NONE))
+                .addInterceptor(new HttpLoggingInterceptor(logger).setLevel(HttpLoggingInterceptor.Level.BASIC))
                 .build();
 
         String baseUrl = gitHubExtension.getRootUrl() + gitHubExtension.getRepoName() + "/";
@@ -77,14 +88,19 @@ public class GitHubApi {
                 .enqueue(new DefaultCallback<>());
     }
 
-    @Nullable
+    @NotNull
     public GitHubPRDetails getPRDetailsSync() {
         try {
             Response<GitHubPRDetails> gitHubPRDetailsResponse = gitHubApiClient.getPRDetails(gitHubExtension.getIssueNumber()).execute();
+
+            if (!gitHubPRDetailsResponse.isSuccessful()) {
+                throw new GradleException("Failed to fetch PR details. Reason: "
+                        + gitHubPRDetailsResponse.code() + " " + gitHubPRDetailsResponse.message());
+            }
+
             return gitHubPRDetailsResponse.body();
-        } catch (final Exception e) {
-            e.printStackTrace();
-            return null;
+        } catch (IOException e) {
+            throw new GradleException("Failed to fetch PR details.", e);
         }
     }
 
@@ -109,7 +125,7 @@ public class GitHubApi {
         try {
             gitHubApiClient.postInlineComment(
                     new GitHubInlineComment(body, prSha, prLocation), gitHubExtension.getIssueNumber())
-                            .execute();
+                    .execute();
         } catch (final Exception e) {
             e.printStackTrace();
         }
