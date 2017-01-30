@@ -15,18 +15,18 @@
  */
 package com.btkelly.gnag.tasks;
 
+import com.android.build.gradle.api.BaseVariant;
 import com.btkelly.gnag.api.GitHubApi;
 import com.btkelly.gnag.extensions.GitHubExtension;
 import com.btkelly.gnag.models.*;
+import com.btkelly.gnag.utils.StringUtils;
 import com.btkelly.gnag.models.GitHubStatusType;
 import com.btkelly.gnag.utils.ViolationFormatter;
 import com.btkelly.gnag.utils.ViolationsFormatter;
 import com.btkelly.gnag.utils.ViolationsUtil;
 import com.github.stkent.githubdiffparser.models.Diff;
-import org.apache.commons.lang.StringUtils;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
-import org.gradle.api.Task;
 import org.gradle.api.tasks.TaskAction;
 import org.jetbrains.annotations.NotNull;
 
@@ -41,21 +41,47 @@ import static java.util.concurrent.TimeUnit.SECONDS;
  */
 public class GnagReportTask extends DefaultTask {
 
-    public static final String TASK_NAME = "gnagReport";
+    private static final String GLOBAL_TASK_NAME = "gnagReport";
+
     private static final String REMOTE_SUCCESS_COMMENT_FORMAT_STRING = "Congrats, no :poop: code found in the **%s** module%s!";
 
-    public static void addTask(Project project, GitHubExtension gitHubExtension) {
-        Map<String, Object> taskOptions = new HashMap<>();
+    public static void addTasksToProject(
+            @NotNull final Project project,
+            @NotNull final GitHubExtension gitHubExtension,
+            @NotNull final Collection<? extends BaseVariant> variants) {
 
-        taskOptions.put(Task.TASK_NAME, TASK_NAME);
-        taskOptions.put(TASK_TYPE, GnagReportTask.class);
-        taskOptions.put(TASK_GROUP, "Verification");
-        taskOptions.put(TASK_DEPENDS_ON, "check");
-        taskOptions.put(TASK_DESCRIPTION, "Runs Gnag and generates a report to publish to GitHub and set the status of a PR");
+        final List<String> variantGnagReportTaskNames = new ArrayList<>();
 
-        GnagReportTask gnagReportTask = (GnagReportTask) project.task(taskOptions, TASK_NAME);
-        gnagReportTask.dependsOn(GnagCheck.TASK_NAME);
-        gnagReportTask.setGitHubExtension(gitHubExtension);
+        variants.forEach(variant -> {
+            String variantName = variant.getName();
+
+            Map<String, Object> variantTaskOptions = new HashMap<>();
+
+            variantTaskOptions.put(TASK_TYPE, GnagReportTask.class);
+            variantTaskOptions.put(TASK_GROUP, "Verification");
+            variantTaskOptions.put(TASK_DEPENDS_ON, GnagCheckTask.getTaskNameForBuildVariant(variant));
+            variantTaskOptions.put(TASK_DESCRIPTION, "Runs Gnag on the " + variantName + " build variant, reports results to GitHub, and sets the status of a PR");
+
+            GnagReportTask variantGnagReportTask = (GnagReportTask) project.task(variantTaskOptions, getTaskNameForBuildVariant(variant));
+            variantGnagReportTask.dependsOn(GnagCheckTask.getTaskNameForBuildVariant(variant));
+            variantGnagReportTask.setGitHubExtension(gitHubExtension);
+
+            variantGnagReportTaskNames.add(variantGnagReportTask.getName());
+        });
+
+        final Map<String, Object> globalTaskOptions = new HashMap<>();
+
+        globalTaskOptions.put(TASK_GROUP, "Verification");
+        globalTaskOptions.put(TASK_DESCRIPTION, "Runs Gnag on all build variants, reports results to GitHub, and sets the status of a PR");
+        globalTaskOptions.put(TASK_DEPENDS_ON, variantGnagReportTaskNames);
+
+        project.task(globalTaskOptions, GLOBAL_TASK_NAME);
+    }
+
+    @NotNull
+    private static String getTaskNameForBuildVariant(@NotNull final BaseVariant variant) {
+        String variantName = variant.getName();
+        return GLOBAL_TASK_NAME + StringUtils.capitalizeFirstChar(variantName);
     }
 
     private GitHubApi gitHubApi;
@@ -145,8 +171,8 @@ public class GnagReportTask extends DefaultTask {
 
         violationsWithValidLocationInfo.sort(COMPARATOR);
 
-        violationsWithValidLocationInfo.stream()
-                .forEach(violation -> gitHubApi.postGitHubInlineCommentSync(
+        violationsWithValidLocationInfo.forEach(violation ->
+                gitHubApi.postGitHubInlineCommentSync(
                         ViolationFormatter.getHtmlStringForInlineComment(violation),
                         prSha,
                         violationPRLocationMap.get(violation)));

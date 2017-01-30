@@ -15,18 +15,21 @@
  */
 package com.btkelly.gnag.tasks;
 
+import com.android.build.gradle.api.BaseVariant;
 import com.btkelly.gnag.extensions.GnagPluginExtension;
 import com.btkelly.gnag.models.CheckStatus;
 import com.btkelly.gnag.models.Violation;
 import com.btkelly.gnag.reporters.*;
 import com.btkelly.gnag.utils.ReportHelper;
 import com.btkelly.gnag.utils.ReportWriter;
+import com.btkelly.gnag.utils.StringUtils;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.tasks.StopExecutionException;
 import org.gradle.api.tasks.TaskAction;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.*;
@@ -37,25 +40,51 @@ import static com.btkelly.gnag.utils.ReportWriter.REPORT_FILE_NAME;
 /**
  * Created by bobbake4 on 4/1/16.
  */
-public class GnagCheck extends DefaultTask {
+public class GnagCheckTask extends DefaultTask {
 
-    public static final String TASK_NAME = "gnagCheck";
+    private static final String GLOBAL_TASK_NAME = "gnagCheck";
 
-    public static void addTask(Project project, GnagPluginExtension gnagPluginExtension) {
-        Map<String, Object> taskOptions = new HashMap<>();
+    public static void addTasksToProject(
+            @NotNull final Project project,
+            @NotNull final GnagPluginExtension gnagPluginExtension,
+            @NotNull final Collection<? extends BaseVariant> variants) {
 
-        taskOptions.put(Task.TASK_NAME, TASK_NAME);
-        taskOptions.put(Task.TASK_TYPE, GnagCheck.class);
-        taskOptions.put(Task.TASK_GROUP, "Verification");
-        taskOptions.put(Task.TASK_DEPENDS_ON, "check");
-        taskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag checks and generates an HTML report");
+        final List<String> variantGnagCheckTaskNames = new ArrayList<>();
 
-        GnagCheck gnagCheckTask = (GnagCheck) project.task(taskOptions, TASK_NAME);
-        gnagCheckTask.setGnagPluginExtension(gnagPluginExtension);
-        gnagCheckTask.violationDetectors.add(new CheckstyleViolationDetector(project, gnagPluginExtension.checkstyle));
-        gnagCheckTask.violationDetectors.add(new PMDViolationDetector(project, gnagPluginExtension.pmd));
-        gnagCheckTask.violationDetectors.add(new FindbugsViolationDetector(project, gnagPluginExtension.findbugs));
-        gnagCheckTask.violationDetectors.add(new AndroidLintViolationDetector(project, gnagPluginExtension.androidLint));
+        variants.forEach(variant -> {
+            String variantName = variant.getName();
+            String capitalizedVariantName = StringUtils.capitalizeFirstChar(variantName);
+
+            Map<String, Object> variantTaskOptions = new HashMap<>();
+
+            variantTaskOptions.put(Task.TASK_TYPE, GnagCheckTask.class);
+            variantTaskOptions.put(Task.TASK_GROUP, "Verification");
+            variantTaskOptions.put(Task.TASK_DEPENDS_ON, "lint" + capitalizedVariantName);
+            variantTaskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag checks and generates an HTML report for the " + variantName + " build variant.");
+
+            GnagCheckTask variantGnagCheckTask = (GnagCheckTask) project.task(variantTaskOptions, getTaskNameForBuildVariant(variant));
+            variantGnagCheckTask.setGnagPluginExtension(gnagPluginExtension);
+            variantGnagCheckTask.violationDetectors.add(new CheckstyleViolationDetector(project, gnagPluginExtension.checkstyle));
+            variantGnagCheckTask.violationDetectors.add(new PMDViolationDetector(project, gnagPluginExtension.pmd));
+            variantGnagCheckTask.violationDetectors.add(new FindbugsViolationDetector(project, gnagPluginExtension.findbugs));
+            variantGnagCheckTask.violationDetectors.add(new AndroidLintViolationDetector(project, gnagPluginExtension.androidLint));
+
+            variantGnagCheckTaskNames.add(variantGnagCheckTask.getName());
+        });
+
+        final Map<String, Object> globalTaskOptions = new HashMap<>();
+
+        globalTaskOptions.put(Task.TASK_GROUP, "Verification");
+        globalTaskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag checks and generates an HTML report for all build variants.");
+        globalTaskOptions.put(Task.TASK_DEPENDS_ON, variantGnagCheckTaskNames);
+
+        project.task(globalTaskOptions, GLOBAL_TASK_NAME);
+    }
+    
+    @NotNull
+    public static String getTaskNameForBuildVariant(@NotNull final BaseVariant variant) {
+        String variantName = variant.getName();
+        return GLOBAL_TASK_NAME + StringUtils.capitalizeFirstChar(variantName);
     }
 
     private final List<ViolationDetector> violationDetectors = new ArrayList<>();
@@ -131,5 +160,5 @@ public class GnagCheck extends DefaultTask {
 
         return false;
     }
-
+    
 }
