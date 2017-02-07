@@ -19,7 +19,7 @@ import com.btkelly.gnag.extensions.GnagPluginExtension;
 import com.btkelly.gnag.models.CheckStatus;
 import com.btkelly.gnag.models.Violation;
 import com.btkelly.gnag.reporters.*;
-import com.btkelly.gnag.utils.ReportHelper;
+import com.btkelly.gnag.utils.ProjectHelper;
 import com.btkelly.gnag.utils.ReportWriter;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
@@ -41,7 +41,7 @@ public class GnagCheck extends DefaultTask {
 
     public static final String TASK_NAME = "gnagCheck";
 
-    public static void addTask(Project project, GnagPluginExtension gnagPluginExtension) {
+    public static void addTask(ProjectHelper projectHelper, GnagPluginExtension gnagPluginExtension) {
         Map<String, Object> taskOptions = new HashMap<>();
 
         taskOptions.put(Task.TASK_NAME, TASK_NAME);
@@ -50,16 +50,21 @@ public class GnagCheck extends DefaultTask {
         taskOptions.put(Task.TASK_DEPENDS_ON, "check");
         taskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag checks and generates an HTML report");
 
+        Project project = projectHelper.getProject();
+
         GnagCheck gnagCheckTask = (GnagCheck) project.task(taskOptions, TASK_NAME);
         gnagCheckTask.setGnagPluginExtension(gnagPluginExtension);
         gnagCheckTask.violationDetectors.add(new CheckstyleViolationDetector(project, gnagPluginExtension.checkstyle));
         gnagCheckTask.violationDetectors.add(new PMDViolationDetector(project, gnagPluginExtension.pmd));
         gnagCheckTask.violationDetectors.add(new FindbugsViolationDetector(project, gnagPluginExtension.findbugs));
-        gnagCheckTask.violationDetectors.add(new AndroidLintViolationDetector(project, gnagPluginExtension.androidLint));
+
+        if (projectHelper.isAndroidProject()) {
+            gnagCheckTask.violationDetectors.add(new AndroidLintViolationDetector(project, gnagPluginExtension.androidLint));
+        }
     }
 
     private final List<ViolationDetector> violationDetectors = new ArrayList<>();
-    private final ReportHelper reportHelper = new ReportHelper(getProject());
+    private final ProjectHelper projectHelper = new ProjectHelper(getProject());
 
     private GnagPluginExtension gnagPluginExtension;
 
@@ -90,7 +95,7 @@ public class GnagCheck extends DefaultTask {
                                 violationDetector.name() + " detected " + detectedViolations.size() + " violations.");
                 });
 
-        final File reportsDir = reportHelper.getReportsDir();
+        final File reportsDir = projectHelper.getReportsDir();
 
         if (allDetectedViolations.isEmpty()) {
             ReportWriter.deleteLocalReportFiles(reportsDir);

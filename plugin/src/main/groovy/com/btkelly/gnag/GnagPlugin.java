@@ -18,6 +18,7 @@ package com.btkelly.gnag;
 import com.btkelly.gnag.extensions.GnagPluginExtension;
 import com.btkelly.gnag.tasks.GnagCheck;
 import com.btkelly.gnag.tasks.GnagReportTask;
+import com.btkelly.gnag.utils.ProjectHelper;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 
@@ -31,9 +32,10 @@ public class GnagPlugin implements Plugin<Project> {
 
         GnagPluginExtension gnagPluginExtension = GnagPluginExtension.loadExtension(project);
 
-        project.afterEvaluate(target -> {
-            GnagCheck.addTask(target, gnagPluginExtension);
-            GnagReportTask.addTask(target, gnagPluginExtension.github);
+        project.afterEvaluate(evaluatedProject -> {
+            ProjectHelper projectHelper = new ProjectHelper(evaluatedProject);
+            GnagCheck.addTask(projectHelper, gnagPluginExtension);
+            GnagReportTask.addTask(projectHelper, gnagPluginExtension.github);
         });
     }
 }

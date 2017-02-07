@@ -46,7 +46,7 @@ class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
             checkStyleTask.setConfigUrl(getClass().getClassLoader().getResource("checkstyle.xml"))
         }
 
-        reportHelper.getAndroidSources().findAll { it.exists() }.each {
+        projectHelper.getSources().findAll { it.exists() }.each {
             checkStyleTask.addFileset(project.ant.fileset(dir: it))
         }
 
@@ -87,7 +87,7 @@ class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
 
     @Override
     File reportFile() {
-        return new File(reportHelper.getReportsDir(), "checkstyle_report.xml")
+        return new File(projectHelper.getReportsDir(), "checkstyle_report.xml")
     }
 
 }

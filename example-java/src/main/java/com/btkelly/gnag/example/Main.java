@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2016 Bryan Kelly
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -13,31 +13,34 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.btkelly.gnag.utils
-
-import org.gradle.api.Project
+package com.btkelly.gnag.example;
 
 /**
- * Created by bobbake4 on 4/19/16.
+ * Created by bobbake4 on 2/7/17.
  */
-class ReportHelper {
+public class Main {
 
-    private final Project project;
+    public static void main(String[] args) {
 
-    ReportHelper(Project project) {
-        this.project = project
-    }
+        String test = "";
+        String testCompare = "Fail";
 
-    // todo: this doesn't seem like it belongs in the ReportHelper. refactor?
-    public List<File> getAndroidSources() {
-        project.android.sourceSets.inject([]) {
-            dirs, sourceSet -> dirs + sourceSet.java.srcDirs
+        if (test == testCompare) {
+            System.out.print("Total Fail");
+        }
+
+        try {
+            System.out.print("Empty");
+        } catch (Exception e) {
+
+        } finally {
+
         }
     }
 
-    public File getReportsDir() {
-        File reportsDir = new File(project.buildDir.path + "/outputs/gnag/")
-        reportsDir.mkdirs()
-        return reportsDir
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
     }
+
 }

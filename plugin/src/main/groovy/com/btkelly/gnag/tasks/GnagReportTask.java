@@ -19,6 +19,7 @@ import com.btkelly.gnag.api.GitHubApi;
 import com.btkelly.gnag.extensions.GitHubExtension;
 import com.btkelly.gnag.models.*;
 import com.btkelly.gnag.models.GitHubStatusType;
+import com.btkelly.gnag.utils.ProjectHelper;
 import com.btkelly.gnag.utils.ViolationFormatter;
 import com.btkelly.gnag.utils.ViolationsFormatter;
 import com.btkelly.gnag.utils.ViolationsUtil;
@@ -44,7 +45,7 @@ public class GnagReportTask extends DefaultTask {
     public static final String TASK_NAME = "gnagReport";
     private static final String REMOTE_SUCCESS_COMMENT_FORMAT_STRING = "Congrats, no :poop: code found in the **%s** module%s!";
 
-    public static void addTask(Project project, GitHubExtension gitHubExtension) {
+    public static void addTask(ProjectHelper projectHelper, GitHubExtension gitHubExtension) {
         Map<String, Object> taskOptions = new HashMap<>();
 
         taskOptions.put(Task.TASK_NAME, TASK_NAME);
@@ -52,6 +53,8 @@ public class GnagReportTask extends DefaultTask {
         taskOptions.put(TASK_GROUP, "Verification");
         taskOptions.put(TASK_DEPENDS_ON, "check");
         taskOptions.put(TASK_DESCRIPTION, "Runs Gnag and generates a report to publish to GitHub and set the status of a PR");
+
+        Project project = projectHelper.getProject();
 
         GnagReportTask gnagReportTask = (GnagReportTask) project.task(taskOptions, TASK_NAME);
         gnagReportTask.dependsOn(GnagCheck.TASK_NAME);

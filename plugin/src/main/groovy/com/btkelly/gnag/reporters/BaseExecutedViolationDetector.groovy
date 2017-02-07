@@ -16,7 +16,7 @@
 package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
-import com.btkelly.gnag.utils.ReportHelper
+import com.btkelly.gnag.utils.ProjectHelper
 import org.gradle.api.Project
 
 /**
@@ -27,12 +27,12 @@ abstract class BaseExecutedViolationDetector extends BaseViolationDetector {
     abstract void executeReporter()
 
     protected final ReporterExtension reporterExtension
-    protected final ReportHelper reportHelper;
+    protected final ProjectHelper projectHelper;
 
     BaseExecutedViolationDetector(final Project project, final ReporterExtension reporterExtension) {
         super(project)
         this.reporterExtension = reporterExtension
-        this.reportHelper = new ReportHelper(project)
+        this.projectHelper = new ProjectHelper(project)
     }
 
     @Override
