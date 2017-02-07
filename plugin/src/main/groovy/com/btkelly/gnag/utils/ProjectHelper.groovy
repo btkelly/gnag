@@ -20,18 +20,29 @@ import org.gradle.api.Project
 /**
  * Created by bobbake4 on 4/19/16.
  */
-class ReportHelper {
+class ProjectHelper {
 
-    private final Project project;
+    private final Project project
 
-    ReportHelper(Project project) {
+    ProjectHelper(Project project) {
         this.project = project
     }
 
-    // todo: this doesn't seem like it belongs in the ReportHelper. refactor?
-    public List<File> getAndroidSources() {
-        project.android.sourceSets.inject([]) {
-            dirs, sourceSet -> dirs + sourceSet.java.srcDirs
+    public Project getProject() {
+        return project
+    }
+
+    public boolean isAndroidProject() {
+        return project.hasProperty("android")
+    }
+
+    public List<File> getSources() {
+        if (isAndroidProject()) {
+            project.android.sourceSets.inject([]) {
+                dirs, sourceSet -> dirs + sourceSet.java.srcDirs
+            }
+        } else {
+            throw new IllegalStateException("Gnag only works on Android projects");
         }
     }
 

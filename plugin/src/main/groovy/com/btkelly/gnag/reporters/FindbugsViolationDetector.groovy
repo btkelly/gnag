@@ -54,7 +54,7 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
         }
 
         Path sourcePath = findBugsTask.createSourcePath()
-        reportHelper.getAndroidSources().findAll { it.exists() }.each {
+        reportHelper.getSources().findAll { it.exists() }.each {
             sourcePath.addFileset(project.ant.fileset(dir: it))
         }
 
@@ -67,7 +67,7 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
         }
 
         Set<String> includes = []
-        reportHelper.getAndroidSources().findAll { it.exists() }.each { File directory ->
+        reportHelper.getSources().findAll { it.exists() }.each { File directory ->
             FileSet fileSet = project.ant.fileset(dir: directory)
             Path path = project.ant.path()
             path.addFileset(fileSet)

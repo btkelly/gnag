@@ -54,7 +54,7 @@ class PMDViolationDetector extends BaseExecutedViolationDetector {
             pmdTask.ruleSetFiles = tempPmdRuleSetFile
         }
 
-        reportHelper.getAndroidSources().findAll { it.exists() }.each {
+        reportHelper.getSources().findAll { it.exists() }.each {
             pmdTask.addFileset(project.ant.fileset(dir: it))
         }
 
