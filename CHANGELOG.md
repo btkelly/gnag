@@ -1,5 +1,13 @@
 # Change Log
 
+## v1.3.0
+
+_02-07-2016_
+
+- Added support for standard Java projects
+- Fixed crash when no PMD config file was supplied
+- Changed GitHub api calls to fail the build if they are not configured correctly
+
 ## v1.2.3
 
 _11-29-2016_
