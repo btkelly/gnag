@@ -54,7 +54,7 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
         }
 
         Path sourcePath = findBugsTask.createSourcePath()
-        reportHelper.getSources().findAll { it.exists() }.each {
+        projectHelper.getSources().findAll { it.exists() }.each {
             sourcePath.addFileset(project.ant.fileset(dir: it))
         }
 
@@ -67,7 +67,7 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
         }
 
         Set<String> includes = []
-        reportHelper.getSources().findAll { it.exists() }.each { File directory ->
+        projectHelper.getSources().findAll { it.exists() }.each { File directory ->
             FileSet fileSet = project.ant.fileset(dir: directory)
             Path path = project.ant.path()
             path.addFileset(fileSet)
@@ -118,7 +118,7 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
 
     @Override
     File reportFile() {
-        return new File(reportHelper.getReportsDir(), "findbugs.xml")
+        return new File(projectHelper.getReportsDir(), "findbugs.xml")
     }
 
     private static List computeSourceFilePaths(final GPathResult xml) {
