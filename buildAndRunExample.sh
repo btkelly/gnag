@@ -3,7 +3,7 @@
 ./gradlew clean publishGnagPublicationPublicationToMavenLocal
 
 if [ $? -eq 0 ]; then
-	cd example/
+	cd example-android/
 
 	./gradlew clean gnagCheck
 
