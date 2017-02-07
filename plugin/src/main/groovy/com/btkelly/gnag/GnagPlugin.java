@@ -32,8 +32,8 @@ public class GnagPlugin implements Plugin<Project> {
 
         GnagPluginExtension gnagPluginExtension = GnagPluginExtension.loadExtension(project);
 
-        project.afterEvaluate(target -> {
-            ProjectHelper projectHelper = new ProjectHelper(target);
+        project.afterEvaluate(evaluatedProject -> {
+            ProjectHelper projectHelper = new ProjectHelper(evaluatedProject);
             GnagCheck.addTask(projectHelper, gnagPluginExtension);
             GnagReportTask.addTask(projectHelper, gnagPluginExtension.github);
         });

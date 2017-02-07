@@ -33,7 +33,7 @@ class ProjectHelper {
     }
 
     public boolean isAndroidProject() {
-        return project.hasProperty("android")
+        return project.getExtensions().findByName("android") != null;
     }
 
     public List<File> getSources() {
