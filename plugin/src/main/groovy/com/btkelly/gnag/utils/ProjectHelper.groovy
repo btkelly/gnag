@@ -42,7 +42,9 @@ class ProjectHelper {
                 dirs, sourceSet -> dirs + sourceSet.java.srcDirs
             }
         } else {
-            throw new IllegalStateException("Gnag only works on Android projects");
+            project.sourceSets.inject([]) {
+                dirs, sourceSet -> dirs + sourceSet.java.srcDirs
+            }
         }
     }
 
