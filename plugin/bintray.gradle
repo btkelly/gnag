@@ -8,7 +8,7 @@ publishing {
     publications {
         GnagPublication(MavenPublication) {
             from components.java
-            artifactId 'gnag'
+            artifactId gnagArtifactId
 
             artifact sourcesJar
             artifact javadocJar
@@ -24,11 +24,11 @@ bintray {
     publications = ['GnagPublication']
     pkg {
         repo = 'maven'
-        name = 'gnag-gradle-plugin'
-        desc = 'Gnag GitHub pull request commenter plugin'
+        name = gnagPluginName
+        desc = gnagDescription
         licenses = ['Apache-2.0']
-        labels = ['android', 'gradle', 'github']
-        vcsUrl = 'https://github.com/btkelly/gnag.git'
+        labels = gnagLabels
+        vcsUrl = gnagGitUrl
         version {
             name = gnagPluginVersion
             vcsTag = gnagPluginVersion

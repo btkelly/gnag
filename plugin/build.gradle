@@ -1,3 +1,14 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.gradle.publish:plugin-publish-plugin:0.9.7"
+    }
+}
+
 plugins {
     id "com.jfrog.bintray" version "1.6"
     id "com.github.hierynomus.license" version "0.12.1"
@@ -6,6 +17,7 @@ plugins {
 apply plugin: 'groovy'
 apply from: file('../version.gradle')
 apply from: file('bintray.gradle')
+apply from: file('gradle-site.gradle')
 
 group 'com.btkelly'
 version gnagPluginVersion
