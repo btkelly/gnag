@@ -1,0 +1,22 @@
+apply plugin: "com.gradle.plugin-publish"
+
+pluginBundle {
+
+    website = gnagWebsite
+    vcsUrl = gnagGitUrl
+    description = gnagDescription
+
+    plugins {
+        greetingsPlugin {
+            id = gnagPackageId
+            displayName = gnagPluginName
+            tags = gnagLabels
+            version = gnagPluginVersion
+        }
+    }
+
+    mavenCoordinates {
+        artifactId = gnagArtifcatId
+        version = gnagPluginVersion
+    }
+}
