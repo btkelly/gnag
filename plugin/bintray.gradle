@@ -8,7 +8,7 @@ publishing {
     publications {
         GnagPublication(MavenPublication) {
             from components.java
-            artifactId gnagArtifcatId
+            artifactId gnagArtifactId
 
             artifact sourcesJar
             artifact javadocJar

@@ -7,7 +7,7 @@ pluginBundle {
     description = gnagDescription
 
     plugins {
-        greetingsPlugin {
+        gnagPlugin {
             id = gnagPackageId
             displayName = gnagPluginName
             tags = gnagLabels
@@ -16,7 +16,7 @@ pluginBundle {
     }
 
     mavenCoordinates {
-        artifactId = gnagArtifcatId
+        artifactId = gnagArtifactId
         version = gnagPluginVersion
     }
 }
