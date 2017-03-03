@@ -1,8 +1,15 @@
 # Change Log
 
+## v1.3.1
+
+_03-03-2017_
+
+- Updated Gradle versions and increased heap size
+- Fixed lint report failure on newer Gradle versions
+
 ## v1.3.0
 
-_02-07-2016_
+_02-07-2017_
 
 - Added support for standard Java projects
 - Fixed crash when no PMD config file was supplied
