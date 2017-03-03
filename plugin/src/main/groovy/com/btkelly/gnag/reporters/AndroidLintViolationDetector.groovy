@@ -28,7 +28,7 @@ import static com.btkelly.gnag.utils.StringUtils.sanitizeToNonNull
 import static org.pegdown.Extensions.*
 
 class AndroidLintViolationDetector extends BaseViolationDetector {
-    
+
     private static final int GFM_PEGDOWN_PROCESSOR_EXTENSIONS = HARDWRAPS | AUTOLINKS | FENCED_CODE_BLOCKS
 
     private final AndroidLintExtension androidLintExtension
@@ -62,22 +62,22 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
         xml.issue.findAll { severityEnabled((String) it.@severity.text()) }
             .each { violation ->
                 final String violationType = sanitizeToNonNull((String) violation.@id.text())
-            
+
                 final String commentInMarkdown = sanitizeToNonNull((String) violation.@message.text())
                 final PegDownProcessor markdownProcessor = new PegDownProcessor(GFM_PEGDOWN_PROCESSOR_EXTENSIONS)
                 final String notNullCommentInHtml =
                         sanitizeToNonNull(markdownProcessor.markdownToHtml(commentInMarkdown))
                         .replaceAll("</?p>", "")
-            
+
                 final String nullableCommentInHtml = notNullCommentInHtml.isEmpty() ? null : notNullCommentInHtml
-            
+
                 final String lineNumberString = sanitizeToNonNull((String) violation.location.@line.text())
                 final Integer lineNumber = computeLineNumberFromString(lineNumberString, violationType)
-            
+
                 final List<String> secondaryUrls = computeSecondaryUrls(
                         sanitizePreservingNulls((String) violation.@urls.text()),
                         nullableCommentInHtml)
-            
+
                 result.add(new Violation(
                         violationType,
                         name(),
@@ -98,7 +98,11 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
 
     @Override
     File reportFile() {
-        return new File(new FileNameByRegexFinder().getFileNames(project.buildDir.path + "/outputs/", "lint-results.+\\.xml").first())
+        return new File(
+                new FileNameByRegexFinder()
+                        .getFileNames(project.buildDir.path, 'lint-results.*\\.xml')
+                        .first()
+        )
     }
 
     private boolean severityEnabled(final String severity) {
@@ -108,29 +112,29 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
             return severity.equals(SEVERITY_ERROR)
         }
     }
-    
+
     static List<String> computeSecondaryUrls(final String secondaryUrlsString, final String nullableCommentInHtml) {
         if (secondaryUrlsString == null) {
             return new ArrayList<>()
         }
-        
+
         // Uses positive lookaround to avoiding splitting at comma characters _within_ URLs.
         final List<String> parsedUrls = Arrays.asList(secondaryUrlsString.split(",(?=\\s*https?)"))
-        
+
         if (nullableCommentInHtml == null) {
             return parsedUrls
         }
-        
+
         final List<String> result = new ArrayList<>()
-        
+
         // Remove any URLs already present in the violation comment; no need to duplicate these.
         for (final String parsedUrl: parsedUrls) {
             if (!nullableCommentInHtml.contains(parsedUrl)) {
                 result.add(parsedUrl)
             }
         }
-        
+
         return result
     }
-    
+
 }
