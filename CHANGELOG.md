@@ -4,7 +4,7 @@
 
 _04-13-2017_
 
-- Changed default check style config to allow rule suppression with annotations or comments
+- Changed default Checkstyle config to allow rule suppression with annotations or comments
 
 ## v1.3.1
 
