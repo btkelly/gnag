@@ -1,5 +1,11 @@
 # Change Log
 
+## v1.3.2
+
+_04-13-2017_
+
+- Changed default check style config to allow rule suppression with annotations or comments
+
 ## v1.3.1
 
 _03-03-2017_
