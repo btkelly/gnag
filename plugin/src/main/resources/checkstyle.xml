@@ -52,6 +52,10 @@
 
     <module name="TreeWalker">
 
+        <module name="SuppressWarningsHolder" />
+
+        <module name="FileContentsHolder" />
+
         <!-- Checks for Javadoc comments.                     -->
         <!-- See http://checkstyle.sf.net/config_javadoc.html -->
         <module name="JavadocMethod">
@@ -179,6 +183,9 @@
         <module name="UpperEll" />
 
     </module>
+
+    <!-- Enable suppression annotations -->
+    <module name="SuppressWarningsFilter" />
 
     <!-- Enable suppression comments -->
     <module name="SuppressionCommentFilter">

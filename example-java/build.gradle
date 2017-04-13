@@ -39,15 +39,12 @@ gnag {
     failOnError true
     checkstyle {
         enabled true
-        reporterConfig project.file('config/checkstyle.xml')
     }
     pmd {
         enabled true
-        reporterConfig project.file('config/pmd.xml')
     }
     findbugs {
         enabled true
-        reporterConfig project.file('config/findbugs.xml')
     }
     github {
         repoName 'btkelly/android-svsu-acm-20131120'

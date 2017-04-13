@@ -27,4 +27,19 @@ public class ExampleUnitTest {
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
     }
+
+    //CHECKSTYLE IGNORE MagicNumber
+    //CHECKSTYLE IGNORE MethodName
+    @Test
+    public void addition_isCorrect_withoutErrorComment() throws Exception {
+        assertEquals(4, 2 + 2);
+    }
+    //CHECKSTYLE END IGNORE MagicNumber
+    //CHECKSTYLE END IGNORE MethodName
+
+    @SuppressWarnings({"MagicNumber", "MethodName"})
+    @Test
+    public void addition_isCorrect_withoutErrorAnnotation() throws Exception {
+        assertEquals(4, 2 + 2);
+    }
 }
