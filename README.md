@@ -131,7 +131,7 @@ android:
   components:
   - platform-tools
   - tools
-  - build-tools-25.0.2
+  - build-tools-25.0.3
   - android-25
 jdk:
   - oraclejdk8
