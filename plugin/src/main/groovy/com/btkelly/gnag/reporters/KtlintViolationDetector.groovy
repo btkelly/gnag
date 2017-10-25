@@ -18,6 +18,7 @@ package com.btkelly.gnag.reporters
 import com.btkelly.gnag.extensions.ReporterExtension
 import com.btkelly.gnag.models.Violation
 import com.btkelly.gnag.reporters.utils.CheckstyleParser
+import com.github.shyiko.ktlint.Main
 import org.gradle.api.Project
 import org.gradle.api.tasks.JavaExec
 
@@ -37,25 +38,9 @@ class KtlintViolationDetector extends BaseExecutedViolationDetector {
 
     @Override
     void executeReporter() {
-        if (reporterExtension.hasReporterConfig()) {
-            // todo: 1) throw an error here
-            // todo: 2) refactor so we aren't passed an extension with a possible config, since that's not supported by ktlint
-        }
-
-        JavaExec javaExecTask = new JavaExec()
-//        javaExecTask.setClasspath() // todo: this probably needs to happen?
-        javaExecTask.setMain("com.github.shyiko.ktlint.Main")
-        javaExecTask.setArgs(
-                projectHelper.getKotlinSources().stream().filter(new Predicate<File>() {
-                    @Override
-                    boolean test(final File file) {
-                        return file.name.endsWith(".kt")
-                    }
-                }).collect(Collectors.toList()))
-
-        javaExecTask.args("--reporter=checkstyle,output=${reportFile().name}")
-
-        javaExecTask.exec()
+        // todo: do not extend executed violation detector. instead create a task using
+        // https://github.com/shyiko/ktlint#-with-gradle which gnagCheck then conditionally depends on
+        // (conditional because we should only add the dependency if we detect kotlin source code).
     }
 
     @Override
