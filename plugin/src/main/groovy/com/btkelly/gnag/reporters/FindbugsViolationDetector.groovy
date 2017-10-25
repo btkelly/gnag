@@ -17,6 +17,8 @@ package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
 import com.btkelly.gnag.models.Violation
+import com.btkelly.gnag.reporters.utils.LineNumberParser
+import com.btkelly.gnag.reporters.utils.PathCalculator
 import edu.umd.cs.findbugs.anttask.FindBugsTask
 import groovy.util.slurpersupport.GPathResult
 import org.apache.tools.ant.types.FileSet
@@ -96,9 +98,12 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
 
                 final String relativeFilePath =
                         computeRelativeFilePathIfPossible((GPathResult) violation, sourceFilePaths)
-            
+
                 final String lineNumberString = sanitizeToNonNull((String) violation.SourceLine.@end.text())
-                final Integer lineNumber = computeLineNumberFromString(lineNumberString, violationType)
+                final Integer lineNumber = LineNumberParser.parseLineNumberString(
+                        lineNumberString,
+                        name(),
+                        violationType)
 
                 result.add(new Violation(
                         violationType,
@@ -143,7 +148,7 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
         if (longFilePaths.isEmpty() || longFilePaths.size() > 1) {
             return null
         } else {
-            return computeFilePathRelativeToProjectRoot(longFilePaths.get(0))
+            return PathCalculator.calculatePathWithinProject(project, longFilePaths.get(0))
         }
     }
 

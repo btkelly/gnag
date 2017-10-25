@@ -17,7 +17,7 @@ package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
 import com.btkelly.gnag.models.Violation
-
+import com.btkelly.gnag.reporters.utils.LineNumberParser
 import groovy.util.slurpersupport.GPathResult
 import net.sourceforge.pmd.ant.PMDTask
 import org.apache.commons.io.FileUtils
@@ -72,8 +72,11 @@ class PMDViolationDetector extends BaseExecutedViolationDetector {
                 final String violationType = sanitizeToNonNull((String) violation.@rule.text())
 
                 final String lineNumberString = sanitizeToNonNull((String) violation.@endline.text())
-                final Integer lineNumber = computeLineNumberFromString(lineNumberString, violationType)
-                
+                final Integer lineNumber = LineNumberParser.parseLineNumberString(
+                        lineNumberString,
+                        name(),
+                        violationType)
+
                 result.add(new Violation(
                         violationType,
                         name(),

@@ -17,6 +17,8 @@ package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.AndroidLintExtension
 import com.btkelly.gnag.models.Violation
+import com.btkelly.gnag.reporters.utils.LineNumberParser
+import com.btkelly.gnag.reporters.utils.PathCalculator
 import groovy.util.slurpersupport.GPathResult
 import org.gradle.api.Project
 import org.pegdown.PegDownProcessor
@@ -72,7 +74,10 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
                 final String nullableCommentInHtml = notNullCommentInHtml.isEmpty() ? null : notNullCommentInHtml
 
                 final String lineNumberString = sanitizeToNonNull((String) violation.location.@line.text())
-                final Integer lineNumber = computeLineNumberFromString(lineNumberString, violationType)
+                final Integer lineNumber = LineNumberParser.parseLineNumberString(
+                        lineNumberString,
+                        name(),
+                        violationType)
 
                 final List<String> secondaryUrls = computeSecondaryUrls(
                         sanitizePreservingNulls((String) violation.@urls.text()),
@@ -82,7 +87,7 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
                         violationType,
                         name(),
                         nullableCommentInHtml,
-                        computeFilePathRelativeToProjectRoot((String) violation.location.@file.text()),
+                        PathCalculator.calculatePathWithinProject(project, (String) violation.location.@file.text()),
                         lineNumber,
                         null,
                         secondaryUrls))

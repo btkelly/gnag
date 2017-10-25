@@ -18,39 +18,39 @@ package com.btkelly.gnag.reporters
 import com.btkelly.gnag.extensions.ReporterExtension
 import com.btkelly.gnag.models.Violation
 import com.btkelly.gnag.reporters.utils.CheckstyleParser
-import com.puppycrawl.tools.checkstyle.ant.CheckstyleAntTask
 import org.gradle.api.Project
 
 /**
  * Created by bobbake4 on 4/1/16.
  */
-class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
+class KtLintViolationDetector extends BaseExecutedViolationDetector {
 
     private final CheckstyleParser checkstyleParser = new CheckstyleParser()
 
-    CheckstyleViolationDetector(final Project project, final ReporterExtension reporterExtension) {
+    KtLintViolationDetector(final Project project, final ReporterExtension reporterExtension) {
         super(project, reporterExtension)
     }
 
     @Override
     void executeReporter() {
-
-        CheckstyleAntTask checkStyleTask = new CheckstyleAntTask()
-        checkStyleTask.project = project.ant.antProject
-        checkStyleTask.failOnViolation = false
-        checkStyleTask.addFormatter(new CheckstyleAntTask.Formatter(type: new CheckstyleAntTask.FormatterType(value: 'xml'), tofile: reportFile()))
-
-        if (reporterExtension.hasReporterConfig()) {
-            checkStyleTask.setConfig(reporterExtension.getReporterConfig())
-        } else {
-            checkStyleTask.setConfigUrl(getClass().getClassLoader().getResource("checkstyle.xml"))
-        }
-
-        projectHelper.getSources().findAll { it.exists() }.each {
-            checkStyleTask.addFileset(project.ant.fileset(dir: it))
-        }
-
-        checkStyleTask.perform()
+//
+//        CheckstyleAntTask checkStyleTask = new CheckstyleAntTask()
+//        checkStyleTask.project = project.ant.antProject
+//        checkStyleTask.failOnViolation = false
+//        checkStyleTask.addFormatter(new CheckstyleAntTask.Formatter(type: new CheckstyleAntTask.FormatterType(value: 'xml'), tofile: reportFile()))
+//
+//        if (reporterExtension.hasReporterConfig()) {
+//            checkStyleTask.setConfig(reporterExtension.getReporterConfig())
+//        } else {
+//            checkStyleTask.setConfigUrl(getClass().getClassLoader().getResource("checkstyle.xml"))
+//        }
+//
+//        projectHelper.getSources().findAll { it.exists() }.each {
+//            checkStyleTask.addFileset(project.ant.fileset(dir: it))
+//        }
+//
+//        checkStyleTask.perform()
+        // todo: replace
     }
 
     @Override
@@ -60,12 +60,12 @@ class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
 
     @Override
     String name() {
-        return "Checkstyle"
+        return "KtLint"
     }
 
     @Override
     File reportFile() {
-        return new File(projectHelper.getReportsDir(), "checkstyle_report.xml")
+        return new File(projectHelper.getReportsDir(), "ktlint_report.xml")
     }
 
 }
