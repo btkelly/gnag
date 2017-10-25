@@ -19,6 +19,10 @@ import com.btkelly.gnag.extensions.ReporterExtension
 import com.btkelly.gnag.models.Violation
 import com.btkelly.gnag.reporters.utils.CheckstyleParser
 import org.gradle.api.Project
+import org.gradle.api.tasks.JavaExec
+
+import java.util.function.Predicate
+import java.util.stream.Collectors
 
 /**
  * Created by bobbake4 on 4/1/16.
@@ -33,24 +37,20 @@ class KtLintViolationDetector extends BaseExecutedViolationDetector {
 
     @Override
     void executeReporter() {
-//
-//        CheckstyleAntTask checkStyleTask = new CheckstyleAntTask()
-//        checkStyleTask.project = project.ant.antProject
-//        checkStyleTask.failOnViolation = false
-//        checkStyleTask.addFormatter(new CheckstyleAntTask.Formatter(type: new CheckstyleAntTask.FormatterType(value: 'xml'), tofile: reportFile()))
-//
-//        if (reporterExtension.hasReporterConfig()) {
-//            checkStyleTask.setConfig(reporterExtension.getReporterConfig())
-//        } else {
-//            checkStyleTask.setConfigUrl(getClass().getClassLoader().getResource("checkstyle.xml"))
-//        }
-//
-//        projectHelper.getSources().findAll { it.exists() }.each {
-//            checkStyleTask.addFileset(project.ant.fileset(dir: it))
-//        }
-//
-//        checkStyleTask.perform()
-        // todo: replace
+        JavaExec javaExecTask = new JavaExec()
+//        javaExecTask.setClasspath() // todo: this probably needs to happen?
+        javaExecTask.setMain("com.github.shyiko.ktlint.Main")
+        javaExecTask.setArgs(
+                projectHelper.getSources().stream().filter(new Predicate<File>() {
+                    @Override
+                    boolean test(final File file) {
+                        return file.name.endsWith(".kt")
+                    }
+                }).collect(Collectors.toList()))
+
+        javaExecTask.args("--reporter=checkstyle,output=${reportFile().name}")
+
+        javaExecTask.exec()
     }
 
     @Override

@@ -18,6 +18,7 @@ package com.btkelly.gnag.reporters
 import com.btkelly.gnag.extensions.ReporterExtension
 import com.btkelly.gnag.models.Violation
 import com.btkelly.gnag.reporters.utils.LineNumberParser
+import com.btkelly.gnag.reporters.utils.PathCalculator
 import groovy.util.slurpersupport.GPathResult
 import net.sourceforge.pmd.ant.PMDTask
 import org.apache.commons.io.FileUtils
@@ -81,7 +82,7 @@ class PMDViolationDetector extends BaseExecutedViolationDetector {
                         violationType,
                         name(),
                         sanitizePreservingNulls((String) violation.text()),
-                        computeFilePathRelativeToProjectRoot((String) file.@name.text()),
+                        PathCalculator.calculatePathWithinProject(project, (String) file.@name.text()),
                         lineNumber,
                         sanitizePreservingNulls((String) violation.@externalInfoUrl.text())))
             }
