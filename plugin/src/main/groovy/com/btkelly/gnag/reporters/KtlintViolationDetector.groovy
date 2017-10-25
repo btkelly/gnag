@@ -27,11 +27,11 @@ import java.util.stream.Collectors
 /**
  * Created by bobbake4 on 4/1/16.
  */
-class KtLintViolationDetector extends BaseExecutedViolationDetector {
+class KtlintViolationDetector extends BaseExecutedViolationDetector {
 
     private final CheckstyleParser checkstyleParser = new CheckstyleParser()
 
-    KtLintViolationDetector(final Project project, final ReporterExtension reporterExtension) {
+    KtlintViolationDetector(final Project project, final ReporterExtension reporterExtension) {
         super(project, reporterExtension)
     }
 
@@ -46,7 +46,7 @@ class KtLintViolationDetector extends BaseExecutedViolationDetector {
 //        javaExecTask.setClasspath() // todo: this probably needs to happen?
         javaExecTask.setMain("com.github.shyiko.ktlint.Main")
         javaExecTask.setArgs(
-                projectHelper.getSources().stream().filter(new Predicate<File>() {
+                projectHelper.getKotlinSources().stream().filter(new Predicate<File>() {
                     @Override
                     boolean test(final File file) {
                         return file.name.endsWith(".kt")
@@ -65,12 +65,12 @@ class KtLintViolationDetector extends BaseExecutedViolationDetector {
 
     @Override
     String name() {
-        return "KtLint"
+        return "ktlint"
     }
 
     @Override
     File reportFile() {
-        return new File(projectHelper.getReportsDir(), "ktlint_report.xml")
+        return new File(projectHelper.getReportsDir(), "kt_lint_report.xml")
     }
 
 }

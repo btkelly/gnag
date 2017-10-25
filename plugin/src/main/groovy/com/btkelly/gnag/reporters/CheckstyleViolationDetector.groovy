@@ -46,7 +46,7 @@ class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
             checkStyleTask.setConfigUrl(getClass().getClassLoader().getResource("checkstyle.xml"))
         }
 
-        projectHelper.getSources().findAll { it.exists() }.each {
+        projectHelper.getJavaSources().findAll { it.exists() }.each {
             checkStyleTask.addFileset(project.ant.fileset(dir: it))
         }
 

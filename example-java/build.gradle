@@ -46,6 +46,9 @@ gnag {
     findbugs {
         enabled true
     }
+    ktlint {
+        enabled false
+    }
     github {
         repoName 'btkelly/android-svsu-acm-20131120'
         authToken '0000000000000'

@@ -36,12 +36,17 @@ class ProjectHelper {
         return project.getExtensions().findByName("android") != null;
     }
 
-    public boolean isKotlinProject() {
-        return project.getPlugins().findPlugin("org.jetbrains.kotlin.jvm") != null ||
-                project.getPlugins().findPlugin("org.jetbrains.kotlin.android") != null
+    public boolean containsJavaSource() {
+        // todo: fix this implementation
+        return true
     }
 
-    public List<File> getSources() {
+    public boolean containsKotlinSource() {
+        // todo: fix this implementation
+        return true
+    }
+
+    public List<File> getJavaSources() {
         if (isAndroidProject()) {
             project.android.sourceSets.inject([]) {
                 dirs, sourceSet -> dirs + sourceSet.java.srcDirs
@@ -49,6 +54,18 @@ class ProjectHelper {
         } else {
             project.sourceSets.inject([]) {
                 dirs, sourceSet -> dirs + sourceSet.java.srcDirs
+            }
+        }
+    }
+
+    public List<File> getKotlinSources() {
+        if (isAndroidProject()) {
+            project.android.sourceSets.inject([]) {
+                dirs, sourceSet -> dirs + sourceSet.kotlin.srcDirs
+            }
+        } else {
+            project.sourceSets.inject([]) {
+                dirs, sourceSet -> dirs + sourceSet.kotlin.srcDirs
             }
         }
     }

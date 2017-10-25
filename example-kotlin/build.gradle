@@ -44,12 +44,15 @@ gnag {
     enabled true
     failOnError true
     checkstyle {
-        enabled true
+        enabled false
     }
     pmd {
-        enabled true
+        enabled false
     }
     findbugs {
+        enabled false
+    }
+    ktlint {
         enabled true
     }
     github {

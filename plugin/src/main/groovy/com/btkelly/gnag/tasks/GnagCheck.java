@@ -54,13 +54,16 @@ public class GnagCheck extends DefaultTask {
 
         GnagCheck gnagCheckTask = (GnagCheck) project.task(taskOptions, TASK_NAME);
         gnagCheckTask.setGnagPluginExtension(gnagPluginExtension);
-        gnagCheckTask.violationDetectors.add(new CheckstyleViolationDetector(project, gnagPluginExtension.checkstyle));
-        gnagCheckTask.violationDetectors.add(new PMDViolationDetector(project, gnagPluginExtension.pmd));
-        gnagCheckTask.violationDetectors.add(new FindbugsViolationDetector(project, gnagPluginExtension.findbugs));
 
-//        if (projectHelper.isKotlinProject()) {
-//            gnagCheckTask.violationDetectors.add(new KtLintViolationDetector(project, gnagPluginExtension.ktLint));
-//        }
+        if (projectHelper.containsJavaSource()) {
+            gnagCheckTask.violationDetectors.add(new CheckstyleViolationDetector(project, gnagPluginExtension.checkstyle));
+            gnagCheckTask.violationDetectors.add(new PMDViolationDetector(project, gnagPluginExtension.pmd));
+            gnagCheckTask.violationDetectors.add(new FindbugsViolationDetector(project, gnagPluginExtension.findbugs));
+        }
+
+        if (projectHelper.containsKotlinSource()) {
+            gnagCheckTask.violationDetectors.add(new KtlintViolationDetector(project, gnagPluginExtension.ktlint));
+        }
 
         if (projectHelper.isAndroidProject()) {
             gnagCheckTask.violationDetectors.add(new AndroidLintViolationDetector(project, gnagPluginExtension.androidLint));
