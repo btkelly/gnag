@@ -1,0 +1,60 @@
+buildscript {
+    apply from: file('../version.gradle')
+
+    repositories {
+        mavenLocal()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.btkelly:gnag:' + gnagPluginVersion
+    }
+}
+
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.1.51"
+    id "com.github.hierynomus.license" version "0.12.1"
+}
+
+group 'com.btkelly.gnag'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'application'
+apply plugin: 'gnag'
+
+mainClassName = "com.btkelly.gnag.example.Main"
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:1.1.51"
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+license {
+    header = file('../LICENSE_HEADER.txt')
+    strictCheck true
+}
+
+clean.dependsOn licenseFormat
+
+gnag {
+    enabled true
+    failOnError true
+    checkstyle {
+        enabled true
+    }
+    pmd {
+        enabled true
+    }
+    findbugs {
+        enabled true
+    }
+    github {
+        repoName 'btkelly/android-svsu-acm-20131120'
+        authToken '0000000000000'
+        issueNumber '1'
+    }
+}
