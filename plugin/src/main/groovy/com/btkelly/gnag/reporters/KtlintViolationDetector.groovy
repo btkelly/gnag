@@ -18,6 +18,7 @@ package com.btkelly.gnag.reporters
 import com.btkelly.gnag.extensions.ReporterExtension
 import com.btkelly.gnag.models.Violation
 import com.btkelly.gnag.reporters.utils.CheckstyleParser
+import com.btkelly.gnag.utils.ProjectHelper
 import com.github.shyiko.ktlint.Main
 import org.gradle.api.Project
 import org.gradle.api.tasks.JavaExec
@@ -28,24 +29,29 @@ import java.util.stream.Collectors
 /**
  * Created by bobbake4 on 4/1/16.
  */
-class KtlintViolationDetector extends BaseExecutedViolationDetector {
+// todo: actual running should happen more like android lint (not executed in Java code; JavaExec gradle task cannot be instantiated in code).
+// https://github.com/shyiko/ktlint#-with-gradle which gnagCheck then conditionally depends on
+// (conditional because we should only add the dependency if we detect kotlin source code). if that
+// is not possible, we should always add the dependency but gracefully no-op if no kotlin source exists.
+class KtlintViolationDetector extends BaseViolationDetector {
 
+    private final ReporterExtension ktlintReporterExtension
+    private final ProjectHelper projectHelper = new ProjectHelper(project)
     private final CheckstyleParser checkstyleParser = new CheckstyleParser()
 
     KtlintViolationDetector(final Project project, final ReporterExtension reporterExtension) {
-        super(project, reporterExtension)
-    }
-
-    @Override
-    void executeReporter() {
-        // todo: do not extend executed violation detector. instead create a task using
-        // https://github.com/shyiko/ktlint#-with-gradle which gnagCheck then conditionally depends on
-        // (conditional because we should only add the dependency if we detect kotlin source code).
+        super(project)
+        this.ktlintReporterExtension = reporterExtension
     }
 
     @Override
     List<Violation> getDetectedViolations() {
         return checkstyleParser.parseViolations(project, reportFile().text, name())
+    }
+
+    @Override
+    boolean isEnabled() {
+        return ktlintReporterExtension.enabled
     }
 
     @Override
@@ -55,7 +61,7 @@ class KtlintViolationDetector extends BaseExecutedViolationDetector {
 
     @Override
     File reportFile() {
-        return new File(projectHelper.getReportsDir(), "kt_lint_report.xml")
+        return projectHelper.getKtlintReportFile()
     }
 
 }

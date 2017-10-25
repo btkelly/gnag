@@ -75,4 +75,9 @@ class ProjectHelper {
         reportsDir.mkdirs()
         return reportsDir
     }
+
+    public File getKtlintReportFile() {
+        return new File(getReportsDir(), "kt_lint_report.xml")
+    }
+
 }
