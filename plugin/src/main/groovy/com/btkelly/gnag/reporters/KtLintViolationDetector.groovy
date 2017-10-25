@@ -37,6 +37,11 @@ class KtLintViolationDetector extends BaseExecutedViolationDetector {
 
     @Override
     void executeReporter() {
+        if (reporterExtension.hasReporterConfig()) {
+            // todo: 1) throw an error here
+            // todo: 2) refactor so we aren't passed an extension with a possible config, since that's not supported by ktlint
+        }
+
         JavaExec javaExecTask = new JavaExec()
 //        javaExecTask.setClasspath() // todo: this probably needs to happen?
         javaExecTask.setMain("com.github.shyiko.ktlint.Main")

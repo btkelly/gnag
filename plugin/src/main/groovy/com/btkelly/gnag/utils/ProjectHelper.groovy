@@ -36,6 +36,11 @@ class ProjectHelper {
         return project.getExtensions().findByName("android") != null;
     }
 
+    public boolean isKotlinProject() {
+        return project.getPlugins().findPlugin("org.jetbrains.kotlin.jvm") != null ||
+                project.getPlugins().findPlugin("org.jetbrains.kotlin.android") != null
+    }
+
     public List<File> getSources() {
         if (isAndroidProject()) {
             project.android.sourceSets.inject([]) {

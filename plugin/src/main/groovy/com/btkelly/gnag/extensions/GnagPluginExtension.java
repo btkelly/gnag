@@ -50,6 +50,12 @@ public class GnagPluginExtension {
         action.execute(findbugs);
     }
 
+    public ReporterExtension ktLint;
+
+    public void ktLint(Action<ReporterExtension> action) {
+        action.execute(ktLint);
+    }
+
     public GitHubExtension github;
 
     public void github(Action<GitHubExtension> action) {
