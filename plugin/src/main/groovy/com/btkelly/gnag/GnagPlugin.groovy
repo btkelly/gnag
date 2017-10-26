@@ -34,7 +34,7 @@ class GnagPlugin implements Plugin<Project> {
         GnagPluginExtension gnagPluginExtension = GnagPluginExtension.loadExtension(project)
 
         project.configurations.create("gnagKtlint")
-        project.dependencies.add("gnagKtlint", "com.github.shyiko:ktlint:0.11.0")
+        project.dependencies.add("gnagKtlint", "com.github.shyiko:ktlint:0.11.1")
 
         project.afterEvaluate { evaluatedProject ->
             ProjectHelper projectHelper = new ProjectHelper(evaluatedProject)
