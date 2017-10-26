@@ -19,12 +19,7 @@ import com.btkelly.gnag.extensions.ReporterExtension
 import com.btkelly.gnag.models.Violation
 import com.btkelly.gnag.reporters.utils.CheckstyleParser
 import com.btkelly.gnag.utils.ProjectHelper
-import com.github.shyiko.ktlint.Main
 import org.gradle.api.Project
-import org.gradle.api.tasks.JavaExec
-
-import java.util.function.Predicate
-import java.util.stream.Collectors
 
 /**
  * Created by bobbake4 on 4/1/16.

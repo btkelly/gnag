@@ -48,7 +48,7 @@ public class GnagCheck extends DefaultTask {
         taskOptions.put(Task.TASK_TYPE, GnagCheck.class);
         taskOptions.put(Task.TASK_GROUP, "Verification");
         taskOptions.put(Task.TASK_DEPENDS_ON, "check");
-        taskOptions.put(Task.TASK_DEPENDS_ON, "ktlint"); // todo: degarbage
+        taskOptions.put(Task.TASK_DEPENDS_ON, "gnagKtlint"); // todo: degarbage
         taskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag checks and generates an HTML report");
 
         Project project = projectHelper.getProject();

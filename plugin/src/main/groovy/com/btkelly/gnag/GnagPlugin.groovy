@@ -19,15 +19,10 @@ import com.btkelly.gnag.extensions.GnagPluginExtension
 import com.btkelly.gnag.tasks.GnagCheck
 import com.btkelly.gnag.tasks.GnagReportTask
 import com.btkelly.gnag.utils.ProjectHelper
-import groovy.lang.Closure
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
-import org.gradle.api.tasks.Exec
 import org.gradle.api.tasks.JavaExec
-
-import java.util.HashMap
-import java.util.Map
 
 /**
  * Created by bobbake4 on 4/1/16.
@@ -36,27 +31,28 @@ class GnagPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
-
         GnagPluginExtension gnagPluginExtension = GnagPluginExtension.loadExtension(project)
+
+        project.configurations.create("gnagKtlint")
+        project.dependencies.add("gnagKtlint", "com.github.shyiko:ktlint:0.11.0")
 
         project.afterEvaluate { evaluatedProject ->
             ProjectHelper projectHelper = new ProjectHelper(evaluatedProject)
 
             Map<String, Object> taskOptions = new HashMap<>()
 
-            taskOptions.put(Task.TASK_NAME, "ktlint")
-            taskOptions.put(Task.TASK_TYPE, Exec.class)
+            taskOptions.put(Task.TASK_NAME, "gnagKtlint")
+            taskOptions.put(Task.TASK_TYPE, JavaExec.class)
             taskOptions.put(Task.TASK_GROUP, "Verification")
-            taskOptions.put(Task.TASK_DESCRIPTION, "Runs ktlint and generates an XML report")
+            taskOptions.put(Task.TASK_DESCRIPTION, "Runs ktlint and generates an XML report for parsing by Gnag")
 
-            // ktlint fails unless the report file is created ahead of time; not sure why
-            // https://github.com/shyiko/ktlint/blob/bcdb9c32ef615f7057af779fe5075d7fb24d74b9/ktlint/src/main/kotlin/com/github/shyiko/ktlint/Main.kt#L278
-            evaluatedProject.task(taskOptions, "ktlint") { task ->
-                // does not work to pre-create the file...
-                project.file(projectHelper.getKtlintReportFile())
-
-                commandLine 'ktlint', "--debug", "--reporter=checkstyle,output=${projectHelper.getKtlintReportFile()}"
+            evaluatedProject.task(taskOptions, "gnagKtlint") { task ->
+                main = "com.github.shyiko.ktlint.Main"
+                classpath = evaluatedProject.configurations.gnagKtlint
                 ignoreExitValue = true
+                args "--debug"
+                args "--verbose"
+                args "--reporter=checkstyle,output=${projectHelper.getKtlintReportFile()}"
             }
 
             GnagCheck.addTask(projectHelper, gnagPluginExtension)
