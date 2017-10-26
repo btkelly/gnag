@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<checkstyle version="8.0">
+	<file name="/Users/stkent/dev/personal/libraries/gnag/example-kotlin/src/main/kotlin/com/btkelly/gnag/example/Main.kt">
+		<error line="40" column="1" severity="error" message="Needless blank line(s)" source="no-blank-line-before-rbrace" />
+		<error line="42" column="1" severity="error" message="Needless blank line(s)" source="no-blank-line-before-rbrace" />
+		<error line="46" column="1" severity="error" message="Needless blank line(s)" source="no-blank-line-before-rbrace" />
+	</file>
+</checkstyle>

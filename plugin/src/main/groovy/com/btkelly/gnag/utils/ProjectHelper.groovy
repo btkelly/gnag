@@ -77,7 +77,7 @@ class ProjectHelper {
     }
 
     public File getKtlintReportFile() {
-        return new File(getReportsDir(), "kt_lint_report.xml")
+        return new File(getReportsDir(), "ktlint_report.xml")
     }
 
 }
