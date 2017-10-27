@@ -19,6 +19,7 @@ import com.btkelly.gnag.extensions.ReporterExtension
 import com.btkelly.gnag.models.Violation
 import com.btkelly.gnag.reporters.utils.CheckstyleParser
 import com.puppycrawl.tools.checkstyle.ant.CheckstyleAntTask
+import org.apache.tools.ant.types.FileSet
 import org.gradle.api.Project
 
 /**
@@ -46,8 +47,11 @@ class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
             checkStyleTask.setConfigUrl(getClass().getClassLoader().getResource("checkstyle.xml"))
         }
 
-        projectHelper.getJavaSources().findAll { it.exists() }.each {
-            checkStyleTask.addFileset(project.ant.fileset(dir: it))
+        projectHelper.getJavaSourceFiles().findAll { it.exists() }.each { sourceFile ->
+            FileSet fileSet = new FileSet()
+            fileSet.dir = sourceFile.parentFile
+            fileSet.setIncludes(sourceFile.name)
+            checkStyleTask.addFileset(fileSet)
         }
 
         checkStyleTask.perform()

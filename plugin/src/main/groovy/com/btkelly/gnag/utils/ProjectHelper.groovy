@@ -37,37 +37,21 @@ class ProjectHelper {
     }
 
     public boolean containsJavaSource() {
-        // todo: fix this implementation
+        // fixme
         return true
     }
 
     public boolean containsKotlinSource() {
-        // todo: fix this implementation
+        // fixme
         return true
     }
 
-    public List<File> getJavaSources() {
-        if (isAndroidProject()) {
-            project.android.sourceSets.inject([]) {
-                dirs, sourceSet -> dirs + sourceSet.java.srcDirs
-            }
-        } else {
-            project.sourceSets.inject([]) {
-                dirs, sourceSet -> dirs + sourceSet.java.srcDirs
-            }
-        }
+    public List<File> getJavaSourceFiles() {
+        return getSourceFilesWithSuffices(Collections.singletonList(".java"))
     }
 
-    public List<File> getKotlinSources() {
-        if (isAndroidProject()) {
-            project.android.sourceSets.inject([]) {
-                dirs, sourceSet -> dirs + sourceSet.kotlin.srcDirs
-            }
-        } else {
-            project.sourceSets.inject([]) {
-                dirs, sourceSet -> dirs + sourceSet.kotlin.srcDirs
-            }
-        }
+    public List<File> getKotlinSourceFiles() {
+        return getSourceFilesWithSuffices(Arrays.asList(".kt", ".kts"))
     }
 
     public File getReportsDir() {
@@ -78,6 +62,26 @@ class ProjectHelper {
 
     public File getKtlintReportFile() {
         return new File(getReportsDir(), "ktlint_report.xml")
+    }
+
+    private Collection<File> getSourceFilesWithSuffices(final List<String> suffices) {
+        final Collection<File> allSourceFiles
+
+        if (isAndroidProject()) {
+            allSourceFiles = project.android.sourceSets.inject([]) {
+                dirs, sourceSet -> dirs + sourceSet.allSource
+            }
+        } else {
+            allSourceFiles = project.sourceSets.inject([]) {
+                dirs, sourceSet -> dirs + sourceSet.allSource
+            }
+        }
+
+        return allSourceFiles.findAll { File file ->
+            suffices.any { suffix ->
+                file.name.endsWith(suffix)
+            }
+        }
     }
 
 }

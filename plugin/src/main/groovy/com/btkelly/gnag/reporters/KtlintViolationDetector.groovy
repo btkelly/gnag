@@ -24,10 +24,6 @@ import org.gradle.api.Project
 /**
  * Created by bobbake4 on 4/1/16.
  */
-// todo: actual running should happen more like android lint (not executed in Java code; JavaExec gradle task cannot be instantiated in code).
-// https://github.com/shyiko/ktlint#-with-gradle which gnagCheck then conditionally depends on
-// (conditional because we should only add the dependency if we detect kotlin source code). if that
-// is not possible, we should always add the dependency but gracefully no-op if no kotlin source exists.
 class KtlintViolationDetector extends BaseViolationDetector {
 
     private final ReporterExtension ktlintReporterExtension

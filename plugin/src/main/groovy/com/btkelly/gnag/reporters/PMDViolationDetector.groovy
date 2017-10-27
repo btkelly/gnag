@@ -22,6 +22,7 @@ import com.btkelly.gnag.reporters.utils.PathCalculator
 import groovy.util.slurpersupport.GPathResult
 import net.sourceforge.pmd.ant.PMDTask
 import org.apache.commons.io.FileUtils
+import org.apache.tools.ant.types.FileSet
 import org.gradle.api.Project
 
 import static com.btkelly.gnag.utils.StringUtils.sanitizePreservingNulls
@@ -55,8 +56,11 @@ class PMDViolationDetector extends BaseExecutedViolationDetector {
             pmdTask.ruleSetFiles = tempPmdRuleSetFile
         }
 
-        projectHelper.getJavaSources().findAll { it.exists() }.each {
-            pmdTask.addFileset(project.ant.fileset(dir: it))
+        projectHelper.getJavaSourceFiles().findAll { it.exists() }.each { sourceFile ->
+            FileSet fileSet = new FileSet()
+            fileSet.dir = sourceFile.parentFile
+            fileSet.setIncludes(sourceFile.name)
+            pmdTask.addFileset(fileSet)
         }
 
         pmdTask.perform()

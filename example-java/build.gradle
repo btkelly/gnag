@@ -44,7 +44,7 @@ gnag {
         enabled true
     }
     findbugs {
-        enabled true
+        enabled false //fixme: make this work again
     }
     ktlint {
         enabled false

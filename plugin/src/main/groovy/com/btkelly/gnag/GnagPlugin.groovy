@@ -33,6 +33,7 @@ class GnagPlugin implements Plugin<Project> {
     void apply(Project project) {
         GnagPluginExtension gnagPluginExtension = GnagPluginExtension.loadExtension(project)
 
+        project.repositories.jcenter() // Unlikely to be missing in real projects; here for sample projects only.
         project.configurations.create("gnagKtlint")
         project.dependencies.add("gnagKtlint", "com.github.shyiko:ktlint:0.11.1")
 
@@ -53,6 +54,10 @@ class GnagPlugin implements Plugin<Project> {
                 args "--debug"
                 args "--verbose"
                 args "--reporter=checkstyle,output=${projectHelper.getKtlintReportFile()}"
+
+                projectHelper.kotlinSourceFiles.forEach { sourceFile ->
+                    args "${sourceFile.absoluteFile}"
+                }
             }
 
             GnagCheck.addTask(projectHelper, gnagPluginExtension)

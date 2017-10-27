@@ -56,7 +56,7 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
         }
 
         Path sourcePath = findBugsTask.createSourcePath()
-        projectHelper.getJavaSources().findAll { it.exists() }.each {
+        projectHelper.getJavaSourceFiles().findAll { it.exists() }.each {
             sourcePath.addFileset(project.ant.fileset(dir: it))
         }
 
@@ -69,15 +69,13 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
         }
 
         Set<String> includes = []
-        projectHelper.getJavaSources().findAll { it.exists() }.each { File directory ->
-            FileSet fileSet = project.ant.fileset(dir: directory)
+        projectHelper.getJavaSourceFiles().findAll { it.exists() }.each { sourceFile ->
+            FileSet fileSet = new FileSet()
+            fileSet.dir = sourceFile.parentFile
+            fileSet.setIncludes(sourceFile.name)
+
             Path path = project.ant.path()
             path.addFileset(fileSet)
-
-            path.each {
-                String includePath = new File(it.toString()).absolutePath - directory.absolutePath
-                includes.add("**${includePath.replaceAll('\\.java$', '')}*")
-            }
         }
 
         findBugsTask.addFileset(project.ant.fileset(dir: project.buildDir, includes: includes.join(',')))
