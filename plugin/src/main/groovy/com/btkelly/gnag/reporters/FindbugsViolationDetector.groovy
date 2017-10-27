@@ -21,6 +21,7 @@ import com.btkelly.gnag.reporters.utils.LineNumberParser
 import com.btkelly.gnag.reporters.utils.PathCalculator
 import edu.umd.cs.findbugs.anttask.FindBugsTask
 import groovy.util.slurpersupport.GPathResult
+import org.apache.commons.io.FilenameUtils
 import org.apache.tools.ant.types.FileSet
 import org.apache.tools.ant.types.Path
 import org.gradle.api.Project
@@ -55,32 +56,75 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
             findBugsTask.excludeFilter = new File(getClass().getClassLoader().getResource("findbugs.xml").getFile())
         }
 
+//        new code
+
         Path sourcePath = findBugsTask.createSourcePath()
-        projectHelper.getJavaSourceFiles().findAll { it.exists() }.each {
-            sourcePath.addFileset(project.ant.fileset(dir: it))
-        }
+
+        projectHelper.getJavaSourceFiles()
+                .findAll { File sourceFile -> sourceFile.exists() }
+                .each { File sourceFile ->
+                    FileSet sourcePathFileSet = new FileSet()
+                    sourcePathFileSet.dir = sourceFile.parentFile
+                    sourcePathFileSet.setIncludes(sourceFile.name)
+                    sourcePath.addFileset(sourcePathFileSet)
+
+                    FileSet antPathFileSet = new FileSet()
+                    antPathFileSet.dir = sourceFile.parentFile
+                    antPathFileSet.setIncludes(sourceFile.name)
+
+                    Path antPath = (Path) project.ant.path()
+                    antPath.addFileset(antPathFileSet)
+
+                    String classFilenamePattern = "**${FilenameUtils.getBaseName(sourceFile.name)}*"
+
+                    FileSet taskFileSet = new FileSet()
+                    taskFileSet.dir = project.buildDir
+                    taskFileSet.setIncludes(classFilenamePattern)
+                    findBugsTask.addFileset(taskFileSet)
+                }
 
         Path classpath = findBugsTask.createClasspath()
-        project.rootProject.buildscript.configurations.classpath.resolve().each {
-            classpath.createPathElement().location = it
-        }
-        project.buildscript.configurations.classpath.resolve().each {
-            classpath.createPathElement().location = it
+
+        project.rootProject.buildscript.configurations.classpath.resolve().each { File classpathFile ->
+            classpath.createPathElement().location = classpathFile
         }
 
-        Set<String> includes = []
-        projectHelper.getJavaSourceFiles().findAll { it.exists() }.each { sourceFile ->
-            FileSet fileSet = new FileSet()
-            fileSet.dir = sourceFile.parentFile
-            fileSet.setIncludes(sourceFile.name)
-
-            Path path = project.ant.path()
-            path.addFileset(fileSet)
+        project.buildscript.configurations.classpath.resolve().each { File classpathFile ->
+            classpath.createPathElement().location = classpathFile
         }
-
-        findBugsTask.addFileset(project.ant.fileset(dir: project.buildDir, includes: includes.join(',')))
 
         findBugsTask.perform()
+
+//        original code
+
+//        Path sourcePath = findBugsTask.createSourcePath()
+//        projectHelper.getSources().findAll { it.exists() }.each {
+//            sourcePath.addFileset(project.ant.fileset(dir: it))
+//        }
+//
+//        Path classpath = findBugsTask.createClasspath()
+//        project.rootProject.buildscript.configurations.classpath.resolve().each {
+//            classpath.createPathElement().location = it
+//        }
+//        project.buildscript.configurations.classpath.resolve().each {
+//            classpath.createPathElement().location = it
+//        }
+//
+//        Set<String> includes = []
+//        projectHelper.getSources().findAll { it.exists() }.each { File directory ->
+//            FileSet fileSet = project.ant.fileset(dir: directory)
+//            Path path = project.ant.path()
+//            path.addFileset(fileSet)
+//
+//            path.each {
+//                String includePath = new File(it.toString()).absolutePath - directory.absolutePath
+//                includes.add("**${includePath.replaceAll('\\.java$', '')}*")
+//            }
+//        }
+//
+//        findBugsTask.addFileset(project.ant.fileset(dir: project.buildDir, includes: includes.join(',')))
+//
+//        findBugsTask.perform()
     }
 
     @Override

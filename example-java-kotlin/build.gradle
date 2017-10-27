@@ -55,7 +55,7 @@ gnag {
         enabled true
     }
     findbugs {
-        enabled false // fixme: make this work again
+        enabled true // fixme: make this work again
     }
     ktlint {
         enabled true
