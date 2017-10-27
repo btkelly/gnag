@@ -18,7 +18,7 @@ package com.btkelly.gnag.example;
 /**
  * Created by bobbake4 on 2/7/17.
  */
-public class Main {
+public class JavaFileInJavaSourceSet {
 
     public static void main(String[] args) {
 

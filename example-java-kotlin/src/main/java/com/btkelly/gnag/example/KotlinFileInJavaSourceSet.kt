@@ -18,7 +18,7 @@ package com.btkelly.gnag.example
 /**
  * Created by bobbake4 on 2/7/17.
  */
-class Main {
+class KotlinFileInJavaSourceSet {
 
     override fun toString(): String = super.toString()
 

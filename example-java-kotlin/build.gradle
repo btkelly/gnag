@@ -22,7 +22,12 @@ version '1.0-SNAPSHOT'
 apply plugin: 'application'
 apply plugin: 'gnag'
 
-mainClassName = "com.btkelly.gnag.example.Main"
+mainClassName = "com.btkelly.gnag.example.KotlinFileInKotlinSourceSet"
+
+sourceSets {
+    main.kotlin.srcDirs += 'src/main/myKotlin'
+    main.java.srcDirs += 'src/main/myJava'
+}
 
 repositories {
     jcenter()
@@ -44,13 +49,13 @@ gnag {
     enabled true
     failOnError true
     checkstyle {
-        enabled false
+        enabled true
     }
     pmd {
-        enabled false
+        enabled true
     }
     findbugs {
-        enabled false
+        enabled false // fixme: make this work again
     }
     ktlint {
         enabled true
