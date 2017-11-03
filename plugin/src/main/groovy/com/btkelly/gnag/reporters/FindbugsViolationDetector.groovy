@@ -61,7 +61,6 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
         Path sourcePath = findBugsTask.createSourcePath()
 
         projectHelper.getJavaSourceFiles()
-                .findAll { File sourceFile -> sourceFile.exists() }
                 .each { File sourceFile ->
                     FileSet sourcePathFileSet = new FileSet()
                     sourcePathFileSet.dir = sourceFile.parentFile

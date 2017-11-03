@@ -56,7 +56,7 @@ class PMDViolationDetector extends BaseExecutedViolationDetector {
             pmdTask.ruleSetFiles = tempPmdRuleSetFile
         }
 
-        projectHelper.getJavaSourceFiles().findAll { it.exists() }.each { sourceFile ->
+        projectHelper.getJavaSourceFiles().each { sourceFile ->
             FileSet fileSet = new FileSet()
             fileSet.dir = sourceFile.parentFile
             fileSet.setIncludes(sourceFile.name)

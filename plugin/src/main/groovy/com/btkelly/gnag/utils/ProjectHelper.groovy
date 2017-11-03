@@ -68,7 +68,7 @@ class ProjectHelper {
         }
 
         return allSourceFiles.findAll { File file ->
-            suffices.any { suffix ->
+            file.exists() && suffices.any { suffix ->
                 file.name.endsWith(suffix)
             }
         }
