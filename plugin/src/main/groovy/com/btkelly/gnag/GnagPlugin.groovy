@@ -40,26 +40,6 @@ class GnagPlugin implements Plugin<Project> {
         project.afterEvaluate { evaluatedProject ->
             ProjectHelper projectHelper = new ProjectHelper(evaluatedProject)
 
-            Map<String, Object> taskOptions = new HashMap<>()
-
-            taskOptions.put(Task.TASK_NAME, "gnagKtlint")
-            taskOptions.put(Task.TASK_TYPE, JavaExec.class)
-            taskOptions.put(Task.TASK_GROUP, "Verification")
-            taskOptions.put(Task.TASK_DESCRIPTION, "Runs ktlint and generates an XML report for parsing by Gnag")
-
-            evaluatedProject.task(taskOptions, "gnagKtlint") { task ->
-                main = "com.github.shyiko.ktlint.Main"
-                classpath = evaluatedProject.configurations.gnagKtlint
-                ignoreExitValue = true
-                args "--debug"
-                args "--verbose"
-                args "--reporter=checkstyle,output=${projectHelper.getKtlintReportFile()}"
-
-                projectHelper.kotlinSourceFiles.forEach { sourceFile ->
-                    args "${sourceFile.absoluteFile}"
-                }
-            }
-
             GnagCheck.addTask(projectHelper, gnagPluginExtension)
             GnagReportTask.addTask(projectHelper, gnagPluginExtension.github)
         }

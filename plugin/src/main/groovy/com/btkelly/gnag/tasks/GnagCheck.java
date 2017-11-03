@@ -48,7 +48,6 @@ public class GnagCheck extends DefaultTask {
         taskOptions.put(Task.TASK_TYPE, GnagCheck.class);
         taskOptions.put(Task.TASK_GROUP, "Verification");
         taskOptions.put(Task.TASK_DEPENDS_ON, "check");
-        taskOptions.put(Task.TASK_DEPENDS_ON, "gnagKtlint"); // todo: degarbage
         taskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag checks and generates an HTML report");
 
         Project project = projectHelper.getProject();
@@ -62,7 +61,9 @@ public class GnagCheck extends DefaultTask {
             gnagCheckTask.violationDetectors.add(new FindbugsViolationDetector(project, gnagPluginExtension.findbugs));
         }
 
-        if (projectHelper.containsKotlinSource()) {
+        if (projectHelper.containsKotlinSource() && gnagPluginExtension.ktlint.isEnabled()) {
+            Task ktlintTask = KtlintTask.addTask(projectHelper);
+            gnagCheckTask.dependsOn(ktlintTask);
             gnagCheckTask.violationDetectors.add(new KtlintViolationDetector(project, gnagPluginExtension.ktlint));
         }
 
