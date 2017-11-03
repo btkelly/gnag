@@ -36,16 +36,6 @@ class ProjectHelper {
         return project.getExtensions().findByName("android") != null;
     }
 
-    public boolean containsJavaSource() {
-        // fixme
-        return true
-    }
-
-    public boolean containsKotlinSource() {
-        // fixme
-        return true
-    }
-
     public List<File> getJavaSourceFiles() {
         return getSourceFilesWithSuffices(Collections.singletonList(".java"))
     }

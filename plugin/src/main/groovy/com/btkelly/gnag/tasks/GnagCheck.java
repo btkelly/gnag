@@ -55,13 +55,12 @@ public class GnagCheck extends DefaultTask {
         GnagCheck gnagCheckTask = (GnagCheck) project.task(taskOptions, TASK_NAME);
         gnagCheckTask.setGnagPluginExtension(gnagPluginExtension);
 
-        if (projectHelper.containsJavaSource()) {
-            gnagCheckTask.violationDetectors.add(new CheckstyleViolationDetector(project, gnagPluginExtension.checkstyle));
-            gnagCheckTask.violationDetectors.add(new PMDViolationDetector(project, gnagPluginExtension.pmd));
-            gnagCheckTask.violationDetectors.add(new FindbugsViolationDetector(project, gnagPluginExtension.findbugs));
-        }
+        // todo: conditionally add these, as with ktlint below?
+        gnagCheckTask.violationDetectors.add(new CheckstyleViolationDetector(project, gnagPluginExtension.checkstyle));
+        gnagCheckTask.violationDetectors.add(new PMDViolationDetector(project, gnagPluginExtension.pmd));
+        gnagCheckTask.violationDetectors.add(new FindbugsViolationDetector(project, gnagPluginExtension.findbugs));
 
-        if (projectHelper.containsKotlinSource() && gnagPluginExtension.ktlint.isEnabled()) {
+        if (gnagPluginExtension.ktlint.isEnabled()) {
             Task ktlintTask = KtlintTask.addTask(projectHelper);
             gnagCheckTask.dependsOn(ktlintTask);
             gnagCheckTask.violationDetectors.add(new KtlintViolationDetector(project, gnagPluginExtension.ktlint));
