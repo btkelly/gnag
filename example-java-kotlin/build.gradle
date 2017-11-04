@@ -24,11 +24,6 @@ apply plugin: 'gnag'
 
 mainClassName = "com.btkelly.gnag.example.KotlinFileInKotlinSourceSet"
 
-sourceSets {
-    main.kotlin.srcDirs += 'src/main/myKotlin'
-    main.java.srcDirs += 'src/main/myJava'
-}
-
 repositories {
     jcenter()
 }

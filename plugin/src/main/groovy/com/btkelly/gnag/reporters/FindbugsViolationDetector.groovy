@@ -56,9 +56,8 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
             findBugsTask.excludeFilter = new File(getClass().getClassLoader().getResource("findbugs.xml").getFile())
         }
 
-//        new code
-
         Path sourcePath = findBugsTask.createSourcePath()
+        Set<String> sourceSetRootDirPaths = projectHelper.getSourceSetRootDirPaths()
 
         projectHelper.getJavaSourceFiles()
                 .each { File sourceFile ->
@@ -72,13 +71,28 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
                     Path antPath = (Path) project.ant.path()
                     antPath.addFileset(antPathFileSet)
 
-                    String classFilenamePattern = "**/com/btkelly/gnag/example/JavaFileInJavaSourceSet*"
+                    /*
+                     * Compute the path to the source set directory that contains sourceFile. (This code assumes there
+                     * will be at least one match for every source file. Can there ever be more than one?).
+                     */
+                    String containingSourceSetRootDirPath = sourceSetRootDirPaths
+                            .findAll { String sourceSetRootDirPath -> sourceFile.absolutePath.startsWith(sourceSetRootDirPath) }
+                            .first()
 
-                    // It's unclear why this works but constructing a new Fileset does not.
-                    FileSet taskFileSet = project.ant.fileset()
+                    /*
+                     * Strip the path to the containing source set directory from the front of the path to sourceFile,
+                     * and remove the trailing .java since we will use this pattern to locate .class files.
+                     */
+                    String relativePathToClass = sourceFile
+                            .absolutePath
+                            .replaceAll(containingSourceSetRootDirPath, '')
+                            .replaceAll(".java\$", '')
+
+                    // Note: retrieving via project.ant.fileset() works, but constructing a brand new Fileset does not.
+                    FileSet taskFileSet = project.ant.fileset() as FileSet
 
                     taskFileSet.dir = project.buildDir
-                    taskFileSet.setIncludes(classFilenamePattern)
+                    taskFileSet.setIncludes("**$relativePathToClass*")
                     findBugsTask.addFileset(taskFileSet)
                 }
 
@@ -93,37 +107,6 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
         }
 
         findBugsTask.perform()
-
-//        original code
-
-//        Path sourcePath = findBugsTask.createSourcePath()
-//        projectHelper.getSources().findAll { it.exists() }.each {
-//            sourcePath.addFileset(project.ant.fileset(dir: it))
-//        }
-//
-//        Path classpath = findBugsTask.createClasspath()
-//        project.rootProject.buildscript.configurations.classpath.resolve().each {
-//            classpath.createPathElement().location = it
-//        }
-//        project.buildscript.configurations.classpath.resolve().each {
-//            classpath.createPathElement().location = it
-//        }
-//
-//        Set<String> includes = []
-//        projectHelper.getSources().findAll { it.exists() }.each { File directory ->
-//            FileSet fileSet = project.ant.fileset(dir: directory)
-//            Path path = project.ant.path()
-//            path.addFileset(fileSet)
-//
-//            path.each {
-//                String includePath = new File(it.toString()).absolutePath - directory.absolutePath
-//                includes.add("**${includePath.replaceAll('\\.java$', '')}*")
-//            }
-//        }
-//
-//        findBugsTask.addFileset(project.ant.fileset(dir: project.buildDir, includes: includes.join(',')))
-//
-//        findBugsTask.perform()
     }
 
     @Override

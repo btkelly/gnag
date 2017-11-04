@@ -74,4 +74,22 @@ class ProjectHelper {
         }
     }
 
+    Set<String> getSourceSetRootDirPaths() {
+        final Set<File> allSourceSetRootDirs
+
+        if (isAndroidProject()) {
+            allSourceSetRootDirs = project.android.sourceSets.inject([]) {
+                dirs, sourceSet -> dirs + sourceSet.allSource.srcDirs
+            }
+        } else {
+            allSourceSetRootDirs = project.sourceSets.inject([]) {
+                dirs, sourceSet -> dirs + sourceSet.allSource.srcDirs
+            }
+        }
+
+        return allSourceSetRootDirs
+                .findAll { File sourceSetRootDir -> sourceSetRootDir.exists() }
+                .collect { File sourceSetRootDir -> sourceSetRootDir.absolutePath }
+    }
+
 }
