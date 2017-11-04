@@ -74,9 +74,11 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
                     Path antPath = (Path) project.ant.path()
                     antPath.addFileset(antPathFileSet)
 
-                    String classFilenamePattern = "**${FilenameUtils.getBaseName(sourceFile.name)}*"
+                    String classFilenamePattern = "**/com/btkelly/gnag/example/JavaFileInJavaSourceSet*"
 
-                    FileSet taskFileSet = new FileSet()
+                    // It's unclear why this works but constructing a new Fileset does not.
+                    FileSet taskFileSet = project.ant.fileset()
+
                     taskFileSet.dir = project.buildDir
                     taskFileSet.setIncludes(classFilenamePattern)
                     findBugsTask.addFileset(taskFileSet)
