@@ -49,8 +49,7 @@ class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
 
         projectHelper.getJavaSourceFiles().each { sourceFile ->
             FileSet fileSet = new FileSet()
-            fileSet.dir = sourceFile.parentFile
-            fileSet.setIncludes(sourceFile.name)
+            fileSet.file = sourceFile
             checkStyleTask.addFileset(fileSet)
         }
 

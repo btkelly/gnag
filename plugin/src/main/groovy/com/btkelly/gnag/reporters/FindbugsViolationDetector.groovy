@@ -63,13 +63,11 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
         projectHelper.getJavaSourceFiles()
                 .each { File sourceFile ->
                     FileSet sourcePathFileSet = new FileSet()
-                    sourcePathFileSet.dir = sourceFile.parentFile
-                    sourcePathFileSet.setIncludes(sourceFile.name)
+                    sourcePathFileSet.file = sourceFile
                     sourcePath.addFileset(sourcePathFileSet)
 
                     FileSet antPathFileSet = new FileSet()
-                    antPathFileSet.dir = sourceFile.parentFile
-                    antPathFileSet.setIncludes(sourceFile.name)
+                    antPathFileSet.file = sourceFile
 
                     Path antPath = (Path) project.ant.path()
                     antPath.addFileset(antPathFileSet)
