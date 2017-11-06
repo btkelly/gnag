@@ -59,7 +59,7 @@ class ProjectHelper {
 
         if (isAndroidProject()) {
             allSourceFiles = project.android.sourceSets.inject([]) {
-                dirs, sourceSet -> dirs + sourceSet.allSource
+                dirs, sourceSet -> dirs + sourceSet.java.sourceFiles
             }
         } else {
             allSourceFiles = project.sourceSets.inject([]) {
@@ -79,7 +79,7 @@ class ProjectHelper {
 
         if (isAndroidProject()) {
             allSourceSetRootDirs = project.android.sourceSets.inject([]) {
-                dirs, sourceSet -> dirs + sourceSet.allSource.srcDirs
+                dirs, sourceSet -> dirs + sourceSet.java.srcDirs
             }
         } else {
             allSourceSetRootDirs = project.sourceSets.inject([]) {
