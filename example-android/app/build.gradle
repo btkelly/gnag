@@ -57,19 +57,11 @@ clean.dependsOn licenseFormat
 gnag {
     enabled true
     failOnError true
-    checkstyle {
-        enabled true
-    }
-    pmd {
-        enabled true
-    }
-    findbugs {
-        enabled true
-    }
+
     androidLint {
-        enabled true
         severity 'Warning'
     }
+
     github {
         repoName 'btkelly/android-svsu-acm-20131120'
         authToken '0000000000000'
