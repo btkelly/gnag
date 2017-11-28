@@ -13,34 +13,34 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.btkelly.gnag.example;
+package com.gnag.example;
 
-/**
- * Created by bobbake4 on 2/7/17.
- */
-public class Main {
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
 
-    public static void main(String[] args) {
+class MainKotlinActivity : AppCompatActivity() {
 
-        String test = "";
-        String testCompare = "Fail";
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContentView(R.layout.activity_main)
+
+        val test = ""
+        val testCompare = "Fail"
 
         if (test == testCompare) {
-            System.out.print("Total Fail");
+            Log.e("TEST", "Total Fail")
         }
 
         try {
-            System.out.print("Empty");
-        } catch (Exception e) {
+            Log.e("TEST", "Empty")
+        } catch (e: Exception) {
 
         } finally {
 
         }
-    }
 
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
     }
 
 }

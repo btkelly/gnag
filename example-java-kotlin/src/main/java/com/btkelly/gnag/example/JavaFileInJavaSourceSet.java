@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2016 Bryan Kelly
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -13,16 +13,34 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.btkelly.gnag.reporters
+package com.btkelly.gnag.example;
 
-import org.gradle.api.Project
+/**
+ * Created by bobbake4 on 2/7/17.
+ */
+public class JavaFileInJavaSourceSet {
 
-abstract class BaseViolationDetector implements ViolationDetector {
+    public static void main(String[] args) {
 
-    protected final Project project
+        String test = "";
+        String testCompare = "Fail";
 
-    BaseViolationDetector(final Project project) {
-        this.project = project
+        if (test == testCompare) {
+            System.out.print("Total Fail");
+        }
+
+        try {
+            System.out.print("Empty");
+        } catch (Exception e) {
+
+        } finally {
+
+        }
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
     }
 
 }

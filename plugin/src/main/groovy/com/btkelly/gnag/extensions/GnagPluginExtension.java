@@ -50,6 +50,12 @@ public class GnagPluginExtension {
         action.execute(findbugs);
     }
 
+    public ReporterExtension ktlint;
+
+    public void ktlint(Action<ReporterExtension> action) {
+        action.execute(ktlint);
+    }
+
     public GitHubExtension github;
 
     public void github(Action<GitHubExtension> action) {
@@ -71,6 +77,7 @@ public class GnagPluginExtension {
         this.checkstyle = new ReporterExtension("CheckStyle", project);
         this.pmd = new ReporterExtension("PMD", project);
         this.findbugs = new ReporterExtension("FindBugs", project);
+        this.ktlint = new ReporterExtension("ktlint", project);
         this.androidLint = new AndroidLintExtension(project);
     }
 

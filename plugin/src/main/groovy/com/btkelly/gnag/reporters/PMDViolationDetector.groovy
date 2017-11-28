@@ -17,10 +17,12 @@ package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
 import com.btkelly.gnag.models.Violation
-
+import com.btkelly.gnag.reporters.utils.LineNumberParser
+import com.btkelly.gnag.reporters.utils.PathCalculator
 import groovy.util.slurpersupport.GPathResult
 import net.sourceforge.pmd.ant.PMDTask
 import org.apache.commons.io.FileUtils
+import org.apache.tools.ant.types.FileSet
 import org.gradle.api.Project
 
 import static com.btkelly.gnag.utils.StringUtils.sanitizePreservingNulls
@@ -54,8 +56,10 @@ class PMDViolationDetector extends BaseExecutedViolationDetector {
             pmdTask.ruleSetFiles = tempPmdRuleSetFile
         }
 
-        projectHelper.getSources().findAll { it.exists() }.each {
-            pmdTask.addFileset(project.ant.fileset(dir: it))
+        projectHelper.getJavaSourceFiles().each { sourceFile ->
+            FileSet fileSet = new FileSet()
+            fileSet.file = sourceFile
+            pmdTask.addFileset(fileSet)
         }
 
         pmdTask.perform()
@@ -72,13 +76,16 @@ class PMDViolationDetector extends BaseExecutedViolationDetector {
                 final String violationType = sanitizeToNonNull((String) violation.@rule.text())
 
                 final String lineNumberString = sanitizeToNonNull((String) violation.@endline.text())
-                final Integer lineNumber = computeLineNumberFromString(lineNumberString, violationType)
-                
+                final Integer lineNumber = LineNumberParser.parseLineNumberString(
+                        lineNumberString,
+                        name(),
+                        violationType)
+
                 result.add(new Violation(
                         violationType,
                         name(),
                         sanitizePreservingNulls((String) violation.text()),
-                        computeFilePathRelativeToProjectRoot((String) file.@name.text()),
+                        PathCalculator.calculatePathWithinProject(project, (String) file.@name.text()),
                         lineNumber,
                         sanitizePreservingNulls((String) violation.@externalInfoUrl.text())))
             }

@@ -17,16 +17,17 @@ package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
 import com.btkelly.gnag.models.Violation
+import com.btkelly.gnag.reporters.utils.CheckstyleParser
 import com.puppycrawl.tools.checkstyle.ant.CheckstyleAntTask
-import groovy.util.slurpersupport.GPathResult
+import org.apache.tools.ant.types.FileSet
 import org.gradle.api.Project
 
-import static com.btkelly.gnag.utils.StringUtils.sanitizePreservingNulls
-import static com.btkelly.gnag.utils.StringUtils.sanitizeToNonNull
 /**
  * Created by bobbake4 on 4/1/16.
  */
 class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
+
+    private final CheckstyleParser checkstyleParser = new CheckstyleParser()
 
     CheckstyleViolationDetector(final Project project, final ReporterExtension reporterExtension) {
         super(project, reporterExtension)
@@ -46,8 +47,10 @@ class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
             checkStyleTask.setConfigUrl(getClass().getClassLoader().getResource("checkstyle.xml"))
         }
 
-        projectHelper.getSources().findAll { it.exists() }.each {
-            checkStyleTask.addFileset(project.ant.fileset(dir: it))
+        projectHelper.getJavaSourceFiles().each { sourceFile ->
+            FileSet fileSet = new FileSet()
+            fileSet.file = sourceFile
+            checkStyleTask.addFileset(fileSet)
         }
 
         checkStyleTask.perform()
@@ -55,29 +58,7 @@ class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
 
     @Override
     List<Violation> getDetectedViolations() {
-        GPathResult xml = new XmlSlurper().parseText(reportFile().text)
-
-        final List<Violation> result = new ArrayList<>()
-
-        xml.file.each { file ->
-            file.error.each { violation ->
-                final String fullViolationName = sanitizeToNonNull((String) violation.@source.text())
-                final String shortViolationName = sanitizeToNonNull(
-                        (String) fullViolationName.substring(fullViolationName.lastIndexOf(".") + 1))
-
-                final String lineNumberString = sanitizeToNonNull((String) violation.@line.text())
-                final Integer lineNumber = computeLineNumberFromString(lineNumberString, shortViolationName)
-
-                result.add(new Violation(
-                        shortViolationName,
-                        name(),
-                        sanitizePreservingNulls((String) violation.@message.text()),
-                        computeFilePathRelativeToProjectRoot((String) file.@name.text()),
-                        lineNumber))
-            }
-        }
-
-        return result
+        return checkstyleParser.parseViolations(project, reportFile().text, name())
     }
 
     @Override

@@ -15,6 +15,7 @@
  */
 package com.btkelly.gnag.utils
 
+import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
 
 /**
@@ -36,16 +37,12 @@ class ProjectHelper {
         return project.getExtensions().findByName("android") != null;
     }
 
-    public List<File> getSources() {
-        if (isAndroidProject()) {
-            project.android.sourceSets.inject([]) {
-                dirs, sourceSet -> dirs + sourceSet.java.srcDirs
-            }
-        } else {
-            project.sourceSets.inject([]) {
-                dirs, sourceSet -> dirs + sourceSet.java.srcDirs
-            }
-        }
+    public List<File> getJavaSourceFiles() {
+        return getSourceFilesWithSuffices(["java"]  as String[])
+    }
+
+    public List<File> getKotlinSourceFiles() {
+        return getSourceFilesWithSuffices(["kt", "kts"] as String[])
     }
 
     public File getReportsDir() {
@@ -53,4 +50,53 @@ class ProjectHelper {
         reportsDir.mkdirs()
         return reportsDir
     }
+
+    public File getKtlintReportFile() {
+        return new File(getReportsDir(), "ktlint_report.xml")
+    }
+
+    private Collection<File> getSourceFilesWithSuffices(final String[] suffices) {
+        final Collection<File> allSourceFiles
+
+        if (isAndroidProject()) {
+            allSourceFiles = project.android.sourceSets.inject([]) { files, sourceSet ->
+                sourceSet.java.srcDirs.each { File javaSrcDir ->
+                    if (javaSrcDir.exists()) {
+                        files = files + FileUtils.listFiles(javaSrcDir, suffices, true)
+                    }
+                }
+
+                files
+            }
+        } else {
+            allSourceFiles = project.sourceSets.inject([]) { files, sourceSet ->
+                files + sourceSet.allSource
+            }
+        }
+
+        return allSourceFiles.findAll { File file ->
+            file.exists() && suffices.any { suffix ->
+                file.name.endsWith(suffix)
+            }
+        }
+    }
+
+    Set<String> getSourceSetRootDirPaths() {
+        final Set<File> allSourceSetRootDirs
+
+        if (isAndroidProject()) {
+            allSourceSetRootDirs = project.android.sourceSets.inject([]) {
+                dirs, sourceSet -> dirs + sourceSet.java.srcDirs
+            }
+        } else {
+            allSourceSetRootDirs = project.sourceSets.inject([]) {
+                dirs, sourceSet -> dirs + sourceSet.allSource.srcDirs
+            }
+        }
+
+        return allSourceSetRootDirs
+                .findAll { File sourceSetRootDir -> sourceSetRootDir.exists() }
+                .collect { File sourceSetRootDir -> sourceSetRootDir.absolutePath }
+    }
+
 }

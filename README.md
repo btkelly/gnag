@@ -1,5 +1,7 @@
 # Gnag <a href="https://travis-ci.org/btkelly/gnag"><img src="https://travis-ci.org/btkelly/gnag.svg" /></a> [![Coverage Status](https://coveralls.io/repos/btkelly/gnag/badge.svg?branch=master&service=github)](https://coveralls.io/github/btkelly/gnag?branch=master) <a href="http://www.detroitlabs.com/"><img src="https://img.shields.io/badge/Sponsor-Detroit%20Labs-000000.svg" /></a> <a href='https://bintray.com/btkelly/maven/gnag-gradle-plugin/_latestVersion'><img src='https://api.bintray.com/packages/btkelly/maven/gnag-gradle-plugin/images/download.svg'></a> [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-gnag-green.svg?style=true)](https://android-arsenal.com/details/1/3128)
-A Gradle plugin that helps facilitate GitHub PR checking and automatic commenting of violations for Android projects.
+Gnag is a Gradle plugin that helps facilitate GitHub PR checking and automatic commenting of violations for Android projects.
+
+It can be used in Java-only, Kotlin-only, and mixed Java/Kotlin codebases.
 
 The name is a portmanteau of the words ["Gradle"](https://gradle.org/) and ["nag"](https://en.wiktionary.org/wiki/nag#Verb). The first "g" is silent!
 
@@ -65,6 +67,9 @@ gnag {
         enabled true
         reporterConfig project.file('config/findbugs.xml')
     }
+    ktlint {
+        enabled true
+    }
     androidLint {
         enabled true
         severity 'Error'
@@ -89,6 +94,8 @@ gnag {
 - ***findbugs*** - block to customize the findbugs reporter
   - ***enabled*** - set if findbugs should execute
   - ***reporterConfig*** - provide a custom [findbugs config](http://findbugs.sourceforge.net/manual/filter.html)
+- ***ktlint*** - block to customize the ktlint reporter
+  - ***enabled*** - set if ktlint should execute
 - ***androidLint*** - block to customize the android lint reporter
   - ***enabled*** - set if the android lint reporter should look for a lint report
   - ***severity*** - can be 'Error' or 'Warning' depending on which severity you want Gnag to check

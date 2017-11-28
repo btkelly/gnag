@@ -54,9 +54,19 @@ public class GnagCheck extends DefaultTask {
 
         GnagCheck gnagCheckTask = (GnagCheck) project.task(taskOptions, TASK_NAME);
         gnagCheckTask.setGnagPluginExtension(gnagPluginExtension);
-        gnagCheckTask.violationDetectors.add(new CheckstyleViolationDetector(project, gnagPluginExtension.checkstyle));
-        gnagCheckTask.violationDetectors.add(new PMDViolationDetector(project, gnagPluginExtension.pmd));
-        gnagCheckTask.violationDetectors.add(new FindbugsViolationDetector(project, gnagPluginExtension.findbugs));
+
+        if (!projectHelper.getJavaSourceFiles().isEmpty()) {
+            // todo: conditionally add these based on enabled state, as with ktlint below?
+            gnagCheckTask.violationDetectors.add(new CheckstyleViolationDetector(project, gnagPluginExtension.checkstyle));
+            gnagCheckTask.violationDetectors.add(new PMDViolationDetector(project, gnagPluginExtension.pmd));
+            gnagCheckTask.violationDetectors.add(new FindbugsViolationDetector(project, gnagPluginExtension.findbugs));
+        }
+
+        if (gnagPluginExtension.ktlint.isEnabled() && !projectHelper.getKotlinSourceFiles().isEmpty()) {
+            Task ktlintTask = KtlintTask.addTask(projectHelper);
+            gnagCheckTask.dependsOn(ktlintTask);
+            gnagCheckTask.violationDetectors.add(new KtlintViolationDetector(project, gnagPluginExtension.ktlint));
+        }
 
         if (projectHelper.isAndroidProject()) {
             gnagCheckTask.violationDetectors.add(new AndroidLintViolationDetector(project, gnagPluginExtension.androidLint));
@@ -99,21 +109,21 @@ public class GnagCheck extends DefaultTask {
 
         if (allDetectedViolations.isEmpty()) {
             ReportWriter.deleteLocalReportFiles(reportsDir);
-            
+
             getProject().setStatus(CheckStatus.getSuccessfulCheckStatus());
 
             System.out.println("Congrats, no poop code found!");
         } else {
             ReportWriter.writeLocalReportFiles(allDetectedViolations, reportsDir);
-            
+
             getProject().setStatus(new CheckStatus(FAILURE, allDetectedViolations));
 
             final String failedMessage
-                    = "One or more violation detectors has found violations. Check the report at " 
+                    = "One or more violation detectors has found violations. Check the report at "
                     + reportsDir
                     + File.separatorChar
                     + REPORT_FILE_NAME + " for details.";
-            
+
             if (gnagPluginExtension.shouldFailOnError() && !taskExecutionGraphIncludesGnagReport()) {
                 throw new GradleException(failedMessage);
             } else {
@@ -126,7 +136,7 @@ public class GnagCheck extends DefaultTask {
     private void setGnagPluginExtension(GnagPluginExtension gnagPluginExtension) {
         this.gnagPluginExtension = gnagPluginExtension;
     }
-    
+
     private boolean taskExecutionGraphIncludesGnagReport() {
         for (final Task task : getProject().getGradle().getTaskGraph().getAllTasks()) {
             if (task.getName().equals(GnagReportTask.TASK_NAME)) {

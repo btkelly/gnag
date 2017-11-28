@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2016 Bryan Kelly
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -13,16 +13,35 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.btkelly.gnag.reporters
+package com.btkelly.gnag.example
 
-import org.gradle.api.Project
+/**
+ * Created by bobbake4 on 2/7/17.
+ */
+class KotlinFileInJavaSourceSet {
 
-abstract class BaseViolationDetector implements ViolationDetector {
+    override fun toString(): String = super.toString()
 
-    protected final Project project
+    companion object {
 
-    BaseViolationDetector(final Project project) {
-        this.project = project
+        @JvmStatic
+        fun main(args: Array<String>) {
+
+            val test = ""
+            val testCompare = "Fail"
+
+            if (test === testCompare) {
+                print("Total Fail")
+            }
+
+            try {
+                print("Empty")
+            } catch (e: Exception) {
+
+            } finally {
+
+            }
+        }
     }
 
 }

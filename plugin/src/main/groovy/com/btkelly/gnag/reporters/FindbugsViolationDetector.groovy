@@ -17,8 +17,11 @@ package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.ReporterExtension
 import com.btkelly.gnag.models.Violation
+import com.btkelly.gnag.reporters.utils.LineNumberParser
+import com.btkelly.gnag.reporters.utils.PathCalculator
 import edu.umd.cs.findbugs.anttask.FindBugsTask
 import groovy.util.slurpersupport.GPathResult
+import org.apache.commons.io.FilenameUtils
 import org.apache.tools.ant.types.FileSet
 import org.apache.tools.ant.types.Path
 import org.gradle.api.Project
@@ -54,31 +57,54 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
         }
 
         Path sourcePath = findBugsTask.createSourcePath()
-        projectHelper.getSources().findAll { it.exists() }.each {
-            sourcePath.addFileset(project.ant.fileset(dir: it))
-        }
+        Set<String> sourceSetRootDirPaths = projectHelper.getSourceSetRootDirPaths()
+
+        projectHelper.getJavaSourceFiles()
+                .each { File sourceFile ->
+                    FileSet sourcePathFileSet = new FileSet()
+                    sourcePathFileSet.file = sourceFile
+                    sourcePath.addFileset(sourcePathFileSet)
+
+                    FileSet antPathFileSet = new FileSet()
+                    antPathFileSet.file = sourceFile
+
+                    Path antPath = (Path) project.ant.path()
+                    antPath.addFileset(antPathFileSet)
+
+                    /*
+                     * Compute the path to the source set directory that contains sourceFile. (This code assumes there
+                     * will be at least one match for every source file. Can there ever be more than one?).
+                     */
+                    String containingSourceSetRootDirPath = sourceSetRootDirPaths
+                            .findAll { String sourceSetRootDirPath -> sourceFile.absolutePath.startsWith(sourceSetRootDirPath) }
+                            .first()
+
+                    /*
+                     * Strip the path to the containing source set directory from the front of the path to sourceFile,
+                     * and remove the trailing .java since we will use this pattern to locate .class files.
+                     */
+                    String relativePathToClass = sourceFile
+                            .absolutePath
+                            .replaceAll(containingSourceSetRootDirPath, '')
+                            .replaceAll(".java\$", '')
+
+                    // Note: retrieving via project.ant.fileset() works, but constructing a brand new Fileset does not.
+                    FileSet taskFileSet = project.ant.fileset() as FileSet
+
+                    taskFileSet.dir = project.buildDir
+                    taskFileSet.setIncludes("**$relativePathToClass*")
+                    findBugsTask.addFileset(taskFileSet)
+                }
 
         Path classpath = findBugsTask.createClasspath()
-        project.rootProject.buildscript.configurations.classpath.resolve().each {
-            classpath.createPathElement().location = it
-        }
-        project.buildscript.configurations.classpath.resolve().each {
-            classpath.createPathElement().location = it
+
+        project.rootProject.buildscript.configurations.classpath.resolve().each { File classpathFile ->
+            classpath.createPathElement().location = classpathFile
         }
 
-        Set<String> includes = []
-        projectHelper.getSources().findAll { it.exists() }.each { File directory ->
-            FileSet fileSet = project.ant.fileset(dir: directory)
-            Path path = project.ant.path()
-            path.addFileset(fileSet)
-
-            path.each {
-                String includePath = new File(it.toString()).absolutePath - directory.absolutePath
-                includes.add("**${includePath.replaceAll('\\.java$', '')}*")
-            }
+        project.buildscript.configurations.classpath.resolve().each { File classpathFile ->
+            classpath.createPathElement().location = classpathFile
         }
-
-        findBugsTask.addFileset(project.ant.fileset(dir: project.buildDir, includes: includes.join(',')))
 
         findBugsTask.perform()
     }
@@ -96,9 +122,12 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
 
                 final String relativeFilePath =
                         computeRelativeFilePathIfPossible((GPathResult) violation, sourceFilePaths)
-            
+
                 final String lineNumberString = sanitizeToNonNull((String) violation.SourceLine.@end.text())
-                final Integer lineNumber = computeLineNumberFromString(lineNumberString, violationType)
+                final Integer lineNumber = LineNumberParser.parseLineNumberString(
+                        lineNumberString,
+                        name(),
+                        violationType)
 
                 result.add(new Violation(
                         violationType,
@@ -143,7 +172,7 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
         if (longFilePaths.isEmpty() || longFilePaths.size() > 1) {
             return null
         } else {
-            return computeFilePathRelativeToProjectRoot(longFilePaths.get(0))
+            return PathCalculator.calculatePathWithinProject(project, longFilePaths.get(0))
         }
     }
 

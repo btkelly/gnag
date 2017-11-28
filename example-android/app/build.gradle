@@ -5,7 +5,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.btkelly:gnag:' + gnagPluginVersion
+        classpath "com.btkelly:gnag:$gnagPluginVersion"
     }
 }
 
@@ -14,6 +14,7 @@ plugins {
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: 'gnag'
 
 android {
@@ -27,11 +28,16 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
     }
 }
 
@@ -51,19 +57,11 @@ clean.dependsOn licenseFormat
 gnag {
     enabled true
     failOnError true
-    checkstyle {
-        enabled true
-    }
-    pmd {
-        enabled true
-    }
-    findbugs {
-        enabled true
-    }
+
     androidLint {
-        enabled true
         severity 'Warning'
     }
+
     github {
         repoName 'btkelly/android-svsu-acm-20131120'
         authToken '0000000000000'

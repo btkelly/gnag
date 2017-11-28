@@ -1,5 +1,11 @@
 # Change Log
 
+## v2.0.0
+
+_??-??-2017_
+
+- Added Kotlin support via ktlint.
+
 ## v1.3.2
 
 _04-13-2017_
