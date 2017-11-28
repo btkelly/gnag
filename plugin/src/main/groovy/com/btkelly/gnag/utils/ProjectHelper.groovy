@@ -15,6 +15,7 @@
  */
 package com.btkelly.gnag.utils
 
+import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
 
 /**
@@ -37,11 +38,11 @@ class ProjectHelper {
     }
 
     public List<File> getJavaSourceFiles() {
-        return getSourceFilesWithSuffices(Collections.singletonList(".java"))
+        return getSourceFilesWithSuffices(["java"]  as String[])
     }
 
     public List<File> getKotlinSourceFiles() {
-        return getSourceFilesWithSuffices(Arrays.asList(".kt", ".kts"))
+        return getSourceFilesWithSuffices(["kt", "kts"] as String[])
     }
 
     public File getReportsDir() {
@@ -54,16 +55,22 @@ class ProjectHelper {
         return new File(getReportsDir(), "ktlint_report.xml")
     }
 
-    private Collection<File> getSourceFilesWithSuffices(final List<String> suffices) {
+    private Collection<File> getSourceFilesWithSuffices(final String[] suffices) {
         final Collection<File> allSourceFiles
 
         if (isAndroidProject()) {
-            allSourceFiles = project.android.sourceSets.inject([]) {
-                dirs, sourceSet -> dirs + sourceSet.java.sourceFiles
+            allSourceFiles = project.android.sourceSets.inject([]) { files, sourceSet ->
+                sourceSet.java.srcDirs.each { File javaSrcDir ->
+                    if (javaSrcDir.exists()) {
+                        files = files + FileUtils.listFiles(javaSrcDir, suffices, true)
+                    }
+                }
+
+                files
             }
         } else {
-            allSourceFiles = project.sourceSets.inject([]) {
-                dirs, sourceSet -> dirs + sourceSet.allSource
+            allSourceFiles = project.sourceSets.inject([]) { files, sourceSet ->
+                files + sourceSet.allSource
             }
         }
 
