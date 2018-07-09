@@ -20,6 +20,7 @@ import com.btkelly.gnag.models.Violation
 import com.btkelly.gnag.reporters.utils.LineNumberParser
 import com.btkelly.gnag.reporters.utils.PathCalculator
 import groovy.util.slurpersupport.GPathResult
+import org.gradle.api.GradleException
 import org.gradle.api.Project
 import org.pegdown.PegDownProcessor
 
@@ -93,11 +94,15 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
 
     @Override
     File reportFile() {
-        return new File(
-                new FileNameByRegexFinder()
-                        .getFileNames(project.buildDir.path, 'lint-results.*\\.xml')
-                        .first()
-        )
+        List<String> reportFileNames = new FileNameByRegexFinder()
+                .getFileNames(project.buildDir.path, 'lint-results.*\\.xml')
+
+        if (reportFileNames.isEmpty()) {
+            throw new GradleException("Lint XML report file not found; " +
+                    "check that android.lintOptions.xmlReport is set to true in your build.gradle file.")
+        } else {
+            return new File(reportFileNames.first()) // todo: handle >1 result better
+        }
     }
 
     private boolean severityEnabled(final String severity) {
