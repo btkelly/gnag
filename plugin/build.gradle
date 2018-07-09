@@ -41,7 +41,7 @@ dependencies {
     compile 'org.pegdown:pegdown:1.6.0'
 
     // Built in checks
-    compile 'com.puppycrawl.tools:checkstyle:6.19'
+    compile 'com.puppycrawl.tools:checkstyle:8.11'
     compile 'com.google.code.findbugs:findbugs:3.0.1'
     compile 'net.sourceforge.pmd:pmd-java:6.5.0'
 
