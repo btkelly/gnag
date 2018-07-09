@@ -42,17 +42,7 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
 
     @Override
     boolean isEnabled() {
-
-        if (androidLintExtension.enabled) {
-            if (reportFile().exists()) {
-                return true
-            } else {
-                println "Android Lint ViolationDetector is enabled but no lint violations was found"
-                return false
-            }
-        } else {
-            return false
-        }
+        return androidLintExtension.enabled
     }
 
     @Override
