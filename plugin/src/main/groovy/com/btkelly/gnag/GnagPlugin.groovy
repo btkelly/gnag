@@ -35,7 +35,7 @@ class GnagPlugin implements Plugin<Project> {
 
         project.repositories.jcenter() // Unlikely to be missing in real projects; here for sample projects only.
         project.configurations.create("gnagKtlint")
-        project.dependencies.add("gnagKtlint", "com.github.shyiko:ktlint:0.11.1")
+        project.dependencies.add("gnagKtlint", "com.github.shyiko:ktlint:0.24.0")
 
         project.afterEvaluate { evaluatedProject ->
             ProjectHelper projectHelper = new ProjectHelper(evaluatedProject)
