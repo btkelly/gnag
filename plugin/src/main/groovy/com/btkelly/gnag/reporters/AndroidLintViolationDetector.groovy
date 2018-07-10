@@ -19,26 +19,38 @@ import com.btkelly.gnag.extensions.AndroidLintExtension
 import com.btkelly.gnag.models.Violation
 import com.btkelly.gnag.reporters.utils.LineNumberParser
 import com.btkelly.gnag.reporters.utils.PathCalculator
+import com.vladsch.flexmark.html.HtmlRenderer
+import com.vladsch.flexmark.parser.Parser
+import com.vladsch.flexmark.profiles.pegdown.PegdownOptionsAdapter
+import com.vladsch.flexmark.util.options.DataHolder
 import groovy.util.slurpersupport.GPathResult
 import org.gradle.api.GradleException
 import org.gradle.api.Project
-import org.pegdown.PegDownProcessor
 
 import static com.btkelly.gnag.extensions.AndroidLintExtension.SEVERITY_ERROR
 import static com.btkelly.gnag.extensions.AndroidLintExtension.SEVERITY_WARNING
 import static com.btkelly.gnag.utils.StringUtils.sanitizePreservingNulls
 import static com.btkelly.gnag.utils.StringUtils.sanitizeToNonNull
-import static org.pegdown.Extensions.*
+import static com.vladsch.flexmark.profiles.pegdown.Extensions.AUTOLINKS
+import static com.vladsch.flexmark.profiles.pegdown.Extensions.FENCED_CODE_BLOCKS
+import static com.vladsch.flexmark.profiles.pegdown.Extensions.HARDWRAPS
 
 class AndroidLintViolationDetector extends BaseViolationDetector {
 
-    private static final int GFM_PEGDOWN_PROCESSOR_EXTENSIONS = HARDWRAPS | AUTOLINKS | FENCED_CODE_BLOCKS
+    private static final int FLEXMARK_GFM_OPTIONS = HARDWRAPS | AUTOLINKS | FENCED_CODE_BLOCKS
 
     private final AndroidLintExtension androidLintExtension
+
+    private final Parser parser
+    private final HtmlRenderer renderer
 
     AndroidLintViolationDetector(final Project project, final AndroidLintExtension androidLintExtension) {
         super(project)
         this.androidLintExtension = androidLintExtension
+
+        final DataHolder options = PegdownOptionsAdapter.flexmarkOptions(FLEXMARK_GFM_OPTIONS)
+        parser = Parser.builder(options).build()
+        renderer = HtmlRenderer.builder().build()
     }
 
     @Override
@@ -57,10 +69,9 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
                 final String violationType = sanitizeToNonNull((String) violation.@id.text())
 
                 final String commentInMarkdown = sanitizeToNonNull((String) violation.@message.text())
-                final PegDownProcessor markdownProcessor = new PegDownProcessor(GFM_PEGDOWN_PROCESSOR_EXTENSIONS)
-                final String notNullCommentInHtml =
-                        sanitizeToNonNull(markdownProcessor.markdownToHtml(commentInMarkdown))
-                        .replaceAll("</?p>", "")
+
+                final String notNullCommentInHtml = sanitizeToNonNull(renderer.render(parser.parse(commentInMarkdown)))
+                                                    .replaceAll("</?p>", "")
 
                 final String nullableCommentInHtml = notNullCommentInHtml.isEmpty() ? null : notNullCommentInHtml
 
