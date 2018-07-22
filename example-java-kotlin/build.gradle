@@ -12,7 +12,7 @@ buildscript {
 }
 
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.1.51"
+    id "org.jetbrains.kotlin.jvm" version "1.2.51"
     id "com.github.hierynomus.license" version "0.12.1"
 }
 
@@ -29,7 +29,7 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:1.1.51"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:1.2.51"
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
