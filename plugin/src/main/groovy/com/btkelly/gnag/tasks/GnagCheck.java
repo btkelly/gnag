@@ -71,7 +71,7 @@ public class GnagCheck extends DefaultTask {
         if (gnagPluginExtension.detekt.isEnabled() && !projectHelper.getKotlinSourceFiles().isEmpty()) {
             Task detektTask = DetektTask.addTask(projectHelper, gnagPluginExtension.detekt.getReporterConfig());
             gnagCheckTask.dependsOn(detektTask);
-            gnagCheckTask.violationDetectors.add(new DetektViolationDetector(project, gnagPluginExtension.ktlint));
+            gnagCheckTask.violationDetectors.add(new DetektViolationDetector(project, gnagPluginExtension.detekt));
         }
 
         if (projectHelper.isAndroidProject()) {
