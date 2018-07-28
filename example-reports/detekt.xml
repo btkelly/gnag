@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<checkstyle version="4.3">
+<file name="/Users/stkent/dev/personal/libraries/gnag/example-java-kotlin/src/main/java/com/btkelly/gnag/example/KotlinFileInJavaSourceSet.kt">
+	<error line="39" column="36" severity="info" message="This empty block of code can be removed." source="detekt.EmptyCatchBlock" />
+	<error line="41" column="23" severity="info" message="This empty block of code can be removed." source="detekt.EmptyFinallyBlock" />
+	<error line="41" column="23" severity="info" message="This empty block of code can be removed." source="detekt.EmptyFinallyBlock" />
+	<error line="39" column="22" severity="error" message="Caught exception is too generic. Prefer catching specific exceptions to the case that is currently handled." source="detekt.TooGenericExceptionCaught" />
+</file>
+<file name="/Users/stkent/dev/personal/libraries/gnag/example-java-kotlin/src/main/kotlin/com/btkelly/gnag/example/KotlinFileInKotlinSourceSet.kt">
+	<error line="39" column="36" severity="info" message="This empty block of code can be removed." source="detekt.EmptyCatchBlock" />
+	<error line="41" column="23" severity="info" message="This empty block of code can be removed." source="detekt.EmptyFinallyBlock" />
+	<error line="41" column="23" severity="info" message="This empty block of code can be removed." source="detekt.EmptyFinallyBlock" />
+	<error line="39" column="22" severity="error" message="Caught exception is too generic. Prefer catching specific exceptions to the case that is currently handled." source="detekt.TooGenericExceptionCaught" />
+</file>
+</checkstyle>

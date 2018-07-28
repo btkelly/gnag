@@ -55,25 +55,36 @@ In this example the issue number and authtoken for the comment user are passed a
 gnag {
     enabled true
     failOnError true
+    
     checkstyle {
         enabled true
         reporterConfig project.file('config/checkstyle.xml')
     }
+    
     pmd {
         enabled true
         reporterConfig project.file('config/pmd.xml')
     }
+    
     findbugs {
         enabled true
         reporterConfig project.file('config/findbugs.xml')
     }
+    
     ktlint {
         enabled true
     }
+    
+    detekt {
+        enabled true
+        reporterConfig project.file('config/detekt.yml')
+    }
+    
     androidLint {
         enabled true
         severity 'Error'
     }
+    
     github {
         rootUrl 'https://my.githubinstall.com/repos/'
         repoName 'btkelly/repo'
@@ -96,6 +107,9 @@ gnag {
   - ***reporterConfig*** - provide a custom [findbugs config](http://findbugs.sourceforge.net/manual/filter.html)
 - ***ktlint*** - block to customize the ktlint reporter
   - ***enabled*** - set if ktlint should execute
+- ***detekt*** - block to customize the detekt reporter
+  - ***enabled*** - set if detekt should execute
+  - ***reporterConfig*** - provide a custom [detekt config](https://arturbosch.github.io/detekt/configurations.html)
 - ***androidLint*** - block to customize the android lint reporter
   - ***enabled*** - set if the android lint reporter should look for a lint report
   - ***severity*** - can be 'Error' or 'Warning' depending on which severity you want Gnag to check

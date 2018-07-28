@@ -56,6 +56,12 @@ public class GnagPluginExtension {
         action.execute(ktlint);
     }
 
+    public ReporterExtension detekt;
+
+    public void detekt(Action<ReporterExtension> action) {
+        action.execute(detekt);
+    }
+
     public GitHubExtension github;
 
     public void github(Action<GitHubExtension> action) {
@@ -78,6 +84,7 @@ public class GnagPluginExtension {
         this.pmd = new ReporterExtension("PMD", project);
         this.findbugs = new ReporterExtension("FindBugs", project);
         this.ktlint = new ReporterExtension("ktlint", project);
+        this.detekt = new ReporterExtension("detekt", project);
         this.androidLint = new AndroidLintExtension(project);
     }
 
@@ -99,13 +106,15 @@ public class GnagPluginExtension {
 
     @Override
     public String toString() {
-        return "GnagExtension{" +
+        return "GnagPluginExtension{" +
                 "project=" + project +
                 ", checkstyle=" + checkstyle +
                 ", pmd=" + pmd +
-                ", androidLint=" + androidLint +
-                ", github=" + github +
                 ", findbugs=" + findbugs +
+                ", ktlint=" + ktlint +
+                ", detekt=" + detekt +
+                ", github=" + github +
+                ", androidLint=" + androidLint +
                 ", enabled=" + enabled +
                 ", failOnError=" + failOnError +
                 '}';
