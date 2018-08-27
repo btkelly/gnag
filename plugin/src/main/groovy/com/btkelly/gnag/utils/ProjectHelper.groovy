@@ -55,6 +55,10 @@ class ProjectHelper {
         return new File(getReportsDir(), "ktlint_report.xml")
     }
 
+    public String getDetektReportFileName() {
+        return "detekt_report"
+    }
+
     private Collection<File> getSourceFilesWithSuffices(final String[] suffices) {
         final Collection<File> allSourceFiles
 
