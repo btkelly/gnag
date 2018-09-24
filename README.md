@@ -94,6 +94,8 @@ gnag {
 }
 ```
 
+***NOTE:*** All reporters are enabled by default
+
 - ***enabled*** - easily disable Gnag in specific situations
 - ***failOnError*** - should violations cause the build to fail or just generate a report
 - ***checkstyle*** - block to customize the checkstyle reporter
