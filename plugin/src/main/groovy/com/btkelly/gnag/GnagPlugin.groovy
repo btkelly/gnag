@@ -35,9 +35,6 @@ class GnagPlugin implements Plugin<Project> {
 
         project.repositories.jcenter() // Unlikely to be missing in real projects; here for sample projects only.
 
-        project.configurations.create("gnagKtlint")
-        project.dependencies.add("gnagKtlint", "com.github.shyiko:ktlint:0.24.0")
-
         project.configurations.create("gnagDetekt")
         project.dependencies.add("gnagDetekt", "io.gitlab.arturbosch.detekt:detekt-cli:1.0.0.RC7-3")
 

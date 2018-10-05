@@ -29,6 +29,7 @@ public class ReporterExtension {
 
     private boolean enabled = true;
     private File reporterConfig;
+    private String toolVersion;
 
     public ReporterExtension(String name, Project project) {
         this.name = name;
@@ -55,6 +56,14 @@ public class ReporterExtension {
         return reporterConfig != null;
     }
 
+    public String getToolVersion() {
+        return toolVersion;
+    }
+
+    public void toolVersion(String toolVersion) {
+        this.toolVersion = toolVersion;
+    }
+
     @Override
     public String toString() {
         return "ReporterExtension{" +
@@ -62,6 +71,7 @@ public class ReporterExtension {
                 ", project=" + project +
                 ", enabled=" + enabled +
                 ", reporterConfig=" + reporterConfig +
+                ", toolVersion='" + toolVersion + '\'' +
                 '}';
     }
 }
