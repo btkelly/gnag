@@ -73,6 +73,7 @@ gnag {
     
     ktlint {
         enabled true
+        toolVersion "0.24.0"
     }
     
     detekt {
@@ -109,6 +110,7 @@ gnag {
   - ***reporterConfig*** - provide a custom [findbugs config](http://findbugs.sourceforge.net/manual/filter.html)
 - ***ktlint*** - block to customize the ktlint reporter
   - ***enabled*** - set if ktlint should execute
+  - **toolVersion** - override the ktlint version compiled into Gnag
 - ***detekt*** - block to customize the detekt reporter
   - ***enabled*** - set if detekt should execute
   - ***reporterConfig*** - provide a custom [detekt config](https://arturbosch.github.io/detekt/configurations.html)

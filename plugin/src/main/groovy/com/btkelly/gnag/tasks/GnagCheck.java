@@ -63,6 +63,12 @@ public class GnagCheck extends DefaultTask {
         }
 
         if (gnagPluginExtension.ktlint.isEnabled() && !projectHelper.getKotlinSourceFiles().isEmpty()) {
+            String overrideToolVersion = gnagPluginExtension.ktlint.getToolVersion();
+            String toolVersion = overrideToolVersion != null ? overrideToolVersion : "0.24.0";
+
+            project.getConfigurations().create("gnagKtlint");
+            project.getDependencies().add("gnagKtlint", "com.github.shyiko:ktlint:" + toolVersion);
+
             Task ktlintTask = KtlintTask.addTask(projectHelper);
             gnagCheckTask.dependsOn(ktlintTask);
             gnagCheckTask.violationDetectors.add(new KtlintViolationDetector(project, gnagPluginExtension.ktlint));
