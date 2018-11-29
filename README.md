@@ -13,6 +13,9 @@ Gnag is meant to be simple to use and easy to drop in to any Android project. Sh
 Gnag setup that will report violations to GitHub. By default this config will report PMD, Findbugs, Checkstyle and
 Android Lint to GitHub.
 
+<details open>
+<summary><b>groovy</b></summary>
+
 ```groovy
 buildscript {
     repositories {
@@ -34,6 +37,36 @@ gnag {
 }
 ```
 
+</details>
+
+<details>
+<summary><b>kotlin</b></summary>
+
+```kotlin
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath("com.btkelly:gnag:{current version}")
+    }
+}
+
+plugins {
+    id("gnag")
+}
+
+gnag {
+    github {
+        repoName("btkelly/repo")
+        authToken("0000000000000")
+        issueNumber("1")
+    }
+}
+```
+
+</details>
+
 This is the simplest way to add automatic PR checking and commenting to your project. The options defined in the `github` closure can be overridden by passing command line parameters with the same name to your build. This is helpful when using in conjunction with a CI system to allow automated builds.
 
 #### Tasks
@@ -50,6 +83,8 @@ In this example the issue number and authtoken for the comment user are passed a
 ```
 
 #### Customization
+<details open>
+<summary><b>groovy</b></summary>
 
 ```groovy
 gnag {
@@ -94,6 +129,57 @@ gnag {
     }
 }
 ```
+
+</details>
+
+<details>
+<summary><b>kotlin</b></summary>
+
+```kotlin
+gnag {
+    isEnabled = true
+    setFailOnError(true)
+
+    checkstyle {
+        enabled(true)
+        reporterConfig(project.file("config/checkstyle.xml"))
+    }
+
+    pmd {
+        enabled(true)
+        reporterConfig(project.file("config/pmd.xml"))
+    }
+
+    findbugs {
+        enabled(true)
+        reporterConfig(project.file("config/findbugs.xml"))
+    }
+
+    ktlint {
+        enabled(true)
+        toolVersion("0.24.0")
+    }
+
+    detekt {
+        enabled(true)
+        reporterConfig(project.file("config/detekt.yml"))
+    }
+
+    androidLint {
+        enabled(true)
+        severity("Error")
+    }
+
+    github {
+        rootUrl("https://my.githubinstall.com/repos/")
+        repoName("btkelly/repo")
+        authToken("0000000000000")
+        issueNumber("1")
+    }
+}
+```
+
+</details>
 
 ***NOTE:*** All reporters are enabled by default
 
