@@ -26,6 +26,8 @@ import com.btkelly.gnag.utils.diffparser.DiffParserConverterFactory;
 import com.btkelly.gnag.utils.gson.GsonConverterFactory;
 import com.github.stkent.githubdiffparser.models.Diff;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import org.gradle.api.GradleException;
 import org.gradle.api.logging.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -49,9 +51,11 @@ public class GitHubApi {
 
     private final GitHubApiClient gitHubApiClient;
     private final GitHubExtension gitHubExtension;
+    private final Executor singleThreadExecutor;
 
     public GitHubApi(final GitHubExtension gitHubExtension) {
         this.gitHubExtension = gitHubExtension;
+        this.singleThreadExecutor = Executors.newSingleThreadExecutor();
 
         org.slf4j.Logger gradleLogger = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
         HttpLoggingInterceptor.Logger logger = gradleLogger::info;
@@ -84,26 +88,23 @@ public class GitHubApi {
             final String moduleName,
             final String prSha) {
 
-        //TODO Refactor this to a queue system
-        new Thread(() -> {
-            synchronized (GitHubApi.class) {
+        singleThreadExecutor.execute(() -> {
 
-                boolean isSuccessful = false;
-                int retryCount = 0;
+          boolean isSuccessful = false;
+          int retryCount = 0;
 
-                while (!isSuccessful && retryCount < 5) {
-                    try {
-                        isSuccessful = gitHubApiClient.postUpdatedStatus(new GitHubStatus(gitHubStatusType, moduleName), prSha)
-                                                      .execute()
-                                                      .isSuccessful();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    retryCount++;
-                }
+          while (!isSuccessful && retryCount < 5) {
+            try {
+              isSuccessful = gitHubApiClient.postUpdatedStatus(new GitHubStatus(gitHubStatusType, moduleName), prSha)
+                                            .execute()
+                                            .isSuccessful();
+            } catch (IOException e) {
+              e.printStackTrace();
             }
-        }).start();
+
+            retryCount++;
+          }
+        });
     }
 
     @NotNull
