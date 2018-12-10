@@ -84,8 +84,26 @@ public class GitHubApi {
             final String moduleName,
             final String prSha) {
 
-        gitHubApiClient.postUpdatedStatus(new GitHubStatus(gitHubStatusType, moduleName), prSha)
-                .enqueue(new DefaultCallback<>());
+        //TODO Refactor this to a queue system
+        new Thread(() -> {
+            synchronized (GitHubApi.class) {
+
+                boolean isSuccessful = false;
+                int retryCount = 0;
+
+                while (!isSuccessful && retryCount < 5) {
+                    try {
+                        isSuccessful = gitHubApiClient.postUpdatedStatus(new GitHubStatus(gitHubStatusType, moduleName), prSha)
+                                                      .execute()
+                                                      .isSuccessful();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    retryCount++;
+                }
+            }
+        }).start();
     }
 
     @NotNull

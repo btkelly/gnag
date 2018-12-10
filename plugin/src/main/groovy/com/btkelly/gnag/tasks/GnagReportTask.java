@@ -67,8 +67,6 @@ public class GnagReportTask extends DefaultTask {
     @SuppressWarnings("unused")
     @TaskAction
     public void taskAction() {
-        fetchPRShaIfRequired();
-
         updatePRStatus(PENDING);
 
         final Object projectStatus = getProject().getStatus();
@@ -78,7 +76,7 @@ public class GnagReportTask extends DefaultTask {
             System.out.println("Project status: " + checkStatus);
 
             if (checkStatus.getGitHubStatusType() == SUCCESS) {
-                final String commitString = prSha != null ? " as of commit " + prSha : "";
+                final String commitString = getPRSha() != null ? " as of commit " + getPRSha() : "";
 
                 gitHubApi.postGitHubPRCommentAsync(
                         String.format(REMOTE_SUCCESS_COMMENT_FORMAT_STRING, getProject().getName(), commitString));
@@ -97,19 +95,23 @@ public class GnagReportTask extends DefaultTask {
         this.gitHubApi = new GitHubApi(gitHubExtension);
     }
 
-    private void fetchPRShaIfRequired() {
+    private String getPRSha() {
         if (StringUtils.isBlank(prSha)) {
             GitHubPRDetails pullRequestDetails = gitHubApi.getPRDetailsSync();
 
             if (pullRequestDetails.getHead() != null) {
                 prSha = pullRequestDetails.getHead().getSha();
+            } else {
+                System.out.println("HEAD is null, unable to fetch PR Sha");
             }
         }
+
+        return prSha;
     }
 
     private void updatePRStatus(GitHubStatusType gitHubStatusType) {
-        if (StringUtils.isNotBlank(prSha)) {
-            gitHubApi.postUpdatedGitHubStatusAsync(gitHubStatusType, getProject().getName(), prSha);
+        if (StringUtils.isNotBlank(getPRSha())) {
+            gitHubApi.postUpdatedGitHubStatusAsync(gitHubStatusType, getProject().getName(), getPRSha());
         }
     }
 
@@ -117,7 +119,7 @@ public class GnagReportTask extends DefaultTask {
         final Set<Violation> violationsWithAllLocationInformation
                 = ViolationsUtil.hasViolationWithAllLocationInformation(violations);
 
-        if (StringUtils.isBlank(prSha) || violationsWithAllLocationInformation.isEmpty()) {
+        if (StringUtils.isBlank(getPRSha()) || violationsWithAllLocationInformation.isEmpty()) {
             gitHubApi.postGitHubPRCommentAsync(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
             return;
         }
@@ -151,7 +153,7 @@ public class GnagReportTask extends DefaultTask {
         violationsWithValidLocationInfo.stream()
                 .forEach(violation -> gitHubApi.postGitHubInlineCommentSync(
                         ViolationFormatter.getHtmlStringForInlineComment(violation),
-                        prSha,
+                        getPRSha(),
                         violationPRLocationMap.get(violation)));
 
         if (!violationsWithMissingOrInvalidLocationInfo.isEmpty()) {
