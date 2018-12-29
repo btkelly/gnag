@@ -41,8 +41,16 @@ class ProjectHelper {
         return getSourceFilesWithSuffices(["java"]  as String[])
     }
 
+    public boolean hasJavaSourceFiles() {
+        return !getJavaSourceFiles().isEmpty()
+    }
+
     public List<File> getKotlinSourceFiles() {
         return getSourceFilesWithSuffices(["kt", "kts"] as String[])
+    }
+
+    public boolean hasKotlinSourceFiles() {
+        return !getKotlinSourceFiles().isEmpty()
     }
 
     public File getReportsDir() {

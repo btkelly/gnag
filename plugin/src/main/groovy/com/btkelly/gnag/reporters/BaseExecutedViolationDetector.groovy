@@ -35,8 +35,4 @@ abstract class BaseExecutedViolationDetector extends BaseViolationDetector {
         this.projectHelper = new ProjectHelper(project)
     }
 
-    @Override
-    public boolean isEnabled() {
-        return reporterExtension.enabled
-    }
 }
