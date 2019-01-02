@@ -16,13 +16,11 @@
 package com.btkelly.gnag
 
 import com.btkelly.gnag.extensions.GnagPluginExtension
-import com.btkelly.gnag.tasks.GnagCheck
+import com.btkelly.gnag.tasks.GnagCheckTask
 import com.btkelly.gnag.tasks.GnagReportTask
 import com.btkelly.gnag.utils.ProjectHelper
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.Task
-import org.gradle.api.tasks.JavaExec
 
 /**
  * Created by bobbake4 on 4/1/16.
@@ -41,7 +39,7 @@ class GnagPlugin implements Plugin<Project> {
         project.afterEvaluate { evaluatedProject ->
             ProjectHelper projectHelper = new ProjectHelper(evaluatedProject)
 
-            GnagCheck.addTask(projectHelper, gnagPluginExtension)
+            GnagCheckTask.addTask(projectHelper, gnagPluginExtension)
             GnagReportTask.addTask(projectHelper, gnagPluginExtension.github)
         }
     }

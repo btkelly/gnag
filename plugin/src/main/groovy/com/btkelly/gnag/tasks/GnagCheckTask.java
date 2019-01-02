@@ -37,7 +37,7 @@ import static com.btkelly.gnag.utils.ReportWriter.REPORT_FILE_NAME;
 /**
  * Created by bobbake4 on 4/1/16.
  */
-public class GnagCheck extends DefaultTask {
+public class GnagCheckTask extends DefaultTask {
 
     public static final String TASK_NAME = "gnagCheck";
 
@@ -45,14 +45,14 @@ public class GnagCheck extends DefaultTask {
         Map<String, Object> taskOptions = new HashMap<>();
 
         taskOptions.put(Task.TASK_NAME, TASK_NAME);
-        taskOptions.put(Task.TASK_TYPE, GnagCheck.class);
+        taskOptions.put(Task.TASK_TYPE, GnagCheckTask.class);
         taskOptions.put(Task.TASK_GROUP, "Verification");
         taskOptions.put(Task.TASK_DEPENDS_ON, "check");
         taskOptions.put(Task.TASK_DESCRIPTION, "Runs Gnag checks and generates an HTML report");
 
         Project project = projectHelper.getProject();
 
-        GnagCheck gnagCheckTask = (GnagCheck) project.task(taskOptions, TASK_NAME);
+        GnagCheckTask gnagCheckTask = (GnagCheckTask) project.task(taskOptions, TASK_NAME);
         gnagCheckTask.setGnagPluginExtension(gnagPluginExtension);
 
         if (gnagPluginExtension.checkstyle.isEnabled() && projectHelper.hasJavaSourceFiles()) {
