@@ -23,8 +23,6 @@ import org.gradle.api.Project
  */
 interface ViolationDetector {
 
-    boolean isEnabled()
-
     String name()
 
     File reportFile()

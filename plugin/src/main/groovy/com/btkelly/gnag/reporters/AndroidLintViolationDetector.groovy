@@ -54,11 +54,6 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
     }
 
     @Override
-    boolean isEnabled() {
-        return androidLintExtension.enabled
-    }
-
-    @Override
     List<Violation> getDetectedViolations() {
         GPathResult xml = new XmlSlurper().parseText(reportFile().text)
 
