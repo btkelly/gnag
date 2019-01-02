@@ -38,7 +38,15 @@ public class AndroidLintExtension {
         return enabled;
     }
 
+    /**
+     * @deprecated replaced by {@link #setEnabled(boolean)}
+     */
+    @Deprecated
     public void enabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 
