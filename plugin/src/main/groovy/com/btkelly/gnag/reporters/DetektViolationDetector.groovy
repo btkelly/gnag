@@ -41,11 +41,6 @@ class DetektViolationDetector extends BaseViolationDetector {
     }
 
     @Override
-    boolean isEnabled() {
-        return detektReporterExtension.enabled
-    }
-
-    @Override
     String name() {
         return "detekt"
     }

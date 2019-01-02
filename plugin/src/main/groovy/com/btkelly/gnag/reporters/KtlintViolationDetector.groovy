@@ -41,11 +41,6 @@ class KtlintViolationDetector extends BaseViolationDetector {
     }
 
     @Override
-    boolean isEnabled() {
-        return ktlintReporterExtension.enabled
-    }
-
-    @Override
     String name() {
         return "ktlint"
     }
