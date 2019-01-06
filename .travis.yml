@@ -10,3 +10,7 @@ language: groovy
 branches:
   only:
   - master
+script:
+  - ./gradlew plugin:check
+  - ./testJavaKotlinExample.sh
+  - ./testAndroidExample.sh
