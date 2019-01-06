@@ -7,7 +7,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.btkelly:gnag:' + gnagPluginVersion
+        classpath "com.btkelly:gnag:$gnagPluginVersion"
     }
 }
 
