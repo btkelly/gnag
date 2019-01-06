@@ -1,4 +1,6 @@
 buildscript {
+    apply from: file('../../version.gradle')
+
     repositories {
         mavenLocal()
         jcenter()

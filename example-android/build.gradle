@@ -16,9 +16,3 @@ allprojects {
         google()
     }
 }
-
-apply from: file('../version.gradle')
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
