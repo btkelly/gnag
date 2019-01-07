@@ -20,7 +20,7 @@ import org.gradle.api.Project;
 /**
  * Created by bobbake4 on 4/18/16.
  */
-public class GitHubExtension {
+public final class GitHubExtension {
 
     private final Project project;
 
@@ -28,8 +28,10 @@ public class GitHubExtension {
     private String repoName;
     private String authToken;
     private String issueNumber;
+    private boolean commentInline = true;
+    private boolean commentOnSuccess = true;
 
-    public GitHubExtension(Project project) {
+    GitHubExtension(Project project) {
         this.project = project;
     }
 
@@ -65,6 +67,22 @@ public class GitHubExtension {
         return project.hasProperty("issueNumber") ? (String) project.property("issueNumber") : issueNumber;
     }
 
+    public boolean isCommentInline() {
+        return commentInline;
+    }
+
+    public void setCommentInline(final boolean commentInline) {
+        this.commentInline = commentInline;
+    }
+
+    public boolean isCommentOnSuccess() {
+        return commentOnSuccess;
+    }
+
+    public void setCommentOnSuccess(final boolean commentOnSuccess) {
+        this.commentOnSuccess = commentOnSuccess;
+    }
+
     @Override
     public String toString() {
         return "GitHubExtension{" +
@@ -73,6 +91,8 @@ public class GitHubExtension {
                 ", repoName='" + repoName + '\'' +
                 ", authToken='" + authToken + '\'' +
                 ", issueNumber='" + issueNumber + '\'' +
+                ", commentInline=" + commentInline +
+                ", commentOnSuccess=" + commentOnSuccess +
                 '}';
     }
 }

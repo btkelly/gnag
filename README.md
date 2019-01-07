@@ -126,6 +126,8 @@ gnag {
         repoName 'btkelly/repo'
         authToken '0000000000000'
         issueNumber '1'
+        commentInline true
+        commentOnSuccess true
     }
 }
 ```
@@ -175,6 +177,8 @@ gnag {
         repoName("btkelly/repo")
         authToken("0000000000000")
         issueNumber("1")
+        commentInline true
+        commentOnSuccess true
     }
 }
 ```
@@ -208,6 +212,8 @@ gnag {
   - ***repoName*** - account and repo name to report violations to
   - ***authToken*** - a GitHub token for a user that has access to comment on issues to the specified repo
   - ***issueNumber*** - the issue or PR number currently being built
+  - ***commentInline*** - whether or not comments posted to GitHub should be placed inline where possible
+  - ***commentOnSuccess*** - whether or not a comment should be posted to GitHub when no violations exist
 
 ## Example Output
 
