@@ -41,7 +41,7 @@ dependencies {
     compile 'com.vladsch.flexmark:flexmark-all:0.34.4'
 
     // Built in checks
-    compile('com.puppycrawl.tools:checkstyle:8.11') {
+    compile('com.puppycrawl.tools:checkstyle:8.16') {
         // See discussion here: https://github.com/btkelly/gnag/issues/196
         exclude group: 'net.sf.saxon', module: 'Saxon-HE'
     }
