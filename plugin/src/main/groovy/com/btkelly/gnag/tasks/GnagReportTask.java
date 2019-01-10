@@ -77,11 +77,13 @@ public class GnagReportTask extends DefaultTask {
             final CheckStatus checkStatus = (CheckStatus) projectStatus;
             System.out.println("Project status: " + checkStatus);
 
-            if (checkStatus.getGitHubStatusType() == SUCCESS && commentOnSuccess) {
-                final String commitString = getPRSha() != null ? " as of commit " + getPRSha() : "";
+            if (checkStatus.getGitHubStatusType() == SUCCESS) {
+                if (commentOnSuccess) {
+                    final String commitString = getPRSha() != null ? " as of commit " + getPRSha() : "";
 
-                gitHubApi.postGitHubPRCommentAsync(
-                        String.format(REMOTE_SUCCESS_COMMENT_FORMAT_STRING, getProject().getName(), commitString));
+                    gitHubApi.postGitHubPRCommentAsync(
+                            String.format(REMOTE_SUCCESS_COMMENT_FORMAT_STRING, getProject().getName(), commitString));
+                }
             } else {
                 postViolationComments(checkStatus.getViolations());
             }
