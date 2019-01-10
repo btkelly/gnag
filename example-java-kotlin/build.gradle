@@ -48,5 +48,7 @@ gnag {
         repoName 'btkelly/android-svsu-acm-20131120'
         authToken '0000000000000'
         issueNumber '1'
+        setCommentInline true
+        setCommentOnSuccess true
     }
 }

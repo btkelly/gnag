@@ -16,33 +16,26 @@
 package com.btkelly.gnag.api;
 
 import com.btkelly.gnag.extensions.GitHubExtension;
-import com.btkelly.gnag.models.GitHubInlineComment;
-import com.btkelly.gnag.models.GitHubPRComment;
-import com.btkelly.gnag.models.GitHubPRDetails;
-import com.btkelly.gnag.models.GitHubStatus;
-import com.btkelly.gnag.models.GitHubStatusType;
-import com.btkelly.gnag.models.PRLocation;
+import com.btkelly.gnag.models.*;
 import com.btkelly.gnag.utils.diffparser.DiffParserConverterFactory;
 import com.btkelly.gnag.utils.gson.GsonConverterFactory;
 import com.github.stkent.githubdiffparser.models.Diff;
-
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import org.gradle.api.GradleException;
 import org.gradle.api.logging.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * Created by bobbake4 on 12/1/15.
@@ -90,20 +83,20 @@ public class GitHubApi {
 
         singleThreadExecutor.execute(() -> {
 
-          boolean isSuccessful = false;
-          int retryCount = 0;
+            boolean isSuccessful = false;
+            int retryCount = 0;
 
-          while (!isSuccessful && retryCount < 5) {
-            try {
-              isSuccessful = gitHubApiClient.postUpdatedStatus(new GitHubStatus(gitHubStatusType, moduleName), prSha)
-                                            .execute()
-                                            .isSuccessful();
-            } catch (IOException e) {
-              e.printStackTrace();
+            while (!isSuccessful && retryCount < 5) {
+                try {
+                    isSuccessful = gitHubApiClient.postUpdatedStatus(new GitHubStatus(gitHubStatusType, moduleName), prSha)
+                            .execute()
+                            .isSuccessful();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                retryCount++;
             }
-
-            retryCount++;
-          }
         });
     }
 
