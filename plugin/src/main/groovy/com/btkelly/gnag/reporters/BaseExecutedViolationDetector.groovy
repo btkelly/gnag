@@ -27,7 +27,7 @@ abstract class BaseExecutedViolationDetector extends BaseViolationDetector {
     abstract void executeReporter()
 
     protected final ReporterExtension reporterExtension
-    protected final ProjectHelper projectHelper;
+    protected final ProjectHelper projectHelper
 
     BaseExecutedViolationDetector(final Project project, final ReporterExtension reporterExtension) {
         super(project)
