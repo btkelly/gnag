@@ -39,7 +39,7 @@ import static com.btkelly.gnag.utils.ReportWriter.REPORT_FILE_NAME;
  */
 public class GnagCheckTask extends DefaultTask {
 
-    public static final String TASK_NAME = "gnagCheck";
+    static final String TASK_NAME = "gnagCheck";
 
     public static void addTask(ProjectHelper projectHelper, GnagPluginExtension gnagPluginExtension) {
         Map<String, Object> taskOptions = new HashMap<>();

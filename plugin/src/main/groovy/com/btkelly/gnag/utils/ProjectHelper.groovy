@@ -34,7 +34,7 @@ class ProjectHelper {
     }
 
     public boolean isAndroidProject() {
-        return project.getExtensions().findByName("android") != null;
+        return project.getExtensions().findByName("android") != null
     }
 
     public List<File> getJavaSourceFiles() {
