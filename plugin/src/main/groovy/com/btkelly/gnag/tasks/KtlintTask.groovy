@@ -29,12 +29,10 @@ final class KtlintTask {
         taskOptions.put(Task.TASK_GROUP, "Verification")
         taskOptions.put(Task.TASK_DESCRIPTION, "Runs ktlint and generates an XML report for parsing by Gnag")
 
-        projectHelper.project.task(taskOptions, "gnagKtlint") { task ->
+        return projectHelper.project.task(taskOptions, "gnagKtlint") { task ->
             main = "com.github.shyiko.ktlint.Main"
             classpath = projectHelper.project.configurations.gnagKtlint
             ignoreExitValue = true
-            args "--debug"
-            args "--verbose"
             args "--reporter=checkstyle,output=${projectHelper.getKtlintReportFile()}"
 
             projectHelper.kotlinSourceFiles.forEach { sourceFile ->
