@@ -43,8 +43,9 @@ public final class ViolationsUtil {
 
         final Map<Violation, PRLocation> result = new HashMap<>();
 
-        violations.stream()
-                .forEach(violation -> result.put(violation, getPRLocationForViolation(violation, diffs)));
+        violations.forEach(violation ->
+                result.put(violation, getPRLocationForViolation(violation, diffs))
+        );
 
         return result;
     }
