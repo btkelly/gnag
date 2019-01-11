@@ -75,7 +75,7 @@ public class GnagReportTask extends DefaultTask {
 
         if (projectStatus instanceof CheckStatus) {
             final CheckStatus checkStatus = (CheckStatus) projectStatus;
-            System.out.println("Project status: " + checkStatus);
+            getLogger().info("Project status: " + checkStatus);
 
             if (checkStatus.getGitHubStatusType() == SUCCESS) {
                 if (commentOnSuccess) {
@@ -90,7 +90,7 @@ public class GnagReportTask extends DefaultTask {
 
             updatePRStatus(checkStatus.getGitHubStatusType());
         } else {
-            System.out.println("Project status is not instanceof Check Status");
+            getLogger().error("Project status is not instanceof Check Status");
             updatePRStatus(ERROR);
         }
     }
@@ -108,7 +108,7 @@ public class GnagReportTask extends DefaultTask {
             if (pullRequestDetails.getHead() != null) {
                 prSha = pullRequestDetails.getHead().getSha();
             } else {
-                System.out.println("HEAD is null, unable to fetch PR Sha");
+                getLogger().error("HEAD is null, unable to fetch PR Sha");
             }
         }
 

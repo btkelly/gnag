@@ -74,7 +74,8 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
                 final Integer lineNumber = LineNumberParser.parseLineNumberString(
                         lineNumberString,
                         name(),
-                        violationType)
+                        violationType,
+                        project.getLogger())
 
                 final List<String> secondaryUrls = computeSecondaryUrls(
                         sanitizePreservingNulls((String) violation.@urls.text()),

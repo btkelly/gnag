@@ -79,7 +79,8 @@ class PMDViolationDetector extends BaseExecutedViolationDetector {
                 final Integer lineNumber = LineNumberParser.parseLineNumberString(
                         lineNumberString,
                         name(),
-                        violationType)
+                        violationType,
+                        project.getLogger())
 
                 result.add(new Violation(
                         violationType,

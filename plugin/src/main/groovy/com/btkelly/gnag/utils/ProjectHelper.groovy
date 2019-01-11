@@ -17,6 +17,7 @@ package com.btkelly.gnag.utils
 
 import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
+import org.gradle.api.logging.Logger
 
 /**
  * Created by bobbake4 on 4/19/16.
