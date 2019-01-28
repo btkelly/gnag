@@ -38,4 +38,10 @@ public final class PRLocation {
         return diffLineIndex;
     }
 
+    @Override public String toString() {
+        return "PRLocation{" +
+               "relativeFilePath='" + relativeFilePath + '\'' +
+               ", diffLineIndex=" + diffLineIndex +
+               '}';
+    }
 }

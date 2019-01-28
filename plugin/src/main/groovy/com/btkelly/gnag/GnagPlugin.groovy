@@ -29,7 +29,7 @@ import org.gradle.api.logging.LogLevel
  */
 class GnagPlugin implements Plugin<Project> {
 
-    public static final LogLevel STD_OUT_LOG_LEVEL = LogLevel.INFO
+    public static final LogLevel STD_OUT_LOG_LEVEL = LogLevel.DEBUG
     public static final LogLevel STD_ERR_LOG_LEVEL = LogLevel.ERROR
 
     @Override

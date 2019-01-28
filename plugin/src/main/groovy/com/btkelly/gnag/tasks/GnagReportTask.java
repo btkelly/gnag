@@ -98,11 +98,12 @@ public class GnagReportTask extends DefaultTask {
     private void setGitHubExtension(GitHubExtension gitHubExtension) {
         commentInline = gitHubExtension.isCommentInline();
         commentOnSuccess = gitHubExtension.isCommentOnSuccess();
-        gitHubApi = new GitHubApi(gitHubExtension);
+        gitHubApi = new GitHubApi(gitHubExtension, getLogger());
     }
 
     private String getPRSha() {
         if (StringUtils.isBlank(prSha)) {
+            getLogger().debug("getPRSha: fetching...");
             GitHubPRDetails pullRequestDetails = gitHubApi.getPRDetailsSync();
 
             if (pullRequestDetails.getHead() != null) {
@@ -112,10 +113,13 @@ public class GnagReportTask extends DefaultTask {
             }
         }
 
+        getLogger().debug("getPRSha: " + prSha);
+
         return prSha;
     }
 
     private void updatePRStatus(GitHubStatusType gitHubStatusType) {
+        getLogger().debug("Updating PR Status to: " + gitHubStatusType);
         if (StringUtils.isNotBlank(getPRSha())) {
             gitHubApi.postUpdatedGitHubStatusAsync(gitHubStatusType, getProject().getName(), getPRSha());
         }
