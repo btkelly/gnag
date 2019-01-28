@@ -39,7 +39,8 @@ final class CheckstyleParser {
                 final Integer lineNumber = LineNumberParser.parseLineNumberString(
                         lineNumberString,
                         reporterName,
-                        shortViolationName)
+                        shortViolationName,
+                        project.getLogger())
 
                 result.add(new Violation(
                         shortViolationName,

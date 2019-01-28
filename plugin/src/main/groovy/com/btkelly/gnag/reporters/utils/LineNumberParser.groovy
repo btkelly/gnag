@@ -15,6 +15,8 @@
  */
 package com.btkelly.gnag.reporters.utils
 
+import org.gradle.api.logging.Logger
+
 final class LineNumberParser {
 
     /**
@@ -26,7 +28,8 @@ final class LineNumberParser {
     static Integer parseLineNumberString(
             final String lineNumberString,
             final String reporterName,
-            final String violationType) {
+            final String violationType,
+            final Logger logger) {
 
         if (lineNumberString.isEmpty()) {
             return null
@@ -37,14 +40,14 @@ final class LineNumberParser {
                 if (result >= 0) {
                     return result
                 } else {
-                    System.out.println(
+                    logger.error(
                             "Invalid line number: + " + result +
                                     " for " + reporterName + " violation: " + violationType)
 
                     return null
                 }
             } catch (final NumberFormatException ignored) {
-                System.out.println(
+                logger.error(
                         "Error parsing line number string: \"" + lineNumberString +
                                 "\" for " + reporterName + " violation: " + violationType)
 

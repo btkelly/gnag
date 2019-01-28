@@ -27,6 +27,7 @@ import org.gradle.api.Project
 
 import static com.btkelly.gnag.utils.StringUtils.sanitizePreservingNulls
 import static com.btkelly.gnag.utils.StringUtils.sanitizeToNonNull
+
 /**
  * Created by bobbake4 on 4/1/16.
  */
@@ -38,7 +39,6 @@ class PMDViolationDetector extends BaseExecutedViolationDetector {
 
     @Override
     void executeReporter() {
-
         PMDTask pmdTask = new PMDTask()
         pmdTask.project = project.ant.antProject
         pmdTask.addFormatter(new net.sourceforge.pmd.ant.Formatter(type: 'xml', toFile: reportFile()))
@@ -79,7 +79,8 @@ class PMDViolationDetector extends BaseExecutedViolationDetector {
                 final Integer lineNumber = LineNumberParser.parseLineNumberString(
                         lineNumberString,
                         name(),
-                        violationType)
+                        violationType,
+                        project.getLogger())
 
                 result.add(new Violation(
                         violationType,

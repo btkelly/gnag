@@ -126,8 +126,8 @@ gnag {
         repoName 'btkelly/repo'
         authToken '0000000000000'
         issueNumber '1'
-        commentInline true
-        commentOnSuccess true
+        setCommentInline true
+        setCommentOnSuccess true
     }
 }
 ```
@@ -143,32 +143,32 @@ gnag {
     setFailOnError(true)
 
     checkstyle {
-        enabled(true)
+        isEnabled = true
         reporterConfig(project.file("config/checkstyle.xml"))
     }
 
     pmd {
-        enabled(true)
+        isEnabled = true
         reporterConfig(project.file("config/pmd.xml"))
     }
 
     findbugs {
-        enabled(true)
+        isEnabled = true
         reporterConfig(project.file("config/findbugs.xml"))
     }
 
     ktlint {
-        enabled(true)
+        isEnabled = true
         toolVersion("0.24.0")
     }
 
     detekt {
-        enabled(true)
+        isEnabled = true
         reporterConfig(project.file("config/detekt.yml"))
     }
 
     androidLint {
-        enabled(true)
+        isEnabled = true
         severity("Error")
     }
 
@@ -177,8 +177,8 @@ gnag {
         repoName("btkelly/repo")
         authToken("0000000000000")
         issueNumber("1")
-        commentInline true
-        commentOnSuccess true
+        setCommentInline(true)
+        setCommentOnSuccess(true)
     }
 }
 ```
@@ -212,8 +212,8 @@ gnag {
   - ***repoName*** - account and repo name to report violations to
   - ***authToken*** - a GitHub token for a user that has access to comment on issues to the specified repo
   - ***issueNumber*** - the issue or PR number currently being built
-  - ***commentInline*** - whether or not comments posted to GitHub should be placed inline where possible
-  - ***commentOnSuccess*** - whether or not a comment should be posted to GitHub when no violations exist
+  - ***setCommentInline*** - whether or not comments posted to GitHub should be placed inline where possible
+  - ***setCommentOnSuccess*** - whether or not a comment should be posted to GitHub when no violations exist
 
 ## Example Output
 

@@ -19,16 +19,25 @@ import com.btkelly.gnag.extensions.GnagPluginExtension
 import com.btkelly.gnag.tasks.GnagCheckTask
 import com.btkelly.gnag.tasks.GnagReportTask
 import com.btkelly.gnag.utils.ProjectHelper
+import org.gradle.api.AntBuilder
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.logging.LogLevel
 
 /**
  * Created by bobbake4 on 4/1/16.
  */
 class GnagPlugin implements Plugin<Project> {
 
+    public static final LogLevel STD_OUT_LOG_LEVEL = LogLevel.DEBUG
+    public static final LogLevel STD_ERR_LOG_LEVEL = LogLevel.ERROR
+
     @Override
     void apply(Project project) {
+        project.logging.captureStandardOutput(STD_OUT_LOG_LEVEL)
+        project.logging.captureStandardError(STD_ERR_LOG_LEVEL)
+        project.ant.setLifecycleLogLevel(AntBuilder.AntMessagePriority.ERROR)
+
         GnagPluginExtension gnagPluginExtension = GnagPluginExtension.loadExtension(project)
 
         project.repositories.jcenter() // Unlikely to be missing in real projects; here for sample projects only.
