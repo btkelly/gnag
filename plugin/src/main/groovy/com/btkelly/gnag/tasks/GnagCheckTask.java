@@ -15,6 +15,7 @@
  */
 package com.btkelly.gnag.tasks;
 
+import com.btkelly.gnag.GnagPlugin;
 import com.btkelly.gnag.extensions.GnagPluginExtension;
 import com.btkelly.gnag.models.CheckStatus;
 import com.btkelly.gnag.models.Violation;
@@ -25,6 +26,8 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
+import org.gradle.api.logging.Logger;
+import org.gradle.api.logging.Logging;
 import org.gradle.api.tasks.StopExecutionException;
 import org.gradle.api.tasks.TaskAction;
 
@@ -101,6 +104,11 @@ public class GnagCheckTask extends DefaultTask {
         if (gnagPluginExtension.isEnabled()) {
             executeGnagCheck();
         }
+    }
+
+    @Override
+    public Logger getLogger() {
+        return Logging.getLogger(GnagPlugin.class);
     }
 
     private void executeGnagCheck() {

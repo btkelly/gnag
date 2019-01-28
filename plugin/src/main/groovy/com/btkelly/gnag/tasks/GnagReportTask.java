@@ -15,6 +15,7 @@
  */
 package com.btkelly.gnag.tasks;
 
+import com.btkelly.gnag.GnagPlugin;
 import com.btkelly.gnag.api.GitHubApi;
 import com.btkelly.gnag.extensions.GitHubExtension;
 import com.btkelly.gnag.models.*;
@@ -28,6 +29,8 @@ import org.apache.commons.lang.StringUtils;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
+import org.gradle.api.logging.Logger;
+import org.gradle.api.logging.Logging;
 import org.gradle.api.tasks.TaskAction;
 import org.jetbrains.annotations.NotNull;
 
@@ -81,7 +84,7 @@ public class GnagReportTask extends DefaultTask {
                 if (commentOnSuccess) {
                     final String commitString = getPRSha() != null ? " as of commit " + getPRSha() : "";
 
-                    gitHubApi.postGitHubPRCommentAsync(
+                    gitHubApi.postGitHubPRComment(
                             String.format(REMOTE_SUCCESS_COMMENT_FORMAT_STRING, getProject().getName(), commitString));
                 }
             } else {
@@ -95,6 +98,11 @@ public class GnagReportTask extends DefaultTask {
         }
     }
 
+    @Override
+    public Logger getLogger() {
+        return Logging.getLogger(GnagPlugin.class);
+    }
+
     private void setGitHubExtension(GitHubExtension gitHubExtension) {
         commentInline = gitHubExtension.isCommentInline();
         commentOnSuccess = gitHubExtension.isCommentOnSuccess();
@@ -104,13 +112,8 @@ public class GnagReportTask extends DefaultTask {
     private String getPRSha() {
         if (StringUtils.isBlank(prSha)) {
             getLogger().debug("getPRSha: fetching...");
-            GitHubPRDetails pullRequestDetails = gitHubApi.getPRDetailsSync();
-
-            if (pullRequestDetails.getHead() != null) {
-                prSha = pullRequestDetails.getHead().getSha();
-            } else {
-                getLogger().error("HEAD is null, unable to fetch PR Sha");
-            }
+            GitHubPRDetails pullRequestDetails = gitHubApi.getPRDetails();
+            prSha = pullRequestDetails.getHead().getSha();
         }
 
         getLogger().debug("getPRSha: " + prSha);
@@ -121,7 +124,7 @@ public class GnagReportTask extends DefaultTask {
     private void updatePRStatus(GitHubStatusType gitHubStatusType) {
         getLogger().debug("Updating PR Status to: " + gitHubStatusType);
         if (StringUtils.isNotBlank(getPRSha())) {
-            gitHubApi.postUpdatedGitHubStatusAsync(gitHubStatusType, getProject().getName(), getPRSha());
+            gitHubApi.postUpdatedGitHubStatus(gitHubStatusType, getProject().getName(), getPRSha());
         }
     }
 
@@ -133,14 +136,14 @@ public class GnagReportTask extends DefaultTask {
                 violationsWithAllLocationInformation.isEmpty() ||
                 !commentInline) {
 
-            gitHubApi.postGitHubPRCommentAsync(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
+            gitHubApi.postGitHubPRComment(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
             return;
         }
 
-        final List<Diff> diffs = gitHubApi.getPRDiffsSync();
+        final List<Diff> diffs = gitHubApi.getPRDiffs();
 
         if (diffs.isEmpty()) {
-            gitHubApi.postGitHubPRCommentAsync(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
+            gitHubApi.postGitHubPRComment(ViolationsFormatter.getHtmlStringForAggregatedComment(violations));
             return;
         }
 
@@ -164,7 +167,7 @@ public class GnagReportTask extends DefaultTask {
         violationsWithValidLocationInfo.sort(COMPARATOR);
 
         violationsWithValidLocationInfo.forEach(violation ->
-                gitHubApi.postGitHubInlineCommentSync(
+                gitHubApi.postGitHubInlineComment(
                         ViolationFormatter.getHtmlStringForInlineComment(violation),
                         getPRSha(),
                         violationPRLocationMap.get(violation)));
@@ -180,7 +183,7 @@ public class GnagReportTask extends DefaultTask {
                 e.printStackTrace();
             }
 
-            gitHubApi.postGitHubPRCommentAsync(
+            gitHubApi.postGitHubPRComment(
                     ViolationsFormatter.getHtmlStringForAggregatedComment(
                             violationsWithMissingOrInvalidLocationInfo));
         }

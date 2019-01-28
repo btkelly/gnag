@@ -26,16 +26,12 @@ import okhttp3.logging.HttpLoggingInterceptor.Level;
 import org.gradle.api.GradleException;
 import org.gradle.api.logging.Logger;
 import org.jetbrains.annotations.NotNull;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 /**
  * Created by bobbake4 on 12/1/15.
@@ -44,12 +40,10 @@ public class GitHubApi {
 
     private final GitHubApiClient gitHubApiClient;
     private final GitHubExtension gitHubExtension;
-    private final Executor singleThreadExecutor;
     private final Logger logger;
 
     public GitHubApi(final GitHubExtension gitHubExtension, Logger logger) {
         this.gitHubExtension = gitHubExtension;
-        this.singleThreadExecutor = Executors.newSingleThreadExecutor();
         this.logger = logger;
 
         HttpLoggingInterceptor.Logger loggingInterceptor = logger::debug;
@@ -72,52 +66,37 @@ public class GitHubApi {
         gitHubApiClient = retrofit.create(GitHubApiClient.class);
     }
 
-    public void postGitHubPRCommentAsync(final String comment) {
-        logger.debug("postGitHubPRCommentAsync: " + comment);
-        gitHubApiClient.postPRComment(new GitHubPRComment(comment), gitHubExtension.getIssueNumber())
-                .enqueue(new DefaultCallback<>());
+    public void postGitHubPRComment(final String comment) {
+        logger.debug("postGitHubPRComment: " + comment);
+        try {
+            gitHubApiClient.postPRComment(new GitHubPRComment(comment), gitHubExtension.getIssueNumber())
+                           .execute();
+        } catch (IOException e) {
+            logger.debug("postGitHubPRComment - Error: ", e);
+        }
     }
 
-    public void postUpdatedGitHubStatusAsync(
+    public void postUpdatedGitHubStatus(
             final GitHubStatusType gitHubStatusType,
             final String moduleName,
             final String prSha) {
-        logger.debug("postUpdatedGitHubStatusAsync - Status: " + gitHubStatusType);
-        logger.debug("postUpdatedGitHubStatusAsync - Module Name: " + gitHubStatusType);
-        logger.debug("postUpdatedGitHubStatusAsync - PR Sha: " + gitHubStatusType);
-
-        singleThreadExecutor.execute(() -> {
-
-            boolean isSuccessful = false;
-            int retryCount = 0;
-
-            while (!isSuccessful && retryCount < 5) {
-                try {
-                    isSuccessful = gitHubApiClient.postUpdatedStatus(new GitHubStatus(gitHubStatusType, moduleName), prSha)
-                            .execute()
-                            .isSuccessful();
-                    logger.debug("postUpdatedGitHubStatusAsync - isSuccessful: " + isSuccessful + ", retry count: " + retryCount);
-                } catch (IOException e) {
-                    logger.debug("postUpdatedGitHubStatusAsync - Error retry count: " + retryCount, e);
-                    e.printStackTrace();
-                }
-
-                retryCount++;
-            }
-        });
+        try {
+            gitHubApiClient.postUpdatedStatus(new GitHubStatus(gitHubStatusType, moduleName), prSha)
+                                          .execute();
+        } catch (IOException e) {
+            logger.debug("postUpdatedGitHubStatus - Error: ", e);
+        }
     }
 
     @NotNull
-    public GitHubPRDetails getPRDetailsSync() {
+    public GitHubPRDetails getPRDetails() {
         try {
             Response<GitHubPRDetails> gitHubPRDetailsResponse = gitHubApiClient.getPRDetails(gitHubExtension.getIssueNumber()).execute();
 
-            if (!gitHubPRDetailsResponse.isSuccessful()) {
+            if (!gitHubPRDetailsResponse.isSuccessful() || gitHubPRDetailsResponse.body().getHead() == null) {
                 throw new GradleException("Failed to fetch PR details. Reason: "
                         + gitHubPRDetailsResponse.code() + " " + gitHubPRDetailsResponse.message());
             }
-
-            logger.debug("getPRDetailsSync - response: " + gitHubPRDetailsResponse.body());
 
             return gitHubPRDetailsResponse.body();
         } catch (IOException e) {
@@ -126,56 +105,28 @@ public class GitHubApi {
     }
 
     @NotNull
-    public List<Diff> getPRDiffsSync() {
+    public List<Diff> getPRDiffs() {
         try {
-            final Response<List<Diff>> gitHubPRDiffsResponse
-                    = gitHubApiClient.getPRDiffs(gitHubExtension.getIssueNumber()).execute();
-
-            logger.debug("getPRDiffsSync - isSuccessful: " + gitHubPRDiffsResponse.isSuccessful());
-
+            final Response<List<Diff>> gitHubPRDiffsResponse = gitHubApiClient.getPRDiffs(gitHubExtension.getIssueNumber()).execute();
+            logger.debug("getPRDiffs - isSuccessful: " + gitHubPRDiffsResponse.isSuccessful());
             return gitHubPRDiffsResponse.body();
         } catch (final Exception e) {
-            logger.debug("getPRDiffsSync - Error", e);
-            e.printStackTrace();
+            logger.debug("getPRDiffs - Error", e);
             return new ArrayList<>();
         }
     }
 
-    public void postGitHubInlineCommentSync(
+    public void postGitHubInlineComment(
             @NotNull final String body,
             @NotNull final String prSha,
             @NotNull final PRLocation prLocation) {
-        logger.debug("postGitHubInlineCommentSync - Body: " + body);
-        logger.debug("postGitHubInlineCommentSync - PR Sha: " + prSha);
-        logger.debug("postGitHubInlineCommentSync - PR Location: " + prLocation);
-
         try {
             gitHubApiClient.postInlineComment(
                     new GitHubInlineComment(body, prSha, prLocation), gitHubExtension.getIssueNumber())
                     .execute();
         } catch (final Exception e) {
-            logger.debug("postGitHubInlineCommentSync - Error", e);
-            e.printStackTrace();
+            logger.debug("postGitHubInlineComment - Error", e);
         }
-    }
-
-    private final class DefaultCallback<T> implements Callback<T> {
-
-        private DefaultCallback() {
-            // This constructor intentionally left blank.
-        }
-
-        @Override
-        public void onResponse(final Call<T> call, final Response<T> response) {
-            logger.debug(call.toString() + " - onResponse" + response);
-        }
-
-        @Override
-        public void onFailure(final Call<T> call, final Throwable t) {
-            logger.debug(call.toString() + " - onFailure", t);
-            t.printStackTrace();
-        }
-
     }
 
 }
