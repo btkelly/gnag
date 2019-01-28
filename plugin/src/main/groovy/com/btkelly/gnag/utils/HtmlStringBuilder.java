@@ -1,17 +1,11 @@
 /**
  * Copyright 2016 Bryan Kelly
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License.
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
  *
- * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations
- * under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 package com.btkelly.gnag.utils;
 
@@ -19,51 +13,51 @@ import org.jetbrains.annotations.NotNull;
 
 public final class HtmlStringBuilder {
 
-    private final StringBuilder stringBuilder;
+  private final StringBuilder stringBuilder;
 
-    public HtmlStringBuilder() {
-        stringBuilder = new StringBuilder();
-    }
+  public HtmlStringBuilder() {
+    stringBuilder = new StringBuilder();
+  }
 
-    @Override
-    public String toString() {
-        return stringBuilder.toString();
-    }
+  @Override
+  public String toString() {
+    return stringBuilder.toString();
+  }
 
-    public HtmlStringBuilder append(@NotNull final CharSequence string) {
-        stringBuilder.append(string);
-        return this;
-    }
+  public HtmlStringBuilder append(@NotNull final CharSequence string) {
+    stringBuilder.append(string);
+    return this;
+  }
 
-    public HtmlStringBuilder appendLink(@NotNull final CharSequence string, @NotNull final String linkUrl) {
-        stringBuilder
-                .append("<a target=\"_blank\" href=\"")
-                .append(linkUrl)
-                .append("\">")
-                .append(string)
-                .append("</a>");
-        return this;
-    }
+  public HtmlStringBuilder appendLink(@NotNull final CharSequence string, @NotNull final String linkUrl) {
+    stringBuilder
+        .append("<a target=\"_blank\" href=\"")
+        .append(linkUrl)
+        .append("\">")
+        .append(string)
+        .append("</a>");
+    return this;
+  }
 
-    public HtmlStringBuilder appendBold(@NotNull final CharSequence string) {
-        stringBuilder
-                .append("<b>")
-                .append(string)
-                .append("</b>");
-        return this;
-    }
+  public HtmlStringBuilder appendBold(@NotNull final CharSequence string) {
+    stringBuilder
+        .append("<b>")
+        .append(string)
+        .append("</b>");
+    return this;
+  }
 
-    public HtmlStringBuilder appendCode(@NotNull final CharSequence string) {
-        stringBuilder
-                .append("<code>")
-                .append(string)
-                .append("</code>");
-        return this;
-    }
+  public HtmlStringBuilder appendCode(@NotNull final CharSequence string) {
+    stringBuilder
+        .append("<code>")
+        .append(string)
+        .append("</code>");
+    return this;
+  }
 
-    public HtmlStringBuilder insertLineBreak() {
-        stringBuilder.append("<br />");
-        return this;
-    }
+  public HtmlStringBuilder insertLineBreak() {
+    stringBuilder.append("<br />");
+    return this;
+  }
 
 }

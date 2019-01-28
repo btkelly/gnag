@@ -61,40 +61,40 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
 
         projectHelper.getJavaSourceFiles()
                 .each { File sourceFile ->
-                    FileSet sourcePathFileSet = new FileSet()
-                    sourcePathFileSet.file = sourceFile
-                    sourcePath.addFileset(sourcePathFileSet)
+            FileSet sourcePathFileSet = new FileSet()
+            sourcePathFileSet.file = sourceFile
+            sourcePath.addFileset(sourcePathFileSet)
 
-                    FileSet antPathFileSet = new FileSet()
-                    antPathFileSet.file = sourceFile
+            FileSet antPathFileSet = new FileSet()
+            antPathFileSet.file = sourceFile
 
-                    Path antPath = (Path) project.ant.path()
-                    antPath.addFileset(antPathFileSet)
+            Path antPath = (Path) project.ant.path()
+            antPath.addFileset(antPathFileSet)
 
-                    /*
-                     * Compute the path to the source set directory that contains sourceFile. (This code assumes there
-                     * will be at least one match for every source file. Can there ever be more than one?).
-                     */
-                    String containingSourceSetRootDirPath = sourceSetRootDirPaths
-                            .findAll { String sourceSetRootDirPath -> sourceFile.absolutePath.startsWith(sourceSetRootDirPath) }
-                            .first()
+            /*
+             * Compute the path to the source set directory that contains sourceFile. (This code assumes there
+             * will be at least one match for every source file. Can there ever be more than one?).
+             */
+            String containingSourceSetRootDirPath = sourceSetRootDirPaths
+                    .findAll { String sourceSetRootDirPath -> sourceFile.absolutePath.startsWith(sourceSetRootDirPath) }
+                    .first()
 
-                    /*
-                     * Strip the path to the containing source set directory from the front of the path to sourceFile,
-                     * and remove the trailing .java since we will use this pattern to locate .class files.
-                     */
-                    String relativePathToClass = sourceFile
-                            .absolutePath
-                            .replaceAll(containingSourceSetRootDirPath, '')
-                            .replaceAll(".java\$", '')
+            /*
+             * Strip the path to the containing source set directory from the front of the path to sourceFile,
+             * and remove the trailing .java since we will use this pattern to locate .class files.
+             */
+            String relativePathToClass = sourceFile
+                    .absolutePath
+                    .replaceAll(containingSourceSetRootDirPath, '')
+                    .replaceAll(".java\$", '')
 
-                    // Note: retrieving via project.ant.fileset() works, but constructing a brand new Fileset does not.
-                    FileSet taskFileSet = project.ant.fileset() as FileSet
+            // Note: retrieving via project.ant.fileset() works, but constructing a brand new Fileset does not.
+            FileSet taskFileSet = project.ant.fileset() as FileSet
 
-                    taskFileSet.dir = project.buildDir
-                    taskFileSet.setIncludes("**$relativePathToClass*")
-                    findBugsTask.addFileset(taskFileSet)
-                }
+            taskFileSet.dir = project.buildDir
+            taskFileSet.setIncludes("**$relativePathToClass*")
+            findBugsTask.addFileset(taskFileSet)
+        }
 
         Path classpath = findBugsTask.createClasspath()
 
@@ -117,26 +117,26 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
         final List<Violation> result = new ArrayList<>()
 
         xml.BugInstance.list()
-            .each { violation ->
-                final String violationType = sanitizeToNonNull((String) violation.@type.text())
+                .each { violation ->
+            final String violationType = sanitizeToNonNull((String) violation.@type.text())
 
-                final String relativeFilePath =
-                        computeRelativeFilePathIfPossible((GPathResult) violation, sourceFilePaths)
+            final String relativeFilePath =
+                    computeRelativeFilePathIfPossible((GPathResult) violation, sourceFilePaths)
 
-                final String lineNumberString = sanitizeToNonNull((String) violation.SourceLine.@end.text())
-                final Integer lineNumber = LineNumberParser.parseLineNumberString(
-                        lineNumberString,
-                        name(),
-                        violationType,
-                        project.getLogger())
+            final String lineNumberString = sanitizeToNonNull((String) violation.SourceLine.@end.text())
+            final Integer lineNumber = LineNumberParser.parseLineNumberString(
+                    lineNumberString,
+                    name(),
+                    violationType,
+                    project.getLogger())
 
-                result.add(new Violation(
-                        violationType,
-                        name(),
-                        sanitizePreservingNulls((String) violation.ShortMessage.text()),
-                        relativeFilePath,
-                        lineNumber))
-            }
+            result.add(new Violation(
+                    violationType,
+                    name(),
+                    sanitizePreservingNulls((String) violation.ShortMessage.text()),
+                    relativeFilePath,
+                    lineNumber))
+        }
 
         return result
     }
