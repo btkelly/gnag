@@ -1,11 +1,17 @@
 /**
  * Copyright 2016 Bryan Kelly
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License.
  *
- * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
  */
 package com.btkelly.gnag.tasks;
 
@@ -67,15 +73,18 @@ public class GnagCheckTask extends DefaultTask {
     gnagCheckTask.setGnagPluginExtension(gnagPluginExtension);
 
     if (gnagPluginExtension.checkstyle.isEnabled() && projectHelper.hasJavaSourceFiles()) {
-      gnagCheckTask.violationDetectors.add(new CheckstyleViolationDetector(project, gnagPluginExtension.checkstyle));
+      gnagCheckTask.violationDetectors
+          .add(new CheckstyleViolationDetector(project, gnagPluginExtension.checkstyle));
     }
 
     if (gnagPluginExtension.pmd.isEnabled() && projectHelper.hasJavaSourceFiles()) {
-      gnagCheckTask.violationDetectors.add(new PMDViolationDetector(project, gnagPluginExtension.pmd));
+      gnagCheckTask.violationDetectors
+          .add(new PMDViolationDetector(project, gnagPluginExtension.pmd));
     }
 
     if (gnagPluginExtension.findbugs.isEnabled() && projectHelper.hasJavaSourceFiles()) {
-      gnagCheckTask.violationDetectors.add(new FindbugsViolationDetector(project, gnagPluginExtension.findbugs));
+      gnagCheckTask.violationDetectors
+          .add(new FindbugsViolationDetector(project, gnagPluginExtension.findbugs));
     }
 
     if (gnagPluginExtension.ktlint.isEnabled() && projectHelper.hasKotlinSourceFiles()) {
@@ -87,17 +96,21 @@ public class GnagCheckTask extends DefaultTask {
 
       Task ktlintTask = KtlintTask.addTask(projectHelper);
       gnagCheckTask.dependsOn(ktlintTask);
-      gnagCheckTask.violationDetectors.add(new KtlintViolationDetector(project, gnagPluginExtension.ktlint));
+      gnagCheckTask.violationDetectors
+          .add(new KtlintViolationDetector(project, gnagPluginExtension.ktlint));
     }
 
     if (gnagPluginExtension.detekt.isEnabled() && projectHelper.hasKotlinSourceFiles()) {
-      Task detektTask = DetektTask.addTask(projectHelper, gnagPluginExtension.detekt.getReporterConfig());
+      Task detektTask = DetektTask
+          .addTask(projectHelper, gnagPluginExtension.detekt.getReporterConfig());
       gnagCheckTask.dependsOn(detektTask);
-      gnagCheckTask.violationDetectors.add(new DetektViolationDetector(project, gnagPluginExtension.detekt));
+      gnagCheckTask.violationDetectors
+          .add(new DetektViolationDetector(project, gnagPluginExtension.detekt));
     }
 
     if (projectHelper.isAndroidProject() && gnagPluginExtension.androidLint.isEnabled()) {
-      gnagCheckTask.violationDetectors.add(new AndroidLintViolationDetector(project, gnagPluginExtension.androidLint));
+      gnagCheckTask.violationDetectors
+          .add(new AndroidLintViolationDetector(project, gnagPluginExtension.androidLint));
     }
   }
 
@@ -125,7 +138,8 @@ public class GnagCheckTask extends DefaultTask {
       final List<Violation> detectedViolations = violationDetector.getDetectedViolations();
       allDetectedViolations.addAll(detectedViolations);
 
-      getLogger().lifecycle(violationDetector.name() + " detected " + detectedViolations.size() + " violations.");
+      getLogger().lifecycle(
+          violationDetector.name() + " detected " + detectedViolations.size() + " violations.");
     });
 
     final File reportsDir = projectHelper.getReportsDir();
@@ -143,9 +157,9 @@ public class GnagCheckTask extends DefaultTask {
 
       final String failedMessage
           = "One or more violation detectors has found violations. Check the report at "
-            + reportsDir
-            + File.separatorChar
-            + REPORT_FILE_NAME + " for details.";
+          + reportsDir
+          + File.separatorChar
+          + REPORT_FILE_NAME + " for details.";
 
       if (gnagPluginExtension.shouldFailOnError() && !taskExecutionGraphIncludesGnagReport()) {
         throw new GradleException(failedMessage);

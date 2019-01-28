@@ -1,11 +1,17 @@
 /**
  * Copyright 2016 Bryan Kelly
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License.
  *
- * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
  */
 package com.btkelly.gnag.utils;
 
@@ -27,10 +33,11 @@ public final class ViolationsUtil {
     // This constructor intentionally left blank.
   }
 
-  public static Set<Violation> hasViolationWithAllLocationInformation(@NotNull final Set<Violation> violations) {
+  public static Set<Violation> hasViolationWithAllLocationInformation(
+      @NotNull final Set<Violation> violations) {
     return violations.stream()
-                     .filter(Violation::hasAllLocationInfo)
-                     .collect(Collectors.toSet());
+        .filter(Violation::hasAllLocationInfo)
+        .collect(Collectors.toSet());
   }
 
   @NotNull
@@ -41,8 +48,8 @@ public final class ViolationsUtil {
     final Map<Violation, PRLocation> result = new HashMap<>();
 
     violations.forEach(violation ->
-                           result.put(violation, getPRLocationForViolation(violation, diffs))
-                      );
+        result.put(violation, getPRLocationForViolation(violation, diffs))
+    );
 
     return result;
   }
@@ -63,8 +70,8 @@ public final class ViolationsUtil {
 
     //noinspection ConstantConditions
     final List<Diff> diffsMatchingViolationFilePath = diffs.stream()
-                                                           .filter(diff -> violationRelativeFilePath.equals(diff.getToFileName()))
-                                                           .collect(Collectors.toList());
+        .filter(diff -> violationRelativeFilePath.equals(diff.getToFileName()))
+        .collect(Collectors.toList());
 
     if (diffsMatchingViolationFilePath.size() == 1) {
       return getPRLocationForViolation(violation, diffsMatchingViolationFilePath.get(0));
@@ -96,9 +103,9 @@ public final class ViolationsUtil {
     if (rawDiffLineNumberForToFileLocation != null) {
       final int offsetDiffLineNumberForToFileLocation
           = rawDiffLineNumberForToFileLocation
-            - Diff.NUMBER_OF_LINES_PER_DELIMITER
-            - diffMatchingViolationFilePath.getHeaderLines().size()
-            - Hunk.NUMBER_OF_LINES_PER_DELIMITER;
+          - Diff.NUMBER_OF_LINES_PER_DELIMITER
+          - diffMatchingViolationFilePath.getHeaderLines().size()
+          - Hunk.NUMBER_OF_LINES_PER_DELIMITER;
 
       return new PRLocation(violationRelativeFilePath, offsetDiffLineNumberForToFileLocation);
     } else {

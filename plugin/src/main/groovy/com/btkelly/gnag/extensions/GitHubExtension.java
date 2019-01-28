@@ -1,11 +1,17 @@
 /**
  * Copyright 2016 Bryan Kelly
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License.
  *
- * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
  */
 package com.btkelly.gnag.extensions;
 
@@ -34,7 +40,8 @@ public final class GitHubExtension {
   }
 
   public String getRootUrl() {
-    return project.hasProperty("rootUrl") ? (String) project.property("rootUrl") : rootUrl != null ? rootUrl : "https://api.github.com/repos/";
+    return project.hasProperty("rootUrl") ? (String) project.property("rootUrl")
+        : rootUrl != null ? rootUrl : "https://api.github.com/repos/";
   }
 
   public void repoName(String repoName) {
@@ -58,7 +65,8 @@ public final class GitHubExtension {
   }
 
   public String getIssueNumber() {
-    return project.hasProperty("issueNumber") ? (String) project.property("issueNumber") : issueNumber;
+    return project.hasProperty("issueNumber") ? (String) project.property("issueNumber")
+        : issueNumber;
   }
 
   public boolean isCommentInline() {
@@ -80,13 +88,13 @@ public final class GitHubExtension {
   @Override
   public String toString() {
     return "GitHubExtension{" +
-           "project=" + project +
-           ", rootUrl='" + rootUrl + '\'' +
-           ", repoName='" + repoName + '\'' +
-           ", authToken='" + authToken + '\'' +
-           ", issueNumber='" + issueNumber + '\'' +
-           ", commentInline=" + commentInline +
-           ", commentOnSuccess=" + commentOnSuccess +
-           '}';
+        "project=" + project +
+        ", rootUrl='" + rootUrl + '\'' +
+        ", repoName='" + repoName + '\'' +
+        ", authToken='" + authToken + '\'' +
+        ", issueNumber='" + issueNumber + '\'' +
+        ", commentInline=" + commentInline +
+        ", commentOnSuccess=" + commentOnSuccess +
+        '}';
   }
 }

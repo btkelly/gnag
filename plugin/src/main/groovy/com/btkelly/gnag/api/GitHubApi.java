@@ -1,11 +1,17 @@
 /**
  * Copyright 2016 Bryan Kelly
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License.
  *
- * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
  */
 package com.btkelly.gnag.api;
 
@@ -68,7 +74,7 @@ public class GitHubApi {
     logger.debug("postGitHubPRComment: " + comment);
     try {
       gitHubApiClient.postPRComment(new GitHubPRComment(comment), gitHubExtension.getIssueNumber())
-                     .execute();
+          .execute();
     } catch (IOException e) {
       logger.debug("postGitHubPRComment - Error: ", e);
     }
@@ -80,7 +86,7 @@ public class GitHubApi {
       final String prSha) {
     try {
       gitHubApiClient.postUpdatedStatus(new GitHubStatus(gitHubStatusType, moduleName), prSha)
-                     .execute();
+          .execute();
     } catch (IOException e) {
       logger.debug("postUpdatedGitHubStatus - Error: ", e);
     }
@@ -89,11 +95,13 @@ public class GitHubApi {
   @NotNull
   public GitHubPRDetails getPRDetails() {
     try {
-      Response<GitHubPRDetails> gitHubPRDetailsResponse = gitHubApiClient.getPRDetails(gitHubExtension.getIssueNumber()).execute();
+      Response<GitHubPRDetails> gitHubPRDetailsResponse = gitHubApiClient
+          .getPRDetails(gitHubExtension.getIssueNumber()).execute();
 
-      if (!gitHubPRDetailsResponse.isSuccessful() || gitHubPRDetailsResponse.body().getHead() == null) {
+      if (!gitHubPRDetailsResponse.isSuccessful()
+          || gitHubPRDetailsResponse.body().getHead() == null) {
         throw new GradleException("Failed to fetch PR details. Reason: "
-                                  + gitHubPRDetailsResponse.code() + " " + gitHubPRDetailsResponse.message());
+            + gitHubPRDetailsResponse.code() + " " + gitHubPRDetailsResponse.message());
       }
 
       return gitHubPRDetailsResponse.body();
@@ -105,7 +113,8 @@ public class GitHubApi {
   @NotNull
   public List<Diff> getPRDiffs() {
     try {
-      final Response<List<Diff>> gitHubPRDiffsResponse = gitHubApiClient.getPRDiffs(gitHubExtension.getIssueNumber()).execute();
+      final Response<List<Diff>> gitHubPRDiffsResponse = gitHubApiClient
+          .getPRDiffs(gitHubExtension.getIssueNumber()).execute();
       logger.debug("getPRDiffs - isSuccessful: " + gitHubPRDiffsResponse.isSuccessful());
       return gitHubPRDiffsResponse.body();
     } catch (final Exception e) {
@@ -121,7 +130,7 @@ public class GitHubApi {
     try {
       gitHubApiClient.postInlineComment(
           new GitHubInlineComment(body, prSha, prLocation), gitHubExtension.getIssueNumber())
-                     .execute();
+          .execute();
     } catch (final Exception e) {
       logger.debug("postGitHubInlineComment - Error", e);
     }

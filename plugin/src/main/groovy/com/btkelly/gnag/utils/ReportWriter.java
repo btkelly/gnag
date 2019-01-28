@@ -1,11 +1,17 @@
 /**
  * Copyright 2016 Bryan Kelly
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License.
  *
- * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
  */
 package com.btkelly.gnag.utils;
 
@@ -28,9 +34,9 @@ public final class ReportWriter {
 
   private static final String HTML_REPORT_PREFIX =
       "<!DOCTYPE html>"
-      + "<html>"
-      + "<link rel=\"stylesheet\" href=\"github-markdown.css\">"
-      + "<article class=\"markdown-body\">";
+          + "<html>"
+          + "<link rel=\"stylesheet\" href=\"github-markdown.css\">"
+          + "<article class=\"markdown-body\">";
 
   private static final String HTML_REPORT_SUFFIX = "</article></html>";
 
@@ -44,7 +50,8 @@ public final class ReportWriter {
       @NotNull final Logger logger) {
 
     if (violations.isEmpty()) {
-      System.err.println("writeLocalReportFiles should only be called when violations were detected!");
+      System.err
+          .println("writeLocalReportFiles should only be called when violations were detected!");
       return;
     }
 
@@ -67,7 +74,8 @@ public final class ReportWriter {
     copyCssFileToDirectory(directory, logger);
   }
 
-  public static void deleteLocalReportFiles(@NotNull final File directory, @NotNull final Logger logger) {
+  public static void deleteLocalReportFiles(@NotNull final File directory,
+      @NotNull final Logger logger) {
     final File htmlReportFile = new File(directory, REPORT_FILE_NAME);
 
     if (htmlReportFile.exists()) {
@@ -81,10 +89,12 @@ public final class ReportWriter {
     deleteCssFileFromDirectory(directory, logger);
   }
 
-  private static void copyCssFileToDirectory(@NotNull final File directory, @NotNull final Logger logger) {
+  private static void copyCssFileToDirectory(@NotNull final File directory,
+      @NotNull final Logger logger) {
     try {
       //TODO fix this
-      final InputStream resourceAsStream = ReportWriter.class.getClassLoader().getResourceAsStream(CSS_FILE_NAME);
+      final InputStream resourceAsStream = ReportWriter.class.getClassLoader()
+          .getResourceAsStream(CSS_FILE_NAME);
       final File gnagCssOutputFile = new File(directory, CSS_FILE_NAME);
       FileUtils.copyInputStreamToFile(resourceAsStream, gnagCssOutputFile);
     } catch (final Exception e) {
@@ -92,7 +102,8 @@ public final class ReportWriter {
     }
   }
 
-  private static void deleteCssFileFromDirectory(@NotNull final File directory, @NotNull final Logger logger) {
+  private static void deleteCssFileFromDirectory(@NotNull final File directory,
+      @NotNull final Logger logger) {
     final File gnagCssOutputFile = new File(directory, CSS_FILE_NAME);
 
     if (gnagCssOutputFile.exists()) {
