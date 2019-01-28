@@ -24,99 +24,91 @@ import org.jetbrains.annotations.NotNull;
  */
 public class GnagPluginExtension {
 
-    private static final String EXTENSION_NAME = "gnag";
+  private static final String EXTENSION_NAME = "gnag";
+  private final Project project;
+  public ReporterExtension checkstyle;
+  public ReporterExtension pmd;
+  public ReporterExtension findbugs;
+  public ReporterExtension ktlint;
+  public ReporterExtension detekt;
+  public GitHubExtension github;
+  public AndroidLintExtension androidLint;
+  private boolean enabled = true;
+  private boolean failOnError = true;
 
-    public static GnagPluginExtension loadExtension(@NotNull Project project) {
-        return project.getExtensions().create(EXTENSION_NAME, GnagPluginExtension.class, project);
-    }
+  public GnagPluginExtension(@NotNull Project project) {
+    this.project = project;
+    this.github = new GitHubExtension(project);
+    this.checkstyle = new ReporterExtension("CheckStyle", project);
+    this.pmd = new ReporterExtension("PMD", project);
+    this.findbugs = new ReporterExtension("FindBugs", project);
+    this.ktlint = new ReporterExtension("ktlint", project);
+    this.detekt = new ReporterExtension("detekt", project);
+    this.androidLint = new AndroidLintExtension(project);
+  }
 
-    private final Project project;
+  public static GnagPluginExtension loadExtension(@NotNull Project project) {
+    return project.getExtensions().create(EXTENSION_NAME, GnagPluginExtension.class, project);
+  }
 
-    public ReporterExtension checkstyle;
+  public void checkstyle(Action<ReporterExtension> action) {
+    action.execute(checkstyle);
+  }
 
-    public void checkstyle(Action<ReporterExtension> action) {
-        action.execute(checkstyle);
-    }
+  public void pmd(Action<ReporterExtension> action) {
+    action.execute(pmd);
+  }
 
-    public ReporterExtension pmd;
+  public void findbugs(Action<ReporterExtension> action) {
+    action.execute(findbugs);
+  }
 
-    public void pmd(Action<ReporterExtension> action) {
-        action.execute(pmd);
-    }
+  public void ktlint(Action<ReporterExtension> action) {
+    action.execute(ktlint);
+  }
 
-    public ReporterExtension findbugs;
+  public void detekt(Action<ReporterExtension> action) {
+    action.execute(detekt);
+  }
 
-    public void findbugs(Action<ReporterExtension> action) {
-        action.execute(findbugs);
-    }
+  public void github(Action<GitHubExtension> action) {
+    action.execute(github);
+  }
 
-    public ReporterExtension ktlint;
+  public void androidLint(Action<AndroidLintExtension> action) {
+    action.execute(androidLint);
+  }
 
-    public void ktlint(Action<ReporterExtension> action) {
-        action.execute(ktlint);
-    }
+  public boolean isEnabled() {
+    return enabled;
+  }
 
-    public ReporterExtension detekt;
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
 
-    public void detekt(Action<ReporterExtension> action) {
-        action.execute(detekt);
-    }
+  public void setFailOnError(boolean failOnError) {
+    this.failOnError = failOnError;
+  }
 
-    public GitHubExtension github;
+  public boolean shouldFailOnError() {
+    return project.hasProperty("failOnError") ? (Boolean) project.property("failOnError")
+        : failOnError;
+  }
 
-    public void github(Action<GitHubExtension> action) {
-        action.execute(github);
-    }
-
-    public AndroidLintExtension androidLint;
-
-    public void androidLint(Action<AndroidLintExtension> action) {
-        action.execute(androidLint);
-    }
-
-    private boolean enabled = true;
-    private boolean failOnError = true;
-
-    public GnagPluginExtension(@NotNull Project project) {
-        this.project = project;
-        this.github = new GitHubExtension(project);
-        this.checkstyle = new ReporterExtension("CheckStyle", project);
-        this.pmd = new ReporterExtension("PMD", project);
-        this.findbugs = new ReporterExtension("FindBugs", project);
-        this.ktlint = new ReporterExtension("ktlint", project);
-        this.detekt = new ReporterExtension("detekt", project);
-        this.androidLint = new AndroidLintExtension(project);
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setFailOnError(boolean failOnError) {
-        this.failOnError = failOnError;
-    }
-
-    public boolean shouldFailOnError() {
-        return project.hasProperty("failOnError") ? (Boolean) project.property("failOnError") : failOnError;
-    }
-
-    @Override
-    public String toString() {
-        return "GnagPluginExtension{" +
-                "project=" + project +
-                ", checkstyle=" + checkstyle +
-                ", pmd=" + pmd +
-                ", findbugs=" + findbugs +
-                ", ktlint=" + ktlint +
-                ", detekt=" + detekt +
-                ", github=" + github +
-                ", androidLint=" + androidLint +
-                ", enabled=" + enabled +
-                ", failOnError=" + failOnError +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "GnagPluginExtension{" +
+        "project=" + project +
+        ", checkstyle=" + checkstyle +
+        ", pmd=" + pmd +
+        ", findbugs=" + findbugs +
+        ", ktlint=" + ktlint +
+        ", detekt=" + detekt +
+        ", github=" + github +
+        ", androidLint=" + androidLint +
+        ", enabled=" + enabled +
+        ", failOnError=" + failOnError +
+        '}';
+  }
 }

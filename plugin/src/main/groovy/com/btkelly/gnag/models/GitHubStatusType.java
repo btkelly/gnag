@@ -20,23 +20,23 @@ package com.btkelly.gnag.models;
  */
 public enum GitHubStatusType {
 
-    SUCCESS("Quality checks have passed!"),
-    PENDING("Checking code quality"),
-    ERROR("Error checking code quality"),
-    FAILURE("Quality violations found");
+  SUCCESS("Quality checks have passed!"),
+  PENDING("Checking code quality"),
+  ERROR("Error checking code quality"),
+  FAILURE("Quality violations found");
 
-    private final String description;
+  private final String description;
 
-    GitHubStatusType(String description) {
-        this.description = description;
-    }
+  GitHubStatusType(String description) {
+    this.description = description;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    @Override
-    public String toString() {
-        return super.toString().toLowerCase();
-    }
+  @Override
+  public String toString() {
+    return super.toString().toLowerCase();
+  }
 }

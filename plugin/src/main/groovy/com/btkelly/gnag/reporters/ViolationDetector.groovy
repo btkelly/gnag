@@ -16,7 +16,6 @@
 package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.models.Violation
-import org.gradle.api.Project
 
 /**
  * Created by bobbake4 on 4/19/16.

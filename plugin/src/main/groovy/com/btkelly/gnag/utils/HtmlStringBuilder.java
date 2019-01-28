@@ -19,51 +19,52 @@ import org.jetbrains.annotations.NotNull;
 
 public final class HtmlStringBuilder {
 
-    private final StringBuilder stringBuilder;
+  private final StringBuilder stringBuilder;
 
-    public HtmlStringBuilder() {
-        stringBuilder = new StringBuilder();
-    }
+  public HtmlStringBuilder() {
+    stringBuilder = new StringBuilder();
+  }
 
-    @Override
-    public String toString() {
-        return stringBuilder.toString();
-    }
+  @Override
+  public String toString() {
+    return stringBuilder.toString();
+  }
 
-    public HtmlStringBuilder append(@NotNull final CharSequence string) {
-        stringBuilder.append(string);
-        return this;
-    }
+  public HtmlStringBuilder append(@NotNull final CharSequence string) {
+    stringBuilder.append(string);
+    return this;
+  }
 
-    public HtmlStringBuilder appendLink(@NotNull final CharSequence string, @NotNull final String linkUrl) {
-        stringBuilder
-                .append("<a target=\"_blank\" href=\"")
-                .append(linkUrl)
-                .append("\">")
-                .append(string)
-                .append("</a>");
-        return this;
-    }
+  public HtmlStringBuilder appendLink(@NotNull final CharSequence string,
+      @NotNull final String linkUrl) {
+    stringBuilder
+        .append("<a target=\"_blank\" href=\"")
+        .append(linkUrl)
+        .append("\">")
+        .append(string)
+        .append("</a>");
+    return this;
+  }
 
-    public HtmlStringBuilder appendBold(@NotNull final CharSequence string) {
-        stringBuilder
-                .append("<b>")
-                .append(string)
-                .append("</b>");
-        return this;
-    }
+  public HtmlStringBuilder appendBold(@NotNull final CharSequence string) {
+    stringBuilder
+        .append("<b>")
+        .append(string)
+        .append("</b>");
+    return this;
+  }
 
-    public HtmlStringBuilder appendCode(@NotNull final CharSequence string) {
-        stringBuilder
-                .append("<code>")
-                .append(string)
-                .append("</code>");
-        return this;
-    }
+  public HtmlStringBuilder appendCode(@NotNull final CharSequence string) {
+    stringBuilder
+        .append("<code>")
+        .append(string)
+        .append("</code>");
+    return this;
+  }
 
-    public HtmlStringBuilder insertLineBreak() {
-        stringBuilder.append("<br />");
-        return this;
-    }
+  public HtmlStringBuilder insertLineBreak() {
+    stringBuilder.append("<br />");
+    return this;
+  }
 
 }

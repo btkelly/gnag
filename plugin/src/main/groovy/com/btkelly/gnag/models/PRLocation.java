@@ -19,29 +19,30 @@ import org.jetbrains.annotations.NotNull;
 
 public final class PRLocation {
 
-    @NotNull
-    private final String relativeFilePath;
+  @NotNull
+  private final String relativeFilePath;
 
-    private final int diffLineIndex;
+  private final int diffLineIndex;
 
-    public PRLocation(@NotNull final String relativeFilePath, final int diffLineIndex) {
-        this.relativeFilePath = relativeFilePath;
-        this.diffLineIndex = diffLineIndex;
-    }
+  public PRLocation(@NotNull final String relativeFilePath, final int diffLineIndex) {
+    this.relativeFilePath = relativeFilePath;
+    this.diffLineIndex = diffLineIndex;
+  }
 
-    @NotNull
-    public String getRelativeFilePath() {
-        return relativeFilePath;
-    }
+  @NotNull
+  public String getRelativeFilePath() {
+    return relativeFilePath;
+  }
 
-    public int getDiffLineIndex() {
-        return diffLineIndex;
-    }
+  public int getDiffLineIndex() {
+    return diffLineIndex;
+  }
 
-    @Override public String toString() {
-        return "PRLocation{" +
-               "relativeFilePath='" + relativeFilePath + '\'' +
-               ", diffLineIndex=" + diffLineIndex +
-               '}';
-    }
+  @Override
+  public String toString() {
+    return "PRLocation{" +
+        "relativeFilePath='" + relativeFilePath + '\'' +
+        ", diffLineIndex=" + diffLineIndex +
+        '}';
+  }
 }

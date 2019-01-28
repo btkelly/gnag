@@ -15,50 +15,49 @@
  */
 package com.btkelly.gnag.utils;
 
-import com.btkelly.gnag.models.Violation;
-import org.jetbrains.annotations.NotNull;
+import static com.btkelly.gnag.models.Violation.COMPARATOR;
 
+import com.btkelly.gnag.models.Violation;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static com.btkelly.gnag.models.Violation.COMPARATOR;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Creates formatted HTML strings representing collections of violations.
  */
 public final class ViolationsFormatter {
 
-    public static String getHtmlStringForAggregatedComment(@NotNull final Set<Violation> violations) {
-        final Map<String, List<Violation>> reporterViolationsMap = violations
-                .stream()
-                .collect(Collectors.groupingBy(Violation::getReporterName));
+  private ViolationsFormatter() {
 
-        final HtmlStringBuilder builder = new HtmlStringBuilder();
+  }
 
-        for (final Map.Entry<String, List<Violation>> entry : reporterViolationsMap.entrySet()) {
-            builder
-                    .append("<h2>")
-                    .append(entry.getKey() + " Violations")
-                    .append("</h2>");
+  public static String getHtmlStringForAggregatedComment(@NotNull final Set<Violation> violations) {
+    final Map<String, List<Violation>> reporterViolationsMap = violations
+        .stream()
+        .collect(Collectors.groupingBy(Violation::getReporterName));
 
-            final List<Violation> reporterViolations = entry.getValue();
-            reporterViolations.sort(COMPARATOR);
+    final HtmlStringBuilder builder = new HtmlStringBuilder();
 
-            for (final Violation violation : reporterViolations) {
-                builder
-                        .append(ViolationFormatter.getHtmlStringForAggregatedComment(violation))
-                        .insertLineBreak()
-                        .insertLineBreak();
-            }
-        }
+    for (final Map.Entry<String, List<Violation>> entry : reporterViolationsMap.entrySet()) {
+      builder
+          .append("<h2>")
+          .append(entry.getKey() + " Violations")
+          .append("</h2>");
 
-        return builder.toString();
+      final List<Violation> reporterViolations = entry.getValue();
+      reporterViolations.sort(COMPARATOR);
+
+      for (final Violation violation : reporterViolations) {
+        builder
+            .append(ViolationFormatter.getHtmlStringForAggregatedComment(violation))
+            .insertLineBreak()
+            .insertLineBreak();
+      }
     }
 
-    private ViolationsFormatter() {
-
-    }
+    return builder.toString();
+  }
 
 }

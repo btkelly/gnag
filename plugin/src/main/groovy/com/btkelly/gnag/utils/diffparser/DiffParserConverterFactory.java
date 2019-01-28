@@ -18,42 +18,44 @@ package com.btkelly.gnag.utils.diffparser;
 import com.github.stkent.githubdiffparser.GitHubDiffParser;
 import com.github.stkent.githubdiffparser.models.Diff;
 import com.google.common.reflect.TypeToken;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+import java.util.List;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import org.jetbrains.annotations.NotNull;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
-import java.util.List;
-
 public class DiffParserConverterFactory extends Converter.Factory {
 
-    public static DiffParserConverterFactory create() {
-        return new DiffParserConverterFactory(new GitHubDiffParser());
+  private final GitHubDiffParser diffParser;
+
+  private DiffParserConverterFactory(@NotNull final GitHubDiffParser diffParser) {
+    this.diffParser = diffParser;
+  }
+
+  public static DiffParserConverterFactory create() {
+    return new DiffParserConverterFactory(new GitHubDiffParser());
+  }
+
+  @Override
+  public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations,
+      Retrofit retrofit) {
+    final Type diffListType = new TypeToken<List<Diff>>() {
+    }.getType();
+
+    if (diffListType.equals(type)) {
+      return new DiffParserResponseBodyConverter(diffParser);
     }
 
-    private final GitHubDiffParser diffParser;
+    return null;
+  }
 
-    private DiffParserConverterFactory(@NotNull final GitHubDiffParser diffParser) {
-        this.diffParser = diffParser;
-    }
-
-    @Override
-    public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
-        final Type diffListType = new TypeToken<List<Diff>>() {}.getType();
-
-        if (diffListType.equals(type)) {
-            return new DiffParserResponseBodyConverter(diffParser);
-        }
-
-        return null;
-    }
-
-    @Override
-    public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
-        return null;
-    }
+  @Override
+  public Converter<?, RequestBody> requestBodyConverter(Type type,
+      Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
+    return null;
+  }
 
 }

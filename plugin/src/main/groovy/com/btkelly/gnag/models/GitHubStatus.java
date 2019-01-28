@@ -20,22 +20,22 @@ package com.btkelly.gnag.models;
  */
 public class GitHubStatus {
 
-    private String state;
-    private String description;
-    private String context;
+  private String state;
+  private String description;
+  private String context;
 
-    public GitHubStatus(GitHubStatusType state, String moduleName) {
-        this.state = state.toString();
-        this.description = state.getDescription();
-        this.context = String.format("gnag/%s", moduleName);
-    }
+  public GitHubStatus(GitHubStatusType state, String moduleName) {
+    this.state = state.toString();
+    this.description = state.getDescription();
+    this.context = String.format("gnag/%s", moduleName);
+  }
 
-    @Override
-    public String toString() {
-        return "GitHubStatus{" +
-                "state='" + state + '\'' +
-                ", description='" + description + '\'' +
-                ", context='" + context + '\'' +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "GitHubStatus{" +
+        "state='" + state + '\'' +
+        ", description='" + description + '\'' +
+        ", context='" + context + '\'' +
+        '}';
+  }
 }

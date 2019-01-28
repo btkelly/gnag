@@ -15,11 +15,10 @@
  */
 package com.btkelly.gnag.api;
 
+import java.io.IOException;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
-
-import java.io.IOException;
 
 /**
  * User-Agent header is required by GitHub API v3, see
@@ -27,14 +26,14 @@ import java.io.IOException;
  */
 public class UserAgentInterceptor implements Interceptor {
 
-    @Override
-    public Response intercept(final Chain chain) throws IOException {
-        final Request request = chain.request()
-                .newBuilder()
-                .addHeader("User-Agent", "btkelly-gnag")
-                .build();
+  @Override
+  public Response intercept(final Chain chain) throws IOException {
+    final Request request = chain.request()
+        .newBuilder()
+        .addHeader("User-Agent", "btkelly-gnag")
+        .build();
 
-        return chain.proceed(request);
-    }
+    return chain.proceed(request);
+  }
 
 }

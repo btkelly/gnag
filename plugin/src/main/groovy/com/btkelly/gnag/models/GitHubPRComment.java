@@ -20,16 +20,16 @@ package com.btkelly.gnag.models;
  */
 public class GitHubPRComment {
 
-    private final String body;
+  private final String body;
 
-    public GitHubPRComment(String body) {
-        this.body = body;
-    }
+  public GitHubPRComment(String body) {
+    this.body = body;
+  }
 
-    @Override
-    public String toString() {
-        return "GitHubPRComment{" +
-                "body='" + body + '\'' +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "GitHubPRComment{" +
+        "body='" + body + '\'' +
+        '}';
+  }
 }
