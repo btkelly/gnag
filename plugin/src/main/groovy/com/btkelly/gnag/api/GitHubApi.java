@@ -22,10 +22,10 @@ import com.btkelly.gnag.utils.gson.GsonConverterFactory;
 import com.github.stkent.githubdiffparser.models.Diff;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import okhttp3.logging.HttpLoggingInterceptor.Level;
 import org.gradle.api.GradleException;
 import org.gradle.api.logging.Logger;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.LoggerFactory;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,18 +45,19 @@ public class GitHubApi {
     private final GitHubApiClient gitHubApiClient;
     private final GitHubExtension gitHubExtension;
     private final Executor singleThreadExecutor;
+    private final Logger logger;
 
-    public GitHubApi(final GitHubExtension gitHubExtension) {
+    public GitHubApi(final GitHubExtension gitHubExtension, Logger logger) {
         this.gitHubExtension = gitHubExtension;
         this.singleThreadExecutor = Executors.newSingleThreadExecutor();
+        this.logger = logger;
 
-        org.slf4j.Logger gradleLogger = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-        HttpLoggingInterceptor.Logger logger = gradleLogger::info;
+        HttpLoggingInterceptor.Logger loggingInterceptor = logger::debug;
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(new UserAgentInterceptor())
                 .addInterceptor(new AuthInterceptor(gitHubExtension.getAuthToken()))
-                .addInterceptor(new HttpLoggingInterceptor(logger).setLevel(HttpLoggingInterceptor.Level.BASIC))
+                .addInterceptor(new HttpLoggingInterceptor(loggingInterceptor).setLevel(Level.BODY))
                 .build();
 
         String baseUrl = gitHubExtension.getRootUrl() + gitHubExtension.getRepoName() + "/";
@@ -72,6 +73,7 @@ public class GitHubApi {
     }
 
     public void postGitHubPRCommentAsync(final String comment) {
+        logger.debug("postGitHubPRCommentAsync: " + comment);
         gitHubApiClient.postPRComment(new GitHubPRComment(comment), gitHubExtension.getIssueNumber())
                 .enqueue(new DefaultCallback<>());
     }
@@ -80,6 +82,9 @@ public class GitHubApi {
             final GitHubStatusType gitHubStatusType,
             final String moduleName,
             final String prSha) {
+        logger.debug("postUpdatedGitHubStatusAsync - Status: " + gitHubStatusType);
+        logger.debug("postUpdatedGitHubStatusAsync - Module Name: " + gitHubStatusType);
+        logger.debug("postUpdatedGitHubStatusAsync - PR Sha: " + gitHubStatusType);
 
         singleThreadExecutor.execute(() -> {
 
@@ -91,7 +96,9 @@ public class GitHubApi {
                     isSuccessful = gitHubApiClient.postUpdatedStatus(new GitHubStatus(gitHubStatusType, moduleName), prSha)
                             .execute()
                             .isSuccessful();
+                    logger.debug("postUpdatedGitHubStatusAsync - isSuccessful: " + isSuccessful + ", retry count: " + retryCount);
                 } catch (IOException e) {
+                    logger.debug("postUpdatedGitHubStatusAsync - Error retry count: " + retryCount, e);
                     e.printStackTrace();
                 }
 
@@ -110,6 +117,8 @@ public class GitHubApi {
                         + gitHubPRDetailsResponse.code() + " " + gitHubPRDetailsResponse.message());
             }
 
+            logger.debug("getPRDetailsSync - response: " + gitHubPRDetailsResponse.body());
+
             return gitHubPRDetailsResponse.body();
         } catch (IOException e) {
             throw new GradleException("Failed to fetch PR details.", e);
@@ -122,8 +131,11 @@ public class GitHubApi {
             final Response<List<Diff>> gitHubPRDiffsResponse
                     = gitHubApiClient.getPRDiffs(gitHubExtension.getIssueNumber()).execute();
 
+            logger.debug("getPRDiffsSync - isSuccessful: " + gitHubPRDiffsResponse.isSuccessful());
+
             return gitHubPRDiffsResponse.body();
         } catch (final Exception e) {
+            logger.debug("getPRDiffsSync - Error", e);
             e.printStackTrace();
             return new ArrayList<>();
         }
@@ -133,17 +145,21 @@ public class GitHubApi {
             @NotNull final String body,
             @NotNull final String prSha,
             @NotNull final PRLocation prLocation) {
+        logger.debug("postGitHubInlineCommentSync - Body: " + body);
+        logger.debug("postGitHubInlineCommentSync - PR Sha: " + prSha);
+        logger.debug("postGitHubInlineCommentSync - PR Location: " + prLocation);
 
         try {
             gitHubApiClient.postInlineComment(
                     new GitHubInlineComment(body, prSha, prLocation), gitHubExtension.getIssueNumber())
                     .execute();
         } catch (final Exception e) {
+            logger.debug("postGitHubInlineCommentSync - Error", e);
             e.printStackTrace();
         }
     }
 
-    private static final class DefaultCallback<T> implements Callback<T> {
+    private final class DefaultCallback<T> implements Callback<T> {
 
         private DefaultCallback() {
             // This constructor intentionally left blank.
@@ -151,11 +167,12 @@ public class GitHubApi {
 
         @Override
         public void onResponse(final Call<T> call, final Response<T> response) {
-            // This method intentionally left blank.
+            logger.debug(call.toString() + " - onResponse" + response);
         }
 
         @Override
         public void onFailure(final Call<T> call, final Throwable t) {
+            logger.debug(call.toString() + " - onFailure", t);
             t.printStackTrace();
         }
 

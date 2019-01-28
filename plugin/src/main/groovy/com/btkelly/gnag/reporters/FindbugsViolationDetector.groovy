@@ -21,7 +21,6 @@ import com.btkelly.gnag.reporters.utils.LineNumberParser
 import com.btkelly.gnag.reporters.utils.PathCalculator
 import edu.umd.cs.findbugs.anttask.FindBugsTask
 import groovy.util.slurpersupport.GPathResult
-import org.apache.commons.io.FilenameUtils
 import org.apache.tools.ant.types.FileSet
 import org.apache.tools.ant.types.Path
 import org.gradle.api.Project
@@ -30,6 +29,7 @@ import java.util.stream.Collectors
 
 import static com.btkelly.gnag.utils.StringUtils.sanitizePreservingNulls
 import static com.btkelly.gnag.utils.StringUtils.sanitizeToNonNull
+
 /**
  * Created by bobbake4 on 4/1/16.
  */
@@ -127,7 +127,8 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
                 final Integer lineNumber = LineNumberParser.parseLineNumberString(
                         lineNumberString,
                         name(),
-                        violationType)
+                        violationType,
+                        project.getLogger())
 
                 result.add(new Violation(
                         violationType,

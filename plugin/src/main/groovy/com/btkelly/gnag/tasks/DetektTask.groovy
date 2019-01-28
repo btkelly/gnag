@@ -15,9 +15,13 @@
  */
 package com.btkelly.gnag.tasks
 
+
 import com.btkelly.gnag.utils.ProjectHelper
 import org.gradle.api.Task
 import org.gradle.api.tasks.JavaExec
+
+import static com.btkelly.gnag.GnagPlugin.STD_ERR_LOG_LEVEL
+import static com.btkelly.gnag.GnagPlugin.STD_OUT_LOG_LEVEL
 
 final class DetektTask {
 
@@ -29,7 +33,7 @@ final class DetektTask {
         taskOptions.put(Task.TASK_GROUP, "Verification")
         taskOptions.put(Task.TASK_DESCRIPTION, "Runs detekt and generates an XML report for parsing by Gnag")
 
-        projectHelper.project.task(taskOptions, "gnagDetekt") { task ->
+        final Task result = projectHelper.project.task(taskOptions, "gnagDetekt") { task ->
             main = "io.gitlab.arturbosch.detekt.cli.Main"
             classpath = projectHelper.project.configurations.gnagDetekt
             ignoreExitValue = true
@@ -41,6 +45,11 @@ final class DetektTask {
                 args "--config", "$reporterConfig"
             }
         }
+
+        result.logging.captureStandardOutput(STD_OUT_LOG_LEVEL)
+        result.logging.captureStandardError(STD_ERR_LOG_LEVEL)
+
+        return result
     }
 
     private DetektTask() {
