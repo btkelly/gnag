@@ -16,7 +16,12 @@
 package com.btkelly.gnag
 
 import com.btkelly.gnag.extensions.GnagPluginExtension
+import com.btkelly.gnag.tasks.GnagAndroidLintCheckTask
+import com.btkelly.gnag.tasks.GnagCStyleCheckTask
 import com.btkelly.gnag.tasks.GnagCheckTask
+import com.btkelly.gnag.tasks.GnagDetektCheckTask
+import com.btkelly.gnag.tasks.GnagFindBugCheckTask
+import com.btkelly.gnag.tasks.GnagPmdCheckTask
 import com.btkelly.gnag.tasks.GnagReportTask
 import com.btkelly.gnag.utils.ProjectHelper
 import org.gradle.api.AntBuilder
@@ -50,6 +55,13 @@ class GnagPlugin implements Plugin<Project> {
             ProjectHelper projectHelper = new ProjectHelper(evaluatedProject)
 
             GnagCheckTask.addTask(projectHelper, gnagPluginExtension)
+
+            GnagPmdCheckTask.addTask(projectHelper, gnagPluginExtension)
+            GnagCStyleCheckTask.addTask(projectHelper, gnagPluginExtension)
+            GnagFindBugCheckTask.addTask(projectHelper, gnagPluginExtension)
+            GnagDetektCheckTask.addTask(projectHelper, gnagPluginExtension)
+            GnagAndroidLintCheckTask.addTask(projectHelper, gnagPluginExtension)
+
             GnagReportTask.addTask(projectHelper, gnagPluginExtension.github)
         }
     }
