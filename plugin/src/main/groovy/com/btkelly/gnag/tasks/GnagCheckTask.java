@@ -31,7 +31,7 @@ import java.util.Map;
  */
 public class GnagCheckTask extends BaseGnagCheckTask implements GnagCheckViolationResolver{
 
-  private static final String TASK_NAME = "gnagCheck";
+  static final String TASK_NAME = "gnagCheck";
   private List<GnagCheckViolationResolver> violationResolvers = new ArrayList<>();
 
   public static void addTask(ProjectHelper projectHelper, GnagPluginExtension gnagPluginExtension) {
