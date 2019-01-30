@@ -71,7 +71,7 @@ class GnagPlugin implements Plugin<Project> {
             tasks.add(GnagDetektTask.addTask(projectHelper, gnagPluginExtension))
             tasks.add(GnagAndroidLintTask.addTask(projectHelper, gnagPluginExtension))
 
-            GnagCheckTask.addTask(projectHelper, gnagPluginExtension, subTasks)
+            GnagCheckTask.addTask(projectHelper, gnagPluginExtension, tasks)
 
             GnagReportTask.addTask(projectHelper, gnagPluginExtension.github)
         }

@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GnagPmdTask extends BaseGnagCheckTask implements ViolationResolver {
-    private static final String TASK_NAME = "gnagCheckPmd";
+    private static final String TASK_NAME = "gnagPmd";
 
     public static BaseGnagCheckTask addTask(ProjectHelper projectHelper, GnagPluginExtension gnagPluginExtension) {
         Map<String, Object> taskOptions = new HashMap<>();
