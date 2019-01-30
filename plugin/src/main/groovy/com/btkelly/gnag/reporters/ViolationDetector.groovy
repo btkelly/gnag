@@ -28,4 +28,6 @@ interface ViolationDetector {
 
     List<Violation> getDetectedViolations()
 
+    boolean isEnabled()
+
 }

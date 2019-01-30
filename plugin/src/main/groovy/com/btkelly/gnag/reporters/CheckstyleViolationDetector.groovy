@@ -29,8 +29,8 @@ class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
 
     private final CheckstyleParser checkstyleParser = new CheckstyleParser()
 
-    CheckstyleViolationDetector(final Project project, final ReporterExtension reporterExtension) {
-        super(project, reporterExtension)
+    CheckstyleViolationDetector(final Project project, final boolean isEnabled, final ReporterExtension reporterExtension) {
+        super(project, isEnabled, reporterExtension)
     }
 
     @Override

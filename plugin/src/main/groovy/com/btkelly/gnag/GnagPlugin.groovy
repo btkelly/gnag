@@ -16,12 +16,15 @@
 package com.btkelly.gnag
 
 import com.btkelly.gnag.extensions.GnagPluginExtension
-import com.btkelly.gnag.tasks.GnagAndroidLintCheckTask
-import com.btkelly.gnag.tasks.GnagCStyleCheckTask
+import com.btkelly.gnag.tasks.BaseGnagCheckTask
+import com.btkelly.gnag.tasks.GnagDetektTask
+import com.btkelly.gnag.tasks.GnagAndroidLintTask
+import com.btkelly.gnag.tasks.GnagCheckStyleTask
 import com.btkelly.gnag.tasks.GnagCheckTask
-import com.btkelly.gnag.tasks.GnagDetektCheckTask
-import com.btkelly.gnag.tasks.GnagFindBugCheckTask
-import com.btkelly.gnag.tasks.GnagPmdCheckTask
+
+import com.btkelly.gnag.tasks.GnagFindBugsTask
+import com.btkelly.gnag.tasks.GnagKtlintTask
+import com.btkelly.gnag.tasks.GnagPmdTask
 import com.btkelly.gnag.tasks.GnagReportTask
 import com.btkelly.gnag.utils.ProjectHelper
 import org.gradle.api.AntBuilder
@@ -51,16 +54,24 @@ class GnagPlugin implements Plugin<Project> {
         project.configurations.create("gnagDetekt")
         project.dependencies.add("gnagDetekt", "io.gitlab.arturbosch.detekt:detekt-cli:1.0.0.RC7-3")
 
+        String overrideToolVersion = gnagPluginExtension.ktlint.getToolVersion()
+        String toolVersion = overrideToolVersion != null ? overrideToolVersion : "0.24.0"
+        project.configurations.create("gnagKtlint")
+        project.dependencies.add("gnagKtlint", "com.github.shyiko:ktlint:" + toolVersion)
+
         project.afterEvaluate { evaluatedProject ->
             ProjectHelper projectHelper = new ProjectHelper(evaluatedProject)
 
-            GnagCheckTask.addTask(projectHelper, gnagPluginExtension)
+            List<BaseGnagCheckTask> tasks = new ArrayList<>()
 
-            GnagPmdCheckTask.addTask(projectHelper, gnagPluginExtension)
-            GnagCStyleCheckTask.addTask(projectHelper, gnagPluginExtension)
-            GnagFindBugCheckTask.addTask(projectHelper, gnagPluginExtension)
-            GnagDetektCheckTask.addTask(projectHelper, gnagPluginExtension)
-            GnagAndroidLintCheckTask.addTask(projectHelper, gnagPluginExtension)
+            tasks.add(GnagCheckStyleTask.addTask(projectHelper, gnagPluginExtension))
+            tasks.add(GnagPmdTask.addTask(projectHelper, gnagPluginExtension))
+            tasks.add(GnagFindBugsTask.addTask(projectHelper, gnagPluginExtension))
+            tasks.add(GnagKtlintTask.addTask(projectHelper, gnagPluginExtension))
+            tasks.add(GnagDetektTask.addTask(projectHelper, gnagPluginExtension))
+            tasks.add(GnagAndroidLintTask.addTask(projectHelper, gnagPluginExtension))
+
+            GnagCheckTask.addTask(projectHelper, gnagPluginExtension, subTasks)
 
             GnagReportTask.addTask(projectHelper, gnagPluginExtension.github)
         }

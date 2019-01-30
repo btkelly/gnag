@@ -16,12 +16,13 @@
 package com.btkelly.gnag.tasks;
 
 import com.btkelly.gnag.extensions.GnagPluginExtension;
+import com.btkelly.gnag.reporters.ViolationDetectorFactory;
+import com.btkelly.gnag.reporters.ViolationResolver;
 import com.btkelly.gnag.utils.ProjectHelper;
 
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,12 +30,11 @@ import java.util.Map;
 /**
  * Created by bobbake4 on 4/1/16.
  */
-public class GnagCheckTask extends BaseGnagCheckTask implements GnagCheckViolationResolver{
+public class GnagCheckTask extends BaseGnagCheckTask implements ViolationResolver {
 
   static final String TASK_NAME = "gnagCheck";
-  private List<GnagCheckViolationResolver> violationResolvers = new ArrayList<>();
 
-  public static void addTask(ProjectHelper projectHelper, GnagPluginExtension gnagPluginExtension) {
+  public static void addTask(ProjectHelper projectHelper, GnagPluginExtension gnagPluginExtension, List<BaseGnagCheckTask> subTasks) {
     Map<String, Object> taskOptions = new HashMap<>();
 
     taskOptions.put(Task.TASK_NAME, TASK_NAME);
@@ -47,21 +47,13 @@ public class GnagCheckTask extends BaseGnagCheckTask implements GnagCheckViolati
 
     GnagCheckTask gnagCheckTask = (GnagCheckTask) project.task(taskOptions, TASK_NAME);
     gnagCheckTask.setGnagPluginExtension(gnagPluginExtension);
-
-    gnagCheckTask.violationResolvers.add(new GnagCStyleCheckTask());
-    gnagCheckTask.violationResolvers.add(new GnagPmdCheckTask());
-    gnagCheckTask.violationResolvers.add(new GnagFindBugCheckTask());
-    gnagCheckTask.violationResolvers.add(new GnagKtLintCheckTask());
-    gnagCheckTask.violationResolvers.add(new GnagDetektCheckTask());
-    gnagCheckTask.violationResolvers.add(new GnagAndroidLintCheckTask());
+    gnagCheckTask.dependsOn(subTasks);
 
     gnagCheckTask.resolve(project);
   }
 
   @Override
   public void resolve(Project project) {
-    for (GnagCheckViolationResolver violationResolver : violationResolvers) {
-      violationResolver.resolve(project);
-    }
+    violationDetectors.addAll(ViolationDetectorFactory.getAllViolationDetector(project, gnagPluginExtension));
   }
 }

@@ -33,8 +33,8 @@ import static com.btkelly.gnag.utils.StringUtils.sanitizeToNonNull
  */
 class PMDViolationDetector extends BaseExecutedViolationDetector {
 
-    PMDViolationDetector(final Project project, final ReporterExtension reporterExtension) {
-        super(project, reporterExtension)
+    PMDViolationDetector(final Project project, final boolean isEnabled, final ReporterExtension reporterExtension) {
+        super(project, isEnabled, reporterExtension)
     }
 
     @Override

@@ -16,7 +16,8 @@
 package com.btkelly.gnag.tasks;
 
 import com.btkelly.gnag.extensions.GnagPluginExtension;
-import com.btkelly.gnag.reporters.AndroidLintViolationDetector;
+import com.btkelly.gnag.reporters.ViolationDetectorFactory;
+import com.btkelly.gnag.reporters.ViolationResolver;
 import com.btkelly.gnag.utils.ProjectHelper;
 
 import org.gradle.api.Project;
@@ -25,29 +26,29 @@ import org.gradle.api.Task;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GnagAndroidLintCheckTask extends BaseGnagCheckTask implements GnagCheckViolationResolver {
-    private static final String TASK_NAME = "gnagCheckAndroidLint";
+public class GnagPmdTask extends BaseGnagCheckTask implements ViolationResolver {
+    private static final String TASK_NAME = "gnagCheckPmd";
 
-    public static void addTask(ProjectHelper projectHelper, GnagPluginExtension gnagPluginExtension) {
+    public static BaseGnagCheckTask addTask(ProjectHelper projectHelper, GnagPluginExtension gnagPluginExtension) {
         Map<String, Object> taskOptions = new HashMap<>();
 
         taskOptions.put(Task.TASK_NAME, TASK_NAME);
-        taskOptions.put(Task.TASK_TYPE, GnagAndroidLintCheckTask.class);
+        taskOptions.put(Task.TASK_TYPE, GnagPmdTask.class);
         taskOptions.put(Task.TASK_GROUP, "Verification");
         taskOptions.put(Task.TASK_DEPENDS_ON, "check");
-        taskOptions.put(Task.TASK_DESCRIPTION, "Runs Android Lint checks and generates an HTML report");
+        taskOptions.put(Task.TASK_DESCRIPTION, "Runs PMD checks and generates an HTML report");
 
         Project project = projectHelper.getProject();
 
-        GnagAndroidLintCheckTask gnagCheckTask = (GnagAndroidLintCheckTask) project.task(taskOptions, TASK_NAME);
+        GnagPmdTask gnagCheckTask = (GnagPmdTask) project.task(taskOptions, TASK_NAME);
         gnagCheckTask.setGnagPluginExtension(gnagPluginExtension);
         gnagCheckTask.resolve(project);
+
+        return gnagCheckTask;
     }
 
     @Override
     public void resolve(Project project) {
-        if (projectHelper.isAndroidProject() && gnagPluginExtension.androidLint.isEnabled()) {
-            violationDetectors.add(new AndroidLintViolationDetector(project, gnagPluginExtension.androidLint));
-        }
+        violationDetectors.add(ViolationDetectorFactory.getPmdViolationDetector(project, gnagPluginExtension));
     }
 }

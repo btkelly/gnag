@@ -15,21 +15,27 @@
  */
 package com.btkelly.gnag.tasks
 
+import com.btkelly.gnag.extensions.GnagPluginExtension
+import com.btkelly.gnag.reporters.ViolationDetectorFactory
+import com.btkelly.gnag.reporters.ViolationResolver
 import com.btkelly.gnag.utils.ProjectHelper
+import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.tasks.JavaExec
 
-final class KtlintTask {
+class GnagKtlintTask extends BaseGnagCheckTask implements ViolationResolver {
+    private static final String TASK_NAME = "gnagKtlint"
 
-    static Task addTask(ProjectHelper projectHelper) {
+    static BaseGnagCheckTask addTask(ProjectHelper projectHelper, GnagPluginExtension gnagPluginExtension) {
         Map<String, Object> taskOptions = new HashMap<>()
 
-        taskOptions.put(Task.TASK_NAME, "gnagKtlint")
+        taskOptions.put(Task.TASK_NAME, TASK_NAME)
         taskOptions.put(Task.TASK_TYPE, JavaExec.class)
         taskOptions.put(Task.TASK_GROUP, "Verification")
-        taskOptions.put(Task.TASK_DESCRIPTION, "Runs ktlint and generates an XML report for parsing by Gnag")
+        taskOptions.put(Task.TASK_DEPENDS_ON, "check")
+        taskOptions.put(Task.TASK_DESCRIPTION, "Runs ktlint and generates an XML report")
 
-        return projectHelper.project.task(taskOptions, "gnagKtlint") { task ->
+        final GnagKtlintTask result = (GnagKtlintTask) projectHelper.project.task(taskOptions, TASK_NAME) { task ->
             main = "com.github.shyiko.ktlint.Main"
             classpath = projectHelper.project.configurations.gnagKtlint
             ignoreExitValue = true
@@ -39,10 +45,19 @@ final class KtlintTask {
                 args "${sourceFile.absoluteFile}"
             }
         }
+
+        result.setGnagPluginExtension(gnagPluginExtension)
+        result.resolve(projectHelper.project)
+
+        return result
     }
 
-    private KtlintTask() {
+    private GnagKtlintTask() {
         // This constructor intentionally left blank.
     }
 
+    @Override
+    void resolve(Project project) {
+        violationDetectors.add(ViolationDetectorFactory.getKtLintViolationDetector(project, gnagPluginExtension));
+    }
 }

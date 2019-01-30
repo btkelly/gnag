@@ -30,8 +30,8 @@ class DetektViolationDetector extends BaseViolationDetector {
     private final ProjectHelper projectHelper = new ProjectHelper(project)
     private final CheckstyleParser checkstyleParser = new CheckstyleParser()
 
-    DetektViolationDetector(final Project project, final ReporterExtension reporterExtension) {
-        super(project)
+    DetektViolationDetector(final Project project, final boolean isEnabled, final ReporterExtension reporterExtension) {
+        super(project, isEnabled)
         this.detektReporterExtension = reporterExtension
     }
 

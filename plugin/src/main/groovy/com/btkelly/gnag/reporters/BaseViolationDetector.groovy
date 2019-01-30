@@ -19,10 +19,16 @@ import org.gradle.api.Project
 
 abstract class BaseViolationDetector implements ViolationDetector {
 
+    protected final isEnabled
     protected final Project project
 
-    BaseViolationDetector(final Project project) {
+    BaseViolationDetector(final Project project, final isEnabled) {
         this.project = project
+        this.isEnabled = isEnabled
     }
 
+    @Override
+    boolean isEnabled() {
+        return isEnabled
+    }
 }

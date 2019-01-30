@@ -30,8 +30,8 @@ class KtlintViolationDetector extends BaseViolationDetector {
     private final ProjectHelper projectHelper = new ProjectHelper(project)
     private final CheckstyleParser checkstyleParser = new CheckstyleParser()
 
-    KtlintViolationDetector(final Project project, final ReporterExtension reporterExtension) {
-        super(project)
+    KtlintViolationDetector(final Project project, final boolean isEnabled, final ReporterExtension reporterExtension) {
+        super(project, isEnabled)
         this.ktlintReporterExtension = reporterExtension
     }
 

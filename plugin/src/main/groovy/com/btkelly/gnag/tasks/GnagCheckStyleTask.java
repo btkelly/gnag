@@ -16,7 +16,8 @@
 package com.btkelly.gnag.tasks;
 
 import com.btkelly.gnag.extensions.GnagPluginExtension;
-import com.btkelly.gnag.reporters.PMDViolationDetector;
+import com.btkelly.gnag.reporters.ViolationDetectorFactory;
+import com.btkelly.gnag.reporters.ViolationResolver;
 import com.btkelly.gnag.utils.ProjectHelper;
 
 import org.gradle.api.Project;
@@ -25,29 +26,29 @@ import org.gradle.api.Task;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GnagPmdCheckTask extends BaseGnagCheckTask implements GnagCheckViolationResolver {
-    private static final String TASK_NAME = "gnagCheckPmd";
+public class GnagCheckStyleTask extends BaseGnagCheckTask implements ViolationResolver {
+    private static final String TASK_NAME = "gnagCheckCStyle";
 
-    public static void addTask(ProjectHelper projectHelper, GnagPluginExtension gnagPluginExtension) {
+    public static BaseGnagCheckTask addTask(ProjectHelper projectHelper, GnagPluginExtension gnagPluginExtension) {
         Map<String, Object> taskOptions = new HashMap<>();
 
         taskOptions.put(Task.TASK_NAME, TASK_NAME);
-        taskOptions.put(Task.TASK_TYPE, GnagPmdCheckTask.class);
+        taskOptions.put(Task.TASK_TYPE, GnagCheckStyleTask.class);
         taskOptions.put(Task.TASK_GROUP, "Verification");
         taskOptions.put(Task.TASK_DEPENDS_ON, "check");
-        taskOptions.put(Task.TASK_DESCRIPTION, "Runs PMD checks and generates an HTML report");
+        taskOptions.put(Task.TASK_DESCRIPTION, "Runs Check Style checks and generates an HTML report");
 
         Project project = projectHelper.getProject();
 
-        GnagPmdCheckTask gnagCheckTask = (GnagPmdCheckTask) project.task(taskOptions, TASK_NAME);
+        GnagCheckStyleTask gnagCheckTask = (GnagCheckStyleTask) project.task(taskOptions, TASK_NAME);
         gnagCheckTask.setGnagPluginExtension(gnagPluginExtension);
         gnagCheckTask.resolve(project);
+
+        return gnagCheckTask;
     }
 
     @Override
     public void resolve(Project project) {
-        if (gnagPluginExtension.pmd.isEnabled() && projectHelper.hasJavaSourceFiles()) {
-            violationDetectors.add(new PMDViolationDetector(project, gnagPluginExtension.pmd));
-        }
+        violationDetectors.add(ViolationDetectorFactory.getCheckStyleViolationDetector(project, gnagPluginExtension));
     }
 }

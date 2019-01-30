@@ -15,25 +15,30 @@
  */
 package com.btkelly.gnag.tasks
 
-
+import com.btkelly.gnag.extensions.GnagPluginExtension
+import com.btkelly.gnag.reporters.ViolationDetectorFactory
+import com.btkelly.gnag.reporters.ViolationResolver
 import com.btkelly.gnag.utils.ProjectHelper
+import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.tasks.JavaExec
 
 import static com.btkelly.gnag.GnagPlugin.STD_ERR_LOG_LEVEL
 import static com.btkelly.gnag.GnagPlugin.STD_OUT_LOG_LEVEL
 
-final class DetektTask {
+final class GnagDetektTask extends BaseGnagCheckTask implements ViolationResolver {
+    private static final String TASK_NAME = "gnagDetekt"
 
-    static Task addTask(ProjectHelper projectHelper, final File reporterConfig) {
+    static Task addTask(ProjectHelper projectHelper, GnagPluginExtension gnagPluginExtension) {
         Map<String, Object> taskOptions = new HashMap<>()
 
-        taskOptions.put(Task.TASK_NAME, "gnagDetekt")
+        taskOptions.put(Task.TASK_NAME, TASK_NAME)
         taskOptions.put(Task.TASK_TYPE, JavaExec.class)
         taskOptions.put(Task.TASK_GROUP, "Verification")
-        taskOptions.put(Task.TASK_DESCRIPTION, "Runs detekt and generates an XML report for parsing by Gnag")
+        taskOptions.put(Task.TASK_DEPENDS_ON, "check")
+        taskOptions.put(Task.TASK_DESCRIPTION, "Runs detekt and generates an XML report")
 
-        final Task result = projectHelper.project.task(taskOptions, "gnagDetekt") { task ->
+        final result = (GnagDetektTask) projectHelper.project.task(taskOptions, TASK_NAME) { task ->
             main = "io.gitlab.arturbosch.detekt.cli.Main"
             classpath = projectHelper.project.configurations.gnagDetekt
             ignoreExitValue = true
@@ -41,19 +46,26 @@ final class DetektTask {
             args "--output", "${projectHelper.getReportsDir()}"
             args "--output-name", "${projectHelper.getDetektReportFileName()}"
 
-            if (reporterConfig != null) {
-                args "--config", "$reporterConfig"
+            if (gnagPluginExtension.detekt.reporterConfig != null) {
+                args "--config", "$gnagPluginExtension.detekt.reporterConfig"
             }
         }
 
         result.logging.captureStandardOutput(STD_OUT_LOG_LEVEL)
         result.logging.captureStandardError(STD_ERR_LOG_LEVEL)
 
+        result.setGnagPluginExtension(gnagPluginExtension)
+        result.resolve(projectHelper.project)
+
         return result
     }
 
-    private DetektTask() {
+    private GnagDetektTask() {
         // This constructor intentionally left blank.
     }
 
+    @Override
+    void resolve(Project project) {
+        violationDetectors.add(ViolationDetectorFactory.getDetektViolationDetector(project, gnagPluginExtension))
+    }
 }

@@ -42,8 +42,8 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
     private final Parser parser
     private final HtmlRenderer renderer
 
-    AndroidLintViolationDetector(final Project project, final AndroidLintExtension androidLintExtension) {
-        super(project)
+    AndroidLintViolationDetector(final Project project, final isEnabled, final AndroidLintExtension androidLintExtension) {
+        super(project, isEnabled)
         this.androidLintExtension = androidLintExtension
 
         final DataHolder options = PegdownOptionsAdapter.flexmarkOptions(FLEXMARK_GFM_OPTIONS)

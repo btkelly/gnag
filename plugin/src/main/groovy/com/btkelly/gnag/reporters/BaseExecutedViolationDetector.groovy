@@ -29,8 +29,8 @@ abstract class BaseExecutedViolationDetector extends BaseViolationDetector {
     protected final ReporterExtension reporterExtension
     protected final ProjectHelper projectHelper
 
-    BaseExecutedViolationDetector(final Project project, final ReporterExtension reporterExtension) {
-        super(project)
+    BaseExecutedViolationDetector(final Project project, final boolean isEnabled, final ReporterExtension reporterExtension) {
+        super(project, isEnabled)
         this.reporterExtension = reporterExtension
         this.projectHelper = new ProjectHelper(project)
     }

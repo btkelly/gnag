@@ -68,15 +68,17 @@ public abstract class BaseGnagCheckTask extends DefaultTask {
         final Set<Violation> allDetectedViolations = new HashSet<>();
 
         violationDetectors.forEach(violationDetector -> {
-            if (violationDetector instanceof BaseExecutedViolationDetector) {
-                ((BaseExecutedViolationDetector) violationDetector).executeReporter();
+            if (violationDetector.isEnabled()) {
+                if (violationDetector instanceof BaseExecutedViolationDetector) {
+                    ((BaseExecutedViolationDetector) violationDetector).executeReporter();
+                }
+
+                final List<Violation> detectedViolations = violationDetector.getDetectedViolations();
+                allDetectedViolations.addAll(detectedViolations);
+
+                getLogger().lifecycle(
+                        violationDetector.name() + " detected " + detectedViolations.size() + " violations.");
             }
-
-            final List<Violation> detectedViolations = violationDetector.getDetectedViolations();
-            allDetectedViolations.addAll(detectedViolations);
-
-            getLogger().lifecycle(
-                    violationDetector.name() + " detected " + detectedViolations.size() + " violations.");
         });
 
         final File reportsDir = projectHelper.getReportsDir();
