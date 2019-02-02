@@ -35,6 +35,7 @@ public class GnagPluginExtension {
   public AndroidLintExtension androidLint;
   private boolean enabled = true;
   private boolean failOnError = true;
+  private boolean useGitHubStatuses = true;
 
   public GnagPluginExtension(@NotNull Project project) {
     this.project = project;
@@ -91,9 +92,18 @@ public class GnagPluginExtension {
     this.failOnError = failOnError;
   }
 
+  public void setUseGitHubStatuses(boolean useGitHubStatuses) {
+    this.useGitHubStatuses = useGitHubStatuses;
+  }
+
   public boolean shouldFailOnError() {
     return project.hasProperty("failOnError") ? (Boolean) project.property("failOnError")
         : failOnError;
+  }
+
+  public boolean shouldUseGitHubStatuses() {
+    return project.hasProperty("useGitHubStatuses") ? (Boolean) project.property("useGitHubStatuses")
+        : useGitHubStatuses;
   }
 
   @Override
