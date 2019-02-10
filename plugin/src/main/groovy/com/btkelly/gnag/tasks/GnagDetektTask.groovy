@@ -19,6 +19,7 @@ import com.btkelly.gnag.extensions.GnagPluginExtension
 import com.btkelly.gnag.reporters.ViolationDetectorFactory
 import com.btkelly.gnag.reporters.ViolationResolver
 import com.btkelly.gnag.utils.ProjectHelper
+import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.tasks.JavaExec
@@ -26,21 +27,27 @@ import org.gradle.api.tasks.JavaExec
 import static com.btkelly.gnag.GnagPlugin.STD_ERR_LOG_LEVEL
 import static com.btkelly.gnag.GnagPlugin.STD_OUT_LOG_LEVEL
 
-final class GnagDetektTask extends BaseGnagCheckTask implements ViolationResolver {
+class GnagDetektTask extends BaseGnagCheckTask implements ViolationResolver {
     private static final String TASK_NAME = "gnagDetekt"
+    private static final String TASK_NAME_EXTERNAL = "gnagDetektExternal"
 
-    static Task addTask(ProjectHelper projectHelper, GnagPluginExtension gnagPluginExtension) {
-        Map<String, Object> taskOptions = new HashMap<>()
+    static BaseGnagCheckTask addTask(ProjectHelper projectHelper, GnagPluginExtension gnagPluginExtension) {
+        Map<String, Object> taskOptionsInternal = new HashMap<>()
+        taskOptionsInternal.put(Task.TASK_NAME, TASK_NAME)
+        taskOptionsInternal.put(Task.TASK_TYPE, GnagDetektTask.class)
+        taskOptionsInternal.put(Task.TASK_GROUP, "Verification")
+        taskOptionsInternal.put(Task.TASK_DESCRIPTION, "Runs detekt and generates an XML report")
 
-        taskOptions.put(Task.TASK_NAME, TASK_NAME)
-        taskOptions.put(Task.TASK_TYPE, JavaExec.class)
-        taskOptions.put(Task.TASK_GROUP, "Verification")
-        taskOptions.put(Task.TASK_DEPENDS_ON, "check")
-        taskOptions.put(Task.TASK_DESCRIPTION, "Runs detekt and generates an XML report")
+        Map<String, Object> taskOptionsExternal = new HashMap<>()
+        taskOptionsExternal.put(Task.TASK_NAME, TASK_NAME_EXTERNAL)
+        taskOptionsExternal.put(Task.TASK_TYPE, JavaExec.class)
+        taskOptionsExternal.put(Task.TASK_GROUP, "Verification")
+        taskOptionsExternal.put(Task.TASK_DEPENDS_ON, "check")
+        taskOptionsExternal.put(Task.TASK_DESCRIPTION, "Runs detekt and generates an XML report")
 
-        final result = (GnagDetektTask) projectHelper.project.task(taskOptions, TASK_NAME) { task ->
+        final result = (DefaultTask) projectHelper.project.task(taskOptionsExternal, TASK_NAME_EXTERNAL) { task ->
             main = "io.gitlab.arturbosch.detekt.cli.Main"
-            classpath = projectHelper.project.configurations.gnagDetekt
+            classpath = projectHelper.project.configurations.gnagDetektExternal
             ignoreExitValue = true
             args "--input", "${projectHelper.kotlinSourceFiles.join(',')}"
             args "--output", "${projectHelper.getReportsDir()}"
@@ -54,18 +61,18 @@ final class GnagDetektTask extends BaseGnagCheckTask implements ViolationResolve
         result.logging.captureStandardOutput(STD_OUT_LOG_LEVEL)
         result.logging.captureStandardError(STD_ERR_LOG_LEVEL)
 
-        result.setGnagPluginExtension(gnagPluginExtension)
-        result.resolve(projectHelper.project)
+        Project project = projectHelper.getProject()
+        GnagDetektTask gnagDetektTask = (GnagDetektTask) project.task(taskOptionsInternal, TASK_NAME)
+        gnagDetektTask.dependsOn(result)
 
-        return result
-    }
+        gnagDetektTask.setGnagPluginExtension(gnagPluginExtension)
+        gnagDetektTask.resolve(projectHelper.project)
 
-    private GnagDetektTask() {
-        // This constructor intentionally left blank.
+        return gnagDetektTask
     }
 
     @Override
     void resolve(Project project) {
-        violationDetectors.add(ViolationDetectorFactory.getDetektViolationDetector(project, gnagPluginExtension))
+        violationDetectors.add(ViolationDetectorFactory.getDetektViolationDetector(project, super.gnagPluginExtension))
     }
 }

@@ -51,13 +51,13 @@ class GnagPlugin implements Plugin<Project> {
         project.repositories.jcenter()
         // Unlikely to be missing in real projects; here for sample projects only.
 
-        project.configurations.create("gnagDetekt")
-        project.dependencies.add("gnagDetekt", "io.gitlab.arturbosch.detekt:detekt-cli:1.0.0.RC7-3")
+        project.configurations.create("gnagDetektExternal")
+        project.dependencies.add("gnagDetektExternal", "io.gitlab.arturbosch.detekt:detekt-cli:1.0.0.RC7-3")
 
         String overrideToolVersion = gnagPluginExtension.ktlint.getToolVersion()
         String toolVersion = overrideToolVersion != null ? overrideToolVersion : "0.24.0"
-        project.configurations.create("gnagKtlint")
-        project.dependencies.add("gnagKtlint", "com.github.shyiko:ktlint:" + toolVersion)
+        project.configurations.create("gnagKtlintExternal")
+        project.dependencies.add("gnagKtlintExternal", "com.github.shyiko:ktlint:" + toolVersion)
 
         project.afterEvaluate { evaluatedProject ->
             ProjectHelper projectHelper = new ProjectHelper(evaluatedProject)

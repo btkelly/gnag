@@ -19,25 +19,34 @@ import com.btkelly.gnag.extensions.GnagPluginExtension
 import com.btkelly.gnag.reporters.ViolationDetectorFactory
 import com.btkelly.gnag.reporters.ViolationResolver
 import com.btkelly.gnag.utils.ProjectHelper
+import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.tasks.JavaExec
 
+import java.util.logging.Logger
+
 class GnagKtlintTask extends BaseGnagCheckTask implements ViolationResolver {
     private static final String TASK_NAME = "gnagKtlint"
+    private static final String TASK_NAME_EXTERNAL = "gnagKtlintExternal"
 
     static BaseGnagCheckTask addTask(ProjectHelper projectHelper, GnagPluginExtension gnagPluginExtension) {
-        Map<String, Object> taskOptions = new HashMap<>()
+        Map<String, Object> taskOptionsInternal = new HashMap<>()
+        taskOptionsInternal.put(Task.TASK_NAME, TASK_NAME)
+        taskOptionsInternal.put(Task.TASK_TYPE, GnagKtlintTask.class)
+        taskOptionsInternal.put(Task.TASK_GROUP, "Verification")
+        taskOptionsInternal.put(Task.TASK_DESCRIPTION, "Runs ktlint and generates an XML report")
 
-        taskOptions.put(Task.TASK_NAME, TASK_NAME)
-        taskOptions.put(Task.TASK_TYPE, JavaExec.class)
-        taskOptions.put(Task.TASK_GROUP, "Verification")
-        taskOptions.put(Task.TASK_DEPENDS_ON, "check")
-        taskOptions.put(Task.TASK_DESCRIPTION, "Runs ktlint and generates an XML report")
+        Map<String, Object> taskOptionsExternal = new HashMap<>()
+        taskOptionsExternal.put(Task.TASK_NAME, TASK_NAME_EXTERNAL)
+        taskOptionsExternal.put(Task.TASK_TYPE, JavaExec.class)
+        taskOptionsExternal.put(Task.TASK_GROUP, "Verification")
+        taskOptionsExternal.put(Task.TASK_DEPENDS_ON, "check")
+        taskOptionsExternal.put(Task.TASK_DESCRIPTION, "Runs ktlint and generates an XML report")
 
-        final GnagKtlintTask result = (GnagKtlintTask) projectHelper.project.task(taskOptions, TASK_NAME) { task ->
+        final result = (DefaultTask) projectHelper.project.task(taskOptionsExternal, TASK_NAME_EXTERNAL) { task ->
             main = "com.github.shyiko.ktlint.Main"
-            classpath = projectHelper.project.configurations.gnagKtlint
+            classpath = projectHelper.project.configurations.gnagKtlintExternal
             ignoreExitValue = true
             args "--reporter=checkstyle,output=${projectHelper.getKtlintReportFile()}"
 
@@ -46,18 +55,18 @@ class GnagKtlintTask extends BaseGnagCheckTask implements ViolationResolver {
             }
         }
 
-        result.setGnagPluginExtension(gnagPluginExtension)
-        result.resolve(projectHelper.project)
+        Project project = projectHelper.getProject()
+        GnagKtlintTask gnagKtlintTask = (GnagKtlintTask) project.task(taskOptionsInternal, TASK_NAME)
+        gnagKtlintTask.dependsOn(result)
 
-        return result
-    }
+        gnagKtlintTask.gnagPluginExtension = gnagPluginExtension
+        gnagKtlintTask.resolve(projectHelper.project)
 
-    private GnagKtlintTask() {
-        // This constructor intentionally left blank.
+        return gnagKtlintTask
     }
 
     @Override
     void resolve(Project project) {
-        violationDetectors.add(ViolationDetectorFactory.getKtLintViolationDetector(project, gnagPluginExtension));
+        violationDetectors.add(ViolationDetectorFactory.getKtLintViolationDetector(project, super.gnagPluginExtension))
     }
 }
