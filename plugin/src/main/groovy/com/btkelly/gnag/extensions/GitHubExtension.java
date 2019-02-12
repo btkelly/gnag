@@ -22,77 +22,79 @@ import org.gradle.api.Project;
  */
 public final class GitHubExtension {
 
-    private final Project project;
+  private final Project project;
 
-    private String rootUrl;
-    private String repoName;
-    private String authToken;
-    private String issueNumber;
-    private boolean commentInline = true;
-    private boolean commentOnSuccess = true;
+  private String rootUrl;
+  private String repoName;
+  private String authToken;
+  private String issueNumber;
+  private boolean commentInline = true;
+  private boolean commentOnSuccess = true;
 
-    GitHubExtension(Project project) {
-        this.project = project;
-    }
+  GitHubExtension(Project project) {
+    this.project = project;
+  }
 
-    public void rootUrl(String rootUrl) {
-        this.rootUrl = rootUrl;
-    }
+  public void rootUrl(String rootUrl) {
+    this.rootUrl = rootUrl;
+  }
 
-    public String getRootUrl() {
-        return project.hasProperty("rootUrl") ? (String) project.property("rootUrl") : rootUrl != null ? rootUrl : "https://api.github.com/repos/";
-    }
+  public String getRootUrl() {
+    return project.hasProperty("rootUrl") ? (String) project.property("rootUrl")
+        : rootUrl != null ? rootUrl : "https://api.github.com/repos/";
+  }
 
-    public void repoName(String repoName) {
-        this.repoName = repoName;
-    }
+  public void repoName(String repoName) {
+    this.repoName = repoName;
+  }
 
-    public String getRepoName() {
-        return project.hasProperty("repoName") ? (String) project.property("repoName") : repoName;
-    }
+  public String getRepoName() {
+    return project.hasProperty("repoName") ? (String) project.property("repoName") : repoName;
+  }
 
-    public void authToken(String authToken) {
-        this.authToken = authToken;
-    }
+  public void authToken(String authToken) {
+    this.authToken = authToken;
+  }
 
-    public String getAuthToken() {
-        return project.hasProperty("authToken") ? (String) project.property("authToken") : authToken;
-    }
+  public String getAuthToken() {
+    return project.hasProperty("authToken") ? (String) project.property("authToken") : authToken;
+  }
 
-    public void issueNumber(String issueNumber) {
-        this.issueNumber = issueNumber;
-    }
+  public void issueNumber(String issueNumber) {
+    this.issueNumber = issueNumber;
+  }
 
-    public String getIssueNumber() {
-        return project.hasProperty("issueNumber") ? (String) project.property("issueNumber") : issueNumber;
-    }
+  public String getIssueNumber() {
+    return project.hasProperty("issueNumber") ? (String) project.property("issueNumber")
+        : issueNumber;
+  }
 
-    public boolean isCommentInline() {
-        return commentInline;
-    }
+  public boolean isCommentInline() {
+    return commentInline;
+  }
 
-    public void setCommentInline(final boolean commentInline) {
-        this.commentInline = commentInline;
-    }
+  public void setCommentInline(final boolean commentInline) {
+    this.commentInline = commentInline;
+  }
 
-    public boolean isCommentOnSuccess() {
-        return commentOnSuccess;
-    }
+  public boolean isCommentOnSuccess() {
+    return commentOnSuccess;
+  }
 
-    public void setCommentOnSuccess(final boolean commentOnSuccess) {
-        this.commentOnSuccess = commentOnSuccess;
-    }
+  public void setCommentOnSuccess(final boolean commentOnSuccess) {
+    this.commentOnSuccess = commentOnSuccess;
+  }
 
-    @Override
-    public String toString() {
-        return "GitHubExtension{" +
-                "project=" + project +
-                ", rootUrl='" + rootUrl + '\'' +
-                ", repoName='" + repoName + '\'' +
-                ", authToken='" + authToken + '\'' +
-                ", issueNumber='" + issueNumber + '\'' +
-                ", commentInline=" + commentInline +
-                ", commentOnSuccess=" + commentOnSuccess +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "GitHubExtension{" +
+        "project=" + project +
+        ", rootUrl='" + rootUrl + '\'' +
+        ", repoName='" + repoName + '\'' +
+        ", authToken='" + authToken + '\'' +
+        ", issueNumber='" + issueNumber + '\'' +
+        ", commentInline=" + commentInline +
+        ", commentOnSuccess=" + commentOnSuccess +
+        '}';
+  }
 }

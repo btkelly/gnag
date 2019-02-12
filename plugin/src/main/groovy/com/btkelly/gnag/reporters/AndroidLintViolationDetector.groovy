@@ -31,9 +31,7 @@ import static com.btkelly.gnag.extensions.AndroidLintExtension.SEVERITY_ERROR
 import static com.btkelly.gnag.extensions.AndroidLintExtension.SEVERITY_WARNING
 import static com.btkelly.gnag.utils.StringUtils.sanitizePreservingNulls
 import static com.btkelly.gnag.utils.StringUtils.sanitizeToNonNull
-import static com.vladsch.flexmark.profiles.pegdown.Extensions.AUTOLINKS
-import static com.vladsch.flexmark.profiles.pegdown.Extensions.FENCED_CODE_BLOCKS
-import static com.vladsch.flexmark.profiles.pegdown.Extensions.HARDWRAPS
+import static com.vladsch.flexmark.profiles.pegdown.Extensions.*
 
 class AndroidLintViolationDetector extends BaseViolationDetector {
 
@@ -60,36 +58,36 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
         final List<Violation> result = new ArrayList<>()
 
         xml.issue.findAll { severityEnabled((String) it.@severity.text()) }
-            .each { violation ->
-                final String violationType = sanitizeToNonNull((String) violation.@id.text())
+                .each { violation ->
+            final String violationType = sanitizeToNonNull((String) violation.@id.text())
 
-                final String commentInMarkdown = sanitizeToNonNull((String) violation.@message.text())
+            final String commentInMarkdown = sanitizeToNonNull((String) violation.@message.text())
 
-                final String notNullCommentInHtml = sanitizeToNonNull(renderer.render(parser.parse(commentInMarkdown)))
-                                                    .replaceAll("</?p>", "")
+            final String notNullCommentInHtml = sanitizeToNonNull(renderer.render(parser.parse(commentInMarkdown)))
+                    .replaceAll("</?p>", "")
 
-                final String nullableCommentInHtml = notNullCommentInHtml.isEmpty() ? null : notNullCommentInHtml
+            final String nullableCommentInHtml = notNullCommentInHtml.isEmpty() ? null : notNullCommentInHtml
 
-                final String lineNumberString = sanitizeToNonNull((String) violation.location.@line.text())
-                final Integer lineNumber = LineNumberParser.parseLineNumberString(
-                        lineNumberString,
-                        name(),
-                        violationType,
-                        project.getLogger())
+            final String lineNumberString = sanitizeToNonNull((String) violation.location.@line.text())
+            final Integer lineNumber = LineNumberParser.parseLineNumberString(
+                    lineNumberString,
+                    name(),
+                    violationType,
+                    project.getLogger())
 
-                final List<String> secondaryUrls = computeSecondaryUrls(
-                        sanitizePreservingNulls((String) violation.@urls.text()),
-                        nullableCommentInHtml)
+            final List<String> secondaryUrls = computeSecondaryUrls(
+                    sanitizePreservingNulls((String) violation.@urls.text()),
+                    nullableCommentInHtml)
 
-                result.add(new Violation(
-                        violationType,
-                        name(),
-                        nullableCommentInHtml,
-                        PathCalculator.calculatePathWithinProject(project, (String) violation.location.@file.text()),
-                        lineNumber,
-                        null,
-                        secondaryUrls))
-            }
+            result.add(new Violation(
+                    violationType,
+                    name(),
+                    nullableCommentInHtml,
+                    PathCalculator.calculatePathWithinProject(project, (String) violation.location.@file.text()),
+                    lineNumber,
+                    null,
+                    secondaryUrls))
+        }
 
         return result
     }
@@ -135,7 +133,7 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
         final List<String> result = new ArrayList<>()
 
         // Remove any URLs already present in the violation comment; no need to duplicate these.
-        for (final String parsedUrl: parsedUrls) {
+        for (final String parsedUrl : parsedUrls) {
             if (!nullableCommentInHtml.contains(parsedUrl)) {
                 result.add(parsedUrl)
             }

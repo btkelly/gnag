@@ -15,32 +15,31 @@
  */
 package com.btkelly.gnag.api;
 
+import java.io.IOException;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
 
 /**
  * Created by bobbake4 on 12/3/15.
  */
 public class AuthInterceptor implements Interceptor {
 
-    @NotNull
-    private final String authToken;
+  @NotNull
+  private final String authToken;
 
-    public AuthInterceptor(@NotNull final String authToken) {
-        this.authToken = authToken;
-    }
+  public AuthInterceptor(@NotNull final String authToken) {
+    this.authToken = authToken;
+  }
 
-    @Override
-    public Response intercept(Chain chain) throws IOException {
-        final Request request = chain.request()
-                .newBuilder()
-                .addHeader("Authorization", "token " + authToken)
-                .build();
+  @Override
+  public Response intercept(Chain chain) throws IOException {
+    final Request request = chain.request()
+        .newBuilder()
+        .addHeader("Authorization", "token " + authToken)
+        .build();
 
-        return chain.proceed(request);
-    }
+    return chain.proceed(request);
+  }
 }

@@ -16,27 +16,27 @@
 package com.btkelly.gnag.utils.gson;
 
 import com.google.gson.TypeAdapter;
+import java.io.IOException;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Converter;
-
-import java.io.IOException;
 
 /**
  * Created by bobbake4 on 4/28/16.
  */
 final class GsonRequestBodyConverter<T> implements Converter<T, RequestBody> {
-    private static final MediaType MEDIA_TYPE = MediaType.parse("application/json; charset=UTF-8");
 
-    private final TypeAdapter<T> adapter;
+  private static final MediaType MEDIA_TYPE = MediaType.parse("application/json; charset=UTF-8");
 
-    GsonRequestBodyConverter(TypeAdapter<T> adapter) {
-        this.adapter = adapter;
-    }
+  private final TypeAdapter<T> adapter;
 
-    @Override
-    public RequestBody convert(T value) throws IOException {
-        String body = adapter.toJson(value);
-        return RequestBody.create(MEDIA_TYPE, body);
-    }
+  GsonRequestBodyConverter(TypeAdapter<T> adapter) {
+    this.adapter = adapter;
+  }
+
+  @Override
+  public RequestBody convert(T value) throws IOException {
+    String body = adapter.toJson(value);
+    return RequestBody.create(MEDIA_TYPE, body);
+  }
 }

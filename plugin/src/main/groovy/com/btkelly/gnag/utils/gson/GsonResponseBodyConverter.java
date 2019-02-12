@@ -16,28 +16,27 @@
 package com.btkelly.gnag.utils.gson;
 
 import com.google.gson.TypeAdapter;
+import java.io.IOException;
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
-
-import java.io.IOException;
 
 /**
  * Created by bobbake4 on 4/28/16.
  */
 final class GsonResponseBodyConverter<T> implements Converter<ResponseBody, T> {
 
-    private final TypeAdapter<T> adapter;
+  private final TypeAdapter<T> adapter;
 
-    GsonResponseBodyConverter(TypeAdapter<T> adapter) {
-        this.adapter = adapter;
-    }
+  GsonResponseBodyConverter(TypeAdapter<T> adapter) {
+    this.adapter = adapter;
+  }
 
-    @Override
-    public T convert(ResponseBody value) throws IOException {
-        try {
-            return adapter.fromJson(value.charStream());
-        } finally {
-            value.close();
-        }
+  @Override
+  public T convert(ResponseBody value) throws IOException {
+    try {
+      return adapter.fromJson(value.charStream());
+    } finally {
+      value.close();
     }
+  }
 }

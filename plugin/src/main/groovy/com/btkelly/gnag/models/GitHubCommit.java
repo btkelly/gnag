@@ -20,28 +20,28 @@ package com.btkelly.gnag.models;
  */
 public class GitHubCommit {
 
-    private String label;
-    private String ref;
-    private String sha;
+  private String label;
+  private String ref;
+  private String sha;
 
-    public String getLabel() {
-        return label;
-    }
+  public String getLabel() {
+    return label;
+  }
 
-    public String getRef() {
-        return ref;
-    }
+  public String getRef() {
+    return ref;
+  }
 
-    public String getSha() {
-        return sha;
-    }
+  public String getSha() {
+    return sha;
+  }
 
-    @Override
-    public String toString() {
-        return "GitHubCommit{" +
-                "label='" + label + '\'' +
-                ", ref='" + ref + '\'' +
-                ", sha='" + sha + '\'' +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "GitHubCommit{" +
+        "label='" + label + '\'' +
+        ", ref='" + ref + '\'' +
+        ", sha='" + sha + '\'' +
+        '}';
+  }
 }

@@ -22,48 +22,48 @@ import org.gradle.api.Project;
  */
 public class AndroidLintExtension {
 
-    public static final String SEVERITY_WARNING = "Warning";
-    public static final String SEVERITY_ERROR = "Error";
+  public static final String SEVERITY_WARNING = "Warning";
+  public static final String SEVERITY_ERROR = "Error";
 
-    private final Project project;
+  private final Project project;
 
-    private boolean enabled = true;
-    private String severity = SEVERITY_ERROR;
+  private boolean enabled = true;
+  private String severity = SEVERITY_ERROR;
 
-    public AndroidLintExtension(Project project) {
-        this.project = project;
-    }
+  public AndroidLintExtension(Project project) {
+    this.project = project;
+  }
 
-    public boolean isEnabled() {
-        return enabled;
-    }
+  public boolean isEnabled() {
+    return enabled;
+  }
 
-    /**
-     * @deprecated replaced by {@link #setEnabled(boolean)}
-     */
-    @Deprecated
-    public void enabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+  /**
+   * @deprecated replaced by {@link #setEnabled(boolean)}
+   */
+  @Deprecated
+  public void enabled(boolean enabled) {
+    this.enabled = enabled;
+  }
 
-    public String getSeverity() {
-        return severity;
-    }
+  public String getSeverity() {
+    return severity;
+  }
 
-    public void severity(String severity) {
-        this.severity = severity;
-    }
+  public void severity(String severity) {
+    this.severity = severity;
+  }
 
-    @Override
-    public String toString() {
-        return "AndroidLintExtension{" +
-                "project=" + project +
-                ", enabled=" + enabled +
-                ", severity='" + severity + '\'' +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "AndroidLintExtension{" +
+        "project=" + project +
+        ", enabled=" + enabled +
+        ", severity='" + severity + '\'' +
+        '}';
+  }
 }

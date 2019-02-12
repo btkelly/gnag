@@ -20,58 +20,58 @@ package com.btkelly.gnag.models;
  */
 public class GitHubPRDetails {
 
-    private int id;
-    private int number;
-    private String state;
-    private String title;
-    private String body;
-    private String statusesUrl;
-    private GitHubCommit head;
-    private GitHubCommit base;
+  private int id;
+  private int number;
+  private String state;
+  private String title;
+  private String body;
+  private String statusesUrl;
+  private GitHubCommit head;
+  private GitHubCommit base;
 
-    public int getId() {
-        return id;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public int getNumber() {
-        return number;
-    }
+  public int getNumber() {
+    return number;
+  }
 
-    public String getState() {
-        return state;
-    }
+  public String getState() {
+    return state;
+  }
 
-    public String getTitle() {
-        return title;
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    public String getBody() {
-        return body;
-    }
+  public String getBody() {
+    return body;
+  }
 
-    public String getStatusesUrl() {
-        return statusesUrl;
-    }
+  public String getStatusesUrl() {
+    return statusesUrl;
+  }
 
-    public GitHubCommit getHead() {
-        return head;
-    }
+  public GitHubCommit getHead() {
+    return head;
+  }
 
-    public GitHubCommit getBase() {
-        return base;
-    }
+  public GitHubCommit getBase() {
+    return base;
+  }
 
-    @Override
-    public String toString() {
-        return "GitHubPRDetails{" +
-                "id=" + id +
-                ", number=" + number +
-                ", state='" + state + '\'' +
-                ", title='" + title + '\'' +
-                ", body='" + body + '\'' +
-                ", statusesUrl='" + statusesUrl + '\'' +
-                ", head=" + head +
-                ", base=" + base +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "GitHubPRDetails{" +
+        "id=" + id +
+        ", number=" + number +
+        ", state='" + state + '\'' +
+        ", title='" + title + '\'' +
+        ", body='" + body + '\'' +
+        ", statusesUrl='" + statusesUrl + '\'' +
+        ", head=" + head +
+        ", base=" + base +
+        '}';
+  }
 }

@@ -15,50 +15,49 @@
  */
 package com.btkelly.gnag.models;
 
-import org.jetbrains.annotations.NotNull;
+import static com.btkelly.gnag.models.GitHubStatusType.SUCCESS;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import static com.btkelly.gnag.models.GitHubStatusType.SUCCESS;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by bobbake4 on 4/26/16.
  */
 public class CheckStatus {
 
-    public static CheckStatus getSuccessfulCheckStatus() {
-        return new CheckStatus(SUCCESS, new HashSet<>());
+  @NotNull
+  private final GitHubStatusType gitHubStatusType;
+  @NotNull
+  private final Set<Violation> violations;
+
+  public CheckStatus(@NotNull final GitHubStatusType gitHubStatusType,
+      @NotNull final Set<Violation> violations) {
+    if (gitHubStatusType == SUCCESS && !violations.isEmpty()) {
+      throw new IllegalStateException("Status cannot be SUCCESS if violations are found.");
     }
 
-    @NotNull
-    private final GitHubStatusType gitHubStatusType;
+    this.violations = violations;
+    this.gitHubStatusType = gitHubStatusType;
+  }
 
-    @NotNull
-    private final Set<Violation> violations;
+  public static CheckStatus getSuccessfulCheckStatus() {
+    return new CheckStatus(SUCCESS, new HashSet<>());
+  }
 
-    public CheckStatus(@NotNull final GitHubStatusType gitHubStatusType, @NotNull final Set<Violation> violations) {
-        if (gitHubStatusType == SUCCESS && !violations.isEmpty()) {
-            throw new IllegalStateException("Status cannot be SUCCESS if violations are found.");
-        }
+  @NotNull
+  public GitHubStatusType getGitHubStatusType() {
+    return gitHubStatusType;
+  }
 
-        this.violations = violations;
-        this.gitHubStatusType = gitHubStatusType;
-    }
+  @NotNull
+  public Set<Violation> getViolations() {
+    return violations;
+  }
 
-    @NotNull
-    public GitHubStatusType getGitHubStatusType() {
-        return gitHubStatusType;
-    }
-
-    @NotNull
-    public Set<Violation> getViolations() {
-        return violations;
-    }
-
-    @Override
-    public String toString() {
-        return gitHubStatusType.toString();
-    }
+  @Override
+  public String toString() {
+    return gitHubStatusType.toString();
+  }
 
 }

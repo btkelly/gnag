@@ -38,7 +38,7 @@ class ProjectHelper {
     }
 
     public List<File> getJavaSourceFiles() {
-        return getSourceFilesWithSuffices(["java"]  as String[])
+        return getSourceFilesWithSuffices(["java"] as String[])
     }
 
     public boolean hasJavaSourceFiles() {

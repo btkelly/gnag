@@ -17,33 +17,32 @@ package com.btkelly.gnag.utils.diffparser;
 
 import com.github.stkent.githubdiffparser.GitHubDiffParser;
 import com.github.stkent.githubdiffparser.models.Diff;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import okhttp3.ResponseBody;
 import org.jetbrains.annotations.NotNull;
 import retrofit2.Converter;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 public class DiffParserResponseBodyConverter implements Converter<ResponseBody, List<Diff>> {
 
-    @NotNull
-    private final GitHubDiffParser diffParser;
+  @NotNull
+  private final GitHubDiffParser diffParser;
 
-    protected DiffParserResponseBodyConverter(final @NotNull GitHubDiffParser diffParser) {
-        this.diffParser = diffParser;
-    }
+  protected DiffParserResponseBodyConverter(final @NotNull GitHubDiffParser diffParser) {
+    this.diffParser = diffParser;
+  }
 
-    @Override
-    public List<Diff> convert(final ResponseBody value) throws IOException {
-        try {
-            final String rawResponse = value.string();
-            return diffParser.parse(rawResponse.getBytes());
-        } catch (final IllegalStateException e) {
-            return new ArrayList<>();
-        } finally {
-            value.close();
-        }
+  @Override
+  public List<Diff> convert(final ResponseBody value) throws IOException {
+    try {
+      final String rawResponse = value.string();
+      return diffParser.parse(rawResponse.getBytes());
+    } catch (final IllegalStateException e) {
+      return new ArrayList<>();
+    } finally {
+      value.close();
     }
+  }
 
 }
