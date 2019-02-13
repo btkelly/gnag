@@ -90,7 +90,6 @@ In this example the issue number and authtoken for the comment user are passed a
 gnag {
     enabled true
     failOnError true
-    useGitHubStatuses true
     
     checkstyle {
         enabled true
@@ -129,6 +128,7 @@ gnag {
         issueNumber '1'
         setCommentInline true
         setCommentOnSuccess true
+        useGitHubStatuses true
     }
 }
 ```
@@ -142,7 +142,6 @@ gnag {
 gnag {
     isEnabled = true
     setFailOnError(true)
-    useGitHubStatuses(true)
 
     checkstyle {
         isEnabled = true
@@ -181,6 +180,7 @@ gnag {
         issueNumber("1")
         setCommentInline(true)
         setCommentOnSuccess(true)
+        useGitHubStatuses(true)
     }
 }
 ```
@@ -191,7 +191,6 @@ gnag {
 
 - ***enabled*** - easily disable Gnag in specific situations
 - ***failOnError*** - should violations cause the build to fail or just generate a report
-- ***useGitHubStatuses*** - should report GitHub status on each module in the PR or just fail if ***failOnError*** enabled
 - ***checkstyle*** - block to customize the checkstyle reporter
   - ***enabled*** - set if checkstyle should execute
   - ***reporterConfig*** - provide a custom [checkstyle config](http://checkstyle.sourceforge.net/config.html)
@@ -217,6 +216,7 @@ gnag {
   - ***issueNumber*** - the issue or PR number currently being built
   - ***setCommentInline*** - whether or not comments posted to GitHub should be placed inline where possible
   - ***setCommentOnSuccess*** - whether or not a comment should be posted to GitHub when no violations exist
+  - ***useGitHubStatuses*** - should report GitHub status on each module in the PR or just fail if ***failOnError*** enabled
 
 ## Example Output
 

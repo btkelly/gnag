@@ -118,8 +118,8 @@ public class GnagReportTask extends DefaultTask {
 
   private void setGnagPluginExtension(GnagPluginExtension gnagPluginExtension) {
     failOnError = gnagPluginExtension.shouldFailOnError();
-    useGitHubStatuses = gnagPluginExtension.shouldUseGitHubStatuses();
     GitHubExtension gitHubExtension = gnagPluginExtension.github;
+    useGitHubStatuses = gitHubExtension.shouldUseGitHubStatuses();
     commentInline = gitHubExtension.isCommentInline();
     commentOnSuccess = gitHubExtension.isCommentOnSuccess();
     gitHubApi = new GitHubApi(gitHubExtension, getLogger());

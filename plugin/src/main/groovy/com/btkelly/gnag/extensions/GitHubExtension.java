@@ -30,6 +30,7 @@ public final class GitHubExtension {
   private String issueNumber;
   private boolean commentInline = true;
   private boolean commentOnSuccess = true;
+  private boolean useGitHubStatuses = true;
 
   GitHubExtension(Project project) {
     this.project = project;
@@ -85,6 +86,15 @@ public final class GitHubExtension {
     this.commentOnSuccess = commentOnSuccess;
   }
 
+  public void setUseGitHubStatuses(boolean useGitHubStatuses) {
+    this.useGitHubStatuses = useGitHubStatuses;
+  }
+
+  public boolean shouldUseGitHubStatuses() {
+    return project.hasProperty("useGitHubStatuses") ? (Boolean) project.property("useGitHubStatuses")
+            : useGitHubStatuses;
+  }
+
   @Override
   public String toString() {
     return "GitHubExtension{" +
@@ -95,6 +105,7 @@ public final class GitHubExtension {
         ", issueNumber='" + issueNumber + '\'' +
         ", commentInline=" + commentInline +
         ", commentOnSuccess=" + commentOnSuccess +
+        ", useGitHubStatuses=" + useGitHubStatuses +
         '}';
   }
 }
