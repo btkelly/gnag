@@ -15,15 +15,14 @@
  */
 package com.btkelly.gnag.tasks;
 
-import static com.btkelly.gnag.models.GitHubStatusType.ERROR;
-import static com.btkelly.gnag.models.GitHubStatusType.PENDING;
-import static com.btkelly.gnag.models.GitHubStatusType.SUCCESS;
+import static com.btkelly.gnag.models.GitHubStatusType.*;
 import static com.btkelly.gnag.models.Violation.COMPARATOR;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.btkelly.gnag.GnagPlugin;
 import com.btkelly.gnag.api.GitHubApi;
 import com.btkelly.gnag.extensions.GitHubExtension;
+import com.btkelly.gnag.extensions.GnagPluginExtension;
 import com.btkelly.gnag.models.CheckStatus;
 import com.btkelly.gnag.models.GitHubPRDetails;
 import com.btkelly.gnag.models.GitHubStatusType;
@@ -42,10 +41,12 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.gradle.api.DefaultTask;
+import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
+import org.gradle.api.tasks.StopExecutionException;
 import org.gradle.api.tasks.TaskAction;
 import org.jetbrains.annotations.NotNull;
 
@@ -58,10 +59,12 @@ public class GnagReportTask extends DefaultTask {
   private static final String REMOTE_SUCCESS_COMMENT_FORMAT_STRING = "Congrats, no :poop: code found in the **%s** module%s!";
   private boolean commentInline;
   private boolean commentOnSuccess;
+  private boolean useGitHubStatuses;
+  private boolean failOnError;
   private GitHubApi gitHubApi;
   private String prSha;
 
-  public static void addTask(ProjectHelper projectHelper, GitHubExtension gitHubExtension) {
+  public static void addTask(ProjectHelper projectHelper, GnagPluginExtension gnagPluginExtension) {
     Map<String, Object> taskOptions = new HashMap<>();
 
     taskOptions.put(Task.TASK_NAME, TASK_NAME);
@@ -75,7 +78,7 @@ public class GnagReportTask extends DefaultTask {
 
     GnagReportTask gnagReportTask = (GnagReportTask) project.task(taskOptions, TASK_NAME);
     gnagReportTask.dependsOn(GnagCheckTask.TASK_NAME);
-    gnagReportTask.setGitHubExtension(gitHubExtension);
+    gnagReportTask.setGnagPluginExtension(gnagPluginExtension);
   }
 
   @SuppressWarnings("unused")
@@ -113,7 +116,10 @@ public class GnagReportTask extends DefaultTask {
     return Logging.getLogger(GnagPlugin.class);
   }
 
-  private void setGitHubExtension(GitHubExtension gitHubExtension) {
+  private void setGnagPluginExtension(GnagPluginExtension gnagPluginExtension) {
+    failOnError = gnagPluginExtension.shouldFailOnError();
+    GitHubExtension gitHubExtension = gnagPluginExtension.github;
+    useGitHubStatuses = gitHubExtension.shouldUseGitHubStatuses();
     commentInline = gitHubExtension.isCommentInline();
     commentOnSuccess = gitHubExtension.isCommentOnSuccess();
     gitHubApi = new GitHubApi(gitHubExtension, getLogger());
@@ -133,8 +139,18 @@ public class GnagReportTask extends DefaultTask {
 
   private void updatePRStatus(GitHubStatusType gitHubStatusType) {
     getLogger().debug("Updating PR Status to: " + gitHubStatusType);
-    if (StringUtils.isNotBlank(getPRSha())) {
-      gitHubApi.postUpdatedGitHubStatus(gitHubStatusType, getProject().getName(), getPRSha());
+    if (useGitHubStatuses) {
+      if (StringUtils.isNotBlank(getPRSha())) {
+        gitHubApi.postUpdatedGitHubStatus(gitHubStatusType, getProject().getName(), getPRSha());
+      }
+    } else {
+      if (gitHubStatusType == ERROR || gitHubStatusType == FAILURE) {
+        if (failOnError) {
+          throw new GradleException(gitHubStatusType.getDescription());
+        } else {
+          throw new StopExecutionException(gitHubStatusType.getDescription());
+        }
+      }
     }
   }
 

@@ -128,6 +128,7 @@ gnag {
         issueNumber '1'
         setCommentInline true
         setCommentOnSuccess true
+        useGitHubStatuses true
     }
 }
 ```
@@ -179,6 +180,7 @@ gnag {
         issueNumber("1")
         setCommentInline(true)
         setCommentOnSuccess(true)
+        useGitHubStatuses(true)
     }
 }
 ```
@@ -214,6 +216,7 @@ gnag {
   - ***issueNumber*** - the issue or PR number currently being built
   - ***setCommentInline*** - whether or not comments posted to GitHub should be placed inline where possible
   - ***setCommentOnSuccess*** - whether or not a comment should be posted to GitHub when no violations exist
+  - ***useGitHubStatuses*** - should report GitHub status on each module in the PR or just fail if ***failOnError*** enabled
 
 ## Example Output
 
