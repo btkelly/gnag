@@ -73,7 +73,7 @@ class GnagPlugin implements Plugin<Project> {
 
             GnagCheckTask.addTask(projectHelper, gnagPluginExtension, tasks)
 
-            GnagReportTask.addTask(projectHelper, gnagPluginExtension.github)
+            GnagReportTask.addTask(projectHelper, gnagPluginExtension)
         }
     }
 }

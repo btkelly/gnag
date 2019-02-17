@@ -24,6 +24,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.btkelly.gnag.GnagPlugin;
 import com.btkelly.gnag.api.GitHubApi;
 import com.btkelly.gnag.extensions.GitHubExtension;
+import com.btkelly.gnag.extensions.GnagPluginExtension;
 import com.btkelly.gnag.models.CheckStatus;
 import com.btkelly.gnag.models.GitHubPRDetails;
 import com.btkelly.gnag.models.GitHubStatusType;
@@ -61,7 +62,7 @@ public class GnagReportTask extends DefaultTask {
   private GitHubApi gitHubApi;
   private String prSha;
 
-  public static void addTask(ProjectHelper projectHelper, GitHubExtension gitHubExtension) {
+  public static void addTask(ProjectHelper projectHelper, GnagPluginExtension gnagPluginExtension) {
     Map<String, Object> taskOptions = new HashMap<>();
 
     taskOptions.put(Task.TASK_NAME, TASK_NAME);
@@ -74,8 +75,10 @@ public class GnagReportTask extends DefaultTask {
     Project project = projectHelper.getProject();
 
     GnagReportTask gnagReportTask = (GnagReportTask) project.task(taskOptions, TASK_NAME);
-    gnagReportTask.dependsOn(GnagCheckTask.TASK_NAME);
-    gnagReportTask.setGitHubExtension(gitHubExtension);
+    if (gnagPluginExtension.shouldRunCheck()) {
+      gnagReportTask.dependsOn(GnagCheckTask.TASK_NAME);
+    }
+    gnagReportTask.setGitHubExtension(gnagPluginExtension.github);
   }
 
   @SuppressWarnings("unused")
