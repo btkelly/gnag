@@ -35,7 +35,7 @@ public class GnagPluginExtension {
   public AndroidLintExtension androidLint;
   private boolean enabled = true;
   private boolean failOnError = true;
-  private boolean runCheck = true;
+  private boolean runCheckOnReport = true;
 
   public GnagPluginExtension(@NotNull Project project) {
     this.project = project;
@@ -92,13 +92,13 @@ public class GnagPluginExtension {
     this.failOnError = failOnError;
   }
 
-  public void setRunCheck(boolean runCheck) {
-    this.runCheck = runCheck;
+  public void setRunCheckOnReport(boolean runCheckOnReport) {
+    this.runCheckOnReport = runCheckOnReport;
   }
 
-  public boolean shouldRunCheck(){
-    return project.hasProperty("runCheck") ? (Boolean) project.property("runCheck")
-            : runCheck;
+  public boolean shouldRunCheckOnReport(){
+    return project.hasProperty("runCheckOnReport") ? (Boolean) project.property("runCheckOnReport")
+            : runCheckOnReport;
   }
 
   public boolean shouldFailOnError() {

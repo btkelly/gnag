@@ -75,7 +75,7 @@ public class GnagReportTask extends DefaultTask {
     Project project = projectHelper.getProject();
 
     GnagReportTask gnagReportTask = (GnagReportTask) project.task(taskOptions, TASK_NAME);
-    if (gnagPluginExtension.shouldRunCheck()) {
+    if (gnagPluginExtension.shouldRunCheckOnReport()) {
       gnagReportTask.dependsOn(GnagCheckTask.TASK_NAME);
     }
     gnagReportTask.setGitHubExtension(gnagPluginExtension.github);
