@@ -143,13 +143,13 @@ public class GnagReportTask extends DefaultTask {
       if (StringUtils.isNotBlank(getPRSha())) {
         gitHubApi.postUpdatedGitHubStatus(gitHubStatusType, getProject().getName(), getPRSha());
       }
-    } else {
-      if (gitHubStatusType == ERROR || gitHubStatusType == FAILURE) {
-        if (failOnError) {
-          throw new GradleException(gitHubStatusType.getDescription());
-        } else {
-          throw new StopExecutionException(gitHubStatusType.getDescription());
-        }
+    }
+
+    if (gitHubStatusType == ERROR || gitHubStatusType == FAILURE) {
+      if (failOnError) {
+        throw new GradleException(gitHubStatusType.getDescription());
+      } else {
+        throw new StopExecutionException(gitHubStatusType.getDescription());
       }
     }
   }
