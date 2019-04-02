@@ -193,10 +193,10 @@ gnag {
 - ***failOnError*** - should violations cause the build to fail or just generate a report
 - ***checkstyle*** - block to customize the checkstyle reporter
   - ***enabled*** - set if checkstyle should execute
-  - ***reporterConfig*** - provide a custom [checkstyle config](http://checkstyle.sourceforge.net/config.html)
-- ***pmd*** - block to customize the pmd reporter
-  - ***enabled*** - set if pmd should execute
-  - ***reporterConfig*** - provide a custom [pmd config](http://pmd.sourceforge.net/pmd-5.1.1/howtomakearuleset.html)
+  - ***reporterConfig*** - provide a custom [checkstyle config](http://checkstyle.sourceforge.net/config.html) (see the default config [here](/plugin/src/main/resources/checkstyle.xml))
+- ***pmd*** - block to customize the PMD reporter
+  - ***enabled*** - set if PMD should execute
+  - ***reporterConfig*** - provide a custom [PMD config](http://pmd.sourceforge.net/pmd-5.1.1/howtomakearuleset.html) (see the default config [here](/plugin/src/main/resources/pmd.xml))
 - ***findbugs*** - block to customize the findbugs reporter
   - ***enabled*** - set if findbugs should execute
   - ***reporterConfig*** - provide a custom [findbugs config](http://findbugs.sourceforge.net/manual/filter.html)
