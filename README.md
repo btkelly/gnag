@@ -205,13 +205,13 @@ gnag {
     
     </details>
     
-    <details open>
+    <details>
     <summary><b>kotlin</b></summary>
 
     ```
     android {
         lintOptions {
-            abortOnError = false
+            abortOnError(false)
         }
     }
     ```
