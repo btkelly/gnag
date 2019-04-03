@@ -190,7 +190,34 @@ gnag {
 ***NOTE:*** All reporters are enabled by default
 
 - ***enabled*** - easily disable Gnag in specific situations
-- ***failOnError*** - should violations cause the build to fail or just generate a report
+- ***failOnError*** - should violations cause the build to fail or just generate a report; if set to false, you may need to add the following to prevent your build still failing from Android Lint errors:
+
+    <details open>
+    <summary><b>groovy</b></summary>
+
+    ```
+    android {
+        lintOptions {
+            abortOnError false
+        }
+    }
+    ```
+    
+    </details>
+    
+    <details>
+    <summary><b>kotlin</b></summary>
+
+    ```
+    android {
+        lintOptions {
+            abortOnError(false)
+        }
+    }
+    ```
+    
+    </details>
+
 - ***checkstyle*** - block to customize the checkstyle reporter
   - ***enabled*** - set if checkstyle should execute
   - ***reporterConfig*** - provide a custom [checkstyle config](http://checkstyle.sourceforge.net/config.html) (see the default config [here](/plugin/src/main/resources/checkstyle.xml))
