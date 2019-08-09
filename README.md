@@ -235,7 +235,7 @@ gnag {
   - ***reporterConfig*** - provide a custom [detekt config](https://arturbosch.github.io/detekt/configurations.html)
 - ***androidLint*** - block to customize the android lint reporter
   - ***enabled*** - set if the android lint reporter should look for a lint report
-  - ***severity*** - can be 'Error' or 'Warning' depending on which severity you want Gnag to check
+  - ***severity*** - can be 'Error' or 'Warning' (case insensitive) depending on which severity you want Gnag to check
 - ***github*** - block to customize GitHub reporting (only used during the `gnagReport` task
   - ***rootUrl*** - root URL to use when communicating with the GitHub API (must include trailing slash), if not provided will default to "https://api.github.com/repos/"
   - ***repoName*** - account and repo name to report violations to
