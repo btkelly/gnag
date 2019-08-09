@@ -111,10 +111,10 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
     }
 
     private boolean severityEnabled(final String severity) {
-        if (androidLintExtension.severity.equals(SEVERITY_WARNING)) {
+        if (androidLintExtension.severity.equalsIgnoreCase(SEVERITY_WARNING)) {
             return true
         } else {
-            return severity.equals(SEVERITY_ERROR)
+            return severity.equalsIgnoreCase(SEVERITY_ERROR)
         }
     }
 
