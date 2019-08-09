@@ -281,7 +281,7 @@ android:
   - build-tools-25.0.3
   - android-25
 jdk:
-  - oraclejdk8
+  - openjdk8
 branches:
   only:
   - master
