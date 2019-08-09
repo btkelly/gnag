@@ -8,18 +8,21 @@ Library issues are tracked using [GitHub Issues](https://github.com/btkelly/gnag
 
 ### `gnagCheck`
 
-Executing the supplied script
+Executing one of the test scripts
 
 ```shell
-./buildAndRunExample.sh
+./buildAndRunAndroidExample.sh
+./buildAndRunAndroidKtsExample.sh
+./buildAndRunJavaKotlinExample.sh
+./buildAndRunJavaKotlinKtsExample.sh
 ```
 
 will
 
 - publish a Gnag artifact based on the code currently in your working directory to your local Maven repository;
-- run the `gnagCheck` task defined by this artifact on the example Android application project.
+- run the `gnagCheck` task defined by this artifact on the corresponding example project.
 
-Assuming the artifact was successfully built, published, and run, you should find a local Gnag report at `example/app/build/outputs/gnag/gnag.html`. The example Android application deliberately includes suspicious code that Gnag will flag as violations.
+Assuming the artifact was successfully built, published, and run, you should find a local Gnag report at `{example-folder}/app/build/outputs/gnag/gnag.html` (for Android example projects) or `{example-folder}/build/outputs/gnag/gnag.html` (for Java/Kotlin example projects). The example applications deliberately include suspicious code that Gnag will flag as violations.
 
 ### `gnagReport`
 
@@ -30,7 +33,7 @@ Testing commenting on pull requests is a little more involved.
 1. Create your own GitHub repository for Gnag testing.
 2. Generate a new auth token for your GitHub account. Make sure it has all repository permissions.
 3. Open a new pull request within your test repository.
-4. In the `example/app/build.gradle` file, update the `repoName`, `authToken` and `issueNumber` entries in the `github` block within the `gnag` configuration closure as follows:
+4. In the `{example-folder}/app/build.gradle` file (for Android example projects) or `{example-folder}/build.gradle` file (for Java/Kotlin example projects), update the `repoName`, `authToken` and `issueNumber` entries in the `github` block within the `gnag` configuration closure as follows:
 
     ```groovy
     github {
@@ -40,18 +43,21 @@ Testing commenting on pull requests is a little more involved.
     }
     ```
 
-5. Update `./buildAndRunExample.sh` to run `./gradlew clean gnagReport` rather than `./gradlew clean gnagCheck`.
+5. Update the corresponding test script to run `./gradlew clean gnagReport` rather than `./gradlew clean gnagCheck`.
 
-Executing
+Executing the corresponding test script
 
 ```shell
-./buildAndRunExample.sh
+./buildAndRunAndroidExample.sh
+./buildAndRunAndroidKtsExample.sh
+./buildAndRunJavaKotlinExample.sh
+./buildAndRunJavaKotlinKtsExample.sh
 ```
 
 will now
 
 - publish a Gnag artifact based on the code currently in your working directory to your local Maven repository;
-- run the `gnagReport` task defined by this artifact on the example Android application project.
+- run the `gnagReport` task defined by this artifact on the corresponding example project.
 
 Assuming the artifact was successfully built, published, and run, you should see Gnag post an aggregated violations comment on the pull request you opened in your test repository.
 
@@ -62,12 +68,15 @@ Perform all the steps from the [Testing aggregated comments](#testing-aggregated
 1. Create a new branch in your test repository.
 2. Copy the contents of the example application module from the Gnag repository to this branch. Make sure that the `app` folder is in the root of your repository.
 3. Open a pull request from this branch into master.
-4. In the `example/app/build.gradle` file, update the `issueNumber` entry in the `github` block within the `gnag` configuration closure to match the issue number of this new pull request.
+4. In the `{example-folder}/app/build.gradle` file (for Android example projects) or `{example-folder}/build.gradle` file (for Java/Kotlin example projects), update the `issueNumber` entry in the `github` block within the `gnag` configuration closure to match the issue number of this new pull request.
 
-Executing
+Executing the corresponding test script
 
 ```shell
-./buildAndRunExample.sh
+./buildAndRunAndroidExample.sh
+./buildAndRunAndroidKtsExample.sh
+./buildAndRunJavaKotlinExample.sh
+./buildAndRunJavaKotlinKtsExample.sh
 ```
 
 should now post inline pull request comments (where appropriate).
