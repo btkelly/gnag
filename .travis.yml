@@ -10,3 +10,4 @@ language: groovy
 branches:
   only:
   - master
+dist: trusty # https://travis-ci.community/t/error-installing-oraclejdk8-expected-feature-release-number-in-range-of-9-to-14-but-got-8/3766/8
