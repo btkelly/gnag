@@ -101,6 +101,12 @@ public class GnagCheckTask extends DefaultTask {
     }
 
     if (gnagPluginExtension.detekt.isEnabled() && projectHelper.hasKotlinSourceFiles()) {
+      String overrideToolVersion = gnagPluginExtension.detekt.getToolVersion();
+      String toolVersion = overrideToolVersion != null ? overrideToolVersion : "1.0.1";
+
+      project.getConfigurations().create("gnagDetekt");
+      project.getDependencies().add("gnagDetekt", "io.gitlab.arturbosch.detekt:detekt-cli:" + toolVersion);
+
       Task detektTask = DetektTask
           .addTask(projectHelper, gnagPluginExtension.detekt.getReporterConfig());
       gnagCheckTask.dependsOn(detektTask);
