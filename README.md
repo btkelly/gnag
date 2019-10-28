@@ -108,7 +108,7 @@ gnag {
     
     ktlint {
         enabled true
-        toolVersion "0.24.0"
+        toolVersion "0.35.0"
     }
     
     detekt {
@@ -160,7 +160,7 @@ gnag {
 
     ktlint {
         isEnabled = true
-        toolVersion("0.24.0")
+        toolVersion("0.35.0")
     }
 
     detekt {
