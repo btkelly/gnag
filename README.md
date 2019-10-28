@@ -90,37 +90,38 @@ In this example the issue number and authtoken for the comment user are passed a
 gnag {
     enabled true
     failOnError true
-    
+
     checkstyle {
         enabled true
         reporterConfig project.file('config/checkstyle.xml')
     }
-    
+
     pmd {
         enabled true
         reporterConfig project.file('config/pmd.xml')
     }
-    
+
     findbugs {
         enabled true
         reporterConfig project.file('config/findbugs.xml')
     }
-    
+
     ktlint {
         enabled true
         toolVersion "0.35.0"
     }
-    
+
     detekt {
         enabled true
         reporterConfig project.file('config/detekt.yml')
+        toolVersion "1.0.1"
     }
-    
+
     androidLint {
         enabled true
         severity 'Error'
     }
-    
+
     github {
         rootUrl 'https://my.githubinstall.com/repos/'
         repoName 'btkelly/repo'
@@ -202,9 +203,9 @@ gnag {
         }
     }
     ```
-    
+
     </details>
-    
+
     <details>
     <summary><b>kotlin</b></summary>
 
@@ -215,7 +216,7 @@ gnag {
         }
     }
     ```
-    
+
     </details>
 
 - ***checkstyle*** - block to customize the checkstyle reporter
@@ -233,9 +234,10 @@ gnag {
 - ***detekt*** - block to customize the detekt reporter
   - ***enabled*** - set if detekt should execute
   - ***reporterConfig*** - provide a custom [detekt config](https://arturbosch.github.io/detekt/configurations.html)
+  - ***toolVersion*** - override the detekt version compiled into Gnag
 - ***androidLint*** - block to customize the android lint reporter
   - ***enabled*** - set if the android lint reporter should look for a lint report
-  - ***severity*** - can be 'Error' or 'Warning' depending on which severity you want Gnag to check
+  - ***severity*** - can be 'Error' or 'Warning' (case insensitive) depending on which severity you want Gnag to check
 - ***github*** - block to customize GitHub reporting (only used during the `gnagReport` task
   - ***rootUrl*** - root URL to use when communicating with the GitHub API (must include trailing slash), if not provided will default to "https://api.github.com/repos/"
   - ***repoName*** - account and repo name to report violations to
@@ -281,7 +283,7 @@ android:
   - build-tools-25.0.3
   - android-25
 jdk:
-  - oraclejdk8
+  - openjdk8
 branches:
   only:
   - master
