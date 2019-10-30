@@ -5,7 +5,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.gradle.publish:plugin-publish-plugin:0.9.7"
+        classpath "com.gradle.publish:plugin-publish-plugin:0.10.1"
     }
 }
 
@@ -47,7 +47,7 @@ dependencies {
     }
 
     compile 'com.google.code.findbugs:findbugs:3.0.1'
-    compile 'net.sourceforge.pmd:pmd-java:6.12.0'
+    compile 'net.sourceforge.pmd:pmd-java:6.18.0'
 
     // Testing
     testCompile group: 'junit', name: 'junit', version: '4.12'

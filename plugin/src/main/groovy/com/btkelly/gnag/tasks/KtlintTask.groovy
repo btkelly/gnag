@@ -30,7 +30,7 @@ final class KtlintTask {
         taskOptions.put(Task.TASK_DESCRIPTION, "Runs ktlint and generates an XML report for parsing by Gnag")
 
         return projectHelper.project.task(taskOptions, "gnagKtlint") { task ->
-            main = "com.github.shyiko.ktlint.Main"
+            main = "com.pinterest.ktlint.Main"
             classpath = projectHelper.project.configurations.gnagKtlint
             ignoreExitValue = true
             args "--reporter=checkstyle,output=${projectHelper.getKtlintReportFile()}"

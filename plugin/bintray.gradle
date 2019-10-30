@@ -4,6 +4,16 @@ javadoc {
     failOnError = false
 }
 
+task sourcesJar(type: Jar, dependsOn: classes) {
+    archiveClassifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveClassifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
 publishing {
     publications {
         GnagPublication(MavenPublication) {
@@ -19,8 +29,8 @@ publishing {
 bintray {
     dryRun = false
     publish = true
-    user = project.hasProperty('bintray_user') ? project.property('bintray_user') : System.getenv('BINTRAY_USER')
-    key = project.hasProperty('bintray_key') ? project.property('bintray_key') : System.getenv('BINTRAY_KEY')
+    user = project.hasProperty('BINTRAY_USER') ? project.property('BINTRAY_USER') : System.getenv('BINTRAY_USER')
+    key = project.hasProperty('BINTRAY_API_KEY') ? project.property('BINTRAY_API_KEY') : System.getenv('BINTRAY_API_KEY')
     publications = ['GnagPublication']
     pkg {
         repo = 'maven'
@@ -35,16 +45,6 @@ bintray {
             released  = new Date()
         }
     }
-}
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
 }
 
 task createClasspathManifest {

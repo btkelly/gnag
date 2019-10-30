@@ -29,11 +29,11 @@ class ProjectHelper {
         this.project = project
     }
 
-    public Project getProject() {
+    Project getProject() {
         return project
     }
 
-    public boolean isAndroidProject() {
+    boolean isAndroidProject() {
         return project.getExtensions().findByName("android") != null
     }
 
@@ -41,34 +41,34 @@ class ProjectHelper {
         return getSourceFilesWithSuffices(["java"] as String[])
     }
 
-    public boolean hasJavaSourceFiles() {
+    boolean hasJavaSourceFiles() {
         return !getJavaSourceFiles().isEmpty()
     }
 
-    public List<File> getKotlinSourceFiles() {
+    List<File> getKotlinSourceFiles() {
         return getSourceFilesWithSuffices(["kt", "kts"] as String[])
     }
 
-    public boolean hasKotlinSourceFiles() {
+    boolean hasKotlinSourceFiles() {
         return !getKotlinSourceFiles().isEmpty()
     }
 
-    public File getReportsDir() {
+    File getReportsDir() {
         File reportsDir = new File(project.buildDir.path + "/outputs/gnag/")
         reportsDir.mkdirs()
         return reportsDir
     }
 
-    public File getKtlintReportFile() {
+    File getKtlintReportFile() {
         return new File(getReportsDir(), "ktlint_report.xml")
     }
 
-    public String getDetektReportFileName() {
+    String getDetektReportFileName() {
         return "detekt_report"
     }
 
     private Collection<File> getSourceFilesWithSuffices(final String[] suffices) {
-        final Collection<File> allSourceFiles
+        Collection<File> allSourceFiles
 
         if (isAndroidProject()) {
             allSourceFiles = project.android.sourceSets.inject([]) { files, sourceSet ->
