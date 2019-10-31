@@ -37,9 +37,8 @@ final class DetektTask {
             main = "io.gitlab.arturbosch.detekt.cli.Main"
             classpath = projectHelper.project.configurations.gnagDetekt
             ignoreExitValue = true
+            args "--report", "xml:${projectHelper.getReportsDir()}/${projectHelper.getDetektReportFileName()}"
             args "--input", "${projectHelper.kotlinSourceFiles.join(',')}"
-            args "--output", "${projectHelper.getReportsDir()}"
-            args "--output-name", "${projectHelper.getDetektReportFileName()}"
 
             if (reporterConfig != null) {
                 args "--config", "$reporterConfig"

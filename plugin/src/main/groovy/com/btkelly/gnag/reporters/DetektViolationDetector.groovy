@@ -47,7 +47,7 @@ class DetektViolationDetector extends BaseViolationDetector {
 
     @Override
     File reportFile() {
-        return new File(projectHelper.getReportsDir(), "${projectHelper.getDetektReportFileName()}.xml")
+        return new File(projectHelper.getReportsDir(), "${projectHelper.getDetektReportFileName()}")
     }
 
 }
