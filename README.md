@@ -81,7 +81,7 @@ gnag {
 
 This is the simplest way to add automatic PR checking and commenting to your project. The options defined in the `github` closure can be overridden by passing command line parameters with the same name to your build. This is helpful when using in conjunction with a CI system to allow automated builds.
 
-#### Tasks
+### Tasks
 
 You can use the gnagCheck gradle task to run Gnag locally and generate an HTML report in the build directory.
 ```groovy
@@ -94,7 +94,7 @@ In this example the issue number and authtoken for the comment user are passed a
 ./gradlew clean gnagReport -PissueNumber=11 -PauthToken=iu2n3iu2nfjknfjk23nfkj23nk
 ```
 
-#### Customization
+### Customization
 <details open>
 <summary><b>build.gradle (Groovy)</b></summary>
 
@@ -261,12 +261,12 @@ gnag {
 
 ## Example [Travis CI](http://travis-ci.org) Usage
 
-Travis is a continuous integration service and is free for open source projects. Below is an example of
- how to configure Gnag to run on Travis.
+Travis is a continuous integration service and is free for open source projects. Below is an example of how to configure Gnag to run on Travis.
 
- You must set an environment variable on your Travis instance for the `PR_BOT_AUTH_TOKEN` used to post comments back to GitHub.
+You must set an environment variable on your Travis instance for the `PR_BOT_AUTH_TOKEN` used to post comments back to GitHub.
 
 ***.travis.yml***
+
 ```yml
 language: android
 android:
@@ -284,6 +284,7 @@ script: "./travis-build.sh"
 ```
 
 ***travis-build.sh***
+
 ```bash
 #!/bin/bash
 set -ev
@@ -295,18 +296,20 @@ else
 fi
 ```
 
-### License
+## License
 
-    Copyright 2016 Bryan Kelly
+```
+Copyright 2016 Bryan Kelly
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+   http://www.apache.org/licenses/LICENSE-2.0
 
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
