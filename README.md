@@ -259,6 +259,44 @@ gnag {
   - ***setCommentOnSuccess*** - whether or not a comment should be posted to GitHub when no violations exist
   - ***useGitHubStatuses*** - should report GitHub status on each module in the PR or just fail if ***failOnError*** enabled
 
+### Multi-Module Projects
+
+To enforce the same quality checks across multiple Gradle modules, apply and configure Gnag in your root `build.gradle` file as follows (you can remove the equivalent code from submobule `build.gradle` files):
+
+<details open>
+<summary><b>build.gradle (Groovy)</b></summary>
+
+```groovy
+buildscript {
+    repositories {
+        // ...
+        jcenter()
+    }
+
+    dependencies {
+        // ...
+        classpath 'com.btkelly:gnag:2.4.1'
+    }
+}
+
+subprojects {
+    apply plugin: 'gnag'
+
+    gnag {
+        // Standard Gnag configuration goes here.
+        //
+        // Reference tool configuration files using the rootProject:
+        //   reporterConfig rootProject.file('config/toolrules.xml')
+    }
+}
+```
+
+</details>
+
+TODO: Kotlin build file translation of the above
+
+You may need to keep the Android lint portions of your configuration in submodule `build.gradle` files if your project includes non-Android submodules. In this case, you should also use the `rootProject` to reference any shared lint configuration file.
+
 ## Example [Travis CI](http://travis-ci.org) Usage
 
 Travis is a continuous integration service and is free for open source projects. Below is an example of how to configure Gnag to run on Travis.
