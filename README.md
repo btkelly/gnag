@@ -5,6 +5,18 @@ It can be used in Java-only, Kotlin-only, and mixed Java/Kotlin codebases.
 
 The name is a portmanteau of the words ["Gradle"](https://gradle.org/) and ["nag"](https://en.wiktionary.org/wiki/nag#Verb). The first "g" is silent!
 
+## Example Output
+
+Below are examples of output posted to a GitHub PR on a project using Gnag to enforce quality checks.
+
+Violations associated with a specific line in your PR will be posted as comments **on that line**:
+
+![](assets/comments-inline.png)
+
+Violations that are not associated with a specific line in your PR will be aggregated and posted in a **single top-level PR comment**:
+
+![](assets/comments-aggregated.png)
+
 ## Usage
 
 **Requires JDK 8**
@@ -246,25 +258,6 @@ gnag {
   - ***setCommentInline*** - whether or not comments posted to GitHub should be placed inline where possible
   - ***setCommentOnSuccess*** - whether or not a comment should be posted to GitHub when no violations exist
   - ***useGitHubStatuses*** - should report GitHub status on each module in the PR or just fail if ***failOnError*** enabled
-
-## Example Output
-
-Below are examples of output posted to a GitHub PR on a project using Gnag to enforce quality checks.
-
-### Inline Comments
-
-Violations associated with a specific line in your PR will be posted as comments on that line:
-
-![](assets/comments-inline.png)
-
-### Aggregated Comments
-
-Violations that cannot be associated with a specific line in your PR will be aggregated and posted in a single top-level PR comment. This will include:
-
-- violations associated with entire files or projects;
-- violations detected by individual reporters with invalid file location information.
-
-![](assets/comments-aggregated.png)
 
 ## Example [Travis CI](http://travis-ci.org) Usage
 
