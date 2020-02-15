@@ -26,7 +26,7 @@ Gnag setup that will report violations to GitHub. By default this config will re
 Android Lint to GitHub.
 
 <details open>
-<summary><b>groovy</b></summary>
+<summary><b>build.gradle (Groovy)</b></summary>
 
 ```groovy
 buildscript {
@@ -52,7 +52,7 @@ gnag {
 </details>
 
 <details>
-<summary><b>kotlin</b></summary>
+<summary><b>build.gradle.kts (Kotlin)</b></summary>
 
 ```kotlin
 buildscript {
@@ -96,7 +96,7 @@ In this example the issue number and authtoken for the comment user are passed a
 
 #### Customization
 <details open>
-<summary><b>groovy</b></summary>
+<summary><b>build.gradle (Groovy)</b></summary>
 
 ```groovy
 gnag {
@@ -149,7 +149,7 @@ gnag {
 </details>
 
 <details>
-<summary><b>kotlin</b></summary>
+<summary><b>build.gradle.kts (Kotlin)</b></summary>
 
 ```kotlin
 gnag {
@@ -206,7 +206,7 @@ gnag {
 - ***failOnError*** - should violations cause the build to fail or just generate a report; if set to false, you may need to add the following to prevent your build still failing from Android Lint errors:
 
     <details open>
-    <summary><b>groovy</b></summary>
+    <summary><b>build.gradle (Groovy)</b></summary>
 
     ```
     android {
@@ -219,7 +219,7 @@ gnag {
     </details>
 
     <details>
-    <summary><b>kotlin</b></summary>
+    <summary><b>build.gradle.kts (Kotlin)</b></summary>
 
     ```
     android {
