@@ -5,10 +5,10 @@ buildscript {
 }
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.3.11"
+    id("org.jetbrains.kotlin.jvm") version "1.3.61"
     id("com.github.hierynomus.license") version "0.15.0"
     application
-    id("com.btkelly.gnag") version "2.2.0"
+    id("com.btkelly.gnag") version "2.4.1"
 }
 
 group = "com.btkelly.gnag"
@@ -39,8 +39,6 @@ tasks.clean {
 gnag {
     isEnabled = true
     setFailOnError(true)
-
-    ktlint { isEnabled = true }
 
     github {
         repoName("btkelly/android-svsu-acm-20131120")
