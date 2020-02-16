@@ -293,7 +293,36 @@ subprojects {
 
 </details>
 
-TODO: Kotlin build file translation of the above
+<details>
+<summary><b>build.gradle.kts (Kotlin)</b></summary>
+
+```kotlin
+buildscript {
+    repositories {
+        // ...
+        jcenter()
+    }
+
+    dependencies {
+        // ...
+        classpath("com.btkelly:gnag:2.4.1")
+    }
+}
+
+subprojects {
+    apply(plugin = "gnag")
+
+    configure<com.btkelly.gnag.extensions.GnagPluginExtension> {
+        // Standard Gnag configuration goes here.
+        //
+        // Reference tool configuration files using the rootProject:
+        //   reporterConfig(rootProject.file("config/toolrules.xml"))
+    }
+}
+
+```
+
+</details>
 
 You may need to keep the Android lint portions of your configuration in submodule `build.gradle` files if your project includes non-Android submodules. In this case, you should also use the `rootProject` to reference any shared lint configuration file.
 
