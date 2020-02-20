@@ -5,6 +5,18 @@ It can be used in Java-only, Kotlin-only, and mixed Java/Kotlin codebases.
 
 The name is a portmanteau of the words ["Gradle"](https://gradle.org/) and ["nag"](https://en.wiktionary.org/wiki/nag#Verb). The first "g" is silent!
 
+## Example Output
+
+Below are examples of output posted to a GitHub PR on a project using Gnag to enforce quality checks.
+
+Violations associated with a specific line in your PR will be posted as comments **on that line**:
+
+![](assets/comments-inline.png)
+
+Violations that are not associated with a specific line in your PR will be aggregated and posted in a **single top-level PR comment**:
+
+![](assets/comments-aggregated.png)
+
 ## Usage
 
 **Requires JDK 8**
@@ -14,7 +26,7 @@ Gnag setup that will report violations to GitHub. By default this config will re
 Android Lint to GitHub.
 
 <details open>
-<summary><b>groovy</b></summary>
+<summary><b>build.gradle (Groovy)</b></summary>
 
 ```groovy
 buildscript {
@@ -40,7 +52,7 @@ gnag {
 </details>
 
 <details>
-<summary><b>kotlin</b></summary>
+<summary><b>build.gradle.kts (Kotlin)</b></summary>
 
 ```kotlin
 buildscript {
@@ -69,7 +81,7 @@ gnag {
 
 This is the simplest way to add automatic PR checking and commenting to your project. The options defined in the `github` closure can be overridden by passing command line parameters with the same name to your build. This is helpful when using in conjunction with a CI system to allow automated builds.
 
-#### Tasks
+### Tasks
 
 You can use the gnagCheck gradle task to run Gnag locally and generate an HTML report in the build directory.
 ```groovy
@@ -82,9 +94,9 @@ In this example the issue number and authtoken for the comment user are passed a
 ./gradlew clean gnagReport -PissueNumber=11 -PauthToken=iu2n3iu2nfjknfjk23nfkj23nk
 ```
 
-#### Customization
+### Customization
 <details open>
-<summary><b>groovy</b></summary>
+<summary><b>build.gradle (Groovy)</b></summary>
 
 ```groovy
 gnag {
@@ -137,7 +149,7 @@ gnag {
 </details>
 
 <details>
-<summary><b>kotlin</b></summary>
+<summary><b>build.gradle.kts (Kotlin)</b></summary>
 
 ```kotlin
 gnag {
@@ -194,7 +206,7 @@ gnag {
 - ***failOnError*** - should violations cause the build to fail or just generate a report; if set to false, you may need to add the following to prevent your build still failing from Android Lint errors:
 
     <details open>
-    <summary><b>groovy</b></summary>
+    <summary><b>build.gradle (Groovy)</b></summary>
 
     ```
     android {
@@ -207,7 +219,7 @@ gnag {
     </details>
 
     <details>
-    <summary><b>kotlin</b></summary>
+    <summary><b>build.gradle.kts (Kotlin)</b></summary>
 
     ```
     android {
@@ -247,33 +259,81 @@ gnag {
   - ***setCommentOnSuccess*** - whether or not a comment should be posted to GitHub when no violations exist
   - ***useGitHubStatuses*** - should report GitHub status on each module in the PR or just fail if ***failOnError*** enabled
 
-## Example Output
+### Multi-Module Projects
 
-Below are examples of output posted to a GitHub PR on a project using Gnag to enforce quality checks.
+To enforce the same quality checks across multiple Gradle modules, apply and configure Gnag in your root `build.gradle` file as follows (you can remove the equivalent code from submobule `build.gradle` files):
 
-### Inline Comments
+<details open>
+<summary><b>build.gradle (Groovy)</b></summary>
 
-Violations associated with a specific line in your PR will be posted as comments on that line:
+```groovy
+buildscript {
+    repositories {
+        // ...
+        jcenter()
+    }
 
-![](assets/comments-inline.png)
+    dependencies {
+        // ...
+        classpath 'com.btkelly:gnag:2.4.1'
+    }
+}
 
-### Aggregated Comments
+subprojects {
+    apply plugin: 'gnag'
 
-Violations that cannot be associated with a specific line in your PR will be aggregated and posted in a single top-level PR comment. This will include:
+    gnag {
+        // Standard Gnag configuration goes here.
+        //
+        // Reference tool configuration files using the rootProject:
+        //   reporterConfig rootProject.file('config/toolrules.xml')
+    }
+}
+```
 
-- violations associated with entire files or projects;
-- violations detected by individual reporters with invalid file location information.
+</details>
 
-![](assets/comments-aggregated.png)
+<details>
+<summary><b>build.gradle.kts (Kotlin)</b></summary>
+
+```kotlin
+buildscript {
+    repositories {
+        // ...
+        jcenter()
+    }
+
+    dependencies {
+        // ...
+        classpath("com.btkelly:gnag:2.4.1")
+    }
+}
+
+subprojects {
+    apply(plugin = "gnag")
+
+    configure<com.btkelly.gnag.extensions.GnagPluginExtension> {
+        // Standard Gnag configuration goes here.
+        //
+        // Reference tool configuration files using the rootProject:
+        //   reporterConfig(rootProject.file("config/toolrules.xml"))
+    }
+}
+
+```
+
+</details>
+
+You may need to keep the Android lint portions of your configuration in submodule `build.gradle` files if your project includes non-Android submodules. In this case, you should also use the `rootProject` to reference any shared lint configuration file.
 
 ## Example [Travis CI](http://travis-ci.org) Usage
 
-Travis is a continuous integration service and is free for open source projects. Below is an example of
- how to configure Gnag to run on Travis.
+Travis is a continuous integration service and is free for open source projects. Below is an example of how to configure Gnag to run on Travis.
 
- You must set an environment variable on your Travis instance for the `PR_BOT_AUTH_TOKEN` used to post comments back to GitHub.
+You must set an environment variable on your Travis instance for the `PR_BOT_AUTH_TOKEN` used to post comments back to GitHub.
 
 ***.travis.yml***
+
 ```yml
 language: android
 android:
@@ -291,6 +351,7 @@ script: "./travis-build.sh"
 ```
 
 ***travis-build.sh***
+
 ```bash
 #!/bin/bash
 set -ev
@@ -302,18 +363,20 @@ else
 fi
 ```
 
-### License
+## License
 
-    Copyright 2016 Bryan Kelly
+```
+Copyright 2016 Bryan Kelly
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+   http://www.apache.org/licenses/LICENSE-2.0
 
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
