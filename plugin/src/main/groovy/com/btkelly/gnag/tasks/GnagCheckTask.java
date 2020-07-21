@@ -33,6 +33,7 @@ import com.btkelly.gnag.reporters.ViolationDetector;
 import com.btkelly.gnag.utils.ProjectHelper;
 import com.btkelly.gnag.utils.ReportWriter;
 import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -161,11 +162,11 @@ public class GnagCheckTask extends DefaultTask {
 
       getProject().setStatus(new CheckStatus(FAILURE, allDetectedViolations));
 
+      File reportFile = new File(reportsDir, REPORT_FILE_NAME);
+
       final String failedMessage
-          = "One or more violation detectors has found violations. Check the report at "
-          + reportsDir
-          + File.separatorChar
-          + REPORT_FILE_NAME + " for details.";
+          = "One or more violation detectors has found violations. Check the report at " +
+              reportFile.toURI() + " for details.";
 
       if (gnagPluginExtension.shouldFailOnError() && !taskExecutionGraphIncludesGnagReport()) {
         throw new GradleException(failedMessage);
