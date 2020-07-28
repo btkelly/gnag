@@ -2,6 +2,7 @@
 .idea/
 build/
 local.properties
+gradle.properties
 *.iml
 
 # Created by https://www.gitignore.io/api/java,macos,gradle,intellij
