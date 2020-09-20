@@ -4,14 +4,17 @@ plugins {
     id("com.github.hierynomus.license").version("0.15.0")
     id("com.btkelly.gnag").version("2.2.3")
 }
+apply {
+    plugin("kotlin-android")
+}
 
 android {
-    compileSdkVersion(28)
+    compileSdkVersion(29)
 
     defaultConfig {
         applicationId = "com.gnag.example"
         minSdkVersion(21)
-        targetSdkVersion(28)
+        targetSdkVersion(29)
         versionCode = 1
         versionName = "1.0"
     }
@@ -33,8 +36,8 @@ android {
 }
 
 dependencies {
-    implementation("com.android.support:appcompat-v7:28.0.0")
-    testImplementation("junit:junit:4.12")
+    implementation("androidx.appcompat:appcompat:1.2.0")
+    testImplementation("junit:junit:4.13")
 }
 
 license {
@@ -59,4 +62,7 @@ gnag {
         setCommentInline(true)
         setCommentOnSuccess(true)
     }
+}
+repositories {
+    mavenCentral()
 }
