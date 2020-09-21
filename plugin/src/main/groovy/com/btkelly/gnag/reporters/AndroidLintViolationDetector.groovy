@@ -21,8 +21,9 @@ import com.btkelly.gnag.reporters.utils.LineNumberParser
 import com.btkelly.gnag.reporters.utils.PathCalculator
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
-import com.vladsch.flexmark.profiles.pegdown.PegdownOptionsAdapter
-import com.vladsch.flexmark.util.options.DataHolder
+import com.vladsch.flexmark.profile.pegdown.Extensions
+import com.vladsch.flexmark.profile.pegdown.PegdownOptionsAdapter
+import com.vladsch.flexmark.util.data.DataHolder
 import groovy.util.slurpersupport.GPathResult
 import org.gradle.api.GradleException
 import org.gradle.api.Project
@@ -31,11 +32,10 @@ import static com.btkelly.gnag.extensions.AndroidLintExtension.SEVERITY_ERROR
 import static com.btkelly.gnag.extensions.AndroidLintExtension.SEVERITY_WARNING
 import static com.btkelly.gnag.utils.StringUtils.sanitizePreservingNulls
 import static com.btkelly.gnag.utils.StringUtils.sanitizeToNonNull
-import static com.vladsch.flexmark.profiles.pegdown.Extensions.*
 
 class AndroidLintViolationDetector extends BaseViolationDetector {
 
-    private static final int FLEXMARK_GFM_OPTIONS = HARDWRAPS | AUTOLINKS | FENCED_CODE_BLOCKS
+    private static final int FLEXMARK_GFM_OPTIONS = Extensions.HARDWRAPS | Extensions.AUTOLINKS | Extensions.FENCED_CODE_BLOCKS
 
     private final AndroidLintExtension androidLintExtension
 

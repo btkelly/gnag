@@ -89,7 +89,7 @@ public class GnagCheckTask extends DefaultTask {
 
     if (gnagPluginExtension.ktlint.isEnabled() && projectHelper.hasKotlinSourceFiles()) {
       String overrideToolVersion = gnagPluginExtension.ktlint.getToolVersion();
-      String toolVersion = overrideToolVersion != null ? overrideToolVersion : "0.35.0";
+      String toolVersion = overrideToolVersion != null ? overrideToolVersion : "0.39.0";
 
       project.getConfigurations().create("gnagKtlint");
       project.getDependencies().add("gnagKtlint", "com.pinterest:ktlint:" + toolVersion);
@@ -102,7 +102,7 @@ public class GnagCheckTask extends DefaultTask {
 
     if (gnagPluginExtension.detekt.isEnabled() && projectHelper.hasKotlinSourceFiles()) {
       String overrideToolVersion = gnagPluginExtension.detekt.getToolVersion();
-      String toolVersion = overrideToolVersion != null ? overrideToolVersion : "1.1.1";
+      String toolVersion = overrideToolVersion != null ? overrideToolVersion : "1.13.1";
 
       project.getConfigurations().create("gnagDetekt");
       project.getDependencies().add("gnagDetekt", "io.gitlab.arturbosch.detekt:detekt-cli:" + toolVersion);
