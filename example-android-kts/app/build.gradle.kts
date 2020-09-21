@@ -2,10 +2,11 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("com.github.hierynomus.license").version("0.15.0")
-    id("com.btkelly.gnag").version("2.2.3")
 }
+
 apply {
     plugin("kotlin-android")
+    plugin("gnag")
 }
 
 android {
@@ -62,7 +63,4 @@ gnag {
         setCommentInline(true)
         setCommentOnSuccess(true)
     }
-}
-repositories {
-    mavenCentral()
 }

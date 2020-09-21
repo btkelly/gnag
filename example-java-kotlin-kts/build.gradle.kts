@@ -1,14 +1,27 @@
 buildscript {
     repositories {
         mavenLocal()
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath("com.btkelly:gnag:2.5.0")
     }
 }
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.3.11"
+    id("org.jetbrains.kotlin.jvm") version "1.4.10"
     id("com.github.hierynomus.license") version "0.15.0"
     application
-    id("com.btkelly.gnag") version "2.2.0"
+}
+
+apply(plugin = "com.btkelly.gnag")
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
 }
 
 group = "com.btkelly.gnag"
@@ -18,13 +31,9 @@ application {
     mainClassName = "com.btkelly.gnag.example.KotlinFileInKotlinSourceSet"
 }
 
-repositories {
-    jcenter()
-}
-
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.11")
-    testImplementation(group = "junit", name = "junit", version = "4.12")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.10")
+    testImplementation(group = "junit", name = "junit", version = "4.13")
 }
 
 license {

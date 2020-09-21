@@ -17,7 +17,7 @@ plugins {
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'gnag'
+apply plugin: 'com.btkelly.gnag'
 
 android {
     compileSdkVersion 29
