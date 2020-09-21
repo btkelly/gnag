@@ -32,22 +32,22 @@ repositories {
 
 dependencies {
     //Gradle specific classes for plugin creation
-    compile gradleApi()
+    implementation gradleApi()
 
-    compile 'com.squareup.retrofit2:retrofit:2.0.2'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
-    compile 'com.github.stkent:githubdiffparser:1.0.1'
-    compile 'org.jetbrains:annotations:16.0.2'
-    compile 'com.vladsch.flexmark:flexmark-all:0.34.4'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+    implementation 'com.github.stkent:githubdiffparser:1.0.1'
+    implementation 'org.jetbrains:annotations:20.1.0'
+    implementation 'com.vladsch.flexmark:flexmark-all:0.62.2'
 
     // Built in checks
-    compile('com.puppycrawl.tools:checkstyle:8.18') {
+    implementation('com.puppycrawl.tools:checkstyle:8.36.1') {
         // See discussion here: https://github.com/btkelly/gnag/issues/196
         exclude group: 'net.sf.saxon', module: 'Saxon-HE'
     }
 
-    compile 'com.google.code.findbugs:findbugs:3.0.1'
-    compile 'net.sourceforge.pmd:pmd-java:6.18.0'
+    implementation 'com.google.code.findbugs:findbugs:3.0.1'
+    implementation 'net.sourceforge.pmd:pmd-java:6.27.0'
 
     // Testing
     testCompile group: 'junit', name: 'junit', version: '4.12'
