@@ -128,8 +128,7 @@ public class GnagCheckTask extends DefaultTask {
     }
   }
 
-  @Override
-  public Logger getLogger() {
+  private Logger getGnagLogger() {
     return Logging.getLogger(GnagPlugin.class);
   }
 
@@ -144,20 +143,20 @@ public class GnagCheckTask extends DefaultTask {
       final List<Violation> detectedViolations = violationDetector.getDetectedViolations();
       allDetectedViolations.addAll(detectedViolations);
 
-      getLogger().lifecycle(
+      getGnagLogger().lifecycle(
           violationDetector.name() + " detected " + detectedViolations.size() + " violations.");
     });
 
     final File reportsDir = projectHelper.getReportsDir();
 
     if (allDetectedViolations.isEmpty()) {
-      ReportWriter.deleteLocalReportFiles(reportsDir, getLogger());
+      ReportWriter.deleteLocalReportFiles(reportsDir, getGnagLogger());
 
       getProject().setStatus(CheckStatus.getSuccessfulCheckStatus());
 
-      getLogger().lifecycle("Congrats, no poop code found!");
+      getGnagLogger().lifecycle("Congrats, no poop code found!");
     } else {
-      ReportWriter.writeLocalReportFiles(allDetectedViolations, reportsDir, getLogger());
+      ReportWriter.writeLocalReportFiles(allDetectedViolations, reportsDir, getGnagLogger());
 
       getProject().setStatus(new CheckStatus(FAILURE, allDetectedViolations));
 
@@ -169,7 +168,7 @@ public class GnagCheckTask extends DefaultTask {
       if (gnagPluginExtension.shouldFailOnError() && !taskExecutionGraphIncludesGnagReport()) {
         throw new GradleException(failedMessage);
       } else {
-        getLogger().lifecycle(failedMessage);
+        getGnagLogger().lifecycle(failedMessage);
         throw new StopExecutionException(failedMessage);
       }
     }

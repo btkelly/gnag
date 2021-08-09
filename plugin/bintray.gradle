@@ -58,7 +58,3 @@ task createClasspathManifest {
         file("$outputDir/plugin-classpath.txt").text = sourceSets.main.runtimeClasspath.join("\n")
     }
 }
-
-dependencies {
-    testRuntime files(createClasspathManifest)
-}

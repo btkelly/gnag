@@ -12,8 +12,7 @@ buildscript {
 }
 
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.4.10"
-    id "com.github.hierynomus.license" version "0.15.0"
+    id "org.jetbrains.kotlin.jvm" version "1.4.31"
 }
 
 group 'com.btkelly.gnag'
@@ -29,16 +28,9 @@ repositories {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.10"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.31"
     testImplementation group: 'junit', name: 'junit', version: '4.13'
 }
-
-license {
-    header = file('../LICENSE_HEADER.txt')
-    strictCheck true
-}
-
-clean.dependsOn licenseFormat
 
 gnag {
     enabled true

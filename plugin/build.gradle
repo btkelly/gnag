@@ -11,7 +11,6 @@ buildscript {
 
 plugins {
     id "com.jfrog.bintray" version "1.8.4"
-    id "com.github.hierynomus.license" version "0.15.0"
 }
 
 apply plugin: 'groovy'
@@ -21,10 +20,6 @@ apply from: file('gradle-site.gradle')
 
 group 'com.btkelly'
 version gnagPluginVersion
-
-compileJava {
-    sourceCompatibility = '1.8'
-}
 
 repositories {
     jcenter()
@@ -50,12 +45,5 @@ dependencies {
     implementation 'net.sourceforge.pmd:pmd-java:6.27.0'
 
     // Testing
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
 }
-
-license {
-    header = file('../LICENSE_HEADER.txt')
-    strictCheck true
-}
-
-clean.dependsOn licenseFormat

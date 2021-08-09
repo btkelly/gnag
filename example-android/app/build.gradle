@@ -11,10 +11,6 @@ buildscript {
     }
 }
 
-plugins {
-    id "com.github.hierynomus.license" version "0.15.0"
-}
-
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.btkelly.gnag'
@@ -50,13 +46,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     testImplementation 'junit:junit:4.13'
 }
-
-license {
-    header = file('../../LICENSE_HEADER.txt')
-    strictCheck true
-}
-
-clean.dependsOn licenseFormat
 
 gnag {
     enabled true

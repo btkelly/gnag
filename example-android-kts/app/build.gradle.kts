@@ -1,8 +1,7 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("com.github.hierynomus.license").version("0.15.0")
-    id("com.btkelly.gnag") version "2.5.0"
+    id("com.btkelly.gnag") version "2.6.0"
 }
 
 apply {
@@ -30,23 +29,12 @@ android {
     sourceSets {
         getByName("main").java.srcDirs("src/main/kotlin")
     }
-
-    lintOptions {
-        setAbortOnError(false)
-    }
 }
 
 dependencies {
-    implementation("androidx.appcompat:appcompat:1.2.0")
+    implementation("androidx.appcompat:appcompat:1.3.1")
     testImplementation("junit:junit:4.13")
 }
-
-license {
-    header = file("../../LICENSE_HEADER.txt")
-    strictCheck = true
-}
-
-tasks.getByName("clean").dependsOn("licenseFormat")
 
 gnag {
     isEnabled = true
