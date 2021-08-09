@@ -75,7 +75,7 @@ class PMDViolationDetector extends BaseViolationDetector {
 
     @Override
     File reportFile() {
-        File parentDir = getPMDReportDir(projectHelper)
+        File parentDir = getReportDir(projectHelper)
         return new File(parentDir, "main.xml")
     }
 
@@ -88,12 +88,12 @@ class PMDViolationDetector extends BaseViolationDetector {
             projectHelper.project.plugins.apply("pmd")
             projectHelper.project.pmd.toolVersion = toolVersion
             projectHelper.project.pmd.ignoreFailures = true
-            projectHelper.project.pmd.reportsDir = getPMDReportDir(projectHelper)
+            projectHelper.project.pmd.reportsDir = getReportDir(projectHelper)
 
             ReporterExtension reporterExtension = gnagPluginExtension.pmd
 
             if (reporterExtension.hasReporterConfig()) {
-                projectHelper.project.pmd.ruleSetFiles = reporterExtension.getReporterConfig().toString()
+                projectHelper.project.pmd.ruleSetFiles = projectHelper.project.files(reporterExtension.getReporterConfig())
             } else {
                 final InputStream defaultPmdRulesInputStream = ViolationDetector.getClassLoader().getResourceAsStream("pmd.xml")
                 final File tempPmdRuleSetFile = File.createTempFile("pmdRuleSetFile", null)
@@ -110,10 +110,9 @@ class PMDViolationDetector extends BaseViolationDetector {
         return null
     }
 
-    private static File getPMDReportDir(ProjectHelper projectHelper) {
+    private static File getReportDir(ProjectHelper projectHelper) {
         File parentDir = new File(projectHelper.getReportsDir(), "/pmd/")
         parentDir.mkdirs()
         return parentDir
     }
-
 }

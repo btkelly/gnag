@@ -5,7 +5,7 @@
 if [ $? -eq 0 ]; then
 	cd example-java-kotlin-kts/
 
-	./gradlew clean gnagCheck --stacktrace
+	./gradlew clean gnagCheck
 
 	cd ..
 fi

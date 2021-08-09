@@ -15,11 +15,13 @@
  */
 package com.btkelly.gnag.reporters
 
+import com.btkelly.gnag.extensions.GnagPluginExtension
 import com.btkelly.gnag.extensions.ReporterExtension
 import com.btkelly.gnag.models.Violation
 import com.btkelly.gnag.reporters.utils.CheckstyleParser
-import com.puppycrawl.tools.checkstyle.ant.CheckstyleAntTask
-import org.apache.tools.ant.types.FileSet
+import com.btkelly.gnag.tasks.GnagCheckTask
+import com.btkelly.gnag.utils.ProjectHelper
+import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
 
 /**
@@ -31,28 +33,6 @@ class CheckstyleViolationDetector extends BaseViolationDetector {
 
     CheckstyleViolationDetector(final Project project, final ReporterExtension reporterExtension) {
         super(project, reporterExtension)
-    }
-
-    void executeReporter() {
-
-        CheckstyleAntTask checkStyleTask = new CheckstyleAntTask()
-        checkStyleTask.project = project.ant.antProject
-        checkStyleTask.failOnViolation = false
-        checkStyleTask.addFormatter(new CheckstyleAntTask.Formatter(type: new CheckstyleAntTask.FormatterType(value: 'xml'), tofile: reportFile()))
-
-        if (reporterExtension.hasReporterConfig()) {
-            checkStyleTask.setConfig(reporterExtension.getReporterConfig().toString())
-        } else {
-            checkStyleTask.setConfig(getClass().getClassLoader().getResource("checkstyle.xml").toString())
-        }
-
-        projectHelper.getJavaSourceFiles().each { sourceFile ->
-            FileSet fileSet = new FileSet()
-            fileSet.file = sourceFile
-            checkStyleTask.addFileset(fileSet)
-        }
-
-        checkStyleTask.perform()
     }
 
     @Override
@@ -67,7 +47,46 @@ class CheckstyleViolationDetector extends BaseViolationDetector {
 
     @Override
     File reportFile() {
-        return new File(projectHelper.getReportsDir(), "checkstyle_report.xml")
+        File parentDir = getReportDir(projectHelper)
+        return new File(parentDir, "main.xml")
+    }
+
+    static ViolationDetector configure(ProjectHelper projectHelper, GnagCheckTask gnagCheckTask, GnagPluginExtension gnagPluginExtension) {
+        if (gnagPluginExtension.checkstyle.isEnabled() && projectHelper.hasJavaSourceFiles()) {
+            String overrideToolVersion = gnagPluginExtension.checkstyle.getToolVersion()
+            String toolVersion = overrideToolVersion != null ? overrideToolVersion : GnagCheckTask.CHECKSTYLE_TOOL_VERSION
+
+            projectHelper.project.getConfigurations().create("gnagCheckstyle")
+            projectHelper.project.plugins.apply("checkstyle")
+            projectHelper.project.checkstyle.toolVersion = toolVersion
+            projectHelper.project.checkstyle.ignoreFailures = true
+            projectHelper.project.checkstyle.showViolations = false
+            projectHelper.project.checkstyle.reportsDir = getReportDir(projectHelper)
+
+            ReporterExtension reporterExtension = gnagPluginExtension.checkstyle
+
+            if (reporterExtension.hasReporterConfig()) {
+                projectHelper.project.checkstyle.configFile = reporterExtension.getReporterConfig()
+            } else {
+                final InputStream defaultCheckstyleConfigInputStream = ViolationDetector.getClassLoader().getResourceAsStream("checkstyle.xml")
+                final File tempCheckstyleConfigFile = File.createTempFile("checkstyleConfig", null)
+                tempCheckstyleConfigFile.deleteOnExit()
+                FileUtils.copyInputStreamToFile(defaultCheckstyleConfigInputStream, tempCheckstyleConfigFile)
+                projectHelper.project.checkstyle.configFile = tempCheckstyleConfigFile
+            }
+
+            gnagCheckTask.dependsOn("checkstyleMain")
+
+            return new CheckstyleViolationDetector(projectHelper.project, gnagPluginExtension.checkstyle)
+        }
+
+        return null
+    }
+
+    private static File getReportDir(ProjectHelper projectHelper) {
+        File parentDir = new File(projectHelper.getReportsDir(), "/checkstyle/")
+        parentDir.mkdirs()
+        return parentDir
     }
 
 }

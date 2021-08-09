@@ -23,10 +23,8 @@ import com.btkelly.gnag.extensions.GnagPluginExtension;
 import com.btkelly.gnag.models.CheckStatus;
 import com.btkelly.gnag.models.Violation;
 import com.btkelly.gnag.reporters.AndroidLintViolationDetector;
-import com.btkelly.gnag.reporters.BaseExecutedViolationDetector;
 import com.btkelly.gnag.reporters.CheckstyleViolationDetector;
 import com.btkelly.gnag.reporters.DetektViolationDetector;
-import com.btkelly.gnag.reporters.FindbugsViolationDetector;
 import com.btkelly.gnag.reporters.KtlintViolationDetector;
 import com.btkelly.gnag.reporters.PMDViolationDetector;
 import com.btkelly.gnag.reporters.ViolationDetector;
@@ -56,6 +54,7 @@ public class GnagCheckTask extends DefaultTask {
   public static final String KTLINT_TOOL_VERSION = "0.39.0";
   public static final String DETEKT_TOOL_VERSION = "1.13.1";
   public static final String PMD_TOOL_VERSION = "6.22.0";
+  public static final String CHECKSTYLE_TOOL_VERSION = "8.45.1";
 
   static final String TASK_NAME = "gnagCheck";
   private final ProjectHelper projectHelper = new ProjectHelper(getProject());
@@ -76,12 +75,10 @@ public class GnagCheckTask extends DefaultTask {
     GnagCheckTask gnagCheckTask = (GnagCheckTask) project.task(taskOptions, TASK_NAME);
     gnagCheckTask.setGnagPluginExtension(gnagPluginExtension);
 
-    /*
-    if (gnagPluginExtension.checkstyle.isEnabled() && projectHelper.hasJavaSourceFiles()) {
-      gnagCheckTask.violationDetectors
-          .add(new CheckstyleViolationDetector(project, gnagPluginExtension.checkstyle));
+    ViolationDetector checkstyleViolationDetector = CheckstyleViolationDetector.configure(projectHelper, gnagCheckTask, gnagPluginExtension);
+    if (checkstyleViolationDetector != null) {
+      gnagCheckTask.violationDetectors.add(checkstyleViolationDetector);
     }
-     */
 
     ViolationDetector pmdViolationDetector = PMDViolationDetector.configure(projectHelper, gnagCheckTask, gnagPluginExtension);
     if (pmdViolationDetector != null) {
@@ -120,10 +117,6 @@ public class GnagCheckTask extends DefaultTask {
     final Set<Violation> allDetectedViolations = new HashSet<>();
 
     violationDetectors.forEach(violationDetector -> {
-      if (violationDetector instanceof BaseExecutedViolationDetector) {
-        ((BaseExecutedViolationDetector) violationDetector).executeReporter();
-      }
-
       final List<Violation> detectedViolations = violationDetector.getDetectedViolations();
       allDetectedViolations.addAll(detectedViolations);
 
