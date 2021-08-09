@@ -3,7 +3,7 @@ buildscript {
 
     repositories {
         mavenLocal()
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
@@ -24,7 +24,7 @@ apply plugin: 'gnag'
 mainClassName = "com.btkelly.gnag.example.KotlinFileInKotlinSourceSet"
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {

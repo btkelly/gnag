@@ -22,7 +22,7 @@ group 'com.btkelly'
 version gnagPluginVersion
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
