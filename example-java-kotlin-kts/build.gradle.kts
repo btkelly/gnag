@@ -1,5 +1,5 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.4.10"
+    id("org.jetbrains.kotlin.jvm") version "1.5.21"
     id("com.btkelly.gnag") version "2.6.0"
     application
 }
@@ -18,7 +18,7 @@ application {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.31")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.21")
     testImplementation(group = "junit", name = "junit", version = "4.13")
 }
 

@@ -5,12 +5,12 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.gradle.publish:plugin-publish-plugin:0.12.0"
+        classpath "com.gradle.publish:plugin-publish-plugin:0.15.0"
     }
 }
 
 plugins {
-    id "com.jfrog.bintray" version "1.8.4"
+    id "com.jfrog.bintray" version "1.8.5"
 }
 
 apply plugin: 'groovy'
@@ -36,13 +36,9 @@ dependencies {
     implementation 'com.vladsch.flexmark:flexmark-all:0.62.2'
 
     // Built in checks
-    implementation('com.puppycrawl.tools:checkstyle:8.36.1') {
-        // See discussion here: https://github.com/btkelly/gnag/issues/196
-        exclude group: 'net.sf.saxon', module: 'Saxon-HE'
-    }
-
+    implementation('com.puppycrawl.tools:checkstyle:8.45.1')
     implementation 'com.google.code.findbugs:findbugs:3.0.1'
-    implementation 'net.sourceforge.pmd:pmd-java:6.27.0'
+    implementation 'net.sourceforge.pmd:pmd-java:6.37.0'
 
     // Testing
     testImplementation group: 'junit', name: 'junit', version: '4.12'

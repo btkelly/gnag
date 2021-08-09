@@ -1,24 +1,7 @@
 <?xml version="1.0"?>
-<!--
-
-    Copyright 2016 Bryan Kelly
-
-    Licensed under the Apache License, Version 2.0 (the "License"); you may not
-    use this file except in compliance with the License.
-
-    You may obtain a copy of the License at
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-    License for the specific language governing permissions and limitations
-    under the License.
-
--->
 <!DOCTYPE module PUBLIC
-        "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
-        "https://checkstyle.org/dtds/configuration_1_3.dtd">
+    "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+    "https://checkstyle.org/dtds/configuration_1_3.dtd">
 
 <!--
     Checkstyle configuration that checks the Google coding conventions from Google Java Style
@@ -169,13 +152,13 @@
       <property name="option" value="EOL"/>
     </module>
     <module name="SeparatorWrap">
-      <!-- ELLIPSIS is EOL until https://github.com/google/styleguide/issues/258 -->
+      <!-- ELLIPSIS is EOL until https://github.com/google/styleguide/issues/259 -->
       <property name="id" value="SeparatorWrapEllipsis"/>
       <property name="tokens" value="ELLIPSIS"/>
       <property name="option" value="EOL"/>
     </module>
     <module name="SeparatorWrap">
-      <!-- ARRAY_DECLARATOR is EOL until https://github.com/google/styleguide/issues/259 -->
+      <!-- ARRAY_DECLARATOR is EOL until https://github.com/google/styleguide/issues/258 -->
       <property name="id" value="SeparatorWrapArrayDeclarator"/>
       <property name="tokens" value="ARRAY_DECLARATOR"/>
       <property name="option" value="EOL"/>
@@ -231,6 +214,11 @@
       <message key="name.invalidPattern"
                value="Class type name ''{0}'' must match pattern ''{1}''."/>
     </module>
+    <module name="RecordComponentName">
+      <property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
+      <message key="name.invalidPattern"
+               value="Record component name ''{0}'' must match pattern ''{1}''."/>
+    </module>
     <module name="RecordTypeParameterName">
       <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
       <message key="name.invalidPattern"
@@ -259,7 +247,7 @@
     </module>
     <module name="Indentation">
       <property name="basicOffset" value="2"/>
-      <property name="braceAdjustment" value="0"/>
+      <property name="braceAdjustment" value="2"/>
       <property name="caseIndent" value="2"/>
       <property name="throwsIndent" value="4"/>
       <property name="lineWrappingIndentation" value="4"/>
@@ -273,6 +261,7 @@
                     PARAMETER_DEF, VARIABLE_DEF, METHOD_DEF, PATTERN_VARIABLE_DEF, RECORD_DEF,
                     RECORD_COMPONENT_DEF"/>
     </module>
+    <module name="NoWhitespaceBeforeCaseDefaultColon"/>
     <module name="OverloadMethodsDeclarationOrder"/>
     <module name="VariableDeclarationUsageDistance"/>
     <module name="CustomImportOrder">
@@ -304,7 +293,8 @@
       <property name="option" value="NL"/>
       <property name="tokens"
                 value="BAND, BOR, BSR, BXOR, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF, LOR,
-                    LT, MINUS, MOD, NOT_EQUAL, PLUS, QUESTION, SL, SR, STAR, METHOD_REF "/>
+                    LT, MINUS, MOD, NOT_EQUAL, PLUS, QUESTION, SL, SR, STAR, METHOD_REF,
+                    TYPE_EXTENSION_AND "/>
     </module>
     <module name="AnnotationLocation">
       <property name="id" value="AnnotationLocationMostCases"/>
@@ -332,7 +322,7 @@
                 value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF, VARIABLE_DEF"/>
     </module>
     <module name="JavadocMethod">
-      <property name="scope" value="public"/>
+      <property name="accessModifiers" value="public"/>
       <property name="allowMissingParamTags" value="true"/>
       <property name="allowMissingReturnTag" value="true"/>
       <property name="allowedAnnotations" value="Override, Test"/>
@@ -345,14 +335,19 @@
       <property name="tokens" value="METHOD_DEF, CTOR_DEF, ANNOTATION_FIELD_DEF,
                                    COMPACT_CTOR_DEF"/>
     </module>
+    <module name="MissingJavadocType">
+      <property name="scope" value="protected"/>
+      <property name="tokens"
+                value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF,
+                      RECORD_DEF, ANNOTATION_DEF"/>
+      <property name="excludeScope" value="nothing"/>
+    </module>
     <module name="MethodName">
       <property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9_]*$"/>
       <message key="name.invalidPattern"
                value="Method name ''{0}'' must match pattern ''{1}''."/>
     </module>
-    <module name="SingleLineJavadoc">
-      <property name="ignoreInlineTags" value="false"/>
-    </module>
+    <module name="SingleLineJavadoc"/>
     <module name="EmptyCatchBlock">
       <property name="exceptionVariableName" value="expected"/>
     </module>
