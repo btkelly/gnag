@@ -25,7 +25,7 @@ import org.gradle.api.Project
 /**
  * Created by bobbake4 on 4/1/16.
  */
-class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
+class CheckstyleViolationDetector extends BaseViolationDetector {
 
     private final CheckstyleParser checkstyleParser = new CheckstyleParser()
 
@@ -33,7 +33,6 @@ class CheckstyleViolationDetector extends BaseExecutedViolationDetector {
         super(project, reporterExtension)
     }
 
-    @Override
     void executeReporter() {
 
         CheckstyleAntTask checkStyleTask = new CheckstyleAntTask()

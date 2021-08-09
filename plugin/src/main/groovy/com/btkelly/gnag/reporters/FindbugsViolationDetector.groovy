@@ -20,7 +20,7 @@ import com.btkelly.gnag.models.Violation
 import com.btkelly.gnag.reporters.utils.LineNumberParser
 import com.btkelly.gnag.reporters.utils.PathCalculator
 import edu.umd.cs.findbugs.anttask.FindBugsTask
-import groovy.util.slurpersupport.GPathResult
+import groovy.xml.slurpersupport.GPathResult
 import org.apache.tools.ant.types.FileSet
 import org.apache.tools.ant.types.Path
 import org.gradle.api.Project
@@ -111,31 +111,36 @@ class FindbugsViolationDetector extends BaseExecutedViolationDetector {
 
     @Override
     List<Violation> getDetectedViolations() {
-        GPathResult xml = new XmlSlurper().parseText(reportFile().text)
-        final List<String> sourceFilePaths = computeSourceFilePaths(xml)
 
         final List<Violation> result = new ArrayList<>()
 
-        xml.BugInstance.list()
-                .each { violation ->
-            final String violationType = sanitizeToNonNull((String) violation.@type.text())
+        final reportContent = reportFile().text
 
-            final String relativeFilePath =
-                    computeRelativeFilePathIfPossible((GPathResult) violation, sourceFilePaths)
+        if (reportContent != null && reportContent.trim().length() != 0) {
+            GPathResult xml = new groovy.xml.XmlSlurper().parseText()
+            final List<String> sourceFilePaths = computeSourceFilePaths(xml)
 
-            final String lineNumberString = sanitizeToNonNull((String) violation.SourceLine.@end.text())
-            final Integer lineNumber = LineNumberParser.parseLineNumberString(
-                    lineNumberString,
-                    name(),
-                    violationType,
-                    project.getLogger())
+            xml.BugInstance.list()
+                    .each { violation ->
+                        final String violationType = sanitizeToNonNull((String) violation.@type.text())
 
-            result.add(new Violation(
-                    violationType,
-                    name(),
-                    sanitizePreservingNulls((String) violation.ShortMessage.text()),
-                    relativeFilePath,
-                    lineNumber))
+                        final String relativeFilePath =
+                                computeRelativeFilePathIfPossible((GPathResult) violation, sourceFilePaths)
+
+                        final String lineNumberString = sanitizeToNonNull((String) violation.SourceLine.@end.text())
+                        final Integer lineNumber = LineNumberParser.parseLineNumberString(
+                                lineNumberString,
+                                name(),
+                                violationType,
+                                project.getLogger())
+
+                        result.add(new Violation(
+                                violationType,
+                                name(),
+                                sanitizePreservingNulls((String) violation.ShortMessage.text()),
+                                relativeFilePath,
+                                lineNumber))
+                    }
         }
 
         return result

@@ -16,15 +16,18 @@
 package com.btkelly.gnag.reporters
 
 import com.btkelly.gnag.extensions.AndroidLintExtension
+import com.btkelly.gnag.extensions.GnagPluginExtension
 import com.btkelly.gnag.models.Violation
 import com.btkelly.gnag.reporters.utils.LineNumberParser
 import com.btkelly.gnag.reporters.utils.PathCalculator
+import com.btkelly.gnag.tasks.GnagCheckTask
+import com.btkelly.gnag.utils.ProjectHelper
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.profile.pegdown.Extensions
 import com.vladsch.flexmark.profile.pegdown.PegdownOptionsAdapter
 import com.vladsch.flexmark.util.data.DataHolder
-import groovy.util.slurpersupport.GPathResult
+import groovy.xml.slurpersupport.GPathResult
 import org.gradle.api.GradleException
 import org.gradle.api.Project
 
@@ -43,7 +46,7 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
     private final HtmlRenderer renderer
 
     AndroidLintViolationDetector(final Project project, final AndroidLintExtension androidLintExtension) {
-        super(project)
+        super(project, null)
         this.androidLintExtension = androidLintExtension
 
         final DataHolder options = PegdownOptionsAdapter.flexmarkOptions(FLEXMARK_GFM_OPTIONS)
@@ -53,7 +56,7 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
 
     @Override
     List<Violation> getDetectedViolations() {
-        GPathResult xml = new XmlSlurper().parseText(reportFile().text)
+        GPathResult xml = new groovy.xml.XmlSlurper().parseText(reportFile().text)
 
         final List<Violation> result = new ArrayList<>()
 
@@ -140,6 +143,14 @@ class AndroidLintViolationDetector extends BaseViolationDetector {
         }
 
         return result
+    }
+
+    static ViolationDetector configure(ProjectHelper projectHelper, GnagCheckTask gnagCheckTask, GnagPluginExtension gnagPluginExtension) {
+        if (projectHelper.isAndroidProject() && gnagPluginExtension.androidLint.isEnabled()) {
+            return new AndroidLintViolationDetector(projectHelper.project, gnagPluginExtension.androidLint)
+        }
+
+        return null
     }
 
 }

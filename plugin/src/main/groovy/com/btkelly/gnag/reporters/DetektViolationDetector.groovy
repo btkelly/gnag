@@ -15,24 +15,29 @@
  */
 package com.btkelly.gnag.reporters
 
+import com.btkelly.gnag.extensions.GnagPluginExtension
 import com.btkelly.gnag.extensions.ReporterExtension
 import com.btkelly.gnag.models.Violation
 import com.btkelly.gnag.reporters.utils.CheckstyleParser
+import com.btkelly.gnag.tasks.GnagCheckTask
 import com.btkelly.gnag.utils.ProjectHelper
 import org.gradle.api.Project
+import org.gradle.api.Task
+import org.gradle.api.tasks.JavaExec
+
+import static com.btkelly.gnag.GnagPlugin.STD_ERR_LOG_LEVEL
+import static com.btkelly.gnag.GnagPlugin.STD_OUT_LOG_LEVEL
 
 /**
  * Created by bobbake4 on 4/1/16.
  */
 class DetektViolationDetector extends BaseViolationDetector {
 
-    private final ReporterExtension detektReporterExtension
     private final ProjectHelper projectHelper = new ProjectHelper(project)
     private final CheckstyleParser checkstyleParser = new CheckstyleParser()
 
     DetektViolationDetector(final Project project, final ReporterExtension reporterExtension) {
-        super(project)
-        this.detektReporterExtension = reporterExtension
+        super(project, reporterExtension)
     }
 
     @Override
@@ -48,6 +53,48 @@ class DetektViolationDetector extends BaseViolationDetector {
     @Override
     File reportFile() {
         return new File(projectHelper.getReportsDir(), "${projectHelper.getDetektReportFileName()}")
+    }
+
+    static ViolationDetector configure(ProjectHelper projectHelper, GnagCheckTask gnagCheckTask, GnagPluginExtension gnagPluginExtension) {
+        if (gnagPluginExtension.detekt.isEnabled() && projectHelper.hasKotlinSourceFiles()) {
+            String overrideToolVersion = gnagPluginExtension.detekt.getToolVersion()
+            String toolVersion = overrideToolVersion != null ? overrideToolVersion : GnagCheckTask.DETEKT_TOOL_VERSION
+
+            projectHelper.project.getConfigurations().create("gnagDetekt")
+            projectHelper.project.getDependencies().add("gnagDetekt", "io.gitlab.arturbosch.detekt:detekt-cli:" + toolVersion)
+
+            Task detektTask = addTask(projectHelper, gnagPluginExtension.detekt.getReporterConfig())
+            gnagCheckTask.dependsOn(detektTask)
+            return new DetektViolationDetector(projectHelper.project, gnagPluginExtension.detekt)
+        }
+
+        return null
+    }
+
+    static Task addTask(ProjectHelper projectHelper, final File reporterConfig) {
+        Map<String, Object> taskOptions = new HashMap<>()
+
+        taskOptions.put(Task.TASK_NAME, "gnagDetekt")
+        taskOptions.put(Task.TASK_TYPE, JavaExec.class)
+        taskOptions.put(Task.TASK_GROUP, "Verification")
+        taskOptions.put(Task.TASK_DESCRIPTION, "Runs detekt and generates an XML report for parsing by Gnag")
+
+        final Task result = projectHelper.project.task(taskOptions, "gnagDetekt") { task ->
+            main = "io.gitlab.arturbosch.detekt.cli.Main"
+            classpath = projectHelper.project.configurations.gnagDetekt
+            ignoreExitValue = true
+            args "--report", "xml:${projectHelper.getReportsDir()}/${projectHelper.getDetektReportFileName()}"
+            args "--input", "${projectHelper.kotlinSourceFiles.join(',')}"
+
+            if (reporterConfig != null) {
+                args "--config", "$reporterConfig"
+            }
+        }
+
+        result.logging.captureStandardOutput(STD_OUT_LOG_LEVEL)
+        result.logging.captureStandardError(STD_ERR_LOG_LEVEL)
+
+        return result
     }
 
 }

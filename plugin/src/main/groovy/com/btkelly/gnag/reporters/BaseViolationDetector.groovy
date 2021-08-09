@@ -15,14 +15,20 @@
  */
 package com.btkelly.gnag.reporters
 
+import com.btkelly.gnag.extensions.ReporterExtension
+import com.btkelly.gnag.utils.ProjectHelper
 import org.gradle.api.Project
 
 abstract class BaseViolationDetector implements ViolationDetector {
 
     protected final Project project
+    protected final ReporterExtension reporterExtension
+    protected final ProjectHelper projectHelper
 
-    BaseViolationDetector(final Project project) {
+    BaseViolationDetector(final Project project, final ReporterExtension reporterExtension) {
         this.project = project
+        this.projectHelper = new ProjectHelper(project)
+        this.reporterExtension = reporterExtension
     }
 
 }

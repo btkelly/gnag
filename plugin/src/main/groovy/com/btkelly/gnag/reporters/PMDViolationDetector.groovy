@@ -15,14 +15,15 @@
  */
 package com.btkelly.gnag.reporters
 
+import com.btkelly.gnag.extensions.GnagPluginExtension
 import com.btkelly.gnag.extensions.ReporterExtension
 import com.btkelly.gnag.models.Violation
 import com.btkelly.gnag.reporters.utils.LineNumberParser
 import com.btkelly.gnag.reporters.utils.PathCalculator
-import groovy.util.slurpersupport.GPathResult
-import net.sourceforge.pmd.ant.PMDTask
+import com.btkelly.gnag.tasks.GnagCheckTask
+import com.btkelly.gnag.utils.ProjectHelper
+import groovy.xml.slurpersupport.GPathResult
 import org.apache.commons.io.FileUtils
-import org.apache.tools.ant.types.FileSet
 import org.gradle.api.Project
 
 import static com.btkelly.gnag.utils.StringUtils.sanitizePreservingNulls
@@ -31,43 +32,15 @@ import static com.btkelly.gnag.utils.StringUtils.sanitizeToNonNull
 /**
  * Created by bobbake4 on 4/1/16.
  */
-class PMDViolationDetector extends BaseExecutedViolationDetector {
+class PMDViolationDetector extends BaseViolationDetector {
 
     PMDViolationDetector(final Project project, final ReporterExtension reporterExtension) {
         super(project, reporterExtension)
     }
 
     @Override
-    void executeReporter() {
-        PMDTask pmdTask = new PMDTask()
-        pmdTask.project = project.ant.antProject
-        pmdTask.addFormatter(new net.sourceforge.pmd.ant.Formatter(type: 'xml', toFile: reportFile()))
-
-        pmdTask.failOnError = false
-        pmdTask.failOnRuleViolation = false
-
-        if (reporterExtension.hasReporterConfig()) {
-            pmdTask.ruleSetFiles = reporterExtension.getReporterConfig().toString()
-        } else {
-            final InputStream defaultPmdRulesInputStream = getClass().getClassLoader().getResourceAsStream("pmd.xml")
-            final File tempPmdRuleSetFile = File.createTempFile("pmdRuleSetFile", null)
-            tempPmdRuleSetFile.deleteOnExit()
-            FileUtils.copyInputStreamToFile(defaultPmdRulesInputStream, tempPmdRuleSetFile)
-            pmdTask.ruleSetFiles = tempPmdRuleSetFile
-        }
-
-        projectHelper.getJavaSourceFiles().each { sourceFile ->
-            FileSet fileSet = new FileSet()
-            fileSet.file = sourceFile
-            pmdTask.addFileset(fileSet)
-        }
-
-        pmdTask.perform()
-    }
-
-    @Override
     List<Violation> getDetectedViolations() {
-        GPathResult xml = new XmlSlurper().parseText(reportFile().text)
+        GPathResult xml = new groovy.xml.XmlSlurper().parseText(reportFile().text)
 
         final List<Violation> result = new ArrayList<>()
 
@@ -102,7 +75,45 @@ class PMDViolationDetector extends BaseExecutedViolationDetector {
 
     @Override
     File reportFile() {
-        return new File(projectHelper.getReportsDir(), "pmd.xml")
+        File parentDir = getPMDReportDir(projectHelper)
+        return new File(parentDir, "main.xml")
+    }
+
+    static ViolationDetector configure(ProjectHelper projectHelper, GnagCheckTask gnagCheckTask, GnagPluginExtension gnagPluginExtension) {
+        if (gnagPluginExtension.pmd.isEnabled() && projectHelper.hasJavaSourceFiles()) {
+            String overrideToolVersion = gnagPluginExtension.pmd.getToolVersion()
+            String toolVersion = overrideToolVersion != null ? overrideToolVersion : GnagCheckTask.PMD_TOOL_VERSION
+
+            projectHelper.project.getConfigurations().create("gnagPMD")
+            projectHelper.project.plugins.apply("pmd")
+            projectHelper.project.pmd.toolVersion = toolVersion
+            projectHelper.project.pmd.ignoreFailures = true
+            projectHelper.project.pmd.reportsDir = getPMDReportDir(projectHelper)
+
+            ReporterExtension reporterExtension = gnagPluginExtension.pmd
+
+            if (reporterExtension.hasReporterConfig()) {
+                projectHelper.project.pmd.ruleSetFiles = reporterExtension.getReporterConfig().toString()
+            } else {
+                final InputStream defaultPmdRulesInputStream = ViolationDetector.getClassLoader().getResourceAsStream("pmd.xml")
+                final File tempPmdRuleSetFile = File.createTempFile("pmdRuleSetFile", null)
+                tempPmdRuleSetFile.deleteOnExit()
+                FileUtils.copyInputStreamToFile(defaultPmdRulesInputStream, tempPmdRuleSetFile)
+                projectHelper.project.pmd.ruleSetFiles = projectHelper.project.files(tempPmdRuleSetFile)
+            }
+
+            gnagCheckTask.dependsOn("pmdMain")
+
+            return new PMDViolationDetector(projectHelper.project, gnagPluginExtension.pmd)
+        }
+
+        return null
+    }
+
+    private static File getPMDReportDir(ProjectHelper projectHelper) {
+        File parentDir = new File(projectHelper.getReportsDir(), "/pmd/")
+        parentDir.mkdirs()
+        return parentDir
     }
 
 }
