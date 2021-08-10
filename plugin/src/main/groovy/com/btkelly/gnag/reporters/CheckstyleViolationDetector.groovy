@@ -23,6 +23,9 @@ import com.btkelly.gnag.tasks.GnagCheckTask
 import com.btkelly.gnag.utils.ProjectHelper
 import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
+import org.gradle.api.Task
+import org.gradle.api.plugins.quality.Checkstyle
+import org.gradle.api.tasks.JavaExec
 
 /**
  * Created by bobbake4 on 4/1/16.
@@ -48,7 +51,11 @@ class CheckstyleViolationDetector extends BaseViolationDetector {
     @Override
     File reportFile() {
         File parentDir = getReportDir(projectHelper)
-        return new File(parentDir, "main.xml")
+        if (projectHelper.isAndroidProject()) {
+            return new File(parentDir, "gnagCheckstyle.xml")
+        } else {
+            return new File(parentDir, "main.xml")
+        }
     }
 
     static ViolationDetector configure(ProjectHelper projectHelper, GnagCheckTask gnagCheckTask, GnagPluginExtension gnagPluginExtension) {
@@ -75,7 +82,28 @@ class CheckstyleViolationDetector extends BaseViolationDetector {
                 projectHelper.project.checkstyle.configFile = tempCheckstyleConfigFile
             }
 
-            gnagCheckTask.dependsOn("checkstyleMain")
+            if (projectHelper.isAndroidProject()) {
+                Map<String, Object> taskOptions = new HashMap<>()
+
+                taskOptions.put(Task.TASK_NAME, "gnagCheckstyle")
+                taskOptions.put(Task.TASK_TYPE, Checkstyle.class)
+                taskOptions.put(Task.TASK_GROUP, "Verification")
+                taskOptions.put(Task.TASK_DESCRIPTION, "Runs checkstyle and generates an XML report for parsing by Gnag")
+
+                Task checkstyleTask = projectHelper.project.task(taskOptions, "gnagCheckstyle") { task ->
+                    configFile projectHelper.project.checkstyle.configFile
+                    ignoreFailures = projectHelper.project.checkstyle.ignoreFailures
+                    source 'src'
+                    include '**/*.java'
+                    exclude '**/gen/**'
+                    classpath = projectHelper.project.files()
+                }
+
+                gnagCheckTask.dependsOn(checkstyleTask)
+            } else {
+                gnagCheckTask.dependsOn("checkstyleMain")
+            }
+
 
             return new CheckstyleViolationDetector(projectHelper.project, gnagPluginExtension.checkstyle)
         }

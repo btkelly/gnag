@@ -25,6 +25,9 @@ import com.btkelly.gnag.utils.ProjectHelper
 import groovy.xml.slurpersupport.GPathResult
 import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
+import org.gradle.api.Task
+import org.gradle.api.plugins.quality.Checkstyle
+import org.gradle.api.plugins.quality.Pmd
 
 import static com.btkelly.gnag.utils.StringUtils.sanitizePreservingNulls
 import static com.btkelly.gnag.utils.StringUtils.sanitizeToNonNull
@@ -102,7 +105,31 @@ class PMDViolationDetector extends BaseViolationDetector {
                 projectHelper.project.pmd.ruleSetFiles = projectHelper.project.files(tempPmdRuleSetFile)
             }
 
-            gnagCheckTask.dependsOn("pmdMain")
+            if (projectHelper.isAndroidProject()) {
+                Map<String, Object> taskOptions = new HashMap<>()
+
+                taskOptions.put(Task.TASK_NAME, "gnagPMD")
+                taskOptions.put(Task.TASK_TYPE, Pmd.class)
+                taskOptions.put(Task.TASK_GROUP, "Verification")
+                taskOptions.put(Task.TASK_DESCRIPTION, "Runs PMD and generates an XML report for parsing by Gnag")
+
+                Task pmdTask = projectHelper.project.task(taskOptions, "gnagPMD") { task ->
+                    ruleSetFiles = projectHelper.project.pmd.ruleSetFiles
+                    ignoreFailures = projectHelper.project.pmd.ignoreFailures
+                    source 'src'
+                    include '**/*.java'
+                    exclude '**/gen/**'
+                    reports {
+                        xml.enabled = true
+                        xml.destination = new File(getReportDir(projectHelper), "main.xml")
+                        html.enabled = false
+                    }
+                }
+
+                gnagCheckTask.dependsOn(pmdTask)
+            } else {
+                gnagCheckTask.dependsOn("pmdMain")
+            }
 
             return new PMDViolationDetector(projectHelper.project, gnagPluginExtension.pmd)
         }
