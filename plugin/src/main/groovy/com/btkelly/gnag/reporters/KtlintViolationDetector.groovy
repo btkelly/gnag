@@ -82,9 +82,15 @@ class KtlintViolationDetector extends BaseViolationDetector {
             ignoreExitValue = true
             args "--reporter=checkstyle,output=${projectHelper.getKtlintReportFile()}"
 
-            projectHelper.kotlinSourceFiles.forEach { sourceFile ->
-                args "${sourceFile.absoluteFile}"
-            }
+            projectHelper.kotlinSourceFiles
+                    .collect {file ->
+                        file.absolutePath
+                                .replaceFirst(project.rootDir.absolutePath, "")
+                                .substring(1)
+                    }
+                    .forEach { sourceFile ->
+                        args "${sourceFile}"
+                    }
         }
     }
 

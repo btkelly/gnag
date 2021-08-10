@@ -51,8 +51,8 @@ import org.gradle.api.tasks.TaskAction;
  */
 public class GnagCheckTask extends DefaultTask {
 
-  public static final String KTLINT_TOOL_VERSION = "0.39.0";
-  public static final String DETEKT_TOOL_VERSION = "1.13.1";
+  public static final String KTLINT_TOOL_VERSION = "0.42.0";
+  public static final String DETEKT_TOOL_VERSION = "1.17.1";
   public static final String PMD_TOOL_VERSION = "6.22.0";
   public static final String CHECKSTYLE_TOOL_VERSION = "8.45.1";
 
