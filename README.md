@@ -211,17 +211,19 @@ gnag {
 
 - ***checkstyle*** - block to customize the checkstyle reporter
   - ***enabled*** - set if checkstyle should execute
+  - ***toolVersion*** - override the checkstyle version
   - ***reporterConfig*** - provide a custom [checkstyle config](http://checkstyle.sourceforge.net/config.html) (see the default config [here](/plugin/src/main/resources/checkstyle.xml))
 - ***pmd*** - block to customize the PMD reporter
   - ***enabled*** - set if PMD should execute
+  - ***toolVersion*** - override the PMD version
   - ***reporterConfig*** - provide a custom [PMD config](http://pmd.sourceforge.net/pmd-5.1.1/howtomakearuleset.html) (see the default config [here](/plugin/src/main/resources/pmd.xml))
 - ***ktlint*** - block to customize the ktlint reporter
   - ***enabled*** - set if ktlint should execute
-  - **toolVersion** - override the ktlint version compiled into Gnag
+  - ***toolVersion*** - override the ktlint version
 - ***detekt*** - block to customize the detekt reporter
   - ***enabled*** - set if detekt should execute
   - ***reporterConfig*** - provide a custom [detekt config](https://arturbosch.github.io/detekt/configurations.html)
-  - ***toolVersion*** - override the detekt version compiled into Gnag
+  - ***toolVersion*** - override the detekt version
 - ***androidLint*** - block to customize the android lint reporter
   - ***enabled*** - set if the android lint reporter should look for a lint report
   - ***severity*** - can be 'Error' or 'Warning' (case insensitive) depending on which severity you want Gnag to check

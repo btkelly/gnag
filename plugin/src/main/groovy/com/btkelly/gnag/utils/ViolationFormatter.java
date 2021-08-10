@@ -32,6 +32,9 @@ public final class ViolationFormatter {
   /**
    * Use this method to create a formatted HTML string representing a violation that will be posted as an inline
    * comment. Only intended for use when posting inline comments to GitHub.
+   *
+   * @param violation - violation
+   * @return - html string
    */
   public static String getHtmlStringForInlineComment(@NotNull final Violation violation) {
     final Integer violationFileLineNumber = violation.getFileLineNumber();
@@ -56,6 +59,9 @@ public final class ViolationFormatter {
    * Use this method to create a formatted HTML string representing a violation that will be posted as part of an
    * aggregated comment. Intended for use when generating the local Gnag report, and when posting aggregated comments
    * to GitHub.
+   *
+   * @param violation - violation
+   * @return - html string
    */
   public static String getHtmlStringForAggregatedComment(@NotNull final Violation violation) {
     final HtmlStringBuilder builder = new HtmlStringBuilder();

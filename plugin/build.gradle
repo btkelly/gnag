@@ -1,22 +1,11 @@
-buildscript {
-    repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath "com.gradle.publish:plugin-publish-plugin:0.15.0"
-    }
-}
-
 plugins {
-    id "com.jfrog.bintray" version "1.8.5"
+    id 'maven-publish'
+    id 'java-gradle-plugin'
+    id "com.gradle.plugin-publish" version "0.15.0"
 }
 
 apply plugin: 'groovy'
 apply from: file('../version.gradle')
-apply from: file('bintray.gradle')
-apply from: file('gradle-site.gradle')
 
 group 'com.btkelly'
 version gnagPluginVersion
@@ -41,4 +30,40 @@ dependencies {
 
     // Testing
     testImplementation group: 'junit', name: 'junit', version: '4.12'
+}
+
+javadoc {
+    failOnError = false
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        GnagPublication(MavenPublication) {
+            from components.java
+            artifactId gnagArtifactId
+        }
+    }
+}
+
+pluginBundle {
+    website = gnagWebsite
+    vcsUrl = gnagGitUrl
+    tags = gnagLabels
+}
+
+gradlePlugin {
+    plugins {
+        gnagPlugin {
+            id = gnagPackageId
+            version = gnagPluginVersion
+            displayName = gnagPluginName
+            description = gnagDescription
+            implementationClass = "com.btkelly.gnag.GnagPlugin"
+        }
+    }
 }

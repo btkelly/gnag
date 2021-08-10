@@ -99,6 +99,9 @@ public class Diff {
 
     /**
      * NOTE: result is based on the first line being labelled line number 1, not line number 0!
+     * @param toFileName - to file name
+     * @param toFileLineNumber - to file line number
+     * @return - diff line number
      */
     @Nullable
     public Integer getDiffLineNumberForToFileLocation(

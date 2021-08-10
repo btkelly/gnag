@@ -19,7 +19,7 @@ group 'com.btkelly.gnag'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'application'
-apply plugin: 'gnag'
+apply plugin: 'com.btkelly.gnag'
 
 mainClassName = "com.btkelly.gnag.example.KotlinFileInKotlinSourceSet"
 

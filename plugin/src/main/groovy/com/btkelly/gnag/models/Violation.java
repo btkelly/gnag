@@ -91,6 +91,12 @@ public final class Violation {
   }
 
   /**
+   *
+   * @param type - type
+   * @param reporterName - reporter name
+   * @param comment - comment
+   * @param relativeFilePath - relative file path
+   * @param fileLineNumber - file line number
    * @param typeUrl a URL identifying a resource that provides more information on this violation's type; null if no
    *                such resource is known
    */
@@ -106,8 +112,15 @@ public final class Violation {
   }
 
   /**
+   *
+   * @param type - type
+   * @param reporterName - reporter name
+   * @param comment - comment
+   * @param relativeFilePath - relative file path
+   * @param fileLineNumber - file line number
    * @param typeUrl a URL identifying a resource that provides more information on this violation's type; null if no
    *                such resource is known
+   * @param secondaryUrls - secondary urls
    */
   public Violation(
       @NotNull final String type,

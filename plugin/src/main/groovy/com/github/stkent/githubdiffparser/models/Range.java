@@ -46,6 +46,7 @@ public class Range {
     }
 
     /**
+     * @param lineNumber - line number
      * @return true if the supplied line number lies inside this range; false otherwise
      */
     public boolean contains(final int lineNumber) {

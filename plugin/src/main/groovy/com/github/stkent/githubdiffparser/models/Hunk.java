@@ -91,6 +91,9 @@ public class Hunk {
 
     /**
      * NOTE: result is based on the first line being labelled line number 1, not line number 0!
+     *
+     * @param toFileLineNumber - to file line number
+     * @return - hunk line number
      */
     @Nullable
     public Integer getHunkLineNumberForToFileLineNumber(final int toFileLineNumber) {
