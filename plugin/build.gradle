@@ -1,33 +1,17 @@
-buildscript {
-    repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath "com.gradle.publish:plugin-publish-plugin:0.12.0"
-    }
-}
-
 plugins {
-    id "com.jfrog.bintray" version "1.8.4"
-    id "com.github.hierynomus.license" version "0.15.0"
+    id 'maven-publish'
+    id 'java-gradle-plugin'
+    id "com.gradle.plugin-publish" version "0.15.0"
 }
 
 apply plugin: 'groovy'
 apply from: file('../version.gradle')
-apply from: file('bintray.gradle')
-apply from: file('gradle-site.gradle')
 
 group 'com.btkelly'
 version gnagPluginVersion
 
-compileJava {
-    sourceCompatibility = '1.8'
-}
-
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
@@ -36,26 +20,50 @@ dependencies {
 
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
-    implementation 'com.github.stkent:githubdiffparser:1.0.1'
     implementation 'org.jetbrains:annotations:20.1.0'
     implementation 'com.vladsch.flexmark:flexmark-all:0.62.2'
+    implementation 'commons-io:commons-io:2.11.0'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation 'com.google.code.gson:gson:2.8.7'
+    implementation 'com.google.guava:guava:30.1.1-jre'
 
-    // Built in checks
-    implementation('com.puppycrawl.tools:checkstyle:8.36.1') {
-        // See discussion here: https://github.com/btkelly/gnag/issues/196
-        exclude group: 'net.sf.saxon', module: 'Saxon-HE'
-    }
-
-    implementation 'com.google.code.findbugs:findbugs:3.0.1'
-    implementation 'net.sourceforge.pmd:pmd-java:6.27.0'
 
     // Testing
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
 }
 
-license {
-    header = file('../LICENSE_HEADER.txt')
-    strictCheck true
+javadoc {
+    failOnError = false
 }
 
-clean.dependsOn licenseFormat
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        GnagPublication(MavenPublication) {
+            from components.java
+            artifactId gnagArtifactId
+        }
+    }
+}
+
+pluginBundle {
+    website = gnagWebsite
+    vcsUrl = gnagGitUrl
+    tags = gnagLabels
+}
+
+gradlePlugin {
+    plugins {
+        gnagPlugin {
+            id = gnagPackageId
+            version = gnagPluginVersion
+            displayName = gnagPluginName
+            description = gnagDescription
+            implementationClass = "com.btkelly.gnag.GnagPlugin"
+        }
+    }
+}

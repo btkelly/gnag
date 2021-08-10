@@ -40,9 +40,6 @@ class GnagPlugin implements Plugin<Project> {
 
         GnagPluginExtension gnagPluginExtension = GnagPluginExtension.loadExtension(project)
 
-        project.repositories.jcenter()
-        // Unlikely to be missing in real projects; here for sample projects only.
-
         project.afterEvaluate { evaluatedProject ->
             ProjectHelper projectHelper = new ProjectHelper(evaluatedProject)
 

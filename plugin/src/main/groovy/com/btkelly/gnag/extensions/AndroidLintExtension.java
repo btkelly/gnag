@@ -43,7 +43,9 @@ public class AndroidLintExtension {
   }
 
   /**
+   *
    * @deprecated replaced by {@link #setEnabled(boolean)}
+   * @param enabled - is enabled
    */
   @Deprecated
   public void enabled(boolean enabled) {

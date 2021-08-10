@@ -39,7 +39,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.apache.commons.lang.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
@@ -90,7 +91,7 @@ public class GnagReportTask extends DefaultTask {
 
     if (projectStatus instanceof CheckStatus) {
       final CheckStatus checkStatus = (CheckStatus) projectStatus;
-      getLogger().info("Project status: " + checkStatus);
+      getGnagLogger().info("Project status: " + checkStatus);
 
       if (checkStatus.getGitHubStatusType() == SUCCESS) {
         if (commentOnSuccess) {
@@ -106,13 +107,12 @@ public class GnagReportTask extends DefaultTask {
 
       updatePRStatus(checkStatus.getGitHubStatusType());
     } else {
-      getLogger().error("Project status is not instanceof Check Status");
+      getGnagLogger().error("Project status is not instanceof Check Status");
       updatePRStatus(ERROR);
     }
   }
 
-  @Override
-  public Logger getLogger() {
+  private Logger getGnagLogger() {
     return Logging.getLogger(GnagPlugin.class);
   }
 
@@ -122,23 +122,23 @@ public class GnagReportTask extends DefaultTask {
     useGitHubStatuses = gitHubExtension.shouldUseGitHubStatuses();
     commentInline = gitHubExtension.isCommentInline();
     commentOnSuccess = gitHubExtension.isCommentOnSuccess();
-    gitHubApi = new GitHubApi(gitHubExtension, getLogger());
+    gitHubApi = new GitHubApi(gitHubExtension, getGnagLogger());
   }
 
   private String getPRSha() {
     if (StringUtils.isBlank(prSha)) {
-      getLogger().debug("getPRSha: fetching...");
+      getGnagLogger().debug("getPRSha: fetching...");
       GitHubPRDetails pullRequestDetails = gitHubApi.getPRDetails();
       prSha = pullRequestDetails.getHead().getSha();
     }
 
-    getLogger().debug("getPRSha: " + prSha);
+    getGnagLogger().debug("getPRSha: " + prSha);
 
     return prSha;
   }
 
   private void updatePRStatus(GitHubStatusType gitHubStatusType) {
-    getLogger().debug("Updating PR Status to: " + gitHubStatusType);
+    getGnagLogger().debug("Updating PR Status to: " + gitHubStatusType);
     if (useGitHubStatuses) {
       if (StringUtils.isNotBlank(getPRSha())) {
         gitHubApi.postUpdatedGitHubStatus(gitHubStatusType, getProject().getName(), getPRSha());

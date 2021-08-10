@@ -1,4 +1,4 @@
-project.ext.gnagPluginVersion = '2.5.0'
+project.ext.gnagPluginVersion = '3.0.0'
 project.ext.gnagPackageId = 'com.btkelly.gnag'
 project.ext.gnagArtifactId = 'gnag'
 project.ext.gnagPluginName = 'gnag-gradle-plugin'

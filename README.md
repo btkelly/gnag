@@ -19,26 +19,19 @@ Violations that are not associated with a specific line in your PR will be aggre
 
 ## Usage
 
-**Requires JDK 8**
+**Requires JDK 12 or Higher**
 
-Gnag is meant to be simple to use and easy to drop in to any Android project. Shown below is the simplest
-Gnag setup that will report violations to GitHub. By default this config will report PMD, Findbugs, Checkstyle and
+Gnag is meant to be simple to use and easy to drop in to any JVM based project. Shown below is the simplest
+Gnag setup that will report violations to GitHub. By default this config will report PMD, Checkstyle, ktlint, detekt and
 Android Lint to GitHub.
 
 <details open>
 <summary><b>build.gradle (Groovy)</b></summary>
 
 ```groovy
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.btkelly:gnag:{current version}'
-    }
+plugins {
+  id "com.btkelly.gnag" version "{current version}"
 }
-
-apply plugin: 'gnag'
 
 gnag {
     github {
@@ -55,17 +48,8 @@ gnag {
 <summary><b>build.gradle.kts (Kotlin)</b></summary>
 
 ```kotlin
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath("com.btkelly:gnag:{current version}")
-    }
-}
-
 plugins {
-    id("gnag")
+  id("com.btkelly.gnag") version "{current version}"
 }
 
 gnag {
@@ -105,28 +89,25 @@ gnag {
 
     checkstyle {
         enabled true
+        toolVersion "8.45.1"
         reporterConfig project.file('config/checkstyle.xml')
     }
 
     pmd {
         enabled true
+        toolVersion "6.22.0"
         reporterConfig project.file('config/pmd.xml')
-    }
-
-    findbugs {
-        enabled true
-        reporterConfig project.file('config/findbugs.xml')
     }
 
     ktlint {
         enabled true
-        toolVersion "0.35.0"
+        toolVersion "0.42.0"
     }
 
     detekt {
         enabled true
         reporterConfig project.file('config/detekt.yml')
-        toolVersion "1.0.1"
+        toolVersion "1.17.1"
     }
 
     androidLint {
@@ -158,17 +139,14 @@ gnag {
 
     checkstyle {
         isEnabled = true
+        toolVersion("8.45.1")
         reporterConfig(project.file("config/checkstyle.xml"))
     }
 
     pmd {
         isEnabled = true
+        toolVersion("6.22.0")
         reporterConfig(project.file("config/pmd.xml"))
-    }
-
-    findbugs {
-        isEnabled = true
-        reporterConfig(project.file("config/findbugs.xml"))
     }
 
     ktlint {
@@ -233,20 +211,19 @@ gnag {
 
 - ***checkstyle*** - block to customize the checkstyle reporter
   - ***enabled*** - set if checkstyle should execute
+  - ***toolVersion*** - override the checkstyle version
   - ***reporterConfig*** - provide a custom [checkstyle config](http://checkstyle.sourceforge.net/config.html) (see the default config [here](/plugin/src/main/resources/checkstyle.xml))
 - ***pmd*** - block to customize the PMD reporter
   - ***enabled*** - set if PMD should execute
+  - ***toolVersion*** - override the PMD version
   - ***reporterConfig*** - provide a custom [PMD config](http://pmd.sourceforge.net/pmd-5.1.1/howtomakearuleset.html) (see the default config [here](/plugin/src/main/resources/pmd.xml))
-- ***findbugs*** - block to customize the findbugs reporter
-  - ***enabled*** - set if findbugs should execute
-  - ***reporterConfig*** - provide a custom [findbugs config](http://findbugs.sourceforge.net/manual/filter.html)
 - ***ktlint*** - block to customize the ktlint reporter
   - ***enabled*** - set if ktlint should execute
-  - **toolVersion** - override the ktlint version compiled into Gnag
+  - ***toolVersion*** - override the ktlint version
 - ***detekt*** - block to customize the detekt reporter
   - ***enabled*** - set if detekt should execute
   - ***reporterConfig*** - provide a custom [detekt config](https://arturbosch.github.io/detekt/configurations.html)
-  - ***toolVersion*** - override the detekt version compiled into Gnag
+  - ***toolVersion*** - override the detekt version
 - ***androidLint*** - block to customize the android lint reporter
   - ***enabled*** - set if the android lint reporter should look for a lint report
   - ***severity*** - can be 'Error' or 'Warning' (case insensitive) depending on which severity you want Gnag to check
@@ -267,20 +244,14 @@ To enforce the same quality checks across multiple Gradle modules, apply and con
 <summary><b>build.gradle (Groovy)</b></summary>
 
 ```groovy
-buildscript {
-    repositories {
-        // ...
-        jcenter()
-    }
-
-    dependencies {
-        // ...
-        classpath 'com.btkelly:gnag:2.4.1'
-    }
+plugins {
+  id "com.btkelly.gnag" version "{current version}" apply false
 }
 
 subprojects {
-    apply plugin: 'gnag'
+    plugins {
+      id "com.btkelly.gnag"
+    }
 
     gnag {
         // Standard Gnag configuration goes here.
@@ -297,20 +268,14 @@ subprojects {
 <summary><b>build.gradle.kts (Kotlin)</b></summary>
 
 ```kotlin
-buildscript {
-    repositories {
-        // ...
-        jcenter()
-    }
-
-    dependencies {
-        // ...
-        classpath("com.btkelly:gnag:2.4.1")
-    }
+plugins {
+  id("com.btkelly.gnag") version "{current version}" apply false
 }
 
 subprojects {
-    apply(plugin = "gnag")
+    plugins {
+      id("com.btkelly.gnag")
+    }
 
     configure<com.btkelly.gnag.extensions.GnagPluginExtension> {
         // Standard Gnag configuration goes here.

@@ -23,10 +23,8 @@ import com.btkelly.gnag.extensions.GnagPluginExtension;
 import com.btkelly.gnag.models.CheckStatus;
 import com.btkelly.gnag.models.Violation;
 import com.btkelly.gnag.reporters.AndroidLintViolationDetector;
-import com.btkelly.gnag.reporters.BaseExecutedViolationDetector;
 import com.btkelly.gnag.reporters.CheckstyleViolationDetector;
 import com.btkelly.gnag.reporters.DetektViolationDetector;
-import com.btkelly.gnag.reporters.FindbugsViolationDetector;
 import com.btkelly.gnag.reporters.KtlintViolationDetector;
 import com.btkelly.gnag.reporters.PMDViolationDetector;
 import com.btkelly.gnag.reporters.ViolationDetector;
@@ -53,10 +51,15 @@ import org.gradle.api.tasks.TaskAction;
  */
 public class GnagCheckTask extends DefaultTask {
 
+  public static final String KTLINT_TOOL_VERSION = "0.42.0";
+  public static final String DETEKT_TOOL_VERSION = "1.17.1";
+  public static final String PMD_TOOL_VERSION = "6.22.0";
+  public static final String CHECKSTYLE_TOOL_VERSION = "8.45.1";
+
   static final String TASK_NAME = "gnagCheck";
-  private final List<ViolationDetector> violationDetectors = new ArrayList<>();
   private final ProjectHelper projectHelper = new ProjectHelper(getProject());
   private GnagPluginExtension gnagPluginExtension;
+  private final List<ViolationDetector> violationDetectors = new ArrayList<>();
 
   public static void addTask(ProjectHelper projectHelper, GnagPluginExtension gnagPluginExtension) {
     Map<String, Object> taskOptions = new HashMap<>();
@@ -72,51 +75,29 @@ public class GnagCheckTask extends DefaultTask {
     GnagCheckTask gnagCheckTask = (GnagCheckTask) project.task(taskOptions, TASK_NAME);
     gnagCheckTask.setGnagPluginExtension(gnagPluginExtension);
 
-    if (gnagPluginExtension.checkstyle.isEnabled() && projectHelper.hasJavaSourceFiles()) {
-      gnagCheckTask.violationDetectors
-          .add(new CheckstyleViolationDetector(project, gnagPluginExtension.checkstyle));
+    ViolationDetector checkstyleViolationDetector = CheckstyleViolationDetector.configure(projectHelper, gnagCheckTask, gnagPluginExtension);
+    if (checkstyleViolationDetector != null) {
+      gnagCheckTask.violationDetectors.add(checkstyleViolationDetector);
     }
 
-    if (gnagPluginExtension.pmd.isEnabled() && projectHelper.hasJavaSourceFiles()) {
-      gnagCheckTask.violationDetectors
-          .add(new PMDViolationDetector(project, gnagPluginExtension.pmd));
+    ViolationDetector pmdViolationDetector = PMDViolationDetector.configure(projectHelper, gnagCheckTask, gnagPluginExtension);
+    if (pmdViolationDetector != null) {
+      gnagCheckTask.violationDetectors.add(pmdViolationDetector);
     }
 
-    if (gnagPluginExtension.findbugs.isEnabled() && projectHelper.hasJavaSourceFiles()) {
-      gnagCheckTask.violationDetectors
-          .add(new FindbugsViolationDetector(project, gnagPluginExtension.findbugs));
+    ViolationDetector ktlintViolationDetector = KtlintViolationDetector.configure(projectHelper, gnagCheckTask, gnagPluginExtension);
+    if (ktlintViolationDetector != null) {
+      gnagCheckTask.violationDetectors.add(ktlintViolationDetector);
     }
 
-    if (gnagPluginExtension.ktlint.isEnabled() && projectHelper.hasKotlinSourceFiles()) {
-      String overrideToolVersion = gnagPluginExtension.ktlint.getToolVersion();
-      String toolVersion = overrideToolVersion != null ? overrideToolVersion : "0.39.0";
-
-      project.getConfigurations().create("gnagKtlint");
-      project.getDependencies().add("gnagKtlint", "com.pinterest:ktlint:" + toolVersion);
-
-      Task ktlintTask = KtlintTask.addTask(projectHelper);
-      gnagCheckTask.dependsOn(ktlintTask);
-      gnagCheckTask.violationDetectors
-          .add(new KtlintViolationDetector(project, gnagPluginExtension.ktlint));
+    ViolationDetector detektViolationDetector = DetektViolationDetector.configure(projectHelper, gnagCheckTask, gnagPluginExtension);
+    if (detektViolationDetector != null) {
+      gnagCheckTask.violationDetectors.add(detektViolationDetector);
     }
 
-    if (gnagPluginExtension.detekt.isEnabled() && projectHelper.hasKotlinSourceFiles()) {
-      String overrideToolVersion = gnagPluginExtension.detekt.getToolVersion();
-      String toolVersion = overrideToolVersion != null ? overrideToolVersion : "1.13.1";
-
-      project.getConfigurations().create("gnagDetekt");
-      project.getDependencies().add("gnagDetekt", "io.gitlab.arturbosch.detekt:detekt-cli:" + toolVersion);
-
-      Task detektTask = DetektTask
-          .addTask(projectHelper, gnagPluginExtension.detekt.getReporterConfig());
-      gnagCheckTask.dependsOn(detektTask);
-      gnagCheckTask.violationDetectors
-          .add(new DetektViolationDetector(project, gnagPluginExtension.detekt));
-    }
-
-    if (projectHelper.isAndroidProject() && gnagPluginExtension.androidLint.isEnabled()) {
-      gnagCheckTask.violationDetectors
-          .add(new AndroidLintViolationDetector(project, gnagPluginExtension.androidLint));
+    ViolationDetector androidLintViolationDetector = AndroidLintViolationDetector.configure(projectHelper, gnagCheckTask, gnagPluginExtension);
+    if (androidLintViolationDetector != null) {
+      gnagCheckTask.violationDetectors.add(androidLintViolationDetector);
     }
   }
 
@@ -128,8 +109,7 @@ public class GnagCheckTask extends DefaultTask {
     }
   }
 
-  @Override
-  public Logger getLogger() {
+  private Logger getGnagLogger() {
     return Logging.getLogger(GnagPlugin.class);
   }
 
@@ -137,27 +117,23 @@ public class GnagCheckTask extends DefaultTask {
     final Set<Violation> allDetectedViolations = new HashSet<>();
 
     violationDetectors.forEach(violationDetector -> {
-      if (violationDetector instanceof BaseExecutedViolationDetector) {
-        ((BaseExecutedViolationDetector) violationDetector).executeReporter();
-      }
-
       final List<Violation> detectedViolations = violationDetector.getDetectedViolations();
       allDetectedViolations.addAll(detectedViolations);
 
-      getLogger().lifecycle(
+      getGnagLogger().lifecycle(
           violationDetector.name() + " detected " + detectedViolations.size() + " violations.");
     });
 
     final File reportsDir = projectHelper.getReportsDir();
 
     if (allDetectedViolations.isEmpty()) {
-      ReportWriter.deleteLocalReportFiles(reportsDir, getLogger());
+      ReportWriter.deleteLocalReportFiles(reportsDir, getGnagLogger());
 
       getProject().setStatus(CheckStatus.getSuccessfulCheckStatus());
 
-      getLogger().lifecycle("Congrats, no poop code found!");
+      getGnagLogger().lifecycle("Congrats, no poop code found!");
     } else {
-      ReportWriter.writeLocalReportFiles(allDetectedViolations, reportsDir, getLogger());
+      ReportWriter.writeLocalReportFiles(allDetectedViolations, reportsDir, getGnagLogger());
 
       getProject().setStatus(new CheckStatus(FAILURE, allDetectedViolations));
 
@@ -169,7 +145,7 @@ public class GnagCheckTask extends DefaultTask {
       if (gnagPluginExtension.shouldFailOnError() && !taskExecutionGraphIncludesGnagReport()) {
         throw new GradleException(failedMessage);
       } else {
-        getLogger().lifecycle(failedMessage);
+        getGnagLogger().lifecycle(failedMessage);
         throw new StopExecutionException(failedMessage);
       }
     }

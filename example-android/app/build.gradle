@@ -3,16 +3,12 @@ buildscript {
 
     repositories {
         mavenLocal()
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
         classpath "com.btkelly:gnag:$gnagPluginVersion"
     }
-}
-
-plugins {
-    id "com.github.hierynomus.license" version "0.15.0"
 }
 
 apply plugin: 'com.android.application'
@@ -47,16 +43,9 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    testImplementation 'junit:junit:4.13'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    testImplementation 'junit:junit:4.13.2'
 }
-
-license {
-    header = file('../../LICENSE_HEADER.txt')
-    strictCheck true
-}
-
-clean.dependsOn licenseFormat
 
 gnag {
     enabled true

@@ -1,14 +1,12 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.4.10"
-    id("com.github.hierynomus.license") version "0.15.0"
-    id("com.btkelly.gnag") version "2.5.0"
+    id("org.jetbrains.kotlin.jvm") version "1.5.21"
+    id("com.btkelly.gnag") version "2.6.0"
     application
 }
 
 repositories {
     mavenLocal()
     mavenCentral()
-    jcenter()
 }
 
 group = "com.btkelly.gnag"
@@ -19,17 +17,8 @@ application {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.10")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.21")
     testImplementation(group = "junit", name = "junit", version = "4.13")
-}
-
-license {
-    header = file("../LICENSE_HEADER.txt")
-    strictCheck = true
-}
-
-tasks.clean {
-    dependsOn(tasks.licenseFormat)
 }
 
 gnag {
