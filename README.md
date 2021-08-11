@@ -19,7 +19,7 @@ Violations that are not associated with a specific line in your PR will be aggre
 
 ## Usage
 
-**Requires JDK 12 or Higher**
+**Requires JDK 11 or Higher**
 
 Gnag is meant to be simple to use and easy to drop in to any JVM based project. Shown below is the simplest
 Gnag setup that will report violations to GitHub. By default this config will report PMD, Checkstyle, ktlint, detekt and
