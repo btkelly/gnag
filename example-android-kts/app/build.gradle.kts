@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("com.btkelly.gnag") version "2.6.0"
+    id("com.btkelly.gnag") version "3.0.2"
 }
 
 apply {

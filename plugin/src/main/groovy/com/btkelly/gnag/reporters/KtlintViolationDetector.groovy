@@ -89,7 +89,6 @@ class KtlintViolationDetector extends BaseViolationDetector {
                                 .substring(1)
                     }
                     .forEach { sourceFile ->
-                        logger.error(sourceFile)
                         args "${sourceFile}"
                     }
         }
