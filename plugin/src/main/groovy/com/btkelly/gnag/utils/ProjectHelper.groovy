@@ -78,6 +78,11 @@ class ProjectHelper {
                         files = files + FileUtils.listFiles(javaSrcDir, suffices, true)
                     }
                 }
+                sourceSet.kotlin.srcDirs.each { File kotlinSrcDir ->
+                    if (kotlinSrcDir.exists()) {
+                        files = files + FileUtils.listFiles(kotlinSrcDir, suffices, true)
+                    }
+                }
 
                 files
             }
