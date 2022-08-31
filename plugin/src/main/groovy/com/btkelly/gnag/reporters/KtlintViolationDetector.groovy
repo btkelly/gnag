@@ -84,9 +84,11 @@ class KtlintViolationDetector extends BaseViolationDetector {
 
             projectHelper.kotlinSourceFiles
                     .collect {file ->
-                        file.absolutePath
-                                .replaceFirst(project.projectDir.absolutePath, "")
-                                .substring(1)
+                        if (file.absolutePath.startsWith(project.projectDir.absolutePath)) {
+                            file.absolutePath.substring(project.projectDir.absolutePath.length() + 1)
+                        } else {
+                            file.absolutePath
+                        }
                     }
                     .forEach { sourceFile ->
                         args "${sourceFile}"
