@@ -1,6 +1,6 @@
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.5.21"
-    id("com.btkelly.gnag") version "3.0.2"
+    id("com.btkelly.gnag") version "3.0.4"
     application
 }
 
