@@ -1,9 +1,9 @@
-project.ext.gnagPluginVersion = '3.0.4'
+project.ext.gnagPluginVersion = '3.0.5'
 project.ext.gnagPackageId = 'com.btkelly.gnag'
 project.ext.gnagArtifactId = 'gnag'
 project.ext.gnagPluginName = 'gnag-gradle-plugin'
 project.ext.gnagDescription = 'Code quality Gradle plugin with GitHub pull request integration'
 project.ext.gnagGitUrl = 'https://github.com/btkelly/gnag.git'
 project.ext.gnagWebsite = 'http://gnag.watch'
-project.ext.gnagLabels = ['android', 'gradle', 'github', 'java', 'kotlin']
+project.ext.gnagLabels = ['android', 'github', 'java', 'kotlin']
 
