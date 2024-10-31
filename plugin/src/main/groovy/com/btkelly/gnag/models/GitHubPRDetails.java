@@ -20,7 +20,7 @@ package com.btkelly.gnag.models;
  */
 public class GitHubPRDetails {
 
-  private int id;
+  private Long id;
   private int number;
   private String state;
   private String title;
@@ -29,7 +29,7 @@ public class GitHubPRDetails {
   private GitHubCommit head;
   private GitHubCommit base;
 
-  public int getId() {
+  public Long getId() {
     return id;
   }
 
