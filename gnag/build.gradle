@@ -6,7 +6,7 @@ plugins {
 apply plugin: 'groovy'
 apply from: file('../version.gradle')
 
-group 'com.btkelly.gnag'
+group 'com.btkelly'
 version gnagPluginVersion
 
 repositories {
